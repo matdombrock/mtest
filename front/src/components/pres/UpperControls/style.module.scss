@@ -1,0 +1,45 @@
+.select{
+    min-width:200px;
+}
+
+.controlsContainer{
+    display: flex;
+    align-items:center;
+    padding-top:20px;
+    padding-bottom:20px;
+    width: 100% !important;
+    background:#3cc3c1;
+}
+
+.titles{
+    margin-right: auto !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.active{
+    font-weight: bold;
+}
+
+.menuOpen{
+    color:#fff !important;
+    cursor: pointer;
+    padding-left:20px;
+}
+
+.dashboardLabel{
+    padding:0px;
+    margin:0px !important;
+    color: #fff;
+}
+
+.gridItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu{
+    padding:20px;
+    max-width: 900px;
+}

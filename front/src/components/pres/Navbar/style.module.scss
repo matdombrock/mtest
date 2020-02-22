@@ -1,0 +1,27 @@
+.navWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.logo{
+    max-height:60px;
+    cursor: pointer;
+}
+
+.pageTitle{
+    color:#3cc3c1;
+    margin: 0px !important;
+}
+
+.titleGrid{
+    display: flex;
+    align-items: center;
+}
+
+.userName{
+    color: #3cc3c1 !important
+}
