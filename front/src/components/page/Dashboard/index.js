@@ -17,6 +17,8 @@ class Dashboard extends Component{
     }
 
     render(){
+
+        console.log("TCL: Dashboard -> render ->         this.props.sales",         this.props.sales)
         return (
                 <div className={s.container}>
                     <UpperControls />

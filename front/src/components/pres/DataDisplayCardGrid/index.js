@@ -31,7 +31,7 @@ const DataDisplayCardGrid = (props) => {
         }
 
     }
-
+if(!currentPeriodData) return <p>No Data Found</p>
     return(
         <div className={s.gridContainer}>
         <h3>Current Period Summary: {currentPeriodData ? currentPeriodData.date : ''}</h3>
