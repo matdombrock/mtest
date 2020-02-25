@@ -24,9 +24,13 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
-import Moment from "moment";
 import moment from "moment";
-
+import DateRangePicker from "react-bootstrap-daterangepicker";
+import EventNoteIcon from "@material-ui/icons/EventNote";
+import "bootstrap-daterangepicker/daterangepicker.css";
+import "bootstrap/dist/css/bootstrap.css";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import SearchIcon from '@material-ui/icons/Search';
 class UpperControls extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +42,10 @@ class UpperControls extends Component {
       customDateRange: false,
       selectedSku: null,
       customDateStart: null,
-      customDateEnd: null
+      customDateEnd: null,
+      startDate: new Date(),
+      endDate: new Date()
+
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -62,6 +69,7 @@ class UpperControls extends Component {
   }
 
   changePeriod(value) {
+    console.log("TCL: UpperControls -> changePeriod -> value", value)
     this.setState({ period: value });
   }
 
@@ -93,27 +101,30 @@ class UpperControls extends Component {
     this.setState({ selectedSku: e.target.value });
   }
 
+
   fetchData(brand, period, sku) {
-    const { customDateEnd, customDateStart } = this.state;
+    const { endDate: customDateEnd,startDate: customDateStart } = this.state;
     let data = {
       brand: brand,
-      byMonth: period === "weekly" ? false : true
+      byMonth: period === "weekly" ? false : true,
+      startDate:customDateStart.toISOString(),
+      endDate:customDateEnd.toISOString()
       // customDateStart,
       // customDateEnd
     };
     const validateWithInDate = (date, sDate, nDate) => {
-      const compareDate = new Date(date).getTime()
-      const startDate = new Date(sDate).getTime()
-      const endDate = new Date(nDate).getTime()
+      const compareDate = new Date(date).getTime();
+      const startDate = new Date(sDate).getTime();
+      const endDate = new Date(nDate).getTime();
       // omitting the optional third parameter, 'units'
-      return compareDate <= endDate && compareDate >= startDate  //false in this case
+      return compareDate <= endDate && compareDate >= startDate; //false in this case
     };
     if (sku) {
       data.sku = sku;
     }
 
     fetchSalesData(data).then(data => {
-      const payload = {...data};
+      const payload = { ...data };
       payload.itemized = data.itemized.filter(d => {
         if (validateWithInDate(d.date, customDateStart, customDateEnd)) {
           payload.summary.totalRevenue += Number(d.revenue);
@@ -122,10 +133,14 @@ class UpperControls extends Component {
           payload.summary.totalAdSpend += Number(d.adSales);
           payload.summary.averageAcos += Number(d.acos);
         }
-        return (validateWithInDate(d.date, customDateStart, customDateEnd) || !customDateEnd || !customDateStart);
+        return (
+          validateWithInDate(d.date, customDateStart, customDateEnd) ||
+          !customDateEnd ||
+          !customDateStart
+        );
       });
-      console.log("TCL: UpperControls -> fetchData -> payload", payload)
-      this.props.saleSetData(payload)
+      console.log("TCL: UpperControls -> fetchData -> payload", payload);
+      this.props.saleSetData(payload);
     });
   }
 
@@ -133,21 +148,118 @@ class UpperControls extends Component {
     fetchBrands().then(data => this.props.brandSetData(data));
   }
 
+  handleUpdateState = (key, value) => this.setState({ [key]: value })
   render() {
+    const { startDate, endDate ,selectedBrand,period} = this.state;
+    console.log("TCL: UpperControls -> render -> this.state", this.state)
     return (
       <div className={s.controlsContainer}>
         <Grid container>
-          <Grid item xs={9} className={s.gridItem}>
+          <Grid item xs={4} className={s.gridItem}>
             <p className={s.dashboardLabel}>
               {" "}
               <b>Brand Overview Dashboard:</b> {this.state.selectedBrand}
             </p>
           </Grid>
-          <Grid item xs={3} className={s.gridItem}>
-            <SettingsIcon
+          <Grid item xs={8} className={[s.gridItem, s["menu-container"]]}
+
+          >
+            {/* <SettingsIcon
               onClick={() => this.setState({ openSideBar: true })}
               className={s.menuOpen}
-            />
+            /> */}
+            <DateRangePicker
+              startDate={moment(startDate).format("MM/DDDD/YYYY")}
+              endDate={moment(endDate).format("MM/DDDD/YYYY")}
+              ranges={{
+                Today: [moment(), moment()],
+                Yesterday: [
+                  moment().subtract(1, "days"),
+                  moment().subtract(1, "days")
+                ],
+                "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                "This Month": [
+                  moment().startOf("month"),
+                  moment().endOf("month")
+                ],
+                "Last Month": [
+                  moment()
+                    .subtract(1, "month")
+                    .startOf("month"),
+                  moment()
+                    .subtract(1, "month")
+                    .endOf("month")
+                ]
+              }}
+              onEvent={(event, picker)=>{
+                this.setState({startDate:picker.startDate,
+                  endDate:picker.endDate
+                })
+              }}
+
+            >
+              <EventNoteIcon className={s.menuOpen} /> <p>
+                {moment(startDate).format("MMM DD, YYYY")} -  {moment(endDate).format("MMM DD, YYYY")}
+                <ExpandMoreIcon />
+              </p>
+            </DateRangePicker>
+            <MuiSelect
+              variant="outlined"
+              onChange={e => this.setBrand(e.target.value)}
+              value={
+                this.state.selectedBrand
+                  ? this.state.selectedBrand
+                  : "Select Brand"
+              }
+              classes="p-8"
+            >
+              <MenuItem key={1} value={"Select Brand"}>
+                Select Brand
+                </MenuItem>
+              {this.props.brands.length != 0
+                ? this.props.brands.map(brand => (
+                  <MenuItem key={brand.id} value={brand.brand_name}>
+                    {brand.brand_name}
+                  </MenuItem>
+                ))
+                : ""}
+            </MuiSelect>
+            <MuiSelect
+              variant="outlined"
+              onChange={e => this.changePeriod(e.target.value)}
+              value={
+                this.state.period 
+                  ? this.state.period 
+                  : "Select Brand"
+              }
+              classes="p-8"
+              defaultValue={period}
+            >
+              <MenuItem key={1} value={"Select Period"}>
+                Total Period
+                </MenuItem>
+                  <MenuItem key={"weekly"} value={"weekly"}>
+                  Weekly
+                  </MenuItem>
+                  <MenuItem key={"monthly"} value={"monthly"}>
+                    Monthly 
+                  </MenuItem>
+
+            </MuiSelect>
+            {/* <Button
+              
+                variant="contained"
+                className={s.button}
+              >
+                Generate Report
+              </Button> */}
+              <SearchIcon 
+                onClick={() =>
+                  this.fetchData(this.state.selectedBrand, this.state.period)
+                }
+              className={s.menuOpenWith10}
+               />
             <DownloadIcon
               onClick={() => this.download()}
               className={s.menuOpen}
@@ -181,10 +293,10 @@ class UpperControls extends Component {
                 </MenuItem>
                 {this.props.brands.length != 0
                   ? this.props.brands.map(brand => (
-                      <MenuItem key={brand.id} value={brand.brand_name}>
-                        {brand.brand_name}
-                      </MenuItem>
-                    ))
+                    <MenuItem key={brand.id} value={brand.brand_name}>
+                      {brand.brand_name}
+                    </MenuItem>
+                  ))
                   : ""}
               </MuiSelect>
             </Grid>
@@ -229,8 +341,8 @@ class UpperControls extends Component {
                   onChange={e => this.changeSelectedSku(e)}
                 />
               ) : (
-                ""
-              )}
+                  ""
+                )}
             </Grid>
             <Grid item xs={6}>
               <p style={{ width: "100%", margin: "0px" }}>
@@ -275,8 +387,8 @@ class UpperControls extends Component {
                   />
                 </MuiPickersUtilsProvider>
               ) : (
-                ""
-              )}
+                  ""
+                )}
             </Grid>
             <Grid item xs={12}>
               <Button

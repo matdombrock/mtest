@@ -11,18 +11,10 @@ import Charts from '../../pres/Charts';
 import s from './style.module.scss';
 
 class Dashboard extends Component{
-
-    constructor(props){
-        super(props);
-    }
-
     render(){
-
-        console.log("TCL: Dashboard -> render ->         this.props.sales",         this.props.sales)
         return (
                 <div className={s.container}>
                     <UpperControls />
-                    <div>{console.log('props',this.props)}</div>
                     <Grid container className={s.gridContainer} >
                         <Grid item className={s.item} xs={1}>
                             <LeftNavigationMenu />

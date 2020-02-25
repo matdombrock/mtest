@@ -1,45 +1,71 @@
-.select{
-    min-width:200px;
+.select {
+  min-width: 200px;
 }
 
-.controlsContainer{
-    display: flex;
-    align-items:center;
-    padding-top:20px;
-    padding-bottom:20px;
-    width: 100% !important;
-    background:#3cc3c1;
+.controlsContainer {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 100% !important;
+  background: #3cc3c1;
 }
 
-.titles{
-    margin-right: auto !important;
-    display: flex;
-    flex-direction: row;
+.titles {
+  margin-right: auto !important;
+  display: flex;
+  flex-direction: row;
 }
 
-.active{
-    font-weight: bold;
+.active {
+  font-weight: bold;
 }
 
-.menuOpen{
-    color:#fff !important;
+.menuOpen {
+  color: #fff !important;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.menuOpenWith10 {
+    color: #fff !important;
     cursor: pointer;
-    padding-left:20px;
+    margin-right: 10px;
+  }
+  
+.dashboardLabel {
+  padding: 0px;
+  margin: 0px !important;
+  color: #fff;
 }
 
-.dashboardLabel{
-    padding:0px;
-    margin:0px !important;
-    color: #fff;
+.gridItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.gridItem{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.menu {
+  padding: 20px;
+  max-width: 900px;
 }
 
-.menu{
-    padding:20px;
-    max-width: 900px;
+.menu-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  marker-end: 10px;
+}
+.menu-container > div {
+  display: flex !important;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.menu-container > div > p {
+  font-size: 12px;
+  color: #fff;
+  margin: 0;
+}
+.menu-container > div .MuiSelect-outlined.MuiSelect-outlined{
+    padding: 8px !important;
 }
