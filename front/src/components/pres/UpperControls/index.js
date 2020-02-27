@@ -1,40 +1,40 @@
-import React, { Component } from 'react';
-import { actions as salesActions } from '../../../modules/sales';
-import { actions as brandActions } from '../../../modules/brands';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchBrands, fetchSalesData } from '../../../services/api';
-import MuiSelect from '@material-ui/core/Select';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import MenuItem from '@material-ui/core/MenuItem';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import SettingsIcon from '@material-ui/icons/Settings';
-import DownloadIcon from '@material-ui/icons/CloudDownload';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Drawer from '@material-ui/core/Drawer';
-import Checkbox from '@material-ui/core/Checkbox';
-import s from './style.module.scss';
-import DateFnsUtils from '@date-io/date-fns';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import React, { Component } from "react";
+import { actions as salesActions } from "../../../modules/sales";
+import { actions as brandActions } from "../../../modules/brands";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { fetchBrands, fetchSalesData } from "../../../services/api";
+import MuiSelect from "@material-ui/core/Select";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
+import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import SettingsIcon from "@material-ui/icons/Settings";
+import DownloadIcon from "@material-ui/icons/CloudDownload";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Drawer from "@material-ui/core/Drawer";
+import Checkbox from "@material-ui/core/Checkbox";
+import s from "./style.module.scss";
+import DateFnsUtils from "@date-io/date-fns";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
-} from '@material-ui/pickers';
-import TextField from '@material-ui/core/TextField';
-import moment from 'moment';
-import EventNoteIcon from '@material-ui/icons/EventNote';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SearchIcon from '@material-ui/icons/Search';
+} from "@material-ui/pickers";
+import TextField from "@material-ui/core/TextField";
+import moment from "moment";
+import EventNoteIcon from "@material-ui/icons/EventNote";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SearchIcon from "@material-ui/icons/Search";
 class UpperControls extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedBrand: null,
       openSideBar: false,
-      period: 'weekly',
+      period: "weekly",
       comparison: false,
       customDateRange: false,
       selectedSku: null,
@@ -42,7 +42,7 @@ class UpperControls extends Component {
       customDateEnd: null,
       startDate: new Date(),
       endDate: new Date(),
-      selectedDateRange: false
+      selectedDateRange: "yesterday"
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -53,10 +53,10 @@ class UpperControls extends Component {
   }
 
   download() {
-    const filename = 'report.pdf';
-    html2canvas(document.getElementById('#report')).then(canvas => {
-      let pdf = new jsPDF('p', 'mm', 'a4');
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+    const filename = "report.pdf";
+    html2canvas(document.getElementById("#report")).then(canvas => {
+      let pdf = new jsPDF("p", "mm", "a4");
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 211, 298);
       pdf.save(filename);
     });
   }
@@ -66,7 +66,7 @@ class UpperControls extends Component {
   }
 
   changePeriod(value) {
-    console.log('TCL: UpperControls -> changePeriod -> value', value);
+    console.log("TCL: UpperControls -> changePeriod -> value", value);
     this.setState({ period: value });
   }
 
@@ -111,7 +111,7 @@ class UpperControls extends Component {
     } = this.state;
     let data = {
       brand: brand,
-      byMonth: period === 'weekly' ? false : true,
+      byMonth: period === "weekly" ? false : true,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString()
       // customDateStart,
@@ -120,7 +120,7 @@ class UpperControls extends Component {
     let isComparison = false;
     if (
       comparison &&
-      selectedDateRange === 'custom' &&
+      selectedDateRange === "custom" &&
       customDateEnd &&
       customDateStart
     ) {
@@ -154,19 +154,19 @@ class UpperControls extends Component {
       //     !customDateStart
       //   );
       // });
-      console.log('TCL: UpperControls -> fetchData -> payload', payload);
+      console.log("TCL: UpperControls -> fetchData -> payload", payload);
       this.props.saleSetData(payload);
     });
     if (isComparison) {
       const dataSecond = {
         brand: brand,
-        byMonth: period === 'weekly' ? false : true,
+        byMonth: period === "weekly" ? false : true,
         startDate: customDateStart.toISOString(),
         endDate: customDateEnd.toISOString()
       };
       fetchSalesData(dataSecond).then(data => {
         const payload = { ...data };
-        console.log('TCL: UpperControls -> fetchData -> payload', payload);
+        console.log("TCL: UpperControls -> fetchData -> payload", payload);
         this.props.setSecondData(payload);
       });
     }
@@ -182,62 +182,62 @@ class UpperControls extends Component {
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'today'
+      selectedDateRange: "today"
     });
   };
   handleYesterday = () => {
-    const dates = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
+    const dates = [moment().subtract(1, "days"), moment().subtract(1, "days")];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'yesterday'
+      selectedDateRange: "yesterday"
     });
   };
   handleLast7Days = () => {
-    const dates = [moment().subtract(6, 'days'), moment()];
+    const dates = [moment().subtract(6, "days"), moment()];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'last7Days'
+      selectedDateRange: "last7Days"
     });
   };
   handleThis30Days = () => {
-    const dates = [moment().subtract(29, 'days'), moment()];
+    const dates = [moment().subtract(29, "days"), moment()];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'this30Days'
+      selectedDateRange: "this30Days"
     });
   };
   handleThisMonth = () => {
-    const dates = [moment().startOf('month'), moment().endOf('month')];
+    const dates = [moment().startOf("month"), moment().endOf("month")];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'thisMonth'
+      selectedDateRange: "thisMonth"
     });
   };
   handleLast14 = () => {
-    const dates = [moment().startOf('month'), moment().endOf('month')];
+    const dates = [moment().startOf("month"), moment().endOf("month")];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'last14Days'
+      selectedDateRange: "last14Days"
     });
   };
   handleLastMonth = () => {
     const dates = [
       moment()
-        .subtract(1, 'month')
-        .startOf('month'),
+        .subtract(1, "month")
+        .startOf("month"),
       moment()
-        .subtract(1, 'month')
-        .endOf('month')
+        .subtract(1, "month")
+        .endOf("month")
     ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      selectedDateRange: 'lastMonth'
+      selectedDateRange: "lastMonth"
     });
   };
 
@@ -247,45 +247,59 @@ class UpperControls extends Component {
       endDate,
       selectedBrand,
       period,
-      showDropDown
+      showDropDown,
+      selectedDateRange
     } = this.state;
     return (
       <div className={s.controlsContainer}>
         <Grid container>
           <Grid item xs={4} className={s.gridItem}>
             <p className={s.dashboardLabel}>
-              {' '}
+              {" "}
               <b>Brand Overview Dashboard:</b> {this.state.selectedBrand}
             </p>
           </Grid>
-          <Grid item xs={8} className={[s.gridItem, s['menu-container']]}>
-            <div className={s['position-relative']}>
-              <EventNoteIcon className={s.menuOpen} />{' '}
+          <Grid item xs={8} className={[s.gridItem, s["menu-container"]]}>
+            <div className={s["position-relative"]}>
+              <EventNoteIcon className={s.menuOpen} />{" "}
               <p
                 onClick={() =>
-                  this.handleUpdateState('showDropDown', !showDropDown)
+                  this.handleUpdateState("showDropDown", !showDropDown)
                 }
               >
-                {moment(startDate).format('MMM DD, YYYY')} -{' '}
-                {moment(endDate).format('MMM DD, YYYY')}
+                {selectedDateRange === "custom"
+                  ? `${moment(startDate).format("MMM DD, YYYY")} - ${moment(
+                      endDate
+                    ).format("MMM DD, YYYY")}`
+                  : selectedDateRange === "lastMonth"
+                  ? "Last Months"
+                  : selectedDateRange === "last7Days"
+                  ? "last Week"
+                  : selectedDateRange === "last14Days"
+                  ? "Last 14 Days"
+                  : selectedDateRange === "this30Days"
+                  ? "Last 30 Days"
+                  : "yesterday"}
               </p>
-              <ExpandMoreIcon />
+              <ExpandMoreIcon className={s.menuOpen} />
               {showDropDown && (
-                <div className={s['custom-date-container']}>
+                <div className={s["custom-date-container"]}>
                   <div
                     className={
-                      this.state.selectedDateRange === 'yesterday' && 'active'
+                      this.state.selectedDateRange === "yesterday" &&
+                      s["active-item"]
                     }
                     onClick={this.handleYesterday}
                   >
                     Yesterday
                   </div>
-                  {/* <div className={this.state.selectedDateRange === 'last7Days' && 'active'} onClick={this.handleLast7Days}>
+                  {/* <div className={this.state.selectedDateRange === 'last7Days' && s['active-item']} onClick={this.handleLast7Days}>
                     Last 7 Days
                   </div> */}
                   <div
                     className={
-                      this.state.selectedDateRange === 'last7Days' && 'active'
+                      this.state.selectedDateRange === "last7Days" &&
+                      s["active-item"]
                     }
                     onClick={this.handleLast7Days}
                   >
@@ -293,7 +307,8 @@ class UpperControls extends Component {
                   </div>
                   <div
                     className={
-                      this.state.selectedDateRange === 'last14Days' && 'active'
+                      this.state.selectedDateRange === "last14Days" &&
+                      s["active-item"]
                     }
                     onClick={this.handleLast14}
                   >
@@ -301,7 +316,8 @@ class UpperControls extends Component {
                   </div>
                   <div
                     className={
-                      this.state.selectedDateRange === 'this30Days' && 'active'
+                      this.state.selectedDateRange === "this30Days" &&
+                      s["active-item"]
                     }
                     onClick={this.handleThis30Days}
                   >
@@ -309,7 +325,8 @@ class UpperControls extends Component {
                   </div>
                   <div
                     className={
-                      this.state.selectedDateRange === 'lastMonths' && 'active'
+                      this.state.selectedDateRange === "lastMonth" &&
+                      s["active-item"]
                     }
                     onClick={this.handleLastMonth}
                   >
@@ -317,57 +334,59 @@ class UpperControls extends Component {
                   </div>
                   <div
                     className={
-                      this.state.selectedDateRange === 'custom' && 'active'
+                      this.state.selectedDateRange === "custom" &&
+                      s["active-item"]
                     }
                     onClick={() => {
-                      this.handleUpdateState('selectedDateRange', 'custom');
+                      this.handleUpdateState("selectedDateRange", "custom");
                     }}
                   >
                     Custom Range
                   </div>
-                  {this.state.selectedDateRange === 'custom' && (
+                  {this.state.selectedDateRange === "custom" && (
                     <>
-                      <div className='item'>
+                      <div className={s["item"]}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <KeyboardDatePicker
                             disableToolbar
-                            variant='inline'
-                            format='yyyy-MM-dd'
-                            margin='normal'
-                            label='Custom Date Start'
+                            variant="inline"
+                            format="yyyy-MM-dd"
+                            margin="normal"
+                            label="Custom Date Start"
                             value={this.state.startDate}
                             onChange={e =>
-                              this.handleUpdateState('startDate', e)
+                              this.handleUpdateState("startDate", e)
                             }
                             KeyboardButtonProps={{
-                              'aria-label': 'change date'
+                              "aria-label": "change date"
                             }}
                           />
                           <KeyboardDatePicker
                             disableToolbar
-                            variant='inline'
-                            format='yyyy-MM-dd'
-                            margin='normal'
-                            label='Custom Date End'
+                            variant="inline"
+                            format="yyyy-MM-dd"
+                            margin="normal"
+                            label="Custom Date End"
                             value={this.state.endDate}
-                            onChange={e => this.handleUpdateState('endDate', e)}
+                            onChange={e => this.handleUpdateState("endDate", e)}
                             KeyboardButtonProps={{
-                              'aria-label': 'change date'
+                              "aria-label": "change date"
                             }}
                           />
                         </MuiPickersUtilsProvider>
                       </div>
-                      <div className='item'>
-                        <p style={{ width: '100%', margin: '0px' }}>
-                          {' '}
-                          <Checkbox
+                      <div className={s["item"]}>
+                        <p style={{ width: "100%", margin: "0px" }}>
+                          {" "}
+                          <input
+                            type="checkbox"
                             checked={this.state.comparison}
                             onChange={e =>
                               this.togglecomparison(e.target.checked)
                             }
-                            value='true'
+                            value="true"
                             inputProps={{
-                              'aria-label': 'primary checkbox'
+                              "aria-label": "primary checkbox"
                             }}
                           />
                           Comparison between two dates
@@ -376,36 +395,36 @@ class UpperControls extends Component {
                     </>
                   )}
                   {this.state.comparison && (
-                    <div className='item'>
+                    <div className={s["item"]}>
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           disableToolbar
-                          variant='inline'
-                          format='yyyy-MM-dd'
-                          margin='normal'
-                          label='Custom Date Start'
+                          variant="inline"
+                          format="yyyy-MM-dd"
+                          margin="normal"
+                          label="Custom Date Start"
                           value={this.state.customDateStart}
                           onChange={e => this.setCustomDateStart(e)}
                           KeyboardButtonProps={{
-                            'aria-label': 'change date'
+                            "aria-label": "change date"
                           }}
                         />
                         <KeyboardDatePicker
                           disableToolbar
-                          variant='inline'
-                          format='yyyy-MM-dd'
-                          margin='normal'
-                          label='Custom Date End'
+                          variant="inline"
+                          format="yyyy-MM-dd"
+                          margin="normal"
+                          label="Custom Date End"
                           value={this.state.customDateEnd}
                           onChange={e => this.setCustomDateEnd(e)}
                           KeyboardButtonProps={{
-                            'aria-label': 'change date'
+                            "aria-label": "change date"
                           }}
                         />
                       </MuiPickersUtilsProvider>
                     </div>
                   )}
-                  <div className='item'>
+                  <div className={s["item"]}>
                     <Button
                       onClick={() =>
                         this.fetchData(
@@ -413,26 +432,35 @@ class UpperControls extends Component {
                           this.state.period
                         )
                       }
-                      variant='contained'
+                      variant="contained"
                       className={s.button}
                     >
                       Apply
+                    </Button>
+                    <Button
+                      onClick={() =>
+this.setState({showDropDown:false})
+                      }
+                      variant="contained"
+                      className={s.buttonWihtout}
+                    >
+                      Cancel
                     </Button>
                   </div>
                 </div>
               )}
             </div>
             <MuiSelect
-              variant='outlined'
+              variant="outlined"
               onChange={e => this.setBrand(e.target.value)}
               value={
                 this.state.selectedBrand
                   ? this.state.selectedBrand
-                  : 'Select Brand'
+                  : "Select Brand"
               }
-              classes='p-8'
+              classes={s["colo-grey"]}
             >
-              <MenuItem key={1} value={'Select Brand'}>
+              <MenuItem key={1} value={"Select Brand"}>
                 Select Brand
               </MenuItem>
               {this.props.brands.length != 0
@@ -441,22 +469,22 @@ class UpperControls extends Component {
                       {brand.brand_name}
                     </MenuItem>
                   ))
-                : ''}
+                : ""}
             </MuiSelect>
             <MuiSelect
-              variant='outlined'
+              variant="outlined"
               onChange={e => this.changePeriod(e.target.value)}
-              value={this.state.period ? this.state.period : 'Select Brand'}
-              classes='p-8'
+              value={this.state.period ? this.state.period : "Select Brand"}
+              classes={s["colo-grey"]}
               defaultValue={period}
             >
-              <MenuItem key={1} value={'Select Period'}>
+              <MenuItem key={1} value={"Select Period"}>
                 Total Period
               </MenuItem>
-              <MenuItem key={'weekly'} value={'weekly'}>
+              <MenuItem key={"weekly"} value={"weekly"}>
                 Weekly
               </MenuItem>
-              <MenuItem key={'monthly'} value={'monthly'}>
+              <MenuItem key={"monthly"} value={"monthly"}>
                 Monthly
               </MenuItem>
             </MuiSelect>
@@ -467,7 +495,7 @@ class UpperControls extends Component {
               >
                 Generate Report
               </Button> */}
-            <SearchIcon
+            {/* <SearchIcon
               onClick={() =>
                 this.fetchData(this.state.selectedBrand, this.state.period)
               }
@@ -476,11 +504,11 @@ class UpperControls extends Component {
             <DownloadIcon
               onClick={() => this.download()}
               className={s.menuOpen}
-            />
+            /> */}
           </Grid>
         </Grid>
         <Drawer
-          anchor={'right'}
+          anchor={"right"}
           open={this.state.openSideBar}
           onClose={() => this.setState({ openSideBar: false })}
         >
@@ -493,15 +521,15 @@ class UpperControls extends Component {
               <p>Report Brand:</p>
               <MuiSelect
                 className={s.select}
-                variant='outlined'
+                variant="outlined"
                 onChange={e => this.setBrand(e.target.value)}
                 value={
                   this.state.selectedBrand
                     ? this.state.selectedBrand
-                    : 'Select Brand'
+                    : "Select Brand"
                 }
               >
-                <MenuItem key={1} value={'Select Brand'}>
+                <MenuItem key={1} value={"Select Brand"}>
                   Select Brand
                 </MenuItem>
                 {this.props.brands.length != 0
@@ -510,38 +538,38 @@ class UpperControls extends Component {
                         {brand.brand_name}
                       </MenuItem>
                     ))
-                  : ''}
+                  : ""}
               </MuiSelect>
             </Grid>
             <Grid item xs={6}>
               <p>Report Period:</p>
               <RadioGroup
-                aria-label='Period'
-                name='period'
+                aria-label="Period"
+                name="period"
                 value={this.state.period}
                 onChange={e => this.changePeriod(e.target.value)}
               >
                 <FormControlLabel
-                  value='weekly'
+                  value="weekly"
                   control={<Radio />}
-                  label='Weekly'
+                  label="Weekly"
                 />
                 <FormControlLabel
-                  value='monthly'
+                  value="monthly"
                   control={<Radio />}
-                  label='Monthly'
+                  label="Monthly"
                 />
               </RadioGroup>
             </Grid>
             <Grid item xs={6}>
-              <p style={{ width: '100%', margin: '0px' }}>
-                {' '}
+              <p style={{ width: "100%", margin: "0px" }}>
+                {" "}
                 <Checkbox
                   checked={this.state.comparison}
                   onChange={e => this.togglecomparison(e.target.checked)}
-                  value='true'
+                  value="true"
                   inputProps={{
-                    'aria-label': 'primary checkbox'
+                    "aria-label": "primary checkbox"
                   }}
                 />
                 Comparison between few reports
@@ -550,22 +578,22 @@ class UpperControls extends Component {
             <Grid item xs={6}>
               {this.state.comparison === true ? (
                 <TextField
-                  label={'SKU'}
+                  label={"SKU"}
                   onChange={e => this.changeSelectedSku(e)}
                 />
               ) : (
-                ''
+                ""
               )}
             </Grid>
             <Grid item xs={6}>
-              <p style={{ width: '100%', margin: '0px' }}>
-                {' '}
+              <p style={{ width: "100%", margin: "0px" }}>
+                {" "}
                 <Checkbox
                   checked={this.state.customDateRange}
                   onChange={e => this.toggleCustomDateRange(e.target.checked)}
-                  value='true'
+                  value="true"
                   inputProps={{
-                    'aria-label': 'primary checkbox'
+                    "aria-label": "primary checkbox"
                   }}
                 />
                 Custom Date Range
@@ -576,31 +604,31 @@ class UpperControls extends Component {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     disableToolbar
-                    variant='inline'
-                    format='yyyy-MM-dd'
-                    margin='normal'
-                    label='Custom Date Start'
+                    variant="inline"
+                    format="yyyy-MM-dd"
+                    margin="normal"
+                    label="Custom Date Start"
                     value={this.state.customDateStart}
                     onChange={e => this.setCustomDateStart(e)}
                     KeyboardButtonProps={{
-                      'aria-label': 'change date'
+                      "aria-label": "change date"
                     }}
                   />
                   <KeyboardDatePicker
                     disableToolbar
-                    variant='inline'
-                    format='yyyy-MM-dd'
-                    margin='normal'
-                    label='Custom Date End'
+                    variant="inline"
+                    format="yyyy-MM-dd"
+                    margin="normal"
+                    label="Custom Date End"
                     value={this.state.customDateEnd}
                     onChange={e => this.setCustomDateEnd(e)}
                     KeyboardButtonProps={{
-                      'aria-label': 'change date'
+                      "aria-label": "change date"
                     }}
                   />
                 </MuiPickersUtilsProvider>
               ) : (
-                ''
+                ""
               )}
             </Grid>
             <Grid item xs={12}>
@@ -608,7 +636,7 @@ class UpperControls extends Component {
                 onClick={() =>
                   this.fetchData(this.state.selectedBrand, this.state.period)
                 }
-                variant='contained'
+                variant="contained"
                 className={s.button}
               >
                 Generate Report
