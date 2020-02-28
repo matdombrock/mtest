@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
 import moment from "moment";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 
 const currentDataFormate = data => {
@@ -88,7 +88,7 @@ const DataDisplayItemizedTable = props => {
             >
               Units Sold{" "}
               {isComparisons &&
-                (active === 2 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 2 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -98,7 +98,7 @@ const DataDisplayItemizedTable = props => {
             >
               Shipped COGS{" "}
               {isComparisons &&
-                (active === 3 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 3 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -108,7 +108,7 @@ const DataDisplayItemizedTable = props => {
             >
               % of Total Sales{" "}
               {isComparisons &&
-                (active === 4 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 4 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -118,7 +118,7 @@ const DataDisplayItemizedTable = props => {
             >
               Ad Clicks{" "}
               {isComparisons &&
-                (active === 5 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 5 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -128,7 +128,7 @@ const DataDisplayItemizedTable = props => {
             >
               Ad Impressions{" "}
               {isComparisons &&
-                (active === 6 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 6 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -138,7 +138,7 @@ const DataDisplayItemizedTable = props => {
             >
               Avg CPC{" "}
               {isComparisons &&
-                (active === 7 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 7 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -148,7 +148,7 @@ const DataDisplayItemizedTable = props => {
             >
               Ad Spend{" "}
               {isComparisons &&
-                (active === 8 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 8 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -158,7 +158,7 @@ const DataDisplayItemizedTable = props => {
             >
               Ad Orders{" "}
               {isComparisons &&
-                (active === 9 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 9 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -168,7 +168,7 @@ const DataDisplayItemizedTable = props => {
             >
               Ad Sales{" "}
               {isComparisons &&
-                (active === 10 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 10 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -178,7 +178,7 @@ const DataDisplayItemizedTable = props => {
             >
               Conv Rate{" "}
               {isComparisons &&
-                (active === 11 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 11 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -188,7 +188,7 @@ const DataDisplayItemizedTable = props => {
             >
               ACoS{" "}
               {isComparisons &&
-                (active === 12 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 12 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -198,7 +198,7 @@ const DataDisplayItemizedTable = props => {
             >
               {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
               {isComparisons &&
-                (active === 13 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
+                (active === 13 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />)}
             </th>
           </tr>
         </thead>
@@ -372,7 +372,7 @@ const DataDisplayItemizedTable = props => {
                               ? getDifferenceInPercentage(
                                   current.wholesale_cost,
                                   previous.wholesale_cost
-                                )
+                                ) + "%"
                               : "0%"}
                           </td>
                         </>
