@@ -59,7 +59,7 @@
   align-items: center;
   marker-end: 10px;
 }
-.menu-container > div:first-child {
+.menu-container > div:first-child > div:first-child {
   display: flex !important;
   margin-right: 20px;
   cursor: pointer;
@@ -74,7 +74,7 @@
   min-height: 30px;
   display: inline-block;
 }
-.menu-container > div > p {
+.menu-container > div:first-child > div > p {
   margin: 0;
   color: #676a6c;
   font-size: 11px;
@@ -152,11 +152,10 @@
         }
         > div {
           // display: none;
-          >button{
+          > button {
             padding: 0 !important;
-            svg{
-
-    width: 12px !important;
+            svg {
+              width: 12px !important;
             }
           }
         }
@@ -175,15 +174,21 @@
 .position-relative {
   position: relative;
 }
-.button{
+.button {
   background-color: #0099a8 !important;
   border-color: #0099a8 !important;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
   font-size: 10px !important;
 }
 .buttonWihtout {
-  color: rgba(0, 0, 0, 0.87) !important; 
-  box-shadow:none !important;  
-  background-color:none !important; 
+  color: rgba(0, 0, 0, 0.87) !important;
+  box-shadow: none !important;
+  background-color: none !important;
   font-size: 10px !important;
+}
+.comparison-input {
+  width: 100%;
+  margin: 0px;
+  display: block !important;
+  margin-bottom: 5px;
 }

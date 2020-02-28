@@ -62,7 +62,10 @@ class UpperControls extends Component {
   }
 
   setBrand(value) {
-    this.setState({ selectedBrand: value });
+    this.setState({ selectedBrand: value },()=>this.fetchData(
+      this.state.selectedBrand,
+      this.state.period
+    ));
   }
 
   changePeriod(value) {
@@ -263,27 +266,31 @@ class UpperControls extends Component {
           </Grid>
           <Grid item xs={8} className={[s.gridItem, s["menu-container"]]}>
             <div className={s["position-relative"]}>
-              <EventNoteIcon className={s.menuOpen} />{" "}
-              <p
+              <div
                 onClick={() =>
                   this.handleUpdateState("showDropDown", !showDropDown)
                 }
+                className={s["position-relative"]}
               >
-                {selectedDateRange === "custom"
-                  ? `${moment(startDate).format("MMM DD, YYYY")} - ${moment(
-                      endDate
-                    ).format("MMM DD, YYYY")}`
-                  : selectedDateRange === "lastMonth"
-                  ? "Last Months"
-                  : selectedDateRange === "last7Days"
-                  ? "last Week"
-                  : selectedDateRange === "last14Days"
-                  ? "Last 14 Days"
-                  : selectedDateRange === "this30Days"
-                  ? "Last 30 Days"
-                  : "yesterday"}
-              </p>
-              <ExpandMoreIcon className={s.menuOpen} />
+                {" "}
+                <EventNoteIcon className={s.menuOpen} />{" "}
+                <p>
+                  {selectedDateRange === "custom"
+                    ? `${moment(startDate).format("MMM DD, YYYY")} - ${moment(
+                        endDate
+                      ).format("MMM DD, YYYY")}`
+                    : selectedDateRange === "lastMonth"
+                    ? "Last Months"
+                    : selectedDateRange === "last7Days"
+                    ? "last Week"
+                    : selectedDateRange === "last14Days"
+                    ? "Last 14 Days"
+                    : selectedDateRange === "this30Days"
+                    ? "Last 30 Days"
+                    : "yesterday"}
+                </p>
+                <ExpandMoreIcon className={s.menuOpen} />
+              </div>
               {showDropDown && (
                 <div className={s["custom-date-container"]}>
                   <div
@@ -380,8 +387,9 @@ class UpperControls extends Component {
                     </>
                   )}
                   <div className={s["item"]}>
-                    <p style={{ width: "100%", margin: "0px" }}>
-                      {" "}
+                    <p className={s['comparison-input']}>
+                    <label className={s['comparison-input']}>
+                    {" "}
                       <input
                         type="checkbox"
                         checked={this.state.comparison}
@@ -392,6 +400,7 @@ class UpperControls extends Component {
                         }}
                       />
                       Comparison between two dates
+                    </label>
                     </p>
                   </div>
                   {this.state.comparison && (
@@ -469,7 +478,7 @@ class UpperControls extends Component {
                   ))
                 : ""}
             </MuiSelect>
-            <MuiSelect
+            {/* <MuiSelect
               variant="outlined"
               onChange={e => this.changePeriod(e.target.value)}
               value={this.state.period ? this.state.period : "Select Brand"}
@@ -485,7 +494,7 @@ class UpperControls extends Component {
               <MenuItem key={"monthly"} value={"monthly"}>
                 Monthly
               </MenuItem>
-            </MuiSelect>
+            </MuiSelect> */}
             {/* <Button
               
                 variant='contained'
