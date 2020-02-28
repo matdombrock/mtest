@@ -8,6 +8,8 @@ import Paper from "@material-ui/core/Paper";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
 import moment from "moment";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 
 const currentDataFormate = data => {
   let temp = {
@@ -40,11 +42,13 @@ const currentDataFormate = data => {
   return [temp];
 };
 
-const getDifferenceInNumber = (current, previous) => current - previous;
+const getDifferenceInNumber = (current, previous) => Number(current - previous).toFixed(0);
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
-  return totalDifference === 0 ? 0 : (previous / totalDifference) * 100;
+  return totalDifference === 0
+    ? 0
+    : Number((totalDifference/previous ) * 100).toFixed(0);
 };
 
 const DataDisplayItemizedTable = props => {
@@ -82,7 +86,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(2)}
               align="right"
             >
-              Units Sold
+              Units Sold{" "}
+              {isComparisons &&
+                (active === 2 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -90,7 +96,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(3)}
               align="right"
             >
-              Shipped COGS
+              Shipped COGS{" "}
+              {isComparisons &&
+                (active === 3 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -98,7 +106,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(4)}
               align="right"
             >
-              % of Total Sales
+              % of Total Sales{" "}
+              {isComparisons &&
+                (active === 4 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -106,7 +116,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(5)}
               align="right"
             >
-              Ad Clicks
+              Ad Clicks{" "}
+              {isComparisons &&
+                (active === 5 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -114,7 +126,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(6)}
               align="right"
             >
-              Ad Impressions
+              Ad Impressions{" "}
+              {isComparisons &&
+                (active === 6 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -122,7 +136,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(7)}
               align="right"
             >
-              Avg CPC
+              Avg CPC{" "}
+              {isComparisons &&
+                (active === 7 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -130,7 +146,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(8)}
               align="right"
             >
-              Ad Spend
+              Ad Spend{" "}
+              {isComparisons &&
+                (active === 8 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -138,7 +156,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(9)}
               align="right"
             >
-              Ad Orders
+              Ad Orders{" "}
+              {isComparisons &&
+                (active === 9 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -146,7 +166,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(10)}
               align="right"
             >
-              Ad Sales
+              Ad Sales{" "}
+              {isComparisons &&
+                (active === 10 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -154,7 +176,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(11)}
               align="right"
             >
-              Conv Rate
+              Conv Rate{" "}
+              {isComparisons &&
+                (active === 11 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -162,7 +186,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(12)}
               align="right"
             >
-              ACoS
+              ACoS{" "}
+              {isComparisons &&
+                (active === 12 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -170,7 +196,9 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(13)}
               align="right"
             >
-              {props.data.period === "weekly" ? "WoW" : "MoM"} (sales)
+              {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
+              {isComparisons &&
+                (active === 13 ? <ArrowDropUpIcon /> : <FilterListIcon />)}
             </th>
           </tr>
         </thead>
@@ -261,14 +289,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.revenue
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.revenue,
-                                    previous.revenue
-                                  )
-                                )
-                              : "$0.00"}
+                              ? getDifferenceInPercentage(
+                                  current.revenue,
+                                  previous.revenue
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
@@ -303,20 +328,18 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.units_sold
-                              ? numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.units_sold,
-                                    previous.units_sold
-                                  )
-                                )
-                              : 0}
+                              ? getDifferenceInPercentage(
+                                  current.units_sold,
+                                  previous.units_sold
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.units_sold
-                            ? numberWithCommas(current.units_sold)
-                            : 0}
+                            ? numberWithCommas(current.units_sold)+"%"
+                            : "0%"}
                         </td>
                       )}
 
@@ -346,14 +369,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.wholesale_cost
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.wholesale_cost,
-                                    previous.wholesale_cost
-                                  )
+                              ? getDifferenceInPercentage(
+                                  current.wholesale_cost,
+                                  previous.wholesale_cost
                                 )
-                              : "$0.00"}
+                              : "0%"}
                           </td>
                         </>
                       ) : (
@@ -449,13 +469,11 @@ const DataDisplayItemizedTable = props => {
 
                           <td align="right">
                             {current.clicks
-                              ? numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.clicks,
-                                    previous.clicks
-                                  )
-                                )
-                              : 0}
+                              ? getDifferenceInPercentage(
+                                  current.clicks,
+                                  previous.clicks
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
@@ -490,13 +508,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.impressions
-                              ? numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.impressions,
-                                    previous.impressions
-                                  )
-                                )
-                              : 0}
+                              ? getDifferenceInPercentage(
+                                  current.impressions,
+                                  previous.impressions
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
@@ -532,14 +548,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.average_cpc
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.average_cpc,
-                                    previous.average_cpc
-                                  )
-                                )
-                              : "$0.00"}
+                              ? getDifferenceInPercentage(
+                                  current.average_cpc,
+                                  previous.average_cpc
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
@@ -575,14 +588,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.spend
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.spend,
-                                    previous.spend
-                                  )
-                                )
-                              : "$0.00"}
+                              ? getDifferenceInPercentage(
+                                  current.spend,
+                                  previous.spend
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
@@ -617,13 +627,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.orders
-                              ? numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.orders,
-                                    previous.orders
-                                  )
-                                )
-                              : 0}
+                              ? getDifferenceInPercentage(
+                                  current.orders,
+                                  previous.orders
+                                ) + "%"
+                              : "0"}
                           </td>
                         </>
                       ) : (
@@ -659,14 +667,11 @@ const DataDisplayItemizedTable = props => {
                           </td>
                           <td align="right">
                             {current.adSales
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInPercentage(
-                                    current.adSales,
-                                    previous.adSales
-                                  )
-                                )
-                              : "$0.00"}
+                              ? getDifferenceInPercentage(
+                                  current.adSales,
+                                  previous.adSales
+                                ) + "%"
+                              : "0%"}
                           </td>
                         </>
                       ) : (
