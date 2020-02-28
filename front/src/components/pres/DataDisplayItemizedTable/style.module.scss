@@ -1,18 +1,39 @@
-.tableHead{
-    font-weight:bold !important;
-    color: #fff !important;
-    background: #3cc3c1;
+.tableHead {
+  font-weight: bold !important;
+  color: #fff !important;
+  background: #3cc3c1;
 }
 
-.noBoxShadow{
-    box-shadow: none !important;
-    border:none !important;
+.noBoxShadow {
+  box-shadow: none !important;
+  // border:none !important;
+  overflow-x: scroll;
+
+  width: 92% !important;
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    min-height: 200px;
+  }
+  
+  th, td {
+    text-align: left;
+    font-size: 12px;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2}
 }
 
-.red{
-    color:red !important;
+.red {
+  color: red !important;
 }
 
-.green{
-    color: green !important;
+.green {
+  color: green !important;
+}
+.MuiTableCell-root {
+  padding: 3px;
 }

@@ -21,17 +21,17 @@ class Dashboard extends Component {
           </Grid>
           <Grid item xs={11} id="#report" className={s.inner}>
             <DataDisplayCardGrid data={this.props.sales.active} />
-            {this.props.sales.comparisons.itemized && (
+            {/* {this.props.sales.comparisons.itemized && (
               <DataDisplayCardGrid data={this.props.sales.comparisons} />
-            )}
+            )} */}
             <Charts data={this.props.sales.active} />
-            {this.props.sales.comparisons.itemized && (
+            {/* {this.props.sales.comparisons.itemized && (
               <Charts data={this.props.sales.comparisons.itemized} />
-            )}
-            <DataDisplayItemizedTable data={this.props.sales.active} />
-            {this.props.sales.comparisons && (
+            )} */}
+            <DataDisplayItemizedTable data={this.props.sales.active} comparisons={this.props.sales.comparisons} />
+            {/* {this.props.sales.comparisons && (
               <DataDisplayItemizedTable data={this.props.sales.comparisons} />
-            )}
+            )} */}
           </Grid>
         </Grid>
       </div>

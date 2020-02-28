@@ -99,6 +99,7 @@ class UpperControls extends Component {
   }
 
   fetchData(brand, period, sku) {
+    console.log("TCL: UpperControls -> fetchData -> brand", brand);
     const {
       comparison,
       customDateRange,
@@ -120,7 +121,7 @@ class UpperControls extends Component {
     let isComparison = false;
     if (
       comparison &&
-      selectedDateRange === "custom" &&
+      // selectedDateRange === "custom" &&
       customDateEnd &&
       customDateStart
     ) {
@@ -170,6 +171,7 @@ class UpperControls extends Component {
         this.props.setSecondData(payload);
       });
     }
+    this.setState({ showDropDown: false });
   }
 
   componentDidMount() {
@@ -375,25 +377,23 @@ class UpperControls extends Component {
                           />
                         </MuiPickersUtilsProvider>
                       </div>
-                      <div className={s["item"]}>
-                        <p style={{ width: "100%", margin: "0px" }}>
-                          {" "}
-                          <input
-                            type="checkbox"
-                            checked={this.state.comparison}
-                            onChange={e =>
-                              this.togglecomparison(e.target.checked)
-                            }
-                            value="true"
-                            inputProps={{
-                              "aria-label": "primary checkbox"
-                            }}
-                          />
-                          Comparison between two dates
-                        </p>
-                      </div>
                     </>
                   )}
+                  <div className={s["item"]}>
+                    <p style={{ width: "100%", margin: "0px" }}>
+                      {" "}
+                      <input
+                        type="checkbox"
+                        checked={this.state.comparison}
+                        onChange={e => this.togglecomparison(e.target.checked)}
+                        value="true"
+                        inputProps={{
+                          "aria-label": "primary checkbox"
+                        }}
+                      />
+                      Comparison between two dates
+                    </p>
+                  </div>
                   {this.state.comparison && (
                     <div className={s["item"]}>
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -438,9 +438,7 @@ class UpperControls extends Component {
                       Apply
                     </Button>
                     <Button
-                      onClick={() =>
-this.setState({showDropDown:false})
-                      }
+                      onClick={() => this.setState({ showDropDown: false })}
                       variant="contained"
                       className={s.buttonWihtout}
                     >
