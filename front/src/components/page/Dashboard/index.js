@@ -12,6 +12,9 @@ import s from "./style.module.scss";
 
 class Dashboard extends Component {
   render() {
+    const {
+      sales: { active, comparisons }
+    } = this.props;
     return (
       <div className={s.container}>
         <UpperControls />
@@ -20,18 +23,18 @@ class Dashboard extends Component {
             <LeftNavigationMenu />
           </Grid>
           <Grid item xs={11} id="#report" className={s.inner}>
-            <DataDisplayCardGrid data={this.props.sales.active} />
-            {/* {this.props.sales.comparisons.itemized && (
-              <DataDisplayCardGrid data={this.props.sales.comparisons} />
-            )} */}
-            <Charts data={this.props.sales.active} />
-            {/* {this.props.sales.comparisons.itemized && (
-              <Charts data={this.props.sales.comparisons.itemized} />
-            )} */}
-            <DataDisplayItemizedTable data={this.props.sales.active} comparisons={this.props.sales.comparisons} />
-            {/* {this.props.sales.comparisons && (
-              <DataDisplayItemizedTable data={this.props.sales.comparisons} />
-            )} */}
+            {!!Object.keys(active).length ? (
+              <>
+                <DataDisplayCardGrid data={active} />
+                <Charts data={active} />
+                <DataDisplayItemizedTable
+                  data={active}
+                  comparisons={comparisons}
+                />
+              </>
+            ) : (
+              <p>No Record Found</p>
+            )}
           </Grid>
         </Grid>
       </div>

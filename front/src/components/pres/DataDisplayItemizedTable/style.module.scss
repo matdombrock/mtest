@@ -1,7 +1,6 @@
 .tableHead {
   font-weight: bold !important;
-  color: #fff !important;
-  background: #3cc3c1;
+  color: #676a6c !important;  // background: #3cc3c1;
 }
 
 .noBoxShadow {
@@ -13,18 +12,23 @@
   table {
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
+    width: 120%;
     border: 1px solid #ddd;
-    min-height: 200px;
+    // min-height: 200px;
+    background-color: #fff;
   }
-  
+  th{
+
+    font-weight: bold;
+  }
   th, td {
     text-align: left;
     font-size: 12px;
-    padding: 8px;
+    padding: 8px;    color: #676a6c !important;
+    border: 1px solid #DDDDDD;
   }
   
-  tr:nth-child(even){background-color: #f2f2f2}
+  // tr:nth-child(even){background-color: #f2f2f2}
 }
 
 .red {
