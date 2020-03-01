@@ -120,8 +120,8 @@ class UpperControls extends Component {
     let data = {
       brand: brand,
       byMonth: period === "weekly" ? false : true,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString()
+      startDate: moment(startDate).startOf('day').toISOString(),
+      endDate: moment(endDate).startOf('day').toISOString()
     };
     let isComparison = false;
     if (comparison && customDateEnd && customDateStart) {
@@ -144,8 +144,8 @@ class UpperControls extends Component {
       const dataSecond = {
         brand: brand,
         byMonth: period === "weekly" ? false : true,
-        startDate: customDateStart.toISOString(),
-        endDate: customDateEnd.toISOString()
+        startDate: moment(customDateStart).startOf('day').toISOString(),
+        endDate: moment(customDateEnd).startOf('day').toISOString()
       };
       if (activeTab === 1) {
         delete dataSecond.brand;
