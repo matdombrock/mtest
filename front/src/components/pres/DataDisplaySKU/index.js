@@ -4,7 +4,7 @@ import table from "@material-ui/core/Table";
 // import tr from '@material-ui/core/tr';
 import th from "@material-ui/core/TableHead";
 import tr from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
 import moment from "moment";
@@ -40,6 +40,7 @@ const currentDataFormate = data => {
     temp.conversion_rate += Math.round(Number(row.conversion_rate));
     temp.acos += Math.round(Number(row.acos));
     temp.wow_sales += Math.round(Number(row.wow_sales));
+    return false
   });
   temp.average_cpc = temp.average_cpc / data.length;
   return [temp];
@@ -242,21 +243,21 @@ const DataDisplaySKUTable = props => {
                     <tr key={i}>
                       {active === 0 ? (
                         <>
-                          <td component="th" scope="row">
+                          <td component="th">
                             <b>{moment(current.date).format("DD/MM/YYYY")}</b>
                           </td>
-                          <td component="th" scope="row">
+                          <td component="th">
                             <b>{moment(current.date).format("DD/MM/YYYY")}</b>
                           </td>
-                          <td component="th" scope="row">
+                          <td component="th">
                             <b>{moment(current.date).format("DD/MM/YYYY")}</b>
                           </td>
-                          <td component="th" scope="row">
+                          <td component="th">
                             <b>{moment(current.date).format("DD/MM/YYYY")}</b>
                           </td>
                         </>
                       ) : (
-                        <td component="th" scope="row">
+                        <td component="th">
                           <b>{moment(current.date).format("DD/MM/YYYY")}</b>
                         </td>
                       )}

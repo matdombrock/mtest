@@ -38,7 +38,7 @@ class Navbar extends React.Component{
             <div className={s.navWrapper}>
                 <Grid container>
                     <Grid item xs={2} className={s.titleGrid}>
-                        <img onClick={() =>window.location.pathname = '/'} src="/img/logo.png" className={s.logo} />
+                        <img alt="" onClick={() =>window.location.pathname = '/'} src="/img/logo.png" className={s.logo} />
                     </Grid>
                     <Grid item className={s.titleGrid}>
                         <p className={s.pageTitle}>Analytics Portal</p>

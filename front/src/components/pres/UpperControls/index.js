@@ -14,8 +14,6 @@ import Radio from "@material-ui/core/Radio";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import SettingsIcon from "@material-ui/icons/Settings";
-import DownloadIcon from "@material-ui/icons/CloudDownload";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Drawer from "@material-ui/core/Drawer";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -31,7 +29,6 @@ import TextField from "@material-ui/core/TextField";
 import moment from "moment";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import SearchIcon from "@material-ui/icons/Search";
 class UpperControls extends Component {
   constructor(props) {
     super(props);
@@ -236,8 +233,6 @@ class UpperControls extends Component {
     const {
       startDate,
       endDate,
-      selectedBrand,
-      period,
       showDropDown,
       selectedDateRange
     } = this.state;
@@ -466,7 +461,7 @@ class UpperControls extends Component {
               <MenuItem key={1} value={"Select Brand"}>
                 Select Brand
               </MenuItem>
-              {this.props.brands.length != 0
+              {this.props.brands.length !== 0
                 ? this.props.brands.map(brand => (
                     <MenuItem key={brand.id} value={brand.brand_name}>
                       {brand.brand_name}
@@ -535,7 +530,7 @@ class UpperControls extends Component {
                 <MenuItem key={1} value={"Select Brand"}>
                   Select Brand
                 </MenuItem>
-                {this.props.brands.length != 0
+                {this.props.brands.length !== 0
                   ? this.props.brands.map(brand => (
                       <MenuItem key={brand.id} value={brand.brand_name}>
                         {brand.brand_name}

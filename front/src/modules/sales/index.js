@@ -45,6 +45,7 @@ const setSKUData = data => {
   const total = { totalSale: 0 };
   data.map(d => {
     total.totalSale += Number(d.sales);
+    return false
   });
   return dispatch => {
     dispatch({
@@ -58,6 +59,7 @@ const setSKUComprisionData = data => {
   const total = { totalSale: 0 };
   data.map(d => {
     total.totalSale += Number(d.sales);
+    return false
   });
   return dispatch => {
     dispatch({

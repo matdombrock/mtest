@@ -39,7 +39,7 @@ class ManageUsers extends React.Component{
                         </Grid>
                     </Card>
                     <h2>Users: </h2>
-                {this.props.users.length != 0 ? this.props.users.map((user) =>(
+                {this.props.users.length !== 0 ? this.props.users.map((user) =>(
                     <Card> 
                         <Grid container className={s.innerContainer} >
                             <Grid item xs={6} className={s.container}>
