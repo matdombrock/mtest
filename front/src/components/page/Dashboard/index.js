@@ -9,31 +9,56 @@ import LeftNavigationMenu from "../../pres/LeftNavigationMenu";
 import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
 import s from "./style.module.scss";
+import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
 
 class Dashboard extends Component {
+  state = {
+    activeTab: 0
+  };
+  handleTabChange = activeTab => this.setState({ activeTab });
   render() {
     const {
-      sales: { active, comparisons }
+      sales: { active, comparisons, skuActive, skuComparisons }
     } = this.props;
+    const { activeTab } = this.state;
     return (
       <div className={s.container}>
-        <UpperControls />
+        <UpperControls activeTab={activeTab} />
         <Grid container className={s.gridContainer}>
           <Grid item className={s.item} xs={1}>
-            <LeftNavigationMenu />
+            <LeftNavigationMenu
+              active={activeTab}
+              changeTab={this.handleTabChange}
+            />
           </Grid>
           <Grid item xs={11} id="#report" className={s.inner}>
-            {!!Object.keys(active).length ? (
-              <>
-                <DataDisplayCardGrid data={active} />
-                <Charts data={active} />
-                <DataDisplayItemizedTable
-                  data={active}
-                  comparisons={comparisons}
-                />
-              </>
+            {activeTab === 0 ? (
+              active && !!Object.keys(active).length && active.itemized ? (
+                <>
+                  <DataDisplayCardGrid data={active} />
+                  <Charts data={active} />
+                  <DataDisplayItemizedTable
+                    data={active}
+                    comparisons={comparisons}
+                  />
+                </>
+              ) : (
+                <p>No Record Found</p>
+              )
             ) : (
-              <p>No Record Found</p>
+                <>
+              {/* skuActive ? ( */}
+                  {/* <DataDisplayCardGrid data={active} />
+                 */}
+                {/* <SKUCharts data={active} /> */}
+                  <DataDisplaySKUTable
+                    data={skuActive}
+                    comparisons={skuComparisons}
+                  />
+              {/* ):(
+                <p>No Record Found in SKU</p>
+              ) */}
+                </>
             )}
           </Grid>
         </Grid>
