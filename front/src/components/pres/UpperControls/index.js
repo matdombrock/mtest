@@ -3,7 +3,11 @@ import { actions as salesActions } from "../../../modules/sales";
 import { actions as brandActions } from "../../../modules/brands";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchBrands, fetchSalesData } from "../../../services/api";
+import {
+  fetchBrands,
+  fetchSalesData,
+  fetchSalesDataBySKU
+} from "../../../services/api";
 import MuiSelect from "@material-ui/core/Select";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
@@ -51,7 +55,11 @@ class UpperControls extends Component {
     this.changeSelectedSku = this.changeSelectedSku.bind(this);
     this.download = this.download.bind(this);
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.activeTab !== prevProps.activeTab) {
+      this.fetchData(this.state.selectedBrand, this.state.period);
+    }
+  }
   download() {
     const filename = "report.pdf";
     html2canvas(document.getElementById("#report")).then(canvas => {
@@ -62,10 +70,9 @@ class UpperControls extends Component {
   }
 
   setBrand(value) {
-    this.setState({ selectedBrand: value },()=>this.fetchData(
-      this.state.selectedBrand,
-      this.state.period
-    ));
+    this.setState({ selectedBrand: value }, () =>
+      this.fetchData(this.state.selectedBrand, this.state.period)
+    );
   }
 
   changePeriod(value) {
@@ -101,66 +108,38 @@ class UpperControls extends Component {
     this.setState({ selectedSku: e.target.value });
   }
 
-  fetchData(brand, period, sku) {
-    console.log("TCL: UpperControls -> fetchData -> brand", brand);
+  fetchData(brand, period) {
     const {
       comparison,
-      customDateRange,
-      selectedSku,
       customDateStart,
       customDateEnd,
       startDate,
-      endDate,
-      selectedDateRange
+      endDate
     } = this.state;
+    const { activeTab } = this.props;
     let data = {
       brand: brand,
       byMonth: period === "weekly" ? false : true,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString()
-      // customDateStart,
-      // customDateEnd
     };
     let isComparison = false;
-    if (
-      comparison &&
-      // selectedDateRange === "custom" &&
-      customDateEnd &&
-      customDateStart
-    ) {
+    if (comparison && customDateEnd && customDateStart) {
       isComparison = true;
     }
+    if (activeTab === 1) {
+      delete data.brand;
+      fetchSalesDataBySKU(data).then(data => {
+        const payload = data;
+        this.props.setSKUData(payload);
+      });
+    } else {
+      fetchSalesData(data).then(data => {
+        const payload = { ...data };
+        this.props.saleSetData(payload);
+      });
+    }
 
-    const validateWithInDate = (date, sDate, nDate) => {
-      const compareDate = new Date(date).getTime();
-      const startDate = new Date(sDate).getTime();
-      const endDate = new Date(nDate).getTime();
-      // omitting the optional third parameter, 'units'
-      return compareDate <= endDate && compareDate >= startDate; //false in this case
-    };
-    // if (sku) {
-    //   data.sku = sku;
-    // }
-
-    fetchSalesData(data).then(data => {
-      const payload = { ...data };
-      // payload.itemized = data.itemized.filter(d => {
-      //   if (validateWithInDate(d.date, customDateStart, customDateEnd)) {
-      //     payload.summary.totalRevenue += Number(d.revenue);
-      //     payload.summary.totalCost += Number(d.wholesale_cost);
-      //     payload.summary.unitsSold += Number(d.units_sold);
-      //     payload.summary.totalAdSpend += Number(d.adSales);
-      //     payload.summary.averageAcos += Number(d.acos);
-      //   }
-      //   return (
-      //     validateWithInDate(d.date, customDateStart, customDateEnd) ||
-      //     !customDateEnd ||
-      //     !customDateStart
-      //   );
-      // });
-      console.log("TCL: UpperControls -> fetchData -> payload", payload);
-      this.props.saleSetData(payload);
-    });
     if (isComparison) {
       const dataSecond = {
         brand: brand,
@@ -168,11 +147,18 @@ class UpperControls extends Component {
         startDate: customDateStart.toISOString(),
         endDate: customDateEnd.toISOString()
       };
-      fetchSalesData(dataSecond).then(data => {
-        const payload = { ...data };
-        console.log("TCL: UpperControls -> fetchData -> payload", payload);
-        this.props.setSecondData(payload);
-      });
+      if (activeTab === 1) {
+        delete dataSecond.brand;
+        fetchSalesDataBySKU(dataSecond).then(data => {
+          const payload = data;
+          this.props.setSKUComprisionData(payload);
+        });
+      } else {
+        fetchSalesData(dataSecond).then(data => {
+          const payload = { ...data };
+          this.props.setSecondData(payload);
+        });
+      }
     }
     this.setState({ showDropDown: false });
   }
@@ -261,7 +247,15 @@ class UpperControls extends Component {
           <Grid item xs={4} className={s.gridItem}>
             <p className={s.dashboardLabel}>
               {" "}
-              <b>Brand Overview Dashboard:</b> {this.state.selectedBrand}
+              {this.props.activeTab === 0 ? (
+                <>
+                  <b>Brand Overview Dashboard:</b> {this.state.selectedBrand}
+                </>
+              ) : (
+                <>
+                  <b>SKU Overview</b>
+                </>
+              )}
             </p>
           </Grid>
           <Grid item xs={8} className={[s.gridItem, s["menu-container"]]}>
@@ -387,20 +381,22 @@ class UpperControls extends Component {
                     </>
                   )}
                   <div className={s["item"]}>
-                    <p className={s['comparison-input']}>
-                    <label className={s['comparison-input']}>
-                    {" "}
-                      <input
-                        type="checkbox"
-                        checked={this.state.comparison}
-                        onChange={e => this.togglecomparison(e.target.checked)}
-                        value="true"
-                        inputProps={{
-                          "aria-label": "primary checkbox"
-                        }}
-                      />
-                      Comparison between two dates
-                    </label>
+                    <p className={s["comparison-input"]}>
+                      <label className={s["comparison-input"]}>
+                        {" "}
+                        <input
+                          type="checkbox"
+                          checked={this.state.comparison}
+                          onChange={e =>
+                            this.togglecomparison(e.target.checked)
+                          }
+                          value="true"
+                          inputProps={{
+                            "aria-label": "primary checkbox"
+                          }}
+                        />
+                        Comparison between two dates
+                      </label>
                     </p>
                   </div>
                   {this.state.comparison && (

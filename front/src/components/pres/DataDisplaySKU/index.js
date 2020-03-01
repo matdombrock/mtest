@@ -13,30 +13,33 @@ import RemoveIcon from "@material-ui/icons/Remove";
 
 const currentDataFormate = data => {
   let temp = {
-    spend: 0,
-    orders: 0,
-    cvr: 0,
+    ad_spend: 0,
+    ad_orders: 0,
+    conversion_rate: 0,
     acos: 0,
-    adSales: 0,
-    revenue: 0,
+    ad_sales: 0,
+    sales: 0,
     units_sold: 0,
-    wholesale_cost: 0,
-    clicks: 0,
-    impressions: 0,
-    average_cpc: 0
+    shipped_cogs: 0,
+    ad_clicks: 0,
+    ad_impressions: 0,
+    average_cpc: 0,
+    wow_sales:0
   };
+
   data.map(row => {
-    temp.revenue += Math.round(Number(row.revenue));
+    temp.sales += Math.round(Number(row.sales));
     temp.units_sold += Math.round(Number(row.units_sold));
-    temp.wholesale_cost += Math.round(Number(row.wholesale_cost));
-    temp.clicks += Math.round(Number(row.clicks));
-    temp.impressions += Math.round(Number(row.impressions));
+    temp.shipped_cogs += Math.round(Number(row.shipped_cogs));
+    temp.ad_clicks += Math.round(Number(row.ad_clicks));
+    temp.ad_impressions += Math.round(Number(row.ad_impressions));
     temp.average_cpc += Number(row.average_cpc);
-    temp.spend += Math.round(Number(row.spend));
-    temp.orders += Math.round(Number(row.orders));
-    temp.adSales += Math.round(Number(row.adSales));
-    temp.cvr += Math.round(Number(row.cvr));
+    temp.ad_spend += Math.round(Number(row.ad_spend));
+    temp.ad_orders += Math.round(Number(row.ad_orders));
+    temp.ad_sales += Math.round(Number(row.ad_sales));
+    temp.conversion_rate += Math.round(Number(row.conversion_rate));
     temp.acos += Math.round(Number(row.acos));
+    temp.wow_sales += Math.round(Number(row.wow_sales));
   });
   temp.average_cpc = temp.average_cpc / data.length;
   return [temp];
@@ -54,17 +57,18 @@ const getDifferenceInPercentage = (current, previous) => {
 
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
 
-const DataDisplayItemizedTable = props => {
-  const isComparisons = props.comparisons.period;
+const DataDisplaySKUTable = props => {
+  const isComparisons = props.comparisons.data;
   const [active, setActive] = useState(false);
-  let currentData = props.data.itemized;
-  if(!currentData) return null
-  let previousData = props.comparisons.itemized;
+  let currentData = props.data.data;
+  if (!currentData) return null;
+  let previousData = props.comparisons.data;
   if (isComparisons) {
     currentData = currentDataFormate(currentData);
     previousData = currentDataFormate(previousData);
   }
 
+  console.log("currentData", currentData);
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
   };
@@ -259,30 +263,30 @@ const DataDisplayItemizedTable = props => {
                       {active === 1 ? (
                         <>
                           <td align="right">
-                            {current.revenue
-                              ? "$" + numberWithCommas(current.revenue)
+                            {current.sales
+                              ? "$" + numberWithCommas(current.sales)
                               : "$0.00"}
                           </td>
                           <td align="right">
-                            {current.revenue
-                              ? "$" + numberWithCommas(previous.revenue)
+                            {current.sales
+                              ? "$" + numberWithCommas(previous.sales)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.revenue,
-                                previous.revenue
+                                current.sales,
+                                previous.sales
                               )
                             )}
                           >
-                            {current.revenue
+                            {current.sales
                               ? "$" +
                                 numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.revenue,
-                                    previous.revenue
+                                    current.sales,
+                                    previous.sales
                                   )
                                 )
                               : "$0.00"}
@@ -291,23 +295,23 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.revenue,
-                                previous.revenue
+                                current.sales,
+                                previous.sales
                               )
                             )}
                           >
-                            {current.revenue
+                            {current.sales
                               ? getDifferenceInPercentage(
-                                  current.revenue,
-                                  previous.revenue
+                                  current.sales,
+                                  previous.sales
                                 ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.revenue
-                            ? "$" + numberWithCommas(current.revenue)
+                          {current.sales
+                            ? "$" + numberWithCommas(current.sales)
                             : "$0.00"}
                         </td>
                       )}
@@ -317,11 +321,13 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.units_sold
                               ? numberWithCommas(current.units_sold)
+                            +"%"
                               : 0}
                           </td>
                           <td align="right">
                             {current.units_sold
                               ? numberWithCommas(previous.units_sold)
+                            +"%"
                               : 0}
                           </td>
                           <td
@@ -348,7 +354,7 @@ const DataDisplayItemizedTable = props => {
                               getDifferenceInPercentage(
                                 current.units_sold,
                                 previous.units_sold
-                              )
+                              ) + "%"
                             )}
                           >
                             {current.units_sold
@@ -370,13 +376,13 @@ const DataDisplayItemizedTable = props => {
                       {active === 3 ? (
                         <>
                           <td align="right">
-                            {current.wholesale_cost
-                              ? "$" + numberWithCommas(current.wholesale_cost)
+                            {current.shipped_cogs
+                              ? "$" + numberWithCommas(current.shipped_cogs)
                               : "$0.00"}
                           </td>
                           <td align="right">
-                            {current.wholesale_cost
-                              ? "$" + numberWithCommas(previous.wholesale_cost)
+                            {current.shipped_cogs
+                              ? "$" + numberWithCommas(previous.shipped_cogs)
                               : "$0.00"}
                           </td>
 
@@ -384,17 +390,17 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.wholesale_cost,
-                                previous.wholesale_cost
+                                current.shipped_cogs,
+                                previous.shipped_cogs
                               )
                             )}
                           >
-                            {current.wholesale_cost
+                            {current.shipped_cogs
                               ? "$" +
                                 numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.wholesale_cost,
-                                    previous.wholesale_cost
+                                    current.shipped_cogs,
+                                    previous.shipped_cogs
                                   )
                                 )
                               : "$0.00"}
@@ -402,22 +408,22 @@ const DataDisplayItemizedTable = props => {
                           <td
                             align="right"
                             className={getDifferenceInPercentage(
-                              current.wholesale_cost,
-                              previous.wholesale_cost
+                              current.shipped_cogs,
+                              previous.shipped_cogs
                             )}
                           >
-                            {current.wholesale_cost
+                            {current.shipped_cogs
                               ? getDifferenceInPercentage(
-                                  current.wholesale_cost,
-                                  previous.wholesale_cost
+                                  current.shipped_cogs,
+                                  previous.shipped_cogs
                                 ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.wholesale_cost
-                            ? "$" + numberWithCommas(current.wholesale_cost)
+                          {current.shipped_cogs
+                            ? "$" + numberWithCommas(current.shipped_cogs)
                             : "$0.00"}
                         </td>
                       )}
@@ -425,23 +431,19 @@ const DataDisplayItemizedTable = props => {
                       {active === 4 ? (
                         <>
                           <td align="right">
-                            {!isNaN(parseFloat(current.revenue))
+                            {!isNaN(parseFloat(current.sales))
                               ? (
-                                  (parseFloat(current.revenue) /
-                                    parseFloat(
-                                      props.data.summary.totalRevenue
-                                    )) *
+                                  (parseFloat(current.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
                                   100
                                 ).toFixed(2) + "%"
                               : "0%"}
                           </td>
                           <td align="right">
-                            {!isNaN(parseFloat(previous.revenue))
+                            {!isNaN(parseFloat(previous.sales))
                               ? (
-                                  (parseFloat(previous.revenue) /
-                                    parseFloat(
-                                      props.comparisons.summary.totalRevenue
-                                    )) *
+                                  (parseFloat(previous.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
                                   100
                                 ).toFixed(2) + "%"
                               : "0%"}
@@ -449,48 +451,59 @@ const DataDisplayItemizedTable = props => {
                           <td
                             align="right"
                             className={isNegative(
-                              (
-                                (parseFloat(current.revenue) /
-                                  parseFloat(props.data.summary.totalRevenue)) *
-                                100
-                              ).toFixed(2)
+                              getDifferenceInNumber((
+                                  (parseFloat(current.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
+                                  100
+                                ).toFixed(2),(
+                                  (parseFloat(previous.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
+                                  100
+                                ).toFixed(2))
                             )}
                           >
-                            {!isNaN(parseFloat(current.revenue))
-                              ? (
-                                  (parseFloat(current.revenue) /
-                                    parseFloat(
-                                      props.data.summary.totalRevenue
-                                    )) *
+                            {getDifferenceInNumber((
+                                  (parseFloat(current.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
                                   100
-                                ).toFixed(2) + "%"
-                              : "0%"}
+                                ).toFixed(2),(
+                                  (parseFloat(previous.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
+                                  100
+                                ).toFixed(2))}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
-                              (parseFloat(current.revenue) /
-                                parseFloat(props.data.summary.totalRevenue)) *
-                                100
-                            )}
-                          >
-                            {!isNaN(parseFloat(current.revenue))
-                              ? (
-                                  (parseFloat(current.revenue) /
-                                    parseFloat(
-                                      props.data.summary.totalRevenue
-                                    )) *
+                              getDifferenceInPercentage((
+                                  (parseFloat(current.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
                                   100
-                                ).toFixed(2) + "%"
+                                ).toFixed(2),(
+                                  (parseFloat(previous.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
+                                  100
+                                ).toFixed(2)))}
+                          >
+                            {!isNaN(parseFloat(current.sales))
+                              ? getDifferenceInPercentage((
+                                  (parseFloat(current.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
+                                  100
+                                ).toFixed(2),(
+                                  (parseFloat(previous.sales) /
+                                    parseFloat(props.data.total.totalSale)) *
+                                  100
+                                ).toFixed(2)) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {!isNaN(parseFloat(current.revenue))
+                          {!isNaN(parseFloat(current.sales))
                             ? (
-                                (parseFloat(current.revenue) /
-                                  parseFloat(props.data.summary.totalRevenue)) *
+                                (parseFloat(current.sales) /
+                                  parseFloat(props.data.total.totalSale)) *
                                 100
                               ).toFixed(2) + "%"
                             : "0%"}
@@ -500,30 +513,30 @@ const DataDisplayItemizedTable = props => {
                       {active === 5 ? (
                         <>
                           <td align="right">
-                            {current.clicks
-                              ? numberWithCommas(current.clicks)
+                            {current.ad_clicks
+                              ? numberWithCommas(current.ad_clicks)
                               : 0}
                           </td>
 
                           <td align="right">
-                            {previous.clicks
-                              ? numberWithCommas(previous.clicks)
+                            {previous.ad_clicks
+                              ? numberWithCommas(previous.ad_clicks)
                               : 0}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.clicks,
-                                previous.clicks
+                                current.ad_clicks,
+                                previous.ad_clicks
                               )
                             )}
                           >
-                            {previous.clicks
+                            {previous.ad_clicks
                               ? numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.clicks,
-                                    previous.clicks
+                                    current.ad_clicks,
+                                    previous.ad_clicks
                                   )
                                 )
                               : 0}
@@ -533,23 +546,23 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.clicks,
-                                previous.clicks
+                                current.ad_clicks,
+                                previous.ad_clicks
                               )
                             )}
                           >
-                            {current.clicks
+                            {current.ad_clicks
                               ? getDifferenceInPercentage(
-                                  current.clicks,
-                                  previous.clicks
+                                  current.ad_clicks,
+                                  previous.ad_clicks
                                 ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.clicks
-                            ? numberWithCommas(current.clicks)
+                          {current.ad_clicks
+                            ? numberWithCommas(current.ad_clicks)
                             : 0}
                         </td>
                       )}
@@ -557,29 +570,29 @@ const DataDisplayItemizedTable = props => {
                       {active === 6 ? (
                         <>
                           <td align="right">
-                            {current.impressions
-                              ? numberWithCommas(current.impressions)
+                            {current.ad_impressions
+                              ? numberWithCommas(current.ad_impressions)
                               : 0}
                           </td>
                           <td align="right">
-                            {previous.impressions
-                              ? numberWithCommas(previous.impressions)
+                            {previous.ad_impressions
+                              ? numberWithCommas(previous.ad_impressions)
                               : 0}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.impressions,
-                                previous.impressions
+                                current.ad_impressions,
+                                previous.ad_impressions
                               )
                             )}
                           >
-                            {current.impressions
+                            {current.ad_impressions
                               ? numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.impressions,
-                                    previous.impressions
+                                    current.ad_impressions,
+                                    previous.ad_impressions
                                   )
                                 )
                               : 0}
@@ -588,23 +601,23 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.impressions,
-                                previous.impressions
+                                current.ad_impressions,
+                                previous.ad_impressions
                               )
                             )}
                           >
-                            {current.impressions
+                            {current.ad_impressions
                               ? getDifferenceInPercentage(
-                                  current.impressions,
-                                  previous.impressions
+                                  current.ad_impressions,
+                                  previous.ad_impressions
                                 ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.impressions
-                            ? numberWithCommas(current.impressions)
+                          {current.ad_impressions
+                            ? numberWithCommas(current.ad_impressions)
                             : 0}
                         </td>
                       )}
@@ -668,30 +681,30 @@ const DataDisplayItemizedTable = props => {
                       {active === 8 ? (
                         <>
                           <td align="right">
-                            {current.spend
-                              ? "$" + numberWithCommas(current.spend)
+                            {current.ad_spend
+                              ? "$" + numberWithCommas(current.ad_spend)
                               : "$0.00"}
                           </td>
                           <td align="right">
-                            {previous.spend
-                              ? "$" + numberWithCommas(previous.spend)
+                            {previous.ad_spend
+                              ? "$" + numberWithCommas(previous.ad_spend)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.spend,
-                                previous.spend
+                                current.ad_spend,
+                                previous.ad_spend
                               )
                             )}
                           >
-                            {current.spend
+                            {current.ad_spend
                               ? "$" +
                                 numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.spend,
-                                    previous.spend
+                                    current.ad_spend,
+                                    previous.ad_spend
                                   )
                                 )
                               : "$0.00"}
@@ -700,23 +713,23 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.spend,
-                                previous.spend
+                                current.ad_spend,
+                                previous.ad_spend
                               )
                             )}
                           >
-                            {current.spend
+                            {current.ad_spend
                               ? getDifferenceInPercentage(
-                                  current.spend,
-                                  previous.spend
+                                  current.ad_spend,
+                                  previous.ad_spend
                                 ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.spend
-                            ? "$" + numberWithCommas(current.spend)
+                          {current.ad_spend
+                            ? "$" + numberWithCommas(current.ad_spend)
                             : "$0.00"}
                         </td>
                       )}
@@ -724,29 +737,29 @@ const DataDisplayItemizedTable = props => {
                       {active === 9 ? (
                         <>
                           <td align="right">
-                            {current.orders
-                              ? numberWithCommas(current.orders)
+                            {current.ad_orders
+                              ? numberWithCommas(current.ad_orders)
                               : 0}
                           </td>
                           <td align="right">
-                            {previous.orders
-                              ? numberWithCommas(previous.orders)
+                            {previous.ad_orders
+                              ? numberWithCommas(previous.ad_orders)
                               : 0}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.orders,
-                                previous.orders
+                                current.ad_orders,
+                                previous.ad_orders
                               )
                             )}
                           >
-                            {current.orders
+                            {current.ad_orders
                               ? numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.orders,
-                                    previous.orders
+                                    current.ad_orders,
+                                    previous.ad_orders
                                   )
                                 )
                               : 0}
@@ -755,23 +768,23 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.orders,
-                                previous.orders
+                                current.ad_orders,
+                                previous.ad_orders
                               )
                             )}
                           >
-                            {current.orders
+                            {current.ad_orders
                               ? getDifferenceInPercentage(
-                                  current.orders,
-                                  previous.orders
+                                  current.ad_orders,
+                                  previous.ad_orders
                                 ) + "%"
                               : "0"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.orders
-                            ? numberWithCommas(current.orders)
+                          {current.ad_orders
+                            ? numberWithCommas(current.ad_orders)
                             : 0}
                         </td>
                       )}
@@ -779,30 +792,30 @@ const DataDisplayItemizedTable = props => {
                       {active === 10 ? (
                         <>
                           <td align="right">
-                            {current.adSales
-                              ? "$" + numberWithCommas(current.adSales)
+                            {current.ad_sales
+                              ? "$" + numberWithCommas(current.ad_sales)
                               : "$0.00"}
                           </td>
                           <td align="right">
-                            {previous.adSales
-                              ? "$" + numberWithCommas(previous.adSales)
+                            {previous.ad_sales
+                              ? "$" + numberWithCommas(previous.ad_sales)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInNumber(
-                                current.adSales,
-                                previous.adSales
+                                current.ad_sales,
+                                previous.ad_sales
                               )
                             )}
                           >
-                            {current.adSales
+                            {current.ad_sales
                               ? "$" +
                                 numberWithCommas(
                                   getDifferenceInNumber(
-                                    current.adSales,
-                                    previous.adSales
+                                    current.ad_sales,
+                                    previous.ad_sales
                                   )
                                 )
                               : "$0.00"}
@@ -811,232 +824,116 @@ const DataDisplayItemizedTable = props => {
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.adSales,
-                                previous.adSales
+                                current.ad_sales,
+                                previous.ad_sales
                               )
                             )}
                           >
-                            {current.adSales
+                            {current.ad_sales
                               ? getDifferenceInPercentage(
-                                  current.adSales,
-                                  previous.adSales
+                                  current.ad_sales,
+                                  previous.ad_sales
                                 ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.adSales
-                            ? "$" + numberWithCommas(current.adSales)
+                          {current.ad_sales
+                            ? "$" + numberWithCommas(current.ad_sales)
                             : "$0.00"}
                         </td>
                       )}
 
                       {active === 11 ? (
                         <>
-                          <td align="right">{current.cvr + "%"}</td>
-                          <td align="right">{current.cvr + "%"}</td>
+                          <td align="right">{current.conversion_rate + "%"}</td>
                           <td align="right">
-                            {getDifferenceInNumber(current.cvr, previous.cvr) +
-                              "%"}
+                            {previous.conversion_rate + "%"}
+                          </td>
+                          <td align="right">
+                            {getDifferenceInNumber(
+                              current.conversion_rate,
+                              previous.conversion_rate
+                            ) + "%"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.cvr,
-                                previous.cvr
+                                current.conversion_rate,
+                                previous.conversion_rate
                               )
                             )}
                           >
                             {getDifferenceInPercentage(
-                              current.cvr,
-                              previous.cvr
+                              current.conversion_rate,
+                              previous.conversion_rate
                             ) + "%"}
                           </td>
                         </>
                       ) : (
-                        <td align="right">{current.cvr + "%"}</td>
+                        <td align="right">{current.conversion_rate + "%"}</td>
                       )}
 
                       {active === 12 ? (
                         <>
                           <td align="right">
                             {current.acos
-                              ? (current.acos * 100).toFixed(2) + "%"
+                              ? current.acos.toFixed(2)
                               : "0%"}
                           </td>
                           <td align="right">
                             {previous.acos
-                              ? (previous.acos * 100).toFixed(2) + "%"
+                              ? previous.acos.toFixed(2)
                               : "0%"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              (current.acos * 100).toFixed(2)
-                            )}
+                            className={isNegative(getDifferenceInNumber(current.acos.toFixed(2),previous.acos.toFixed(2)))}
                           >
                             {current.acos
-                              ? (current.acos * 100).toFixed(2) + "%"
+                              ? getDifferenceInNumber(current.acos.toFixed(2),previous.acos.toFixed(2))
                               : "0%"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              (current.acos * 100).toFixed(2)
-                            )}
+                            className={isNegative(getDifferenceInPercentage(current.acos.toFixed(2),previous.acos.toFixed(2)))}
                           >
                             {current.acos
-                              ? (current.acos * 100).toFixed(2) + "%"
+                              ? getDifferenceInPercentage(current.acos.toFixed(2),previous.acos.toFixed(2)) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.acos
-                            ? (current.acos * 100).toFixed(2) + "%"
-                            : "0%"}
+                          {current.acos ? current.acos.toFixed(2): "0"}
                         </td>
                       )}
 
-                      {active === 11 ? (
+                      {active === 13 ? (
                         <>
                           <td
                             align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
+                            className={current.wow_sales < 1 ? s.red : s.green}
                           >
-                            {i < props.comparisons.itemized.length - 1
-                              ? (
-                                  ((parseInt(previous.revenue) -
-                                    parseInt(
-                                      props.comparisons.itemized[i + 1].revenue
-                                    )) /
-                                    parseInt(
-                                      props.comparisons.itemized[i + 1].revenue
-                                    )) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
+                            {Number(current.wow_sales).toFixed(2) + "%"}
                           </td>
                           <td
                             align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
+                            className={previous.wow_sales < 1 ? s.red : s.green}
                           >
-                            {i < array.length - 1
-                              ? (
-                                  ((parseInt(current.revenue) -
-                                    parseInt(array[i + 1].revenue)) /
-                                    parseInt(array[i + 1].revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
+                            {Number(previous.wow_sales).toFixed(2) + "%"}
                           </td>
-                          <td
-                            align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
-                          >
-                            {i < array.length - 1
-                              ? (
-                                  ((parseInt(current.revenue) -
-                                    parseInt(array[i + 1].revenue)) /
-                                    parseInt(array[i + 1].revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
-                          >
-                            {i < array.length - 1
-                              ? (
-                                  ((parseInt(current.revenue) -
-                                    parseInt(array[i + 1].revenue)) /
-                                    parseInt(array[i + 1].revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
+                          <td align="right"></td>
+                          <td align="right"></td>
                         </>
                       ) : (
                         <td
                           align="right"
-                          className={
-                            i < array.length - 1
-                              ? Math.sign(
-                                  (
-                                    ((parseInt(current.revenue) -
-                                      parseInt(array[i + 1].revenue)) /
-                                      parseInt(array[i + 1].revenue)) *
-                                    100
-                                  ).toFixed(2)
-                                ) === -1
-                                ? s.red
-                                : s.green
-                              : ""
-                          }
+                          className={current.wow_sales < 1 ? s.red : s.green}
                         >
-                          {i < array.length - 1
-                            ? (
-                                ((parseInt(current.revenue) -
-                                  parseInt(array[i + 1].revenue)) /
-                                  parseInt(array[i + 1].revenue)) *
-                                100
-                              ).toFixed(2) + "%"
-                            : "N/A"}
+                            {Number(current.wow_sales).toFixed(2) + "%"}
                         </td>
                       )}
                     </tr>
@@ -1049,4 +946,4 @@ const DataDisplayItemizedTable = props => {
   );
 };
 
-export default DataDisplayItemizedTable;
+export default DataDisplaySKUTable;
