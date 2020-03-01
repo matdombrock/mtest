@@ -30,6 +30,21 @@ export const fetchNonAdminUsers = () => {
             .then((response) => response);
 }
 
+export const fetchSalesDataBySKU = (data) =>{
+    let url = config.remoteIP + "/api/getSKUSalesByBrand";
+    return fetch(url, 
+    {
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json",
+            "x-access-token": sessionStorage.getItem('moda_token')
+        },
+        body: JSON.stringify(data)
+    })
+            .then((response) => response.json())
+            .then((response) => response);
+}
+
 export const fetchSalesData = (data) =>{
     let url = config.remoteIP + "/api/getSalesByBrand";
     return fetch(url, 
