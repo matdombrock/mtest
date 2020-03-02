@@ -42,29 +42,19 @@ const setData = data => {
 };
 
 const setSKUData = data => {
-  const total = { totalSale: 0 };
-  data.map(d => {
-    total.totalSale += Number(d.sales);
-    return false
-  });
   return dispatch => {
     dispatch({
       type: SET_SKU_DATA,
-      data: { total, data }
+      data
     });
   };
 };
 
 const setSKUComprisionData = data => {
-  const total = { totalSale: 0 };
-  data.map(d => {
-    total.totalSale += Number(d.sales);
-    return false
-  });
   return dispatch => {
     dispatch({
       type: SET_SKU_DATA_COMPARISONS,
-      data: { total, data }
+      data
     });
   };
 };
