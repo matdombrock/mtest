@@ -24,7 +24,7 @@ const currentDataFormate = data => {
     ad_clicks: 0,
     ad_impressions: 0,
     average_cpc: 0,
-    wow_sales:0
+    wow_sales: 0
   };
 
   data.map(row => {
@@ -40,7 +40,7 @@ const currentDataFormate = data => {
     temp.conversion_rate += Math.round(Number(row.conversion_rate));
     temp.acos += Math.round(Number(row.acos));
     temp.wow_sales += Math.round(Number(row.wow_sales));
-    return false
+    return false;
   });
   temp.average_cpc = temp.average_cpc / data.length;
   return [temp];
@@ -59,11 +59,11 @@ const getDifferenceInPercentage = (current, previous) => {
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplaySKUTable = props => {
-  const isComparisons = props.comparisons.data;
+  const isComparisons = props.comparisons.itemized;
   const [active, setActive] = useState(false);
-  let currentData = props.data.data;
+  let currentData = props.data.itemized;
   if (!currentData) return null;
-  let previousData = props.comparisons.data;
+  let previousData = props.comparisons.itemized;
   if (isComparisons) {
     currentData = currentDataFormate(currentData);
     previousData = currentDataFormate(previousData);
@@ -321,14 +321,12 @@ const DataDisplaySKUTable = props => {
                         <>
                           <td align="right">
                             {current.units_sold
-                              ? numberWithCommas(current.units_sold)
-                            +"%"
+                              ? numberWithCommas(current.units_sold) + "%"
                               : 0}
                           </td>
                           <td align="right">
                             {current.units_sold
-                              ? numberWithCommas(previous.units_sold)
-                            +"%"
+                              ? numberWithCommas(previous.units_sold) + "%"
                               : 0}
                           </td>
                           <td
@@ -435,7 +433,9 @@ const DataDisplaySKUTable = props => {
                             {!isNaN(parseFloat(current.sales))
                               ? (
                                   (parseFloat(current.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
+                                    parseFloat(
+                                      props.data.summary.totalRevenue
+                                    )) *
                                   100
                                 ).toFixed(2) + "%"
                               : "0%"}
@@ -444,7 +444,9 @@ const DataDisplaySKUTable = props => {
                             {!isNaN(parseFloat(previous.sales))
                               ? (
                                   (parseFloat(previous.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
+                                    parseFloat(
+                                      props.data.summary.totalRevenue
+                                    )) *
                                   100
                                 ).toFixed(2) + "%"
                               : "0%"}
@@ -452,50 +454,75 @@ const DataDisplaySKUTable = props => {
                           <td
                             align="right"
                             className={isNegative(
-                              getDifferenceInNumber((
+                              getDifferenceInNumber(
+                                (
                                   (parseFloat(current.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
+                                    parseFloat(
+                                      props.data.summary.totalRevenue
+                                    )) *
                                   100
-                                ).toFixed(2),(
+                                ).toFixed(2),
+                                (
                                   (parseFloat(previous.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
+                                    parseFloat(
+                                      props.data.summary.totalRevenue
+                                    )) *
                                   100
-                                ).toFixed(2))
+                                ).toFixed(2)
+                              )
                             )}
                           >
-                            {getDifferenceInNumber((
-                                  (parseFloat(current.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
-                                  100
-                                ).toFixed(2),(
-                                  (parseFloat(previous.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
-                                  100
-                                ).toFixed(2))}
+                            {getDifferenceInNumber(
+                              (
+                                (parseFloat(current.sales) /
+                                  parseFloat(props.data.summary.totalRevenue)) *
+                                100
+                              ).toFixed(2),
+                              (
+                                (parseFloat(previous.sales) /
+                                  parseFloat(props.data.summary.totalRevenue)) *
+                                100
+                              ).toFixed(2)
+                            )}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
-                              getDifferenceInPercentage((
+                              getDifferenceInPercentage(
+                                (
                                   (parseFloat(current.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
+                                    parseFloat(
+                                      props.data.summary.totalRevenue
+                                    )) *
                                   100
-                                ).toFixed(2),(
+                                ).toFixed(2),
+                                (
                                   (parseFloat(previous.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
+                                    parseFloat(
+                                      props.data.summary.totalRevenue
+                                    )) *
                                   100
-                                ).toFixed(2)))}
+                                ).toFixed(2)
+                              )
+                            )}
                           >
                             {!isNaN(parseFloat(current.sales))
-                              ? getDifferenceInPercentage((
-                                  (parseFloat(current.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
-                                  100
-                                ).toFixed(2),(
-                                  (parseFloat(previous.sales) /
-                                    parseFloat(props.data.total.totalSale)) *
-                                  100
-                                ).toFixed(2)) + "%"
+                              ? getDifferenceInPercentage(
+                                  (
+                                    (parseFloat(current.sales) /
+                                      parseFloat(
+                                        props.data.summary.totalRevenue
+                                      )) *
+                                    100
+                                  ).toFixed(2),
+                                  (
+                                    (parseFloat(previous.sales) /
+                                      parseFloat(
+                                        props.data.summary.totalRevenue
+                                      )) *
+                                    100
+                                  ).toFixed(2)
+                                ) + "%"
                               : "0%"}
                           </td>
                         </>
@@ -504,7 +531,7 @@ const DataDisplaySKUTable = props => {
                           {!isNaN(parseFloat(current.sales))
                             ? (
                                 (parseFloat(current.sales) /
-                                  parseFloat(props.data.total.totalSale)) *
+                                  parseFloat(props.data.summary.totalRevenue)) *
                                 100
                               ).toFixed(2) + "%"
                             : "0%"}
@@ -880,35 +907,47 @@ const DataDisplaySKUTable = props => {
                       {active === 12 ? (
                         <>
                           <td align="right">
-                            {current.acos
-                              ? current.acos.toFixed(2)
-                              : "0%"}
+                            {current.acos ? current.acos.toFixed(2) : "0%"}
                           </td>
                           <td align="right">
-                            {previous.acos
-                              ? previous.acos.toFixed(2)
+                            {previous.acos ? previous.acos.toFixed(2) : "0%"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(
+                              getDifferenceInNumber(
+                                current.acos.toFixed(2),
+                                previous.acos.toFixed(2)
+                              )
+                            )}
+                          >
+                            {current.acos
+                              ? getDifferenceInNumber(
+                                  current.acos.toFixed(2),
+                                  previous.acos.toFixed(2)
+                                )
                               : "0%"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(getDifferenceInNumber(current.acos.toFixed(2),previous.acos.toFixed(2)))}
+                            className={isNegative(
+                              getDifferenceInPercentage(
+                                current.acos.toFixed(2),
+                                previous.acos.toFixed(2)
+                              )
+                            )}
                           >
                             {current.acos
-                              ? getDifferenceInNumber(current.acos.toFixed(2),previous.acos.toFixed(2))
-                              : "0%"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(getDifferenceInPercentage(current.acos.toFixed(2),previous.acos.toFixed(2)))}
-                          >
-                            {current.acos
-                              ? getDifferenceInPercentage(current.acos.toFixed(2),previous.acos.toFixed(2)) + "%"
+                              ? getDifferenceInPercentage(
+                                  current.acos.toFixed(2),
+                                  previous.acos.toFixed(2)
+                                ) + "%"
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.acos ? current.acos.toFixed(2): "0"}
+                          {current.acos ? current.acos.toFixed(2) : "0"}
                         </td>
                       )}
 
@@ -934,7 +973,7 @@ const DataDisplaySKUTable = props => {
                           align="right"
                           className={current.wow_sales < 1 ? s.red : s.green}
                         >
-                            {Number(current.wow_sales).toFixed(2) + "%"}
+                          {Number(current.wow_sales).toFixed(2) + "%"}
                         </td>
                       )}
                     </tr>
