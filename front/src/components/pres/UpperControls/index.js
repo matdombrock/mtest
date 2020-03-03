@@ -43,8 +43,8 @@ class UpperControls extends Component {
       selectedSku: null,
       customDateStart: null,
       customDateEnd: null,
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: moment().subtract(6, "days"),
+      endDate: moment(),
       selectedDateRange: "yesterday",
       isError: false
     };
@@ -55,9 +55,17 @@ class UpperControls extends Component {
     this.changeSelectedSku = this.changeSelectedSku.bind(this);
     this.download = this.download.bind(this);
   }
+  
+
+componentDidMount() {
+  fetchBrands().then(data => this.props.brandSetData(data));
+  this.fetchData()
+}
+
+  
   componentDidUpdate(prevProps, prevState) {
     if (this.props.activeTab !== prevProps.activeTab) {
-      this.fetchData(this.state.selectedBrand, this.state.period);
+      this.fetchData();
     }
   }
   download() {
@@ -108,13 +116,15 @@ class UpperControls extends Component {
     this.setState({ selectedSku: e.target.value });
   }
 
-  fetchData(brand, period) {
-    const {
+  fetchData=()=> {
+  const {
       comparison,
       customDateStart,
       customDateEnd,
       startDate,
-      endDate
+      endDate,
+      selectedBrand:brand,
+      period
     } = this.state;
     const { activeTab } = this.props;
     let data = {
@@ -195,9 +205,7 @@ class UpperControls extends Component {
     this.setState({ showDropDown: false });
   }
 
-  componentDidMount() {
-    fetchBrands().then(data => this.props.brandSetData(data));
-  }
+
 
   handleUpdateState = (key, value) => this.setState({ [key]: value });
   handleToday = () => {
@@ -465,12 +473,7 @@ class UpperControls extends Component {
                     )}
                     <div className={s["item"]}>
                       <Button
-                        onClick={() =>
-                          this.fetchData(
-                            this.state.selectedBrand,
-                            this.state.period
-                          )
-                        }
+                        onClick={this.fetchData}
                         variant="contained"
                         className={s.button}
                       >
@@ -671,8 +674,7 @@ class UpperControls extends Component {
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  onClick={() =>
-                    this.fetchData(this.state.selectedBrand, this.state.period)
+                  onClick={this.fetchData
                   }
                   variant="contained"
                   className={s.button}
