@@ -135,10 +135,6 @@ class UpperControls extends Component {
         .startOf("day")
         .toISOString()
     };
-    let isComparison = false;
-    if (comparison && customDateEnd && customDateStart) {
-      isComparison = true;
-    }
     if (activeTab === 1) {
       delete data.brand;
       fetchSalesDataBySKU(data).then(data => {
@@ -162,7 +158,7 @@ class UpperControls extends Component {
       });
     }
 
-    if (isComparison) {
+    if (comparison) {
       const dataSecond = {
         brand: brand,
         byMonth: period === "weekly" ? false : true,
@@ -182,7 +178,7 @@ class UpperControls extends Component {
             } else {
               this.setState({ isError: false });
               const payload = data;
-              this.props.setSKUComprisionData(payload);
+              this.props.setSKUComparisonData(payload);
             }
           })
           .catch(e => this.setBrand({ isError: e.message }));
@@ -206,49 +202,86 @@ class UpperControls extends Component {
   handleUpdateState = (key, value) => this.setState({ [key]: value });
   handleToday = () => {
     const dates = [moment(), moment()];
+    const comparisonDate = [moment().subtract(1, "days"), moment()];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "today"
     });
   };
   handleYesterday = () => {
     const dates = [moment().subtract(1, "days"), moment().subtract(1, "days")];
+    const comparisonDate = [
+      moment().subtract(2, "days"),
+      moment().subtract(1, "days")
+    ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "yesterday"
     });
   };
   handleLast7Days = () => {
     const dates = [moment().subtract(6, "days"), moment()];
+    const comparisonDate = [
+      moment().subtract(12, "days"),
+      moment().subtract(6, "days")
+    ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "last7Days"
     });
   };
   handleThis30Days = () => {
     const dates = [moment().subtract(29, "days"), moment()];
+    const comparisonDate = [
+      moment().subtract(59, "days"),
+      moment().subtract(29, "days")
+    ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "this30Days"
     });
   };
   handleThisMonth = () => {
     const dates = [moment().startOf("month"), moment().endOf("month")];
+    const comparisonDate = [
+      moment()
+        .subtract(1, "month")
+        .startOf("month"),
+      moment()
+        .subtract(1, "month")
+        .endOf("month")
+    ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "thisMonth"
     });
   };
   handleLast14 = () => {
-    const dates = [moment().startOf("month"), moment().endOf("month")];
+    const dates = [moment().subtract(13, "days"), moment()];
+    const comparisonDate = [
+      moment().subtract(29, "days"),
+      moment().subtract(14, "days")
+    ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "last14Days"
     });
   };
@@ -261,9 +294,19 @@ class UpperControls extends Component {
         .subtract(1, "month")
         .endOf("month")
     ];
+    const comparisonDate = [
+      moment()
+        .subtract(2, "month")
+        .startOf("month"),
+      moment()
+        .subtract(1, "month")
+        .startOf("month")
+    ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
       selectedDateRange: "lastMonth"
     });
   };
@@ -323,73 +366,128 @@ class UpperControls extends Component {
                 </div>
                 {showDropDown && (
                   <>
-                  <div className={s.back}
-                                    onClick={() =>
-                    this.handleUpdateState("showDropDown", false)
-                  }
-                  ></div>
-                  <div className={s["custom-date-container"]}>
                     <div
-                      className={
-                        this.state.selectedDateRange === "yesterday" &&
-                        s["active-item"]
+                      className={s.back}
+                      onClick={() =>
+                        this.handleUpdateState("showDropDown", false)
                       }
-                      onClick={this.handleYesterday}
-                    >
-                      Yesterday
-                    </div>
-                    {/* <div className={this.state.selectedDateRange === 'last7Days' && s['active-item']} onClick={this.handleLast7Days}>
+                    ></div>
+                    <div className={s["custom-date-container"]}>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "yesterday" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleYesterday}
+                      >
+                        Yesterday
+                      </div>
+                      {/* <div className={this.state.selectedDateRange === 'last7Days' && s['active-item']} onClick={this.handleLast7Days}>
             Last 7 Days
           </div> */}
-                    <div
-                      className={
-                        this.state.selectedDateRange === "last7Days" &&
-                        s["active-item"]
-                      }
-                      onClick={this.handleLast7Days}
-                    >
-                      Last Week
-                    </div>
-                    <div
-                      className={
-                        this.state.selectedDateRange === "last14Days" &&
-                        s["active-item"]
-                      }
-                      onClick={this.handleLast14}
-                    >
-                      Last 14 Days
-                    </div>
-                    <div
-                      className={
-                        this.state.selectedDateRange === "this30Days" &&
-                        s["active-item"]
-                      }
-                      onClick={this.handleThis30Days}
-                    >
-                      Last 30 Days
-                    </div>
-                    <div
-                      className={
-                        this.state.selectedDateRange === "lastMonth" &&
-                        s["active-item"]
-                      }
-                      onClick={this.handleLastMonth}
-                    >
-                      Last Months
-                    </div>
-                    <div
-                      className={
-                        this.state.selectedDateRange === "custom" &&
-                        s["active-item"]
-                      }
-                      onClick={() => {
-                        this.handleUpdateState("selectedDateRange", "custom");
-                      }}
-                    >
-                      Custom Range
-                    </div>
-                    {this.state.selectedDateRange === "custom" && (
-                      <>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "last7Days" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleLast7Days}
+                      >
+                        Last Week
+                      </div>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "last14Days" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleLast14}
+                      >
+                        Last 14 Days
+                      </div>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "this30Days" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleThis30Days}
+                      >
+                        Last 30 Days
+                      </div>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "lastMonth" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleLastMonth}
+                      >
+                        Last Months
+                      </div>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "custom" &&
+                          s["active-item"]
+                        }
+                        onClick={() => {
+                          this.handleUpdateState("selectedDateRange", "custom");
+                        }}
+                      >
+                        Custom Range
+                      </div>
+                      {this.state.selectedDateRange === "custom" && (
+                        <>
+                          <div className={s["item"]}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="yyyy-MM-dd"
+                                margin="normal"
+                                label="Custom Date Start"
+                                value={this.state.startDate}
+                                onChange={e =>
+                                  this.handleUpdateState("startDate", e)
+                                }
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date"
+                                }}
+                              />
+                              <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="yyyy-MM-dd"
+                                margin="normal"
+                                label="Custom Date End"
+                                value={this.state.endDate}
+                                onChange={e =>
+                                  this.handleUpdateState("endDate", e)
+                                }
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date"
+                                }}
+                              />
+                            </MuiPickersUtilsProvider>
+                          </div>
+                        </>
+                      )}
+                      <div className={s["item"]}>
+                        <p className={s["comparison-input"]}>
+                          <label className={s["comparison-input"]}>
+                            {" "}
+                            <input
+                              type="checkbox"
+                              checked={this.state.comparison}
+                              onChange={e =>
+                                this.togglecomparison(e.target.checked)
+                              }
+                              value="true"
+                              inputProps={{
+                                "aria-label": "primary checkbox"
+                              }}
+                            />
+                            Comparison between two dates
+                          </label>
+                        </p>
+                      </div>
+                      {this.state.comparison && (
                         <div className={s["item"]}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
@@ -398,10 +496,8 @@ class UpperControls extends Component {
                               format="yyyy-MM-dd"
                               margin="normal"
                               label="Custom Date Start"
-                              value={this.state.startDate}
-                              onChange={e =>
-                                this.handleUpdateState("startDate", e)
-                              }
+                              value={this.state.customDateStart}
+                              onChange={e => this.setCustomDateStart(e)}
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
@@ -412,87 +508,34 @@ class UpperControls extends Component {
                               format="yyyy-MM-dd"
                               margin="normal"
                               label="Custom Date End"
-                              value={this.state.endDate}
-                              onChange={e =>
-                                this.handleUpdateState("endDate", e)
-                              }
+                              value={this.state.customDateEnd}
+                              onChange={e => this.setCustomDateEnd(e)}
                               KeyboardButtonProps={{
                                 "aria-label": "change date"
                               }}
                             />
                           </MuiPickersUtilsProvider>
                         </div>
-                      </>
-                    )}
-                    <div className={s["item"]}>
-                      <p className={s["comparison-input"]}>
-                        <label className={s["comparison-input"]}>
-                          {" "}
-                          <input
-                            type="checkbox"
-                            checked={this.state.comparison}
-                            onChange={e =>
-                              this.togglecomparison(e.target.checked)
-                            }
-                            value="true"
-                            inputProps={{
-                              "aria-label": "primary checkbox"
-                            }}
-                          />
-                          Comparison between two dates
-                        </label>
-                      </p>
-                    </div>
-                    {this.state.comparison && (
+                      )}
                       <div className={s["item"]}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="yyyy-MM-dd"
-                            margin="normal"
-                            label="Custom Date Start"
-                            value={this.state.customDateStart}
-                            onChange={e => this.setCustomDateStart(e)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
-                          />
-                          <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="yyyy-MM-dd"
-                            margin="normal"
-                            label="Custom Date End"
-                            value={this.state.customDateEnd}
-                            onChange={e => this.setCustomDateEnd(e)}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date"
-                            }}
-                          />
-                        </MuiPickersUtilsProvider>
+                        <Button
+                          onClick={this.fetchData}
+                          variant="contained"
+                          className={s.button}
+                        >
+                          Apply
+                        </Button>
+                        <Button
+                          onClick={() => this.setState({ showDropDown: false })}
+                          variant="contained"
+                          className={s.buttonWihtout}
+                        >
+                          Cancel
+                        </Button>
                       </div>
-                    )}
-                    <div className={s["item"]}>
-                      <Button
-                        onClick={this.fetchData}
-                        variant="contained"
-                        className={s.button}
-                      >
-                        Apply
-                      </Button>
-                      <Button
-                        onClick={() => this.setState({ showDropDown: false })}
-                        variant="contained"
-                        className={s.buttonWihtout}
-                      >
-                        Cancel
-                      </Button>
                     </div>
-                  </div>
-                
                   </>
-)}
+                )}
               </div>
               <MuiSelect
                 variant="outlined"

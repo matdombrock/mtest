@@ -50,7 +50,7 @@ const setSKUData = data => {
   };
 };
 
-const setSKUComprisionData = data => {
+const setSKUComparisonData = data => {
   return dispatch => {
     dispatch({
       type: SET_SKU_DATA_COMPARISONS,
@@ -71,6 +71,6 @@ const setSecondData = data => {
 export const actions = {
   saleSetData: setData,
   setSecondData,
-  setSKUComprisionData,
+  setSKUComparisonData,
   setSKUData
 };
