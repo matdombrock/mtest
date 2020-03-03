@@ -55,14 +55,12 @@ class UpperControls extends Component {
     this.changeSelectedSku = this.changeSelectedSku.bind(this);
     this.download = this.download.bind(this);
   }
-  
 
-componentDidMount() {
-  fetchBrands().then(data => this.props.brandSetData(data));
-  this.fetchData()
-}
+  componentDidMount() {
+    fetchBrands().then(data => this.props.brandSetData(data));
+    this.fetchData();
+  }
 
-  
   componentDidUpdate(prevProps, prevState) {
     if (this.props.activeTab !== prevProps.activeTab) {
       this.fetchData();
@@ -116,14 +114,14 @@ componentDidMount() {
     this.setState({ selectedSku: e.target.value });
   }
 
-  fetchData=()=> {
-  const {
+  fetchData = () => {
+    const {
       comparison,
       customDateStart,
       customDateEnd,
       startDate,
       endDate,
-      selectedBrand:brand,
+      selectedBrand: brand,
       period
     } = this.state;
     const { activeTab } = this.props;
@@ -203,9 +201,7 @@ componentDidMount() {
       }
     }
     this.setState({ showDropDown: false });
-  }
-
-
+  };
 
   handleUpdateState = (key, value) => this.setState({ [key]: value });
   handleToday = () => {
@@ -326,6 +322,12 @@ componentDidMount() {
                   <ExpandMoreIcon className={s.menuOpen} />
                 </div>
                 {showDropDown && (
+                  <>
+                  <div className={s.back}
+                                    onClick={() =>
+                    this.handleUpdateState("showDropDown", false)
+                  }
+                  ></div>
                   <div className={s["custom-date-container"]}>
                     <div
                       className={
@@ -488,7 +490,9 @@ componentDidMount() {
                       </Button>
                     </div>
                   </div>
-                )}
+                
+                  </>
+)}
               </div>
               <MuiSelect
                 variant="outlined"
@@ -674,8 +678,7 @@ componentDidMount() {
               </Grid>
               <Grid item xs={12}>
                 <Button
-                  onClick={this.fetchData
-                  }
+                  onClick={this.fetchData}
                   variant="contained"
                   className={s.button}
                 >
