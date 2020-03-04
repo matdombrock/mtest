@@ -52,14 +52,12 @@ class SKUCharts extends React.Component {
         }
 
         if (
-          parseFloat(this.props.data.itemized[i].average_cpc) >
-          maxSellingPrice
+          parseFloat(this.props.data.itemized[i].average_cpc) > maxSellingPrice
         ) {
           maxSellingPrice = this.props.data.itemized[i].average_cpc;
         }
       }
     }
-
     return (
       <div className={s.canvas}>
         <Grid container>
@@ -78,10 +76,10 @@ class SKUCharts extends React.Component {
                 <Line
                   name={"Total Sales"}
                   type="monotone"
-                  dataKey="revenue"
+                  dataKey="sales"
                   stroke="blue"
                 />
-                <XAxis dataKey="date" />
+                <XAxis dataKey="date" />{" "}
                 <YAxis
                   domain={[0, parseFloat(maxRevenue)]}
                   tickFormatter={this.formatMoney}
@@ -106,17 +104,17 @@ class SKUCharts extends React.Component {
                 <Line
                   name={"Ad Sales"}
                   type="monotone"
-                  dataKey="adSales"
+                  dataKey="ad_sales"
                   stroke="blue"
                 />
                 <Line
                   name={"Ad Spend"}
                   type="monotone"
-                  dataKey="spend"
+                  dataKey="ad_spend"
                   stroke="red"
                 />
-                <XAxis dataKey="date" />
                 <Legend verticalAlign="top" height={36} />
+                <XAxis dataKey="date" />{" "}
                 <YAxis
                   domain={[0, parseFloat(maxAdSales)]}
                   tickFormatter={this.formatMoney}
@@ -137,9 +135,9 @@ class SKUCharts extends React.Component {
                 }
                 margin={{ left: 20, top: 20, right: 5 }}
               >
-                <XAxis dataKey="date" />
                 <YAxis yAxisId="left" domain={[0, parseFloat(maxCvr)]} />
                 <YAxis yAxisId="right" orientation="right" />
+                <XAxis dataKey="date" />{" "}
                 <Legend verticalAlign="top" height={36} />
                 <Line
                   yAxisId="left"
@@ -180,9 +178,9 @@ class SKUCharts extends React.Component {
                 }
               >
                 <Line
-                  name={"Average Selling Price"}
+                  name={"Average CPC Price"}
                   type="monotone"
-                  dataKey="average_selling_price"
+                  dataKey="average_cpc"
                   stroke="blue"
                 />
                 <XAxis dataKey="date" />
