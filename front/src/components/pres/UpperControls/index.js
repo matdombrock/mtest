@@ -41,8 +41,8 @@ class UpperControls extends Component {
       comparison: false,
       customDateRange: false,
       selectedSku: null,
-      customDateStart: null,
-      customDateEnd: null,
+      customDateStart: moment().subtract(12, "days"),
+      customDateEnd: moment().subtract(6, "days"),
       startDate: moment().subtract(6, "days"),
       endDate: moment(),
       selectedDateRange: "last7Days",
@@ -545,7 +545,7 @@ class UpperControls extends Component {
                                 "aria-label": "primary checkbox"
                               }}
                             />
-                            Comparison between two dates
+                            Compare to past
                           </label>
                         </p>
                       </div>
