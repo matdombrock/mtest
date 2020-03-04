@@ -29,7 +29,6 @@ import TextField from "@material-ui/core/TextField";
 import moment from "moment";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Alert from "@material-ui/lab/Alert";
 
 class UpperControls extends Component {
   constructor(props) {
@@ -47,7 +46,6 @@ class UpperControls extends Component {
       endDate: moment(),
       selectedDateRange: "last7Days",
       displayDateRange: "last7Days",
-      isError: false
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -144,9 +142,9 @@ class UpperControls extends Component {
       delete data.brand;
       fetchSalesDataBySKU(data).then(data => {
         if (data.status !== 200) {
-          return this.setState({ isError: data.message });
+          return this.props.setError(data.message);
         } else {
-          this.setState({ isError: false });
+          this.props.setError(false)
           const payload = data;
           this.props.setSKUData(payload);
           this.props.setSKUComparisonData({});
@@ -155,9 +153,9 @@ class UpperControls extends Component {
     } else {
       fetchSalesData(data).then(data => {
         if (data.status !== 200) {
-          return this.setState({ isError: data.message });
+          return this.props.setError(data.message);
         } else {
-          this.setState({ isError: false });
+          this.props.setError(false)
           const payload = data;
           this.props.saleSetData(payload);
           this.props.setSecondData({});
@@ -181,26 +179,24 @@ class UpperControls extends Component {
         fetchSalesDataBySKU(dataSecond)
           .then(data => {
             if (data.status !== 200) {
-              return this.setState({ isError: data.message });
+              return this.props.setError(data.message);
             } else {
-              this.setState({ isError: false });
+              this.props.setError(false)
               const payload = data;
               this.props.setSKUComparisonData(payload);
             }
           })
-          .catch(e => this.setBrand({ isError: e.message }));
       } else {
         fetchSalesData(dataSecond)
           .then(data => {
             if (data.status !== 200) {
-              return this.setState({ isError: data.message });
+              return this.props.setError(data.message);
             } else {
-              this.setState({ isError: false });
+              this.props.setError(false)
               const payload = data;
               this.props.setSecondData(payload);
             }
           })
-          .catch(e => this.setBrand({ isError: e.message }));
       }
     }
     this.setState({ showDropDown: false });
@@ -356,7 +352,6 @@ class UpperControls extends Component {
       showDropDown,
       selectedDateRange,
       displayDateRange,
-      isError
     } = this.state;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
@@ -798,7 +793,7 @@ class UpperControls extends Component {
             </Grid>
           </Drawer>
         </div>
-        {isError && <Alert severity="warning">{isError}</Alert>}
+ 
       </>
     );
   }

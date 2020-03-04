@@ -33,7 +33,7 @@ export default function LeftNavigationMenu(props) {
   return (
     <div className={s.container}>
       <Tabs
-        orientation="vertical"
+        // orientation="vertical"
         value={active}
         onChange={handleChange}
         aria-label="Vertical tabs example"
