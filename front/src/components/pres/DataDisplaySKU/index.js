@@ -80,7 +80,7 @@ const DataDisplaySKUTable = props => {
         <thead>
           <tr>
             <th className={s.tableHead} colSpan={active === 0 && "4"}>
-              Date
+              # Items Number
             </th>
             <th
               className={s.tableHead}
@@ -188,15 +188,15 @@ const DataDisplaySKUTable = props => {
               ACoS{" "}
               {isComparisons && (active === 12 ? <RemoveIcon /> : <AddIcon />)}
             </th>
-            {/* <th
+            <th
               className={s.tableHead}
               colSpan={active === 13 && "4"}
               onClick={() => headerClick(13)}
               align="right"
             >
-              {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
+              ASIN
               {isComparisons && (active === 13 ? <RemoveIcon /> : <AddIcon />)}
-            </th> */}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -258,7 +258,7 @@ const DataDisplaySKUTable = props => {
                         </>
                       ) : (
                         <td component="th">
-                          <b>{moment(current.date).format("DD/MM/YYYY")}</b>
+                          <b>{current.item_number}</b>
                         </td>
                       )}
                       {active === 1 ? (
@@ -951,31 +951,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {/* {active === 13 ? (
-                        <>
-                          <td
-                            align="right"
-                            className={current.wow_sales < 1 ? s.red : s.green}
-                          >
-                            {Number(current.wow_sales).toFixed(2) + "%"}
-                          </td>
-                          <td
-                            align="right"
-                            className={previous.wow_sales < 1 ? s.red : s.green}
-                          >
-                            {Number(previous.wow_sales).toFixed(2) + "%"}
-                          </td>
-                          <td align="right"></td>
-                          <td align="right"></td>
-                        </>
-                      ) : (
-                        <td
-                          align="right"
-                          className={current.wow_sales < 1 ? s.red : s.green}
-                        >
-                          {Number(current.wow_sales).toFixed(2) + "%"}
-                        </td>
-                      )} */}
+                      <td align="right">{current.asin}</td>
                     </tr>
                   );
                 })

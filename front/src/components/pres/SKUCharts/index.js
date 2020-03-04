@@ -52,9 +52,9 @@ class SKUCharts extends React.Component {
         }
 
         if (
-          parseFloat(this.props.data.itemized[i].average_cpc) > maxSellingPrice
+          parseFloat(this.props.data.itemized[i].ad_orders) > maxSellingPrice
         ) {
-          maxSellingPrice = this.props.data.itemized[i].average_cpc;
+          maxSellingPrice = this.props.data.itemized[i].ad_orders;
         }
       }
     }
@@ -178,9 +178,9 @@ class SKUCharts extends React.Component {
                 }
               >
                 <Line
-                  name={"Average CPC Price"}
+                  name={"Total Orders"}
                   type="monotone"
-                  dataKey="average_cpc"
+                  dataKey="ad_orders"
                   stroke="blue"
                 />
                 <XAxis dataKey="date" />

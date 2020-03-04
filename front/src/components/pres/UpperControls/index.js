@@ -40,12 +40,12 @@ class UpperControls extends Component {
       comparison: false,
       customDateRange: false,
       selectedSku: null,
-      customDateStart: moment().subtract(12, "days"),
-      customDateEnd: moment().subtract(6, "days"),
-      startDate: moment().subtract(6, "days"),
+      customDateStart: moment().subtract(1, "isoWeek"),
+      customDateEnd: moment().startOf("isoWeek"),
+      startDate: moment().startOf("isoWeek"),
       endDate: moment(),
-      selectedDateRange: "last7Days",
-      displayDateRange: "last7Days"
+      selectedDateRange: "lastWeek",
+      displayDateRange: "lastWeek"
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
