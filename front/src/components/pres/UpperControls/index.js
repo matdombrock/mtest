@@ -125,7 +125,6 @@ class UpperControls extends Component {
       selectedDateRange
     } = this.state;
     const { activeTab } = this.props;
-    if (!brand) return false;
     this.setState({
       displayDateRange: selectedDateRange
     });
@@ -140,28 +139,29 @@ class UpperControls extends Component {
         .toISOString()
     };
     if (activeTab === 1) {
-      delete data.brand;
-      fetchSalesDataBySKU(data).then(data => {
-        if (data.status !== 200) {
-          return this.props.setError(data.message);
-        } else {
-          this.props.setError(false);
-          const payload = data;
-          this.props.setSKUData(payload);
-          this.props.setSKUComparisonData({});
-        }
-      });
+      brand &&
+        fetchSalesDataBySKU(data).then(data => {
+          if (data.status !== 200) {
+            return this.props.setError(data.message);
+          } else {
+            this.props.setError(false);
+            const payload = data;
+            this.props.setSKUData(payload);
+            this.props.setSKUComparisonData({});
+          }
+        });
     } else {
-      fetchSalesData(data).then(data => {
-        if (data.status !== 200) {
-          return this.props.setError(data.message);
-        } else {
-          this.props.setError(false);
-          const payload = data;
-          this.props.saleSetData(payload);
-          this.props.setSecondData({});
-        }
-      });
+      brand &&
+        fetchSalesData(data).then(data => {
+          if (data.status !== 200) {
+            return this.props.setError(data.message);
+          } else {
+            this.props.setError(false);
+            const payload = data;
+            this.props.saleSetData(payload);
+            this.props.setSecondData({});
+          }
+        });
     }
 
     if (comparison) {
@@ -176,26 +176,27 @@ class UpperControls extends Component {
           .toISOString()
       };
       if (activeTab === 1) {
-        delete dataSecond.brand;
-        fetchSalesDataBySKU(dataSecond).then(data => {
-          if (data.status !== 200) {
-            return this.props.setError(data.message);
-          } else {
-            this.props.setError(false);
-            const payload = data;
-            this.props.setSKUComparisonData(payload);
-          }
-        });
+        brand &&
+          fetchSalesDataBySKU(dataSecond).then(data => {
+            if (data.status !== 200) {
+              return this.props.setError(data.message);
+            } else {
+              this.props.setError(false);
+              const payload = data;
+              this.props.setSKUComparisonData(payload);
+            }
+          });
       } else {
-        fetchSalesData(dataSecond).then(data => {
-          if (data.status !== 200) {
-            return this.props.setError(data.message);
-          } else {
-            this.props.setError(false);
-            const payload = data;
-            this.props.setSecondData(payload);
-          }
-        });
+        brand &&
+          fetchSalesData(dataSecond).then(data => {
+            if (data.status !== 200) {
+              return this.props.setError(data.message);
+            } else {
+              this.props.setError(false);
+              const payload = data;
+              this.props.setSecondData(payload);
+            }
+          });
       }
     }
     this.setState({ showDropDown: false });
