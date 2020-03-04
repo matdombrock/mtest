@@ -144,6 +144,8 @@ class UpperControls extends Component {
           this.setState({ isError: false });
           const payload = data;
           this.props.setSKUData(payload);
+          this.props.setSKUComparisonData({});
+
         }
       });
     } else {
@@ -154,6 +156,8 @@ class UpperControls extends Component {
           this.setState({ isError: false });
           const payload = data;
           this.props.saleSetData(payload);
+          this.props.setSecondData({});
+
         }
       });
     }
