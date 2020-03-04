@@ -388,7 +388,7 @@ class UpperControls extends Component {
                           endDate
                         ).format("MMM DD, YYYY")}`
                       : displayDateRange === "lastMonth"
-                      ? "Last Months"
+                      ? "Last Month"
                       : displayDateRange === "last7Days"
                       ? "last 7 Days"
                       : displayDateRange === "last14Days"
@@ -467,7 +467,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLastMonth}
                       >
-                        Last Months
+                        Last Month
                       </div>
                       <div
                         className={
@@ -476,7 +476,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleCurrentMonth}
                       >
-                        Current Months
+                        Current Month
                       </div>
                       <div
                         className={
