@@ -310,7 +310,28 @@ class UpperControls extends Component {
       selectedDateRange: "lastMonth"
     });
   };
-
+  handleCurrentMonth= () => {
+    const dates = [
+      moment()
+        .startOf("month"),
+      moment()
+    ];
+    const comparisonDate = [
+      moment()
+        .subtract(2, "month")
+        .startOf("month"),
+      moment()
+        .subtract(1, "month")
+        .startOf("month")
+    ];
+    this.setState({
+      startDate: dates[0],
+      endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
+      selectedDateRange: "currentMonth"
+    });
+  };
   render() {
     const {
       startDate,
@@ -420,6 +441,15 @@ class UpperControls extends Component {
                         onClick={this.handleLastMonth}
                       >
                         Last Months
+                      </div>
+                      <div
+                        className={
+                          this.state.selectedDateRange === "currentMonth" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleCurrentMonth}
+                      >
+                        Current Months
                       </div>
                       <div
                         className={
