@@ -45,7 +45,7 @@ class UpperControls extends Component {
       startDate: moment().subtract(6, "days"),
       endDate: moment(),
       selectedDateRange: "last7Days",
-      displayDateRange: "last7Days",
+      displayDateRange: "last7Days"
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -125,6 +125,7 @@ class UpperControls extends Component {
       selectedDateRange
     } = this.state;
     const { activeTab } = this.props;
+    if (!brand) return false;
     this.setState({
       displayDateRange: selectedDateRange
     });
@@ -144,7 +145,7 @@ class UpperControls extends Component {
         if (data.status !== 200) {
           return this.props.setError(data.message);
         } else {
-          this.props.setError(false)
+          this.props.setError(false);
           const payload = data;
           this.props.setSKUData(payload);
           this.props.setSKUComparisonData({});
@@ -155,7 +156,7 @@ class UpperControls extends Component {
         if (data.status !== 200) {
           return this.props.setError(data.message);
         } else {
-          this.props.setError(false)
+          this.props.setError(false);
           const payload = data;
           this.props.saleSetData(payload);
           this.props.setSecondData({});
@@ -176,30 +177,33 @@ class UpperControls extends Component {
       };
       if (activeTab === 1) {
         delete dataSecond.brand;
-        fetchSalesDataBySKU(dataSecond)
-          .then(data => {
-            if (data.status !== 200) {
-              return this.props.setError(data.message);
-            } else {
-              this.props.setError(false)
-              const payload = data;
-              this.props.setSKUComparisonData(payload);
-            }
-          })
+        fetchSalesDataBySKU(dataSecond).then(data => {
+          if (data.status !== 200) {
+            return this.props.setError(data.message);
+          } else {
+            this.props.setError(false);
+            const payload = data;
+            this.props.setSKUComparisonData(payload);
+          }
+        });
       } else {
-        fetchSalesData(dataSecond)
-          .then(data => {
-            if (data.status !== 200) {
-              return this.props.setError(data.message);
-            } else {
-              this.props.setError(false)
-              const payload = data;
-              this.props.setSecondData(payload);
-            }
-          })
+        fetchSalesData(dataSecond).then(data => {
+          if (data.status !== 200) {
+            return this.props.setError(data.message);
+          } else {
+            this.props.setError(false);
+            const payload = data;
+            this.props.setSecondData(payload);
+          }
+        });
       }
     }
     this.setState({ showDropDown: false });
+    if (comparison) {
+      this.props.setDates(startDate, endDate, customDateStart, customDateEnd);
+    } else {
+      this.props.setDates(startDate, endDate);
+    }
   };
 
   handleUpdateState = (key, value) => this.setState({ [key]: value });
@@ -229,10 +233,10 @@ class UpperControls extends Component {
     });
   };
   handleLastWeek = () => {
-    const dates = [moment().startOf("week"), moment()];
+    const dates = [moment().startOf("isoWeek"), moment()];
     const comparisonDate = [
-      moment().subtract(1, "week"),
-      moment().startOf("week")
+      moment().subtract(1, "isoWeek"),
+      moment().startOf("isoWeek")
     ];
     this.setState({
       startDate: dates[0],
@@ -351,7 +355,7 @@ class UpperControls extends Component {
       endDate,
       showDropDown,
       selectedDateRange,
-      displayDateRange,
+      displayDateRange
     } = this.state;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
@@ -367,7 +371,7 @@ class UpperControls extends Component {
                   </>
                 ) : (
                   <>
-                    <b>SKU Overview</b>
+                    <b>SKU Overview:</b> {this.state.selectedBrand}
                   </>
                 )}
               </p>
@@ -793,7 +797,6 @@ class UpperControls extends Component {
             </Grid>
           </Drawer>
         </div>
- 
       </>
     );
   }

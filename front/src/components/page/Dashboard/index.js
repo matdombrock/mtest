@@ -16,19 +16,46 @@ import Alert from "@material-ui/lab/Alert";
 
 class Dashboard extends Component {
   state = {
-    activeTab: 0
-    , isError: false
+    activeTab: 0,
+    isError: false,
+    startDate: null,
+    endDate: null,
+    comparisonStartDate: null,
+    comparisonEndDate: null
   };
   handleTabChange = activeTab => this.setState({ activeTab });
-  setError=isError=>this.setState({isError})
+  setError = isError => this.setState({ isError });
+  setDates = (
+    startDate,
+    endDate,
+    comparisonStartDate = null,
+    comparisonEndDate = null
+  ) =>
+    this.setState({
+      startDate,
+      endDate,
+      comparisonEndDate,
+      comparisonStartDate
+    });
   render() {
     const {
       sales: { active, comparisons, skuActive, skuComparisons }
     } = this.props;
-    const { activeTab,isError } = this.state;
+    const {
+      activeTab,
+      isError,
+      startDate,
+      endDate,
+      comparisonStartDate,
+      comparisonEndDate
+    } = this.state;
     return (
       <div className={s.container}>
-        <UpperControls activeTab={activeTab} setError={this.setError} />
+        <UpperControls
+          activeTab={activeTab}
+          setError={this.setError}
+          setDates={this.setDates}
+        />
         <Grid container className={s.gridContainer}>
           <Grid item className={s.item} xs={12}>
             <LeftNavigationMenu
@@ -37,11 +64,18 @@ class Dashboard extends Component {
             />
           </Grid>
           <Grid item xs={12} id="#report" className={s.inner}>
-          {isError && <Alert severity="warning">{isError}</Alert>}
+            {isError && <Alert severity="warning">{isError}</Alert>}
             {activeTab === 0 ? (
               active && !!Object.keys(active).length && active.itemized ? (
                 <>
-                  <DataDisplayCardGrid data={active} />
+                  <DataDisplayCardGrid
+                    data={active}
+                    comparisons={comparisons}
+                    startDate={startDate}
+                    endDate={endDate}
+                    comparisonStartDate={comparisonStartDate}
+                    comparisonEndDate={comparisonEndDate}
+                  />
                   <Charts data={active} />
                   <DataDisplayItemizedTable
                     data={active}
@@ -53,9 +87,17 @@ class Dashboard extends Component {
               )
             ) : (
               <>
-                {skuActive ? (
+                {skuActive &&
+                !!Object.keys(skuActive).length &&
+                skuActive.itemized ? (
                   <>
-                     <DataDisplayCardGridSKU data={skuActive} />
+                    <DataDisplayCardGridSKU
+                      data={skuActive}
+                      startDate={startDate}
+                      endDate={endDate}
+                      comparisonStartDate={comparisonStartDate}
+                      comparisonEndDate={comparisonEndDate}
+                    />
                     <SKUCharts data={skuActive} />
                     <DataDisplaySKUTable
                       data={skuActive}
