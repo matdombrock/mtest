@@ -49,6 +49,7 @@ const DataDisplayCardGridSKU = props => {
       currentPeriodData.adSales += Number(d.adSales);
       currentPeriodData.spent += Number(d.spend);
       currentPeriodData.acos += Number(d.acos);
+      return false;
     });
   }
 
@@ -60,6 +61,7 @@ const DataDisplayCardGridSKU = props => {
       previousPeriodData.adSales += Number(d.adSales);
       previousPeriodData.spent += Number(d.spend);
       previousPeriodData.acos += Number(d.acos);
+      return false;
     });
     prtsentagePeriodData.sales = determineRelativePercentage(
       currentPeriodData.sales,
