@@ -3,7 +3,7 @@ import s from './style.module.scss';
 import Grid from '@material-ui/core/Grid';
 import numberWithCommas from '../../../services/numberWithCommas';
 
-const DataDisplayCardGridSKU = (props) => {
+const DataDisplayCardGrid = (props) => {
 
     let currentPeriodData,
         periodOverPeriodData,
@@ -21,11 +21,11 @@ const DataDisplayCardGridSKU = (props) => {
         
         if(currentPeriodData && previousPeriodData){
             periodOverPeriodData = {
-                revenue: determineRelativePercentage(currentPeriodData.sales, previousPeriodData.sales),
+                revenue: determineRelativePercentage(currentPeriodData.revenue, previousPeriodData.revenue),
                 units_sold: determineRelativePercentage(currentPeriodData.units_sold, previousPeriodData.units_sold),
-                wholesale_cost: determineRelativePercentage(currentPeriodData.shipped_cogs, previousPeriodData.shipped_cogs),
-                spend: determineRelativePercentage(currentPeriodData.ad_spend, previousPeriodData.ad_spend),
-                adSales: determineRelativePercentage(currentPeriodData.ad_sales, previousPeriodData.ad_sales),
+                wholesale_cost: determineRelativePercentage(currentPeriodData.wholesale_cost, previousPeriodData.wholesale_cost),
+                spend: determineRelativePercentage(currentPeriodData.spend, previousPeriodData.spend),
+                adSales: determineRelativePercentage(currentPeriodData.adSales, previousPeriodData.adSales),
                 acos: determineRelativePercentage(currentPeriodData.acos, previousPeriodData.acos)
             }
         }
@@ -83,4 +83,4 @@ if(!currentPeriodData) return <p>No Data Found</p>
     )
 }
 
-export default DataDisplayCardGridSKU;
+export default DataDisplayCardGrid;

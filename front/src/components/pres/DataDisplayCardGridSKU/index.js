@@ -3,7 +3,7 @@ import s from './style.module.scss';
 import Grid from '@material-ui/core/Grid';
 import numberWithCommas from '../../../services/numberWithCommas';
 
-const DataDisplayCardGrid = (props) => {
+const DataDisplayCardGridSKU = (props) => {
 
     let currentPeriodData,
         periodOverPeriodData,
@@ -21,11 +21,11 @@ const DataDisplayCardGrid = (props) => {
         
         if(currentPeriodData && previousPeriodData){
             periodOverPeriodData = {
-                revenue: determineRelativePercentage(currentPeriodData.revenue, previousPeriodData.revenue),
+                sales: determineRelativePercentage(currentPeriodData.sales, previousPeriodData.sales),
                 units_sold: determineRelativePercentage(currentPeriodData.units_sold, previousPeriodData.units_sold),
-                wholesale_cost: determineRelativePercentage(currentPeriodData.wholesale_cost, previousPeriodData.wholesale_cost),
-                spend: determineRelativePercentage(currentPeriodData.spend, previousPeriodData.spend),
-                adSales: determineRelativePercentage(currentPeriodData.adSales, previousPeriodData.adSales),
+                shipped_cogs: determineRelativePercentage(currentPeriodData.shipped_cogs, previousPeriodData.shipped_cogs),
+                ad_spend: determineRelativePercentage(currentPeriodData.ad_spend, previousPeriodData.ad_spend),
+                ad_sales: determineRelativePercentage(currentPeriodData.ad_sales, previousPeriodData.ad_sales),
                 acos: determineRelativePercentage(currentPeriodData.acos, previousPeriodData.acos)
             }
         }
@@ -39,8 +39,8 @@ if(!currentPeriodData) return <p>No Data Found</p>
                 <Grid item className={s.gridItem} xs={2}>
                     <div className={s.gridInner}> 
                         <p className={s.title}>Sales</p>
-                        <p className={s.data}>{currentPeriodData ? ('$' + numberWithCommas(currentPeriodData.revenue)) : '$0.00'}</p>
-                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.revenue) === 1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.revenue)) + '%' : '0%'} </p>
+                        <p className={s.data}>{currentPeriodData ? ('$' + numberWithCommas(currentPeriodData.sales)) : '$0.00'}</p>
+                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.sales) === 1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.sales)) + '%' : '0%'} </p>
                     </div>
                 </Grid>
                 <Grid item className={s.gridItem} xs={2}>
@@ -53,22 +53,22 @@ if(!currentPeriodData) return <p>No Data Found</p>
                 <Grid item className={s.gridItem} xs={2}>
                     <div className={s.gridInner}> 
                         <p className={s.title}>Shipped COGS</p>
-                        <p className={s.data}>{props.data.itemized ? ('$' + numberWithCommas(currentPeriodData.wholesale_cost)) : '$0.00'}</p>
-                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.wholesale_cost) === 1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.wholesale_cost)) + '%' : '0%'} </p>
+                        <p className={s.data}>{props.data.itemized ? ('$' + numberWithCommas(currentPeriodData.shipped_cogs)) : '$0.00'}</p>
+                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.shipped_cogs) === 1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.shipped_cogs)) + '%' : '0%'} </p>
                     </div>
                 </Grid>
                 <Grid item className={s.gridItem} xs={2}>
                     <div className={s.gridInner}> 
                         <p className={s.title}>Ad Spend</p>
-                        <p className={s.data}>{props.data.itemized ? ('$' + numberWithCommas(currentPeriodData.spend)) : '$0.00'}</p>
-                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.spend) === -1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.spend)) + '%' : '0%'} </p>
+                        <p className={s.data}>{props.data.itemized ? ('$' + numberWithCommas(currentPeriodData.ad_spend)) : '$0.00'}</p>
+                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.ad_spend) === -1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.ad_spend)) + '%' : '0%'} </p>
                     </div>
                 </Grid>
                 <Grid item className={s.gridItem} xs={2}>
                     <div className={s.gridInner}> 
                         <p className={s.title}>Ad Sales</p>
-                        <p className={s.data}>{props.data.itemized ? ('$' + numberWithCommas(currentPeriodData.adSales)) : '$0.00'}</p>
-                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.adSales) === 1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.adSales)) + '%' : '0%'} </p>
+                        <p className={s.data}>{props.data.itemized ? ('$' + numberWithCommas(currentPeriodData.ad_sales)) : '$0.00'}</p>
+                        <p className={s.data + ' ' + (periodOverPeriodData && Math.sign(periodOverPeriodData.ad_sales) === 1 ? s.positive : s.negative)}>{periodOverPeriodData ? (numberWithCommas(periodOverPeriodData.ad_sales)) + '%' : '0%'} </p>
                     </div>
                 </Grid>
                 <Grid item className={s.gridItem} xs={2}>
@@ -83,4 +83,4 @@ if(!currentPeriodData) return <p>No Data Found</p>
     )
 }
 
-export default DataDisplayCardGrid;
+export default DataDisplayCardGridSKU;

@@ -3,7 +3,7 @@ import { actions as salesActions } from "../../../modules/sales";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import UpperControls from "../../pres/UpperControls";
-import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGrid";
+import DataDisplayCardGrid from "../../pres/DataDisplayCardGrid";
 import DataDisplayItemizedTable from "../../pres/DataDisplayItemizedTable";
 import LeftNavigationMenu from "../../pres/LeftNavigationMenu";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +11,7 @@ import Charts from "../../pres/Charts";
 import s from "./style.module.scss";
 import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
 import SKUCharts from "../../pres/SKUCharts";
+import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGridSKU";
 
 class Dashboard extends Component {
   state = {
@@ -36,7 +37,7 @@ class Dashboard extends Component {
             {activeTab === 0 ? (
               active && !!Object.keys(active).length && active.itemized ? (
                 <>
-                  <DataDisplayCardGridSKU data={active} />
+                  <DataDisplayCardGrid data={active} />
                   <Charts data={active} />
                   <DataDisplayItemizedTable
                     data={active}
@@ -47,19 +48,20 @@ class Dashboard extends Component {
                 <p>No Record Found</p>
               )
             ) : (
-                <>
-{              skuActive ? (
-                <>  <DataDisplayCardGridSKU data={skuActive} />
-                
-                <SKUCharts data={skuActive} />
-                  <DataDisplaySKUTable
-                    data={skuActive}
-                    comparisons={skuComparisons}
-                  /></>
-              ):(
-                <p>No Record Found in SKU</p>
-              )
-                }                </>
+              <>
+                {skuActive ? (
+                  <>
+                     <DataDisplayCardGridSKU data={skuActive} />
+                    <SKUCharts data={skuActive} />
+                    <DataDisplaySKUTable
+                      data={skuActive}
+                      comparisons={skuComparisons}
+                    />
+                  </>
+                ) : (
+                  <p>No Record Found in SKU</p>
+                )}{" "}
+              </>
             )}
           </Grid>
         </Grid>
