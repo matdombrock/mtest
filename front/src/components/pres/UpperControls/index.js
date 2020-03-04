@@ -45,7 +45,8 @@ class UpperControls extends Component {
       customDateEnd: null,
       startDate: moment().subtract(6, "days"),
       endDate: moment(),
-      selectedDateRange: "yesterday",
+      selectedDateRange: "last7Days",
+      displayDateRange: "last7Days",
       isError: false
     };
     this.setBrand = this.setBrand.bind(this);
@@ -122,9 +123,13 @@ class UpperControls extends Component {
       startDate,
       endDate,
       selectedBrand: brand,
-      period
+      period,
+      selectedDateRange
     } = this.state;
     const { activeTab } = this.props;
+    this.setState({
+      displayDateRange: selectedDateRange
+    });
     let data = {
       brand: brand,
       byMonth: period === "weekly" ? false : true,
@@ -145,7 +150,6 @@ class UpperControls extends Component {
           const payload = data;
           this.props.setSKUData(payload);
           this.props.setSKUComparisonData({});
-
         }
       });
     } else {
@@ -157,7 +161,6 @@ class UpperControls extends Component {
           const payload = data;
           this.props.saleSetData(payload);
           this.props.setSecondData({});
-
         }
       });
     }
@@ -227,6 +230,20 @@ class UpperControls extends Component {
       customDateStart: comparisonDate[0],
       customDateEnd: comparisonDate[1],
       selectedDateRange: "yesterday"
+    });
+  };
+  handleLastWeek = () => {
+    const dates = [moment().startOf("week"), moment()];
+    const comparisonDate = [
+      moment().subtract(1, "week"),
+      moment().startOf("week")
+    ];
+    this.setState({
+      startDate: dates[0],
+      endDate: dates[1],
+      customDateStart: comparisonDate[0],
+      customDateEnd: comparisonDate[1],
+      selectedDateRange: "lastWeek"
     });
   };
   handleLast7Days = () => {
@@ -314,12 +331,8 @@ class UpperControls extends Component {
       selectedDateRange: "lastMonth"
     });
   };
-  handleCurrentMonth= () => {
-    const dates = [
-      moment()
-        .startOf("month"),
-      moment()
-    ];
+  handleCurrentMonth = () => {
+    const dates = [moment().startOf("month"), moment()];
     const comparisonDate = [
       moment()
         .subtract(2, "month")
@@ -342,8 +355,10 @@ class UpperControls extends Component {
       endDate,
       showDropDown,
       selectedDateRange,
+      displayDateRange,
       isError
     } = this.state;
+    const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
       <>
         <div className={s.controlsContainer}>
@@ -373,18 +388,22 @@ class UpperControls extends Component {
                   {" "}
                   <EventNoteIcon className={s.menuOpen} />{" "}
                   <p>
-                    {selectedDateRange === "custom"
+                    {displayDateRange === "custom"
                       ? `${moment(startDate).format("MMM DD, YYYY")} - ${moment(
                           endDate
                         ).format("MMM DD, YYYY")}`
-                      : selectedDateRange === "lastMonth"
+                      : displayDateRange === "lastMonth"
                       ? "Last Months"
-                      : selectedDateRange === "last7Days"
-                      ? "last Week"
-                      : selectedDateRange === "last14Days"
+                      : displayDateRange === "last7Days"
+                      ? "last 7 Days"
+                      : displayDateRange === "last14Days"
                       ? "Last 14 Days"
-                      : selectedDateRange === "this30Days"
+                      : displayDateRange === "this30Days"
                       ? "Last 30 Days"
+                      : displayDateRange === "lastWeek"
+                      ? "Last Week"
+                      : displayDateRange === "currentMonth"
+                      ? "Current Month"
                       : "yesterday"}
                   </p>
                   <ExpandMoreIcon className={s.menuOpen} />
@@ -394,34 +413,43 @@ class UpperControls extends Component {
                     <div
                       className={s.back}
                       onClick={() =>
-                        this.handleUpdateState("showDropDown", false)
+                        this.setState({
+                          showDropDown: false,
+                          selectedDateRange: ""
+                        })
                       }
                     ></div>
                     <div className={s["custom-date-container"]}>
                       <div
                         className={
-                          this.state.selectedDateRange === "yesterday" &&
+                          activeSelectedDateRange === "yesterday" &&
                           s["active-item"]
                         }
                         onClick={this.handleYesterday}
                       >
                         Yesterday
                       </div>
-                      {/* <div className={this.state.selectedDateRange === 'last7Days' && s['active-item']} onClick={this.handleLast7Days}>
-            Last 7 Days
-          </div> */}
                       <div
                         className={
-                          this.state.selectedDateRange === "last7Days" &&
+                          activeSelectedDateRange === "lastWeek" &&
                           s["active-item"]
                         }
-                        onClick={this.handleLast7Days}
+                        onClick={this.handleLastWeek}
                       >
                         Last Week
                       </div>
                       <div
                         className={
-                          this.state.selectedDateRange === "last14Days" &&
+                          activeSelectedDateRange === "last7Days" &&
+                          s["active-item"]
+                        }
+                        onClick={this.handleLast7Days}
+                      >
+                        Last 7 Days
+                      </div>
+                      <div
+                        className={
+                          activeSelectedDateRange === "last14Days" &&
                           s["active-item"]
                         }
                         onClick={this.handleLast14}
@@ -430,7 +458,7 @@ class UpperControls extends Component {
                       </div>
                       <div
                         className={
-                          this.state.selectedDateRange === "this30Days" &&
+                          activeSelectedDateRange === "this30Days" &&
                           s["active-item"]
                         }
                         onClick={this.handleThis30Days}
@@ -439,7 +467,7 @@ class UpperControls extends Component {
                       </div>
                       <div
                         className={
-                          this.state.selectedDateRange === "lastMonth" &&
+                          activeSelectedDateRange === "lastMonth" &&
                           s["active-item"]
                         }
                         onClick={this.handleLastMonth}
@@ -448,7 +476,7 @@ class UpperControls extends Component {
                       </div>
                       <div
                         className={
-                          this.state.selectedDateRange === "currentMonth" &&
+                          activeSelectedDateRange === "currentMonth" &&
                           s["active-item"]
                         }
                         onClick={this.handleCurrentMonth}
@@ -457,7 +485,7 @@ class UpperControls extends Component {
                       </div>
                       <div
                         className={
-                          this.state.selectedDateRange === "custom" &&
+                          activeSelectedDateRange === "custom" &&
                           s["active-item"]
                         }
                         onClick={() => {
@@ -466,7 +494,7 @@ class UpperControls extends Component {
                       >
                         Custom Range
                       </div>
-                      {this.state.selectedDateRange === "custom" && (
+                      {activeSelectedDateRange === "custom" && (
                         <>
                           <div className={s["item"]}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -560,7 +588,12 @@ class UpperControls extends Component {
                           Apply
                         </Button>
                         <Button
-                          onClick={() => this.setState({ showDropDown: false })}
+                          onClick={() =>
+                            this.setState({
+                              showDropDown: false,
+                              selectedDateRange: ""
+                            })
+                          }
                           variant="contained"
                           className={s.buttonWihtout}
                         >
