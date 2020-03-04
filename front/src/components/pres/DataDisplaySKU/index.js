@@ -188,7 +188,7 @@ const DataDisplaySKUTable = props => {
               ACoS{" "}
               {isComparisons && (active === 12 ? <RemoveIcon /> : <AddIcon />)}
             </th>
-            <th
+            {/* <th
               className={s.tableHead}
               colSpan={active === 13 && "4"}
               onClick={() => headerClick(13)}
@@ -196,7 +196,7 @@ const DataDisplaySKUTable = props => {
             >
               {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
               {isComparisons && (active === 13 ? <RemoveIcon /> : <AddIcon />)}
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
@@ -951,7 +951,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 13 ? (
+                      {/* {active === 13 ? (
                         <>
                           <td
                             align="right"
@@ -975,7 +975,7 @@ const DataDisplaySKUTable = props => {
                         >
                           {Number(current.wow_sales).toFixed(2) + "%"}
                         </td>
-                      )}
+                      )} */}
                     </tr>
                   );
                 })

@@ -3,13 +3,14 @@ import { actions as salesActions } from "../../../modules/sales";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import UpperControls from "../../pres/UpperControls";
-import DataDisplayCardGrid from "../../pres/DataDisplayCardGrid";
+import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGrid";
 import DataDisplayItemizedTable from "../../pres/DataDisplayItemizedTable";
 import LeftNavigationMenu from "../../pres/LeftNavigationMenu";
 import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
 import s from "./style.module.scss";
 import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
+import SKUCharts from "../../pres/SKUCharts";
 
 class Dashboard extends Component {
   state = {
@@ -35,7 +36,7 @@ class Dashboard extends Component {
             {activeTab === 0 ? (
               active && !!Object.keys(active).length && active.itemized ? (
                 <>
-                  <DataDisplayCardGrid data={active} />
+                  <DataDisplayCardGridSKU data={active} />
                   <Charts data={active} />
                   <DataDisplayItemizedTable
                     data={active}
@@ -47,18 +48,18 @@ class Dashboard extends Component {
               )
             ) : (
                 <>
-              {/* skuActive ? ( */}
-                  {/* <DataDisplayCardGrid data={active} />
-                 */}
-                {/* <SKUCharts data={active} /> */}
+{              skuActive ? (
+                <>  <DataDisplayCardGridSKU data={skuActive} />
+                
+                <SKUCharts data={skuActive} />
                   <DataDisplaySKUTable
                     data={skuActive}
                     comparisons={skuComparisons}
-                  />
-              {/* ):(
+                  /></>
+              ):(
                 <p>No Record Found in SKU</p>
-              ) */}
-                </>
+              )
+                }                </>
             )}
           </Grid>
         </Grid>

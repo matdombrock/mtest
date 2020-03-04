@@ -39,23 +39,23 @@ class SKUCharts extends React.Component {
         parseFloat(this.props.data.summary.totalAdSales)
       ).toFixed(2);
       for (let i = 0; i < this.props.data.itemized.length; i++) {
-        if (parseFloat(this.props.data.itemized[i].revenue) > maxRevenue) {
-          maxRevenue = this.props.data.itemized[i].revenue;
+        if (parseFloat(this.props.data.itemized[i].sales) > maxRevenue) {
+          maxRevenue = this.props.data.itemized[i].sales;
         }
 
-        if (parseFloat(this.props.data.itemized[i].adSales) > maxAdSales) {
-          maxAdSales = this.props.data.itemized[i].adSales;
+        if (parseFloat(this.props.data.itemized[i].ad_sales) > maxAdSales) {
+          maxAdSales = this.props.data.itemized[i].ad_sales;
         }
 
-        if (parseFloat(this.props.data.itemized[i].cvr) > maxCvr) {
-          maxCvr = this.props.data.itemized[i].cvr;
+        if (parseFloat(this.props.data.itemized[i].conversion_rate) > maxCvr) {
+          maxCvr = this.props.data.itemized[i].conversion_rate;
         }
 
         if (
-          parseFloat(this.props.data.itemized[i].average_selling_price) >
+          parseFloat(this.props.data.itemized[i].average_cpc) >
           maxSellingPrice
         ) {
-          maxSellingPrice = this.props.data.itemized[i].average_selling_price;
+          maxSellingPrice = this.props.data.itemized[i].average_cpc;
         }
       }
     }
