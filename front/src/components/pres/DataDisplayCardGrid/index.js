@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import numberWithCommas from "../../../services/numberWithCommas";
 import moment from "moment";
 
-const DataDisplayCardGrid = props => {
+const DataDisplayCardGridSKU = props => {
   let previousPeriodData = {
     sales: 0,
     units_sold: 0,
@@ -31,7 +31,6 @@ const DataDisplayCardGrid = props => {
     spent: 0
   };
 
-  //an abstraction method to do the math for relative percentage between two #s
   const determineRelativePercentage = (number, previousNumber) => {
     return Math.sign(
       (((previousNumber - number) / previousNumber) * 100).toFixed(2)
@@ -42,7 +41,6 @@ const DataDisplayCardGrid = props => {
           )
       : "-" + (((previousNumber - number) / previousNumber) * 100).toFixed(2);
   };
-  //this is for figuring out hte period over period data
   if (props.data.itemized) {
     props.data.itemized.map(d => {
       currentPeriodData.sales += Number(d.revenue);
@@ -52,41 +50,6 @@ const DataDisplayCardGrid = props => {
       currentPeriodData.spent += Number(d.spend);
       currentPeriodData.acos += Number(d.acos);
     });
-    // currentPeriodData = props.data.itemized
-    //   .sort((a, b) => new Date(a.date) - new Date(b.date))
-    //   .reverse()[0];
-    // previousPeriodData = props.data.itemized
-    //   .sort((a, b) => new Date(a.date) - new Date(b.date))
-    //   .reverse()[1];
-
-    // if (currentPeriodData && previousPeriodData) {
-    //   periodOverPeriodData = {
-    //     revenue: determineRelativePercentage(
-    //       currentPeriodData.revenue,
-    //       previousPeriodData.revenue
-    //     ),
-    //     units_sold: determineRelativePercentage(
-    //       currentPeriodData.units_sold,
-    //       previousPeriodData.units_sold
-    //     ),
-    //     wholesale_cost: determineRelativePercentage(
-    //       currentPeriodData.wholesale_cost,
-    //       previousPeriodData.wholesale_cost
-    //     ),
-    //     spend: determineRelativePercentage(
-    //       currentPeriodData.spend,
-    //       previousPeriodData.spend
-    //     ),
-    //     adSales: determineRelativePercentage(
-    //       currentPeriodData.adSales,
-    //       previousPeriodData.adSales
-    //     ),
-    //     acos: determineRelativePercentage(
-    //       currentPeriodData.acos,
-    //       previousPeriodData.acos
-    //     )
-    //   };
-    // }
   }
 
   if (props.comparisons && props.comparisons.itemized) {
@@ -286,4 +249,4 @@ const DataDisplayCardGrid = props => {
   );
 };
 
-export default DataDisplayCardGrid;
+export default DataDisplayCardGridSKU;

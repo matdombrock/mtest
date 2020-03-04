@@ -93,6 +93,7 @@ class Dashboard extends Component {
                   <>
                     <DataDisplayCardGridSKU
                       data={skuActive}
+                      comparisons={skuComparisons}
                       startDate={startDate}
                       endDate={endDate}
                       comparisonStartDate={comparisonStartDate}
