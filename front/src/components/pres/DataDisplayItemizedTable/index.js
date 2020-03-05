@@ -37,7 +37,7 @@ const currentDataFormate = data => {
     temp.adSales += Math.round(Number(row.adSales));
     temp.cvr += Math.round(Number(row.cvr));
     temp.acos += Math.round(Number(row.acos));
-    return false
+    return false;
   });
   temp.average_cpc = temp.average_cpc / data.length;
   return [temp];
@@ -48,6 +48,7 @@ const getDifferenceInNumber = (current, previous) =>
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
+  if (previous === 0) return 100;
   return totalDifference === 0
     ? 0
     : Number((totalDifference / previous) * 100).toFixed(0);
@@ -59,7 +60,7 @@ const DataDisplayItemizedTable = props => {
   const isComparisons = props.comparisons.period;
   const [active, setActive] = useState(false);
   let currentData = props.data.itemized;
-  if(!currentData) return null
+  if (!currentData) return null;
   let previousData = props.comparisons.itemized;
   if (isComparisons) {
     currentData = currentDataFormate(currentData);
@@ -229,7 +230,7 @@ const DataDisplayItemizedTable = props => {
           )}
           {currentData
             ? currentData
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .reverse()
                 .map((row, i, array) => {
                   const current = row;
@@ -240,21 +241,21 @@ const DataDisplayItemizedTable = props => {
                       {active === 0 ? (
                         <>
                           <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
+                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
                           </td>
                           <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
+                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
                           </td>
                           <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
+                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
                           </td>
                           <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
+                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
                           </td>
                         </>
                       ) : (
                         <td component="th">
-                          <b>{moment(current.date).format("DD/MM/YYYY")}</b>
+                          <b>{moment(current.date).format("MM/DD/YYYY")}</b>
                         </td>
                       )}
                       {active === 1 ? (
@@ -363,8 +364,8 @@ const DataDisplayItemizedTable = props => {
                       ) : (
                         <td align="right">
                           {current.units_sold
-                            ? numberWithCommas(current.units_sold) + "%"
-                            : "0%"}
+                            ? numberWithCommas(current.units_sold)
+                            : 0}
                         </td>
                       )}
 

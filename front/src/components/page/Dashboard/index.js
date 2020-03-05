@@ -10,8 +10,8 @@ import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
 import s from "./style.module.scss";
 import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
-import SKUCharts from "../../pres/SKUCharts";
-import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGridSKU";
+// import SKUCharts from "../../pres/SKUCharts";
+// import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGridSKU";
 import Alert from "@material-ui/lab/Alert";
 
 class Dashboard extends Component {
@@ -91,7 +91,7 @@ class Dashboard extends Component {
                 !!Object.keys(skuActive).length &&
                 skuActive.itemized ? (
                   <>
-                    <DataDisplayCardGridSKU
+                    {/* <DataDisplayCardGridSKU
                       data={skuActive}
                       comparisons={skuComparisons}
                       startDate={startDate}
@@ -99,7 +99,7 @@ class Dashboard extends Component {
                       comparisonStartDate={comparisonStartDate}
                       comparisonEndDate={comparisonEndDate}
                     />
-                    <SKUCharts data={skuActive} />
+                    <SKUCharts data={skuActive} /> */}
                     <DataDisplaySKUTable
                       data={skuActive}
                       comparisons={skuComparisons}

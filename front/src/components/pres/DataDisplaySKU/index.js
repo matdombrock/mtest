@@ -7,7 +7,7 @@ import tr from "@material-ui/core/TableRow";
 // import Paper from "@material-ui/core/Paper";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
-import moment from "moment";
+// import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
@@ -51,6 +51,7 @@ const getDifferenceInNumber = (current, previous) =>
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
+  if (previous === 0) return 100;
   return totalDifference === 0
     ? 0
     : Number((totalDifference / previous) * 100).toFixed(0);
@@ -69,7 +70,6 @@ const DataDisplaySKUTable = props => {
     previousData = currentDataFormate(previousData);
   }
 
-  console.log("currentData", currentData);
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
   };
@@ -79,24 +79,17 @@ const DataDisplaySKUTable = props => {
       <table aria-label="simple table">
         <thead>
           <tr>
-            <th className={s.tableHead} colSpan={active === 0 && "4"}>
-              # Items Number
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={active === 1 && "4"}
-              onClick={() => headerClick(1)}
-            >
-              Sales
+            <th className={s.tableHead}># Items Number</th>
+
+            <th className={s.tableHead} align="right">
+              ASIN
             </th>
             <th
               className={s.tableHead}
               colSpan={active === 2 && "4"}
               onClick={() => headerClick(2)}
-              align="right"
             >
-              Units Sold{" "}
-              {isComparisons && (active === 2 ? <RemoveIcon /> : <AddIcon />)}
+              Sales
             </th>
             <th
               className={s.tableHead}
@@ -104,7 +97,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(3)}
               align="right"
             >
-              Shipped COGS{" "}
+              Units Sold{" "}
               {isComparisons && (active === 3 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -113,7 +106,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(4)}
               align="right"
             >
-              % of Total Sales{" "}
+              Shipped COGS{" "}
               {isComparisons && (active === 4 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -122,7 +115,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(5)}
               align="right"
             >
-              Ad Clicks{" "}
+              % of Total Sales{" "}
               {isComparisons && (active === 5 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -131,7 +124,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(6)}
               align="right"
             >
-              Ad Impressions{" "}
+              Ad Clicks{" "}
               {isComparisons && (active === 6 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -140,7 +133,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(7)}
               align="right"
             >
-              Avg CPC{" "}
+              Ad Impressions{" "}
               {isComparisons && (active === 7 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -149,7 +142,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(8)}
               align="right"
             >
-              Ad Spend{" "}
+              Avg CPC{" "}
               {isComparisons && (active === 8 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -158,7 +151,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(9)}
               align="right"
             >
-              Ad Orders{" "}
+              Ad Spend{" "}
               {isComparisons && (active === 9 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -167,7 +160,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(10)}
               align="right"
             >
-              Ad Sales{" "}
+              Ad Orders{" "}
               {isComparisons && (active === 10 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -176,7 +169,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(11)}
               align="right"
             >
-              Conv Rate{" "}
+              Ad Sales{" "}
               {isComparisons && (active === 11 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -185,7 +178,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(12)}
               align="right"
             >
-              ACoS{" "}
+              Conv Rate{" "}
               {isComparisons && (active === 12 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
@@ -194,13 +187,13 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(13)}
               align="right"
             >
-              ASIN
+              ACoS{" "}
               {isComparisons && (active === 13 ? <RemoveIcon /> : <AddIcon />)}
             </th>
           </tr>
         </thead>
         <tbody>
-          {active && (
+          {isComparisons && active && (
             <>
               <tr>
                 {active > 0 && (
@@ -241,27 +234,12 @@ const DataDisplaySKUTable = props => {
                     previousData && previousData.length ? previousData[i] : {};
                   return (
                     <tr key={i}>
-                      {active === 0 ? (
-                        <>
-                          <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
-                          </td>
-                          <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
-                          </td>
-                          <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
-                          </td>
-                          <td component="th">
-                            <b>{moment(current.date).format("DD/MM/YYYY")}</b>
-                          </td>
-                        </>
-                      ) : (
-                        <td component="th">
-                          <b>{current.item_number}</b>
-                        </td>
-                      )}
-                      {active === 1 ? (
+                      <td component="th">
+                        <b>{current.item_number || "N/A"}</b>
+                      </td>
+
+                      <td align="right">{current.asin || "N/A"}</td>
+                      {active === 2 ? (
                         <>
                           <td align="right">
                             {current.sales
@@ -317,7 +295,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 2 ? (
+                      {active === 3 ? (
                         <>
                           <td align="right">
                             {current.units_sold
@@ -372,7 +350,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 3 ? (
+                      {active === 4 ? (
                         <>
                           <td align="right">
                             {current.shipped_cogs
@@ -427,7 +405,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 4 ? (
+                      {active === 5 ? (
                         <>
                           <td align="right">
                             {!isNaN(parseFloat(current.sales))
@@ -538,7 +516,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 5 ? (
+                      {active === 6 ? (
                         <>
                           <td align="right">
                             {current.ad_clicks
@@ -595,7 +573,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 6 ? (
+                      {active === 7 ? (
                         <>
                           <td align="right">
                             {current.ad_impressions
@@ -650,7 +628,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 7 ? (
+                      {active === 8 ? (
                         <>
                           <td align="right">
                             {current.average_cpc
@@ -706,7 +684,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 8 ? (
+                      {active === 9 ? (
                         <>
                           <td align="right">
                             {current.ad_spend
@@ -762,7 +740,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 9 ? (
+                      {active === 10 ? (
                         <>
                           <td align="right">
                             {current.ad_orders
@@ -817,7 +795,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 10 ? (
+                      {active === 11 ? (
                         <>
                           <td align="right">
                             {current.ad_sales
@@ -873,7 +851,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 11 ? (
+                      {active === 12 ? (
                         <>
                           <td align="right">{current.conversion_rate + "%"}</td>
                           <td align="right">
@@ -904,7 +882,7 @@ const DataDisplaySKUTable = props => {
                         <td align="right">{current.conversion_rate + "%"}</td>
                       )}
 
-                      {active === 12 ? (
+                      {active === 13 ? (
                         <>
                           <td align="right">
                             {current.acos ? current.acos.toFixed(2) : "0%"}
@@ -950,8 +928,6 @@ const DataDisplaySKUTable = props => {
                           {current.acos ? current.acos.toFixed(2) : "0"}
                         </td>
                       )}
-
-                      <td align="right">{current.asin}</td>
                     </tr>
                   );
                 })

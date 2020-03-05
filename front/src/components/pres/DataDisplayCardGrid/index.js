@@ -32,6 +32,7 @@ const DataDisplayCardGridSKU = props => {
   };
 
   const determineRelativePercentage = (number, previousNumber) => {
+    if (previousNumber === 0) return 100;
     return Math.sign(
       (((previousNumber - number) / previousNumber) * 100).toFixed(2)
     ) === -1
@@ -93,16 +94,16 @@ const DataDisplayCardGridSKU = props => {
   return (
     <div className={s.gridContainer}>
       <h3>
-        Current Period Summary: {moment(startDate).format("DD/MM/YYYY")} -{" "}
-        {moment(endDate).format("DD/MM/YYYY") !==
-          moment(startDate).format("DD/MM/YYYY") &&
-          moment(endDate).format("DD/MM/YYYY")}
+        Current Period Summary: {moment(startDate).format("MM/DD/YYYY")}
+        {moment(endDate).format("MM/DD/YYYY") !==
+          moment(startDate).format("MM/DD/YYYY") &&
+          ` - ${moment(endDate).format("MM/DD/YYYY")}`}
       </h3>
       {comparisonStartDate && comparisonEndDate && (
         <h3>
           Compare Period Summary:{" "}
-          {moment(comparisonStartDate).format("DD/MM/YYYY")} -{" "}
-          {moment(comparisonEndDate).format("DD/MM/YYYY")}
+          {moment(comparisonStartDate).format("MM/DD/YYYY")} -{" "}
+          {moment(comparisonEndDate).format("MM/DD/YYYY")}
         </h3>
       )}
       <Grid container spacing={4}>

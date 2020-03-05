@@ -81,7 +81,6 @@ class UpperControls extends Component {
   }
 
   changePeriod(value) {
-    console.log("TCL: UpperControls -> changePeriod -> value", value);
     this.setState({ period: value });
   }
 
@@ -147,7 +146,6 @@ class UpperControls extends Component {
             this.props.setError(false);
             const payload = data;
             this.props.setSKUData(payload);
-            this.props.setSKUComparisonData({});
           }
         });
     } else {
@@ -159,7 +157,6 @@ class UpperControls extends Component {
             this.props.setError(false);
             const payload = data;
             this.props.saleSetData(payload);
-            this.props.setSecondData({});
           }
         });
     }
@@ -178,10 +175,10 @@ class UpperControls extends Component {
       if (activeTab === 1) {
         brand &&
           fetchSalesDataBySKU(dataSecond).then(data => {
+            this.props.setError(false);
             if (data.status !== 200) {
               return this.props.setError(data.message);
             } else {
-              this.props.setError(false);
               const payload = data;
               this.props.setSKUComparisonData(payload);
             }
@@ -189,10 +186,39 @@ class UpperControls extends Component {
       } else {
         brand &&
           fetchSalesData(dataSecond).then(data => {
+            this.props.setError(false);
             if (data.status !== 200) {
-              return this.props.setError(data.message);
+              const payload = {
+                summary: {
+                  totalRevenue: "0",
+                  totalCost: "0",
+                  unitsSold: 0,
+                  totalAdSpend: 0,
+                  totalAdSales: 0,
+                  averageAcos: "0"
+                },
+                period: "weekly",
+                itemized: [
+                  {
+                    revenue: "0",
+                    average_selling_price: "0",
+                    wholesale_cost: "0",
+                    units_sold: 0,
+                    date: new Date(),
+                    impressions: 0,
+                    clicks: 0,
+                    spend: 0,
+                    orders: 0,
+                    adSales: 0,
+                    average_cpc: "0",
+                    acos: "0",
+                    cvr: "0"
+                  }
+                ]
+              };
+
+              this.props.setSecondData(payload);
             } else {
-              this.props.setError(false);
               const payload = data;
               this.props.setSecondData(payload);
             }
@@ -204,6 +230,8 @@ class UpperControls extends Component {
       this.props.setDates(startDate, endDate, customDateStart, customDateEnd);
     } else {
       this.props.setDates(startDate, endDate);
+      this.props.setSKUComparisonData({});
+      this.props.setSecondData({});
     }
   };
 
