@@ -40,10 +40,18 @@ class UpperControls extends Component {
       comparison: false,
       customDateRange: false,
       selectedSku: null,
-      customDateStart: moment().subtract(1, "isoWeek"),
-      customDateEnd: moment().startOf("isoWeek"),
-      startDate: moment().startOf("isoWeek"),
-      endDate: moment(),
+      customDateStart: moment()
+        .subtract(2, "weeks")
+        .startOf("isoWeek"),
+      customDateEnd: moment()
+        .subtract(2, "weeks")
+        .endOf("isoWeek"),
+      startDate: moment()
+        .subtract(1, "weeks")
+        .startOf("isoWeek"),
+      endDate: moment()
+        .subtract(1, "weeks")
+        .endOf("isoWeek"),
       selectedDateRange: "lastWeek",
       displayDateRange: "lastWeek"
     };
@@ -262,10 +270,21 @@ class UpperControls extends Component {
     });
   };
   handleLastWeek = () => {
-    const dates = [moment().startOf("isoWeek"), moment()];
+    const dates = [
+      moment()
+        .subtract(1, "weeks")
+        .startOf("isoWeek"),
+      moment()
+        .subtract(1, "weeks")
+        .endOf("isoWeek")
+    ];
     const comparisonDate = [
-      moment().subtract(1, "isoWeek"),
-      moment().startOf("isoWeek")
+      moment()
+        .subtract(2, "weeks")
+        .startOf("isoWeek"),
+      moment()
+        .subtract(2, "weeks")
+        .endOf("isoWeek")
     ];
     this.setState({
       startDate: dates[0],
