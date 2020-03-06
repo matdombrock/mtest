@@ -306,12 +306,12 @@ const DataDisplaySKUTable = props => {
                         <>
                           <td align="right">
                             {current.units_sold
-                              ? numberWithCommas(current.units_sold) + "%"
+                              ? numberWithCommas(current.units_sold)
                               : 0}
                           </td>
                           <td align="right">
                             {current.units_sold
-                              ? numberWithCommas(previous.units_sold) + "%"
+                              ? numberWithCommas(previous.units_sold)
                               : 0}
                           </td>
                           <td
@@ -338,22 +338,22 @@ const DataDisplaySKUTable = props => {
                               getDifferenceInPercentage(
                                 current.units_sold,
                                 previous.units_sold
-                              ) + "%"
+                              )
                             )}
                           >
                             {current.units_sold
                               ? getDifferenceInPercentage(
                                   current.units_sold,
                                   previous.units_sold
-                                ) + "%"
+                                )
                               : "0%"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.units_sold
-                            ? numberWithCommas(current.units_sold) + "%"
-                            : "0%"}
+                            ? numberWithCommas(current.units_sold)
+                            : "0"}
                         </td>
                       )}
 
