@@ -146,9 +146,24 @@ class UpperControls extends Component {
         .toISOString()
     };
     if (activeTab === 1) {
+      data.period =
+        selectedDateRange === "lastMonth"
+          ? "last-month"
+          : selectedDateRange === "last7Days"
+          ? "7"
+          : selectedDateRange === "last14Days"
+          ? "14"
+          : selectedDateRange === "this30Days"
+          ? "30"
+          : selectedDateRange === "lastWeek"
+          ? "last-week"
+          : selectedDateRange === "currentMonth"
+          ? "current-month"
+          : "yesterday";
       brand &&
         fetchSalesDataBySKU(data).then(data => {
           if (data.status !== 200) {
+            this.props.setSKUData({});
             return this.props.setError(data.message);
           } else {
             this.props.setError(false);
@@ -160,6 +175,7 @@ class UpperControls extends Component {
       brand &&
         fetchSalesData(data).then(data => {
           if (data.status !== 200) {
+            this.props.saleSetData({});
             return this.props.setError(data.message);
           } else {
             this.props.setError(false);
@@ -181,10 +197,25 @@ class UpperControls extends Component {
           .toISOString()
       };
       if (activeTab === 1) {
+        dataSecond.period =
+          selectedDateRange === "lastMonth"
+            ? "last-month"
+            : selectedDateRange === "last7Days"
+            ? "7"
+            : selectedDateRange === "last14Days"
+            ? "14"
+            : selectedDateRange === "this30Days"
+            ? "30"
+            : selectedDateRange === "lastWeek"
+            ? "last-week"
+            : selectedDateRange === "currentMonth"
+            ? "current-month"
+            : "yesterday";
         brand &&
           fetchSalesDataBySKU(dataSecond).then(data => {
             this.props.setError(false);
             if (data.status !== 200) {
+              this.props.setSKUComparisonData({});
               return this.props.setError(data.message);
             } else {
               const payload = data;
@@ -224,7 +255,6 @@ class UpperControls extends Component {
                   }
                 ]
               };
-
               this.props.setSecondData(payload);
             } else {
               const payload = data;
@@ -530,17 +560,22 @@ class UpperControls extends Component {
                       >
                         Current Month
                       </div>
-                      <div
-                        className={
-                          activeSelectedDateRange === "custom" &&
-                          s["active-item"]
-                        }
-                        onClick={() => {
-                          this.handleUpdateState("selectedDateRange", "custom");
-                        }}
-                      >
-                        Custom Range
-                      </div>
+                      {this.props.activeTab !== 1 && (
+                        <div
+                          className={
+                            activeSelectedDateRange === "custom" &&
+                            s["active-item"]
+                          }
+                          onClick={() => {
+                            this.handleUpdateState(
+                              "selectedDateRange",
+                              "custom"
+                            );
+                          }}
+                        >
+                          Custom Range
+                        </div>
+                      )}
                       {activeSelectedDateRange === "custom" && (
                         <>
                           <div className={s["item"]}>
@@ -653,7 +688,10 @@ class UpperControls extends Component {
               </div>
               <MuiSelect
                 variant="outlined"
-                onChange={e => this.setBrand(e.target.value)}
+                onChange={e =>
+                  e.target.value !== "Select Brand" &&
+                  this.setBrand(e.target.value)
+                }
                 value={
                   this.state.selectedBrand
                     ? this.state.selectedBrand
