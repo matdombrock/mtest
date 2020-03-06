@@ -70,7 +70,7 @@ class Charts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(b.date) - new Date(a.date)
+                        (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
                 }
@@ -98,7 +98,7 @@ class Charts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(b.date) - new Date(a.date)
+                        (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
                 }
@@ -131,7 +131,7 @@ class Charts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(b.date) - new Date(a.date)
+                        (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
                 }
@@ -174,7 +174,7 @@ class Charts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(b.date) - new Date(a.date)
+                        (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
                 }
@@ -202,7 +202,7 @@ class Charts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(b.date) - new Date(a.date)
+                        (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
                 }
