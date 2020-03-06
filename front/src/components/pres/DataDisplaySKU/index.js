@@ -86,7 +86,7 @@ const DataDisplaySKUTable = props => {
       <table aria-label="simple table">
         <thead>
           <tr>
-            <th className={s.tableHead}># Items Number</th>
+            <th className={s.tableHead}>Item #</th>
 
             <th className={s.tableHead} align="right">
               ASIN
