@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import table from "@material-ui/core/Table";
 // import TableBody from '@material-ui/core/TableBody';
 // import tr from '@material-ui/core/tr';
@@ -67,8 +67,8 @@ const getDifferenceInPercentage = (current, previous) => {
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplaySKUTable = props => {
-  const isComparisons = props.comparisons.itemized;
   const [active, setActive] = useState(false);
+  const isComparisons = props.comparisons.itemized;
   let currentData = props.data.itemized;
   if (!currentData) return null;
   let previousData = props.comparisons.itemized;
@@ -245,7 +245,7 @@ const DataDisplaySKUTable = props => {
                       </td>
 
                       <td align="right">{current.asin || "N/A"}</td>
-                      {active === 2 ? (
+                      {isComparisons && active === 2 ? (
                         <>
                           <td align="right">
                             {current.sales
@@ -301,7 +301,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 3 ? (
+                      {isComparisons && active === 3 ? (
                         <>
                           <td align="right">
                             {current.units_sold
@@ -356,7 +356,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 4 ? (
+                      {isComparisons && active === 4 ? (
                         <>
                           <td align="right">
                             {current.shipped_cogs
@@ -411,7 +411,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 5 ? (
+                      {isComparisons && active === 5 ? (
                         <>
                           <td align="right">
                             {!isNaN(parseFloat(current.percent_total_sales))
@@ -460,7 +460,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 6 ? (
+                      {isComparisons && active === 6 ? (
                         <>
                           <td align="right">
                             {current.ad_clicks
@@ -517,7 +517,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 7 ? (
+                      {isComparisons && active === 7 ? (
                         <>
                           <td align="right">
                             {current.ad_impressions
@@ -572,7 +572,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 8 ? (
+                      {isComparisons && active === 8 ? (
                         <>
                           <td align="right">
                             {current.average_cpc
@@ -628,7 +628,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 9 ? (
+                      {isComparisons && active === 9 ? (
                         <>
                           <td align="right">
                             {current.ad_spend
@@ -684,7 +684,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 10 ? (
+                      {isComparisons && active === 10 ? (
                         <>
                           <td align="right">
                             {current.ad_orders
@@ -739,7 +739,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 11 ? (
+                      {isComparisons && active === 11 ? (
                         <>
                           <td align="right">
                             {current.ad_sales
@@ -795,7 +795,7 @@ const DataDisplaySKUTable = props => {
                         </td>
                       )}
 
-                      {active === 12 ? (
+                      {isComparisons && active === 12 ? (
                         <>
                           <td align="right">{current.conversion_rate + "%"}</td>
                           <td align="right">
@@ -826,13 +826,17 @@ const DataDisplaySKUTable = props => {
                         <td align="right">{current.conversion_rate + "%"}</td>
                       )}
 
-                      {active === 13 ? (
+                      {isComparisons && active === 13 ? (
                         <>
                           <td align="right">
-                            {current.acos ? current.acos.toFixed(2) : "0%"}
+                            {current.acos
+                              ? current.acos.toFixed(2) + "%"
+                              : "0%"}
                           </td>
                           <td align="right">
-                            {previous.acos ? previous.acos.toFixed(2) : "0%"}
+                            {previous.acos
+                              ? previous.acos.toFixed(2) + "%"
+                              : "0%"}
                           </td>
                           <td
                             align="right"
@@ -848,7 +852,7 @@ const DataDisplaySKUTable = props => {
                                   current.acos.toFixed(2),
                                   previous.acos.toFixed(2)
                                 )
-                              : "0%"}
+                              : "0"}
                           </td>
                           <td
                             align="right"
@@ -869,7 +873,7 @@ const DataDisplaySKUTable = props => {
                         </>
                       ) : (
                         <td align="right">
-                          {current.acos ? current.acos.toFixed(2) : "0"}
+                          {current.acos ? current.acos.toFixed(2) + "%" : "0%"}
                         </td>
                       )}
                     </tr>

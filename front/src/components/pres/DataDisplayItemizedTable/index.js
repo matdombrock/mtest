@@ -76,19 +76,22 @@ const DataDisplayItemizedTable = props => {
       <table aria-label="simple table">
         <thead>
           <tr>
-            <th className={s.tableHead} colSpan={active === 0 && "4"}>
+            <th
+              className={s.tableHead}
+              colSpan={isComparisons && active === 0 && "4"}
+            >
               Date
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 1 && "4"}
+              colSpan={isComparisons && active === 1 && "4"}
               onClick={() => headerClick(1)}
             >
               Sales
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 2 && "4"}
+              colSpan={isComparisons && active === 2 && "4"}
               onClick={() => headerClick(2)}
               align="right"
             >
@@ -97,7 +100,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 3 && "4"}
+              colSpan={isComparisons && active === 3 && "4"}
               onClick={() => headerClick(3)}
               align="right"
             >
@@ -106,7 +109,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 4 && "4"}
+              colSpan={isComparisons && active === 4 && "4"}
               onClick={() => headerClick(4)}
               align="right"
             >
@@ -115,7 +118,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 5 && "4"}
+              colSpan={isComparisons && active === 5 && "4"}
               onClick={() => headerClick(5)}
               align="right"
             >
@@ -124,7 +127,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 6 && "4"}
+              colSpan={isComparisons && active === 6 && "4"}
               onClick={() => headerClick(6)}
               align="right"
             >
@@ -133,7 +136,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 7 && "4"}
+              colSpan={isComparisons && active === 7 && "4"}
               onClick={() => headerClick(7)}
               align="right"
             >
@@ -142,7 +145,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 8 && "4"}
+              colSpan={isComparisons && active === 8 && "4"}
               onClick={() => headerClick(8)}
               align="right"
             >
@@ -151,7 +154,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 9 && "4"}
+              colSpan={isComparisons && active === 9 && "4"}
               onClick={() => headerClick(9)}
               align="right"
             >
@@ -160,7 +163,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 10 && "4"}
+              colSpan={isComparisons && active === 10 && "4"}
               onClick={() => headerClick(10)}
               align="right"
             >
@@ -169,7 +172,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 11 && "4"}
+              colSpan={isComparisons && active === 11 && "4"}
               onClick={() => headerClick(11)}
               align="right"
             >
@@ -178,7 +181,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 12 && "4"}
+              colSpan={isComparisons && active === 12 && "4"}
               onClick={() => headerClick(12)}
               align="right"
             >
@@ -187,7 +190,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={active === 13 && "4"}
+              colSpan={isComparisons && active === 13 && "4"}
               onClick={() => headerClick(13)}
               align="right"
             >
@@ -197,7 +200,7 @@ const DataDisplayItemizedTable = props => {
           </tr>
         </thead>
         <tbody>
-          {active && (
+          {isComparisons && active && (
             <>
               <tr>
                 {active > 0 && (
@@ -258,7 +261,7 @@ const DataDisplayItemizedTable = props => {
                           <b>{moment(current.date).format("MM/DD/YYYY")}</b>
                         </td>
                       )}
-                      {active === 1 ? (
+                      {isComparisons && active === 1 ? (
                         <>
                           <td align="right">
                             {current.revenue
@@ -314,7 +317,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 2 ? (
+                      {isComparisons && active === 2 ? (
                         <>
                           <td align="right">
                             {current.units_sold
@@ -369,7 +372,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 3 ? (
+                      {isComparisons && active === 3 ? (
                         <>
                           <td align="right">
                             {current.wholesale_cost
@@ -424,7 +427,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 4 ? (
+                      {isComparisons && active === 4 ? (
                         <>
                           <td align="right">
                             {!isNaN(parseFloat(current.revenue))
@@ -499,7 +502,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 5 ? (
+                      {isComparisons && active === 5 ? (
                         <>
                           <td align="right">
                             {current.clicks
@@ -556,7 +559,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 6 ? (
+                      {isComparisons && active === 6 ? (
                         <>
                           <td align="right">
                             {current.impressions
@@ -611,7 +614,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 7 ? (
+                      {isComparisons && active === 7 ? (
                         <>
                           <td align="right">
                             {current.average_cpc
@@ -667,7 +670,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 8 ? (
+                      {isComparisons && active === 8 ? (
                         <>
                           <td align="right">
                             {current.spend
@@ -723,7 +726,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 9 ? (
+                      {isComparisons && active === 9 ? (
                         <>
                           <td align="right">
                             {current.orders
@@ -778,7 +781,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 10 ? (
+                      {isComparisons && active === 10 ? (
                         <>
                           <td align="right">
                             {current.adSales
@@ -834,7 +837,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 11 ? (
+                      {isComparisons && active === 11 ? (
                         <>
                           <td align="right">{current.cvr + "%"}</td>
                           <td align="right">{current.cvr + "%"}</td>
@@ -861,7 +864,7 @@ const DataDisplayItemizedTable = props => {
                         <td align="right">{current.cvr + "%"}</td>
                       )}
 
-                      {active === 12 ? (
+                      {isComparisons && active === 12 ? (
                         <>
                           <td align="right">
                             {current.acos
@@ -902,7 +905,7 @@ const DataDisplayItemizedTable = props => {
                         </td>
                       )}
 
-                      {active === 11 ? (
+                      {isComparisons && active === 13 ? (
                         <>
                           <td
                             align="right"
