@@ -44,14 +44,14 @@ const currentDataFormate = data => {
 };
 
 const getDifferenceInNumber = (current, previous) =>
-  Number(current - previous).toFixed(0);
+  Number(current - previous).toFixed(2);
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
   if (previous === 0) return 100;
   return totalDifference === 0
     ? 0
-    : Number((totalDifference / previous) * 100).toFixed(0);
+    : Number((totalDifference / previous) * 100).toFixed(2);
 };
 
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
@@ -861,7 +861,9 @@ const DataDisplayItemizedTable = props => {
                           </td>
                         </>
                       ) : (
-                        <td align="right">{current.cvr + "%"}</td>
+                        <td align="right">
+                          {Number(current.cvr).toFixed(2) + "%"}
+                        </td>
                       )}
 
                       {isComparisons && active === 12 ? (

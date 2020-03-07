@@ -53,7 +53,7 @@ const currentDataFormate = data => {
 };
 
 const getDifferenceInNumber = (current, previous) =>
-  Number(current - previous).toFixed(0);
+  Number(current - previous).toFixed(2);
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
@@ -61,7 +61,7 @@ const getDifferenceInPercentage = (current, previous) => {
   if (previous === 0) return 100;
   return totalDifference === 0
     ? 0
-    : Number((totalDifference / previous) * 100).toFixed(0);
+    : Number((totalDifference / previous) * 100).toFixed(2);
 };
 
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
@@ -415,12 +415,15 @@ const DataDisplaySKUTable = props => {
                         <>
                           <td align="right">
                             {!isNaN(parseFloat(current.percent_total_sales))
-                              ? current.percent_total_sales + "%"
+                              ? Number(current.percent_total_sales).toFixed(2) +
+                                "%"
                               : "0%"}
                           </td>
                           <td align="right">
                             {!isNaN(parseFloat(previous.percent_total_sales))
-                              ? previous.percent_total_sales + "%"
+                              ? Number(previous.percent_total_sales).toFixed(
+                                  2
+                                ) + "%"
                               : "0%"}
                           </td>
                           <td
@@ -455,7 +458,8 @@ const DataDisplaySKUTable = props => {
                       ) : (
                         <td align="right">
                           {!isNaN(parseFloat(current.percent_total_sales))
-                            ? current.percent_total_sales + "%"
+                            ? Number(current.percent_total_sales).toFixed(2) +
+                              "%"
                             : "0%"}
                         </td>
                       )}
@@ -797,9 +801,11 @@ const DataDisplaySKUTable = props => {
 
                       {isComparisons && active === 12 ? (
                         <>
-                          <td align="right">{current.conversion_rate + "%"}</td>
                           <td align="right">
-                            {previous.conversion_rate + "%"}
+                            {Number(current.conversion_rate).toFixed(2) + "%"}
+                          </td>
+                          <td align="right">
+                            {Number(previous.conversion_rate).toFixed(2) + "%"}
                           </td>
                           <td align="right">
                             {getDifferenceInNumber(
@@ -823,7 +829,9 @@ const DataDisplaySKUTable = props => {
                           </td>
                         </>
                       ) : (
-                        <td align="right">{current.conversion_rate + "%"}</td>
+                        <td align="right">
+                          {Number(current.conversion_rate).toFixed(2) + "%"}
+                        </td>
                       )}
 
                       {isComparisons && active === 13 ? (
