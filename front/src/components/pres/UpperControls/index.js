@@ -131,6 +131,9 @@ class UpperControls extends Component {
       period,
       selectedDateRange
     } = this.state;
+    if (brand) {
+      this.props.setLoadingData(true);
+    }
     const { activeTab } = this.props;
     this.setState({
       displayDateRange: selectedDateRange
@@ -166,14 +169,16 @@ class UpperControls extends Component {
             if (!data) throw false;
             if (data.status !== 200) {
               this.props.setSKUData({});
-              return this.props.setError(data.message);
+              this.props.setError(data.message);
             } else {
               this.props.setError(false);
               const payload = data;
               this.props.setSKUData(payload);
             }
+            this.props.setLoadingData(false);
           })
           .catch(error => {
+            this.props.setLoadingData(false);
             console.log("request failed", error);
             this.props.setError("Something went wrong please try again");
           });
@@ -184,14 +189,16 @@ class UpperControls extends Component {
             if (!data) throw false;
             if (data.status !== 200) {
               this.props.saleSetData({});
-              return this.props.setError(data.message);
+              this.props.setError(data.message);
             } else {
               this.props.setError(false);
               const payload = data;
               this.props.saleSetData(payload);
             }
+            this.props.setLoadingData(false);
           })
           .catch(error => {
+            this.props.setLoadingData(false);
             console.log("request failed", error);
             this.props.setError("Something went wrong please try again");
           });
@@ -230,13 +237,15 @@ class UpperControls extends Component {
               this.props.setError(false);
               if (data.status !== 200) {
                 this.props.setSKUComparisonData({});
-                return this.props.setError(data.message);
+                this.props.setError(data.message);
               } else {
                 const payload = data;
                 this.props.setSKUComparisonData(payload);
               }
+              this.props.setLoadingData(false);
             })
             .catch(error => {
+              this.props.setLoadingData(false);
               console.log("request failed", error);
               this.props.setError("Something went wrong please try again");
             });
@@ -280,10 +289,12 @@ class UpperControls extends Component {
                 const payload = data;
                 this.props.setSecondData(payload);
               }
+              this.props.setLoadingData(false);
             })
             .catch(error => {
               console.log("request failed", error);
               this.props.setError("Something went wrong please try again");
+              this.props.setLoadingData(false);
             });
       }
     }

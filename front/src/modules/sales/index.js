@@ -4,11 +4,13 @@ const SET_SALES_DATA = "sale/SET_SALES_DATA";
 const SET_SALES_COMPARISONS_DATA = "sale/SET_SALES_COMPARISONS_DATA";
 const SET_SKU_DATA = "sale/SET_SKU_DATA";
 const SET_SKU_DATA_COMPARISONS = "sale/SET_SKU_DATA_COMPARISONS";
+const SET_SALES_LOADING = "sale/SET_SALES_LOADING";
 const initialState = {
   active: {},
   comparisons: {},
   skuActive: {},
-  skuComparisons: {}
+  skuComparisons: {},
+  isLoading: false
 };
 
 export default (state = initialState, action) => {
@@ -25,6 +27,9 @@ export default (state = initialState, action) => {
       break;
     case SET_SKU_DATA_COMPARISONS:
       state.skuComparisons = action.data;
+      break;
+    case SET_SALES_LOADING:
+      state.isLoading = action.data;
       break;
     default:
       break;
@@ -67,10 +72,19 @@ const setSecondData = data => {
     });
   };
 };
+const setLoadingData = data => {
+  return dispatch => {
+    dispatch({
+      type: SET_SALES_LOADING,
+      data
+    });
+  };
+};
 
 export const actions = {
   saleSetData: setData,
   setSecondData,
   setSKUComparisonData,
-  setSKUData
+  setSKUData,
+  setLoadingData
 };

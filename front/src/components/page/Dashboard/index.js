@@ -13,6 +13,7 @@ import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
 // import SKUCharts from "../../pres/SKUCharts";
 // import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGridSKU";
 import Alert from "@material-ui/lab/Alert";
+import { CircularProgress } from "@material-ui/core";
 
 class Dashboard extends Component {
   state = {
@@ -39,7 +40,7 @@ class Dashboard extends Component {
     });
   render() {
     const {
-      sales: { active, comparisons, skuActive, skuComparisons }
+      sales: { active, comparisons, skuActive, skuComparisons, isLoading }
     } = this.props;
     const {
       activeTab,
@@ -63,35 +64,40 @@ class Dashboard extends Component {
               changeTab={this.handleTabChange}
             />
           </Grid>
-          <Grid item xs={12} id="#report" className={s.inner}>
-            {isError && <Alert severity="warning">{isError}</Alert>}
-            {activeTab === 0 ? (
-              active && !!Object.keys(active).length && active.itemized ? (
-                <>
-                  <DataDisplayCardGrid
-                    data={active}
-                    comparisons={comparisons}
-                    startDate={startDate}
-                    endDate={endDate}
-                    comparisonStartDate={comparisonStartDate}
-                    comparisonEndDate={comparisonEndDate}
-                  />
-                  <Charts data={active} />
-                  <DataDisplayItemizedTable
-                    data={active}
-                    comparisons={comparisons}
-                  />
-                </>
-              ) : (
-                <p>No Record Found</p>
-              )
-            ) : (
-              <>
-                {skuActive &&
-                !!Object.keys(skuActive).length &&
-                skuActive.itemized ? (
+          {isLoading ? (
+            <Grid item xs={12} className={s.innerWithPaddingTop}>
+              <CircularProgress />
+            </Grid>
+          ) : (
+            <Grid item xs={12} id="#report" className={s.inner}>
+              {isError && <Alert severity="warning">{isError}</Alert>}
+              {activeTab === 0 ? (
+                active && !!Object.keys(active).length && active.itemized ? (
                   <>
-                    {/* <DataDisplayCardGridSKU
+                    <DataDisplayCardGrid
+                      data={active}
+                      comparisons={comparisons}
+                      startDate={startDate}
+                      endDate={endDate}
+                      comparisonStartDate={comparisonStartDate}
+                      comparisonEndDate={comparisonEndDate}
+                    />
+                    <Charts data={active} />
+                    <DataDisplayItemizedTable
+                      data={active}
+                      comparisons={comparisons}
+                    />
+                  </>
+                ) : (
+                  <p>No Record Found</p>
+                )
+              ) : (
+                <>
+                  {skuActive &&
+                  !!Object.keys(skuActive).length &&
+                  skuActive.itemized ? (
+                    <>
+                      {/* <DataDisplayCardGridSKU
                       data={skuActive}
                       comparisons={skuComparisons}
                       startDate={startDate}
@@ -100,17 +106,18 @@ class Dashboard extends Component {
                       comparisonEndDate={comparisonEndDate}
                     />
                     <SKUCharts data={skuActive} /> */}
-                    <DataDisplaySKUTable
-                      data={skuActive}
-                      comparisons={skuComparisons}
-                    />
-                  </>
-                ) : (
-                  <p>No Record Found in SKU</p>
-                )}{" "}
-              </>
-            )}
-          </Grid>
+                      <DataDisplaySKUTable
+                        data={skuActive}
+                        comparisons={skuComparisons}
+                      />
+                    </>
+                  ) : (
+                    <p>No Record Found in SKU</p>
+                  )}{" "}
+                </>
+              )}
+            </Grid>
+          )}
         </Grid>
       </div>
     );
