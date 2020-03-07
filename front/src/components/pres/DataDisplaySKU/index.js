@@ -82,7 +82,7 @@ const DataDisplaySKUTable = props => {
   };
 
   return (
-    <div className={s.noBoxShadow}>
+    <div className={s.noBoxShadow + " fixed-header-table"}>
       <table aria-label="simple table">
         <thead>
           <tr>

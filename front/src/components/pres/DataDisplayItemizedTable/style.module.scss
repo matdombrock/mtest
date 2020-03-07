@@ -7,7 +7,7 @@
   box-shadow: none !important;
   // border:none !important;
   overflow-x: scroll;
-
+  max-height: 90vh !important;
   width: 92% !important;
   table {
     border-collapse: collapse;
@@ -30,7 +30,7 @@
     text-align: left;
     font-size: 12px;
     padding: 8px;
-    color: #676a6c ;
+    color: #676a6c;
     border: 1px solid #dddddd;
   }
 
