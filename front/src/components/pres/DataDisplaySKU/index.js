@@ -469,13 +469,13 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.ad_clicks
                               ? numberWithCommas(current.ad_clicks)
-                              : 0}
+                              : "N/A"}
                           </td>
 
                           <td align="right">
                             {previous.ad_clicks
                               ? numberWithCommas(previous.ad_clicks)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -517,7 +517,7 @@ const DataDisplaySKUTable = props => {
                         <td align="right">
                           {current.ad_clicks
                             ? numberWithCommas(current.ad_clicks)
-                            : 0}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -526,12 +526,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.ad_impressions
                               ? numberWithCommas(current.ad_impressions)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.ad_impressions
                               ? numberWithCommas(previous.ad_impressions)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -572,7 +572,7 @@ const DataDisplaySKUTable = props => {
                         <td align="right">
                           {current.ad_impressions
                             ? numberWithCommas(current.ad_impressions)
-                            : 0}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -637,12 +637,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.ad_spend
                               ? "$" + numberWithCommas(current.ad_spend)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.ad_spend
                               ? "$" + numberWithCommas(previous.ad_spend)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -684,7 +684,7 @@ const DataDisplaySKUTable = props => {
                         <td align="right">
                           {current.ad_spend
                             ? "$" + numberWithCommas(current.ad_spend)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -693,12 +693,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.ad_orders
                               ? numberWithCommas(current.ad_orders)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.ad_orders
                               ? numberWithCommas(previous.ad_orders)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -739,7 +739,7 @@ const DataDisplaySKUTable = props => {
                         <td align="right">
                           {current.ad_orders
                             ? numberWithCommas(current.ad_orders)
-                            : 0}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -748,12 +748,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.ad_sales
                               ? "$" + numberWithCommas(current.ad_sales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.ad_sales
                               ? "$" + numberWithCommas(previous.ad_sales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -795,7 +795,7 @@ const DataDisplaySKUTable = props => {
                         <td align="right">
                           {current.ad_sales
                             ? "$" + numberWithCommas(current.ad_sales)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 

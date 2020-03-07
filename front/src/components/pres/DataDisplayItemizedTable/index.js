@@ -507,13 +507,13 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.clicks
                               ? numberWithCommas(current.clicks)
-                              : 0}
+                              : "N/A"}
                           </td>
 
                           <td align="right">
                             {previous.clicks
                               ? numberWithCommas(previous.clicks)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -555,7 +555,7 @@ const DataDisplayItemizedTable = props => {
                         <td align="right">
                           {current.clicks
                             ? numberWithCommas(current.clicks)
-                            : 0}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -564,12 +564,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.impressions
                               ? numberWithCommas(current.impressions)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.impressions
                               ? numberWithCommas(previous.impressions)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -610,7 +610,7 @@ const DataDisplayItemizedTable = props => {
                         <td align="right">
                           {current.impressions
                             ? numberWithCommas(current.impressions)
-                            : 0}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -675,12 +675,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.spend
                               ? "$" + numberWithCommas(current.spend)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.spend
                               ? "$" + numberWithCommas(previous.spend)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -699,7 +699,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.spend
                                   )
                                 )
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -722,7 +722,7 @@ const DataDisplayItemizedTable = props => {
                         <td align="right">
                           {current.spend
                             ? "$" + numberWithCommas(current.spend)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -731,12 +731,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.orders
                               ? numberWithCommas(current.orders)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.orders
                               ? numberWithCommas(previous.orders)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -777,7 +777,7 @@ const DataDisplayItemizedTable = props => {
                         <td align="right">
                           {current.orders
                             ? numberWithCommas(current.orders)
-                            : 0}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -786,12 +786,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.adSales
                               ? "$" + numberWithCommas(current.adSales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.adSales
                               ? "$" + numberWithCommas(previous.adSales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -810,7 +810,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.adSales
                                   )
                                 )
-                              : "$0.00"}
+                              : "0"}
                           </td>
                           <td
                             align="right"
@@ -833,7 +833,7 @@ const DataDisplayItemizedTable = props => {
                         <td align="right">
                           {current.adSales
                             ? "$" + numberWithCommas(current.adSales)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
