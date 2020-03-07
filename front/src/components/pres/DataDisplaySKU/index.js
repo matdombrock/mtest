@@ -233,8 +233,7 @@ const DataDisplaySKUTable = props => {
           )}
           {currentData
             ? currentData
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .reverse()
+                .sort((a, b) => b.asin - a.asin)
                 .map((row, i, array) => {
                   const current = row;
                   const previous =
