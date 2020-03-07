@@ -161,28 +161,40 @@ class UpperControls extends Component {
           ? "current-month"
           : "yesterday";
       brand &&
-        fetchSalesDataBySKU(data).then(data => {
-          if (data.status !== 200) {
-            this.props.setSKUData({});
-            return this.props.setError(data.message);
-          } else {
-            this.props.setError(false);
-            const payload = data;
-            this.props.setSKUData(payload);
-          }
-        });
+        fetchSalesDataBySKU(data)
+          .then(data => {
+            if (!data) throw false;
+            if (data.status !== 200) {
+              this.props.setSKUData({});
+              return this.props.setError(data.message);
+            } else {
+              this.props.setError(false);
+              const payload = data;
+              this.props.setSKUData(payload);
+            }
+          })
+          .catch(error => {
+            console.log("request failed", error);
+            this.props.setError("Something went wrong please try again");
+          });
     } else {
       brand &&
-        fetchSalesData(data).then(data => {
-          if (data.status !== 200) {
-            this.props.saleSetData({});
-            return this.props.setError(data.message);
-          } else {
-            this.props.setError(false);
-            const payload = data;
-            this.props.saleSetData(payload);
-          }
-        });
+        fetchSalesData(data)
+          .then(data => {
+            if (!data) throw false;
+            if (data.status !== 200) {
+              this.props.saleSetData({});
+              return this.props.setError(data.message);
+            } else {
+              this.props.setError(false);
+              const payload = data;
+              this.props.saleSetData(payload);
+            }
+          })
+          .catch(error => {
+            console.log("request failed", error);
+            this.props.setError("Something went wrong please try again");
+          });
     }
 
     if (comparison) {
@@ -212,55 +224,67 @@ class UpperControls extends Component {
             ? "current-month"
             : "yesterday";
         brand &&
-          fetchSalesDataBySKU(dataSecond).then(data => {
-            this.props.setError(false);
-            if (data.status !== 200) {
-              this.props.setSKUComparisonData({});
-              return this.props.setError(data.message);
-            } else {
-              const payload = data;
-              this.props.setSKUComparisonData(payload);
-            }
-          });
+          fetchSalesDataBySKU(dataSecond)
+            .then(data => {
+              if (!data) throw false;
+              this.props.setError(false);
+              if (data.status !== 200) {
+                this.props.setSKUComparisonData({});
+                return this.props.setError(data.message);
+              } else {
+                const payload = data;
+                this.props.setSKUComparisonData(payload);
+              }
+            })
+            .catch(error => {
+              console.log("request failed", error);
+              this.props.setError("Something went wrong please try again");
+            });
       } else {
         brand &&
-          fetchSalesData(dataSecond).then(data => {
-            this.props.setError(false);
-            if (data.status !== 200) {
-              const payload = {
-                summary: {
-                  totalRevenue: "0",
-                  totalCost: "0",
-                  unitsSold: 0,
-                  totalAdSpend: 0,
-                  totalAdSales: 0,
-                  averageAcos: "0"
-                },
-                period: "weekly",
-                itemized: [
-                  {
-                    revenue: "0",
-                    average_selling_price: "0",
-                    wholesale_cost: "0",
-                    units_sold: 0,
-                    date: new Date(),
-                    impressions: 0,
-                    clicks: 0,
-                    spend: 0,
-                    orders: 0,
-                    adSales: 0,
-                    average_cpc: "0",
-                    acos: "0",
-                    cvr: "0"
-                  }
-                ]
-              };
-              this.props.setSecondData(payload);
-            } else {
-              const payload = data;
-              this.props.setSecondData(payload);
-            }
-          });
+          fetchSalesData(dataSecond)
+            .then(data => {
+              if (!data) throw false;
+              this.props.setError(false);
+              if (data.status !== 200) {
+                const payload = {
+                  summary: {
+                    totalRevenue: "0",
+                    totalCost: "0",
+                    unitsSold: 0,
+                    totalAdSpend: 0,
+                    totalAdSales: 0,
+                    averageAcos: "0"
+                  },
+                  period: "weekly",
+                  itemized: [
+                    {
+                      revenue: "0",
+                      average_selling_price: "0",
+                      wholesale_cost: "0",
+                      units_sold: 0,
+                      date: new Date(),
+                      impressions: 0,
+                      clicks: 0,
+                      spend: 0,
+                      orders: 0,
+                      adSales: 0,
+                      average_cpc: "0",
+                      acos: "0",
+                      cvr: "0"
+                    }
+                  ]
+                };
+                this.props.setSecondData(payload);
+              } else {
+                const payload = data;
+                this.props.setSecondData(payload);
+              }
+            })
+            .catch(error => {
+              console.log("request failed", error);
+              this.props.setError("Something went wrong please try again");
+            });
       }
     }
     this.setState({ showDropDown: false });
