@@ -88,6 +88,7 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(1)}
             >
               Sales
+              {isComparisons && (active === 1 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -221,10 +222,10 @@ const DataDisplayItemizedTable = props => {
                       Previous
                     </th>
                     <th className={s.tableHead} align="right">
-                      Change
+                      Change #
                     </th>
                     <th className={s.tableHead} align="right">
-                      Charge
+                      Change %
                     </th>
                   </>
                 )}

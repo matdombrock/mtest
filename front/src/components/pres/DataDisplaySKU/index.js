@@ -204,6 +204,7 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(2)}
             >
               Sales
+              {isComparisons && (active === 2 ? <RemoveIcon /> : <AddIcon />)}
             </th>
             <th
               className={s.tableHead}
@@ -328,10 +329,10 @@ const DataDisplaySKUTable = props => {
                       Previous
                     </th>
                     <th className={s.tableHead} align="right">
-                      Change
+                      Change #
                     </th>
                     <th className={s.tableHead} align="right">
-                      Charge
+                      Change %
                     </th>
                   </>
                 )}
@@ -410,7 +411,7 @@ const DataDisplaySKUTable = props => {
                             align="right"
                             className={isNegative(charge.units_sold)}
                           >
-                            {charge.units_sold ? charge.units_sold : "0%"}
+                            {charge.units_sold + "0%"}
                           </td>
                         </>
                       ) : (
