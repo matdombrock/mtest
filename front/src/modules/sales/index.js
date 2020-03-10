@@ -8,8 +8,11 @@ const SET_SALES_LOADING = "sale/SET_SALES_LOADING";
 const initialState = {
   active: {},
   comparisons: {},
-  skuActive: {},
-  skuComparisons: {},
+  skuActive: {
+    current: [],
+    previous: []
+  },
+  // skuComparisons: {},
   isLoading: false
 };
 

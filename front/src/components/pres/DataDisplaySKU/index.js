@@ -11,72 +11,179 @@ import s from "./style.module.scss";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
-const currentDataFormate = data => {
-  let temp = {
-    ad_spend: 0,
-    ad_orders: 0,
-    conversion_rate: 0,
-    acos: 0,
-    ad_sales: 0,
-    sales: 0,
-    units_sold: 0,
-    shipped_cogs: 0,
-    ad_clicks: 0,
-    ad_impressions: 0,
-    average_cpc: 0,
-    wow_sales: 0,
-    percent_total_sales: 0
-  };
-
-  data.map(row => {
-    temp.sales += Math.round(Number(row.sales));
-    temp.units_sold += Math.round(Number(row.units_sold));
-    temp.shipped_cogs += Math.round(Number(row.shipped_cogs));
-    temp.ad_clicks += Math.round(Number(row.ad_clicks));
-    temp.ad_impressions += Math.round(Number(row.ad_impressions));
-    temp.average_cpc += Number(row.average_cpc);
-    temp.ad_spend += Math.round(Number(row.ad_spend));
-    temp.ad_orders += Math.round(Number(row.ad_orders));
-    temp.ad_sales += Math.round(Number(row.ad_sales));
-    temp.conversion_rate += Math.round(Number(row.conversion_rate));
-    temp.acos += Math.round(Number(row.acos));
-    temp.wow_sales += Math.round(
-      Number(isNaN(row.wow_sales) ? 0 : row.wow_sales)
-    );
-    temp.percent_total_sales += Math.round(
-      Number(isNaN(row.percent_total_sales) ? 0 : row.percent_total_sales)
-    );
-    return false;
+const currentDataFormate = (current = [], previous = []) => {
+  let allSKU = [];
+  current.map(d => allSKU.push(d.sku));
+  previous.map(d => allSKU.push(d.sku));
+  allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
+  return allSKU.map(sku => {
+    let temp = {
+      ad_spend: 0,
+      ad_orders: 0,
+      conversion_rate: 0,
+      acos: 0,
+      ad_sales: 0,
+      sales: 0,
+      units_sold: 0,
+      shipped_cogs: 0,
+      ad_clicks: 0,
+      ad_impressions: 0,
+      average_cpc: 0,
+      wow_sales: 0,
+      percent_total_sales: 0
+    };
+    let currentSKU =
+      current.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+    let previousSKU =
+      previous.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+    let change = {
+      ad_spend: getDifferenceInNumber(
+        currentSKU.ad_spend,
+        previousSKU.ad_spend
+      ),
+      ad_orders: getDifferenceInNumber(
+        currentSKU.ad_orders,
+        previousSKU.ad_orders
+      ),
+      conversion_rate: getDifferenceInPercentage(
+        currentSKU.conversion_rate,
+        previousSKU.conversion_rate
+      ),
+      acos: getDifferenceInNumber(currentSKU.acos, previousSKU.acos),
+      ad_sales: getDifferenceInNumber(
+        currentSKU.ad_sales,
+        previousSKU.ad_sales
+      ),
+      sales: getDifferenceInNumber(currentSKU.sales, previousSKU.sales),
+      units_sold: getDifferenceInNumber(
+        currentSKU.units_sold,
+        previousSKU.units_sold
+      ),
+      shipped_cogs: getDifferenceInNumber(
+        currentSKU.shipped_cogs,
+        previousSKU.shipped_cogs
+      ),
+      ad_clicks: getDifferenceInNumber(
+        currentSKU.ad_clicks,
+        previousSKU.ad_clicks
+      ),
+      ad_impressions: getDifferenceInNumber(
+        currentSKU.ad_impressions,
+        previousSKU.ad_impressions
+      ),
+      average_cpc: getDifferenceInNumber(
+        currentSKU.average_cpc,
+        previousSKU.average_cpc
+      ),
+      percent_total_sales: getDifferenceInNumber(
+        currentSKU.percent_total_sales,
+        previousSKU.percent_total_sales
+      )
+    };
+    let charge = {
+      ad_spend: getDifferenceInPercentage(
+        currentSKU.ad_spend,
+        previousSKU.ad_spend
+      ),
+      ad_orders: getDifferenceInPercentage(
+        currentSKU.ad_orders,
+        previousSKU.ad_orders
+      ),
+      conversion_rate: getDifferenceInPercentage(
+        currentSKU.conversion_rate,
+        previousSKU.conversion_rate
+      ),
+      acos: getDifferenceInPercentage(currentSKU.acos, previousSKU.acos),
+      ad_sales: getDifferenceInPercentage(
+        currentSKU.ad_sales,
+        previousSKU.ad_sales
+      ),
+      sales: getDifferenceInPercentage(currentSKU.sales, previousSKU.sales),
+      units_sold: getDifferenceInPercentage(
+        currentSKU.units_sold,
+        previousSKU.units_sold
+      ),
+      shipped_cogs: getDifferenceInPercentage(
+        currentSKU.shipped_cogs,
+        previousSKU.shipped_cogs
+      ),
+      ad_clicks: getDifferenceInPercentage(
+        currentSKU.ad_clicks,
+        previousSKU.ad_clicks
+      ),
+      ad_impressions: getDifferenceInPercentage(
+        currentSKU.ad_impressions,
+        previousSKU.ad_impressions
+      ),
+      average_cpc: getDifferenceInPercentage(
+        currentSKU.average_cpc,
+        previousSKU.average_cpc
+      ),
+      percent_total_sales: getDifferenceInPercentage(
+        currentSKU.percent_total_sales,
+        previousSKU.percent_total_sales
+      )
+    };
+    return {
+      current: currentSKU,
+      previous: previousSKU,
+      change,
+      charge
+    };
   });
-  temp.average_cpc = temp.average_cpc / data.length;
-  return [temp];
+
+  // data.map(row => {
+  //   temp.sales += Math.round(Number(row.sales));
+  //   temp.units_sold += Math.round(Number(row.units_sold));
+  //   temp.shipped_cogs += Math.round(Number(row.shipped_cogs));
+  //   temp.ad_clicks += Math.round(Number(row.ad_clicks));
+  //   temp.ad_impressions += Math.round(Number(row.ad_impressions));
+  //   temp.average_cpc += Number(row.average_cpc);
+  //   temp.ad_spend += Math.round(Number(row.ad_spend));
+  //   temp.ad_orders += Math.round(Number(row.ad_orders));
+  //   temp.ad_sales += Math.round(Number(row.ad_sales));
+  //   temp.conversion_rate += Math.round(Number(row.conversion_rate));
+  //   temp.acos += Math.round(Number(row.acos));
+  //   temp.wow_sales += Math.round(
+  //     Number(isNaN(row.wow_sales) ? 0 : row.wow_sales)
+  //   );
+  //   temp.percent_total_sales += Math.round(
+  //     Number(isNaN(row.percent_total_sales) ? 0 : row.percent_total_sales)
+  //   );
+  //   return false;
+  // });
+  // temp.average_cpc = temp.average_cpc / data.length;
+  // return [temp];
 };
 
-const getDifferenceInNumber = (current, previous) =>
-  Number(current - previous).toFixed(2);
+const getDifferenceInNumber = (current, previous) => {
+  let payload = Number(current - previous).toFixed(2);
+  return isNaN(payload) ? 0 : payload;
+};
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
   if (previous === 0 && current === 0) return 0;
   if (previous === 0) return 100;
-  return totalDifference === 0
-    ? 0
-    : Number((totalDifference / previous) * 100).toFixed(2);
+  const payload =
+    totalDifference === 0
+      ? 0
+      : Number((totalDifference / previous) * 100).toFixed(2);
+  return isNaN(payload) ? 0 : payload;
 };
 
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplaySKUTable = props => {
   const [active, setActive] = useState(false);
-  const isComparisons = props.comparisons.itemized;
-  let currentData = props.data.itemized;
+  const isComparisons = true;
+  let currentData = props.data.current;
+  let previousData = props.data.previous;
   if (!currentData) return null;
-  let previousData = props.comparisons.itemized;
-  if (isComparisons) {
-    currentData = currentDataFormate(currentData);
-    previousData = currentDataFormate(previousData);
-  }
-
+  const allSKUData = currentDataFormate(
+    currentData.itemized,
+    previousData.itemized
+  );
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
   };
@@ -231,13 +338,12 @@ const DataDisplaySKUTable = props => {
               </tr>
             </>
           )}
-          {currentData
-            ? currentData
+          {allSKUData
+            ? allSKUData
                 .sort((a, b) => b.asin - a.asin)
                 .map((row, i, array) => {
-                  const current = row;
-                  const previous =
-                    previousData && previousData.length ? previousData[i] : {};
+                  const { current, previous, change, charge } = row;
+
                   return (
                     <tr key={i}>
                       <td component="th">
@@ -253,44 +359,23 @@ const DataDisplaySKUTable = props => {
                               : "$0.00"}
                           </td>
                           <td align="right">
-                            {current.sales
+                            {previous.sales
                               ? "$" + numberWithCommas(previous.sales)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.sales,
-                                previous.sales
-                              )
-                            )}
+                            className={isNegative(charge.sales)}
                           >
-                            {current.sales
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.sales,
-                                    previous.sales
-                                  )
-                                )
+                            {change.sales
+                              ? "$" + numberWithCommas(change.sales)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.sales,
-                                previous.sales
-                              )
-                            )}
+                            className={isNegative(charge.sales)}
                           >
-                            {current.sales
-                              ? getDifferenceInPercentage(
-                                  current.sales,
-                                  previous.sales
-                                ) + "%"
-                              : "0%"}
+                            {charge.sales ? charge.sales + "%" : "0%"}
                           </td>
                         </>
                       ) : (
@@ -309,43 +394,23 @@ const DataDisplaySKUTable = props => {
                               : 0}
                           </td>
                           <td align="right">
-                            {current.units_sold
+                            {previous.units_sold
                               ? numberWithCommas(previous.units_sold)
                               : 0}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.units_sold,
-                                previous.units_sold
-                              )
-                            )}
+                            className={isNegative(change.units_sold)}
                           >
-                            {current.units_sold
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.units_sold,
-                                    previous.units_sold
-                                  )
-                                )
+                            {change.units_sold
+                              ? numberWithCommas(change.units_sold)
                               : 0}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.units_sold,
-                                previous.units_sold
-                              )
-                            )}
+                            className={isNegative(charge.units_sold)}
                           >
-                            {current.units_sold
-                              ? getDifferenceInPercentage(
-                                  current.units_sold,
-                                  previous.units_sold
-                                )
-                              : "0%"}
+                            {charge.units_sold ? charge.units_sold : "0%"}
                           </td>
                         </>
                       ) : (
@@ -364,42 +429,22 @@ const DataDisplaySKUTable = props => {
                               : "$0.00"}
                           </td>
                           <td align="right">
-                            {current.shipped_cogs
+                            {previous.shipped_cogs
                               ? "$" + numberWithCommas(previous.shipped_cogs)
                               : "$0.00"}
                           </td>
 
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.shipped_cogs,
-                                previous.shipped_cogs
-                              )
-                            )}
+                            className={isNegative(change.shipped_cogs)}
                           >
-                            {current.shipped_cogs
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.shipped_cogs,
-                                    previous.shipped_cogs
-                                  )
-                                )
+                            {change.shipped_cogs
+                              ? "$" + numberWithCommas(change.shipped_cogs)
                               : "$0.00"}
                           </td>
-                          <td
-                            align="right"
-                            className={getDifferenceInPercentage(
-                              current.shipped_cogs,
-                              previous.shipped_cogs
-                            )}
-                          >
-                            {current.shipped_cogs
-                              ? getDifferenceInPercentage(
-                                  current.shipped_cogs,
-                                  previous.shipped_cogs
-                                ) + "%"
+                          <td align="right" className={charge.shipped_cogs}>
+                            {charge.shipped_cogs
+                              ? charge.shipped_cogs + "%"
                               : "0%"}
                           </td>
                         </>
@@ -428,30 +473,20 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.percent_total_sales,
-                                previous.percent_total_sales
-                              )
-                            )}
+                            className={isNegative(change.percent_total_sales)}
                           >
-                            {getDifferenceInNumber(
-                              current.percent_total_sales,
-                              previous.percent_total_sales
-                            )}
+                            {getDifferenceInNumber(change.percent_total_sales)}
                           </td>
                           <td
                             align="right"
                             className={isNegative(
                               getDifferenceInPercentage(
-                                current.percent_total_sales,
-                                previous.percent_total_sales
+                                charge.percent_total_sales
                               )
                             )}
                           >
                             {getDifferenceInPercentage(
-                              current.percent_total_sales,
-                              previous.percent_total_sales
+                              charge.percent_total_sales
                             ) + "%"}
                           </td>
                         </>
@@ -479,38 +514,18 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.ad_clicks,
-                                previous.ad_clicks
-                              )
-                            )}
+                            className={isNegative(change.ad_clicks)}
                           >
-                            {previous.ad_clicks
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.ad_clicks,
-                                    previous.ad_clicks
-                                  )
-                                )
+                            {change.ad_clicks
+                              ? numberWithCommas(change.ad_clicks)
                               : 0}
                           </td>
 
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.ad_clicks,
-                                previous.ad_clicks
-                              )
-                            )}
+                            className={isNegative(charge.ad_clicks)}
                           >
-                            {current.ad_clicks
-                              ? getDifferenceInPercentage(
-                                  current.ad_clicks,
-                                  previous.ad_clicks
-                                ) + "%"
-                              : "0%"}
+                            {current.ad_clicks ? charge.ad_clicks + "%" : "0%"}
                           </td>
                         </>
                       ) : (
@@ -535,36 +550,18 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.ad_impressions,
-                                previous.ad_impressions
-                              )
-                            )}
+                            className={isNegative(change.ad_impressions)}
                           >
-                            {current.ad_impressions
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.ad_impressions,
-                                    previous.ad_impressions
-                                  )
-                                )
+                            {change.ad_impressions
+                              ? numberWithCommas(change.ad_impressions)
                               : 0}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.ad_impressions,
-                                previous.ad_impressions
-                              )
-                            )}
+                            className={isNegative(charge.ad_impressions)}
                           >
-                            {current.ad_impressions
-                              ? getDifferenceInPercentage(
-                                  current.ad_impressions,
-                                  previous.ad_impressions
-                                ) + "%"
+                            {charge.ad_impressions
+                              ? charge.ad_impressions + "%"
                               : "0%"}
                           </td>
                         </>
@@ -590,37 +587,18 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.average_cpc,
-                                previous.average_cpc
-                              )
-                            )}
+                            className={isNegative(change.average_cpc)}
                           >
-                            {current.average_cpc
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.average_cpc,
-                                    previous.average_cpc
-                                  )
-                                )
+                            {change.average_cpc
+                              ? "$" + numberWithCommas(change.average_cpc)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.average_cpc,
-                                previous.average_cpc
-                              )
-                            )}
+                            className={isNegative(charge.average_cpc)}
                           >
                             {current.average_cpc
-                              ? getDifferenceInPercentage(
-                                  current.average_cpc,
-                                  previous.average_cpc
-                                ) + "%"
+                              ? charge.average_cpc + "%"
                               : "0%"}
                           </td>
                         </>
@@ -646,38 +624,17 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.ad_spend,
-                                previous.ad_spend
-                              )
-                            )}
+                            className={isNegative(change.ad_spend)}
                           >
-                            {current.ad_spend
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.ad_spend,
-                                    previous.ad_spend
-                                  )
-                                )
+                            {change.ad_spend
+                              ? "$" + numberWithCommas(change.ad_spend)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.ad_spend,
-                                previous.ad_spend
-                              )
-                            )}
+                            className={isNegative(charge.ad_spend)}
                           >
-                            {current.ad_spend
-                              ? getDifferenceInPercentage(
-                                  current.ad_spend,
-                                  previous.ad_spend
-                                ) + "%"
-                              : "0%"}
+                            {charge.ad_spend ? charge.ad_spend + "%" : "0%"}
                           </td>
                         </>
                       ) : (
@@ -702,37 +659,17 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.ad_orders,
-                                previous.ad_orders
-                              )
-                            )}
+                            className={isNegative(charge.ad_orders)}
                           >
-                            {current.ad_orders
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.ad_orders,
-                                    previous.ad_orders
-                                  )
-                                )
+                            {charge.ad_orders
+                              ? numberWithCommas(charge.ad_orders)
                               : 0}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.ad_orders,
-                                previous.ad_orders
-                              )
-                            )}
+                            className={isNegative(charge.ad_orders)}
                           >
-                            {current.ad_orders
-                              ? getDifferenceInPercentage(
-                                  current.ad_orders,
-                                  previous.ad_orders
-                                ) + "%"
-                              : "0"}
+                            {charge.ad_orders ? charge.ad_orders + "%" : "0"}
                           </td>
                         </>
                       ) : (
@@ -757,38 +694,17 @@ const DataDisplaySKUTable = props => {
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.ad_sales,
-                                previous.ad_sales
-                              )
-                            )}
+                            className={isNegative(change.ad_sales)}
                           >
-                            {current.ad_sales
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.ad_sales,
-                                    previous.ad_sales
-                                  )
-                                )
+                            {change.ad_sales
+                              ? "$" + numberWithCommas(change.ad_sales)
                               : "$0.00"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.ad_sales,
-                                previous.ad_sales
-                              )
-                            )}
+                            className={isNegative(charge.ad_sales)}
                           >
-                            {current.ad_sales
-                              ? getDifferenceInPercentage(
-                                  current.ad_sales,
-                                  previous.ad_sales
-                                ) + "%"
-                              : "0%"}
+                            {charge.ad_sales ? charge.ad_sales + "%" : "0%"}
                           </td>
                         </>
                       ) : (
@@ -807,25 +723,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {Number(previous.conversion_rate).toFixed(2) + "%"}
                           </td>
-                          <td align="right">
-                            {getDifferenceInNumber(
-                              current.conversion_rate,
-                              previous.conversion_rate
-                            ) + "%"}
-                          </td>
+                          <td align="right">{change.conversion_rate + "%"}</td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.conversion_rate,
-                                previous.conversion_rate
-                              )
-                            )}
+                            className={isNegative(charge.conversion_rate)}
                           >
-                            {getDifferenceInPercentage(
-                              current.conversion_rate,
-                              previous.conversion_rate
-                            ) + "%"}
+                            {charge.conversion_rate + "%"}
                           </td>
                         </>
                       ) : (
@@ -846,21 +749,8 @@ const DataDisplaySKUTable = props => {
                               ? previous.acos.toFixed(2) + "%"
                               : "0%"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.acos.toFixed(2),
-                                previous.acos.toFixed(2)
-                              )
-                            )}
-                          >
-                            {current.acos
-                              ? getDifferenceInNumber(
-                                  current.acos.toFixed(2),
-                                  previous.acos.toFixed(2)
-                                )
-                              : "0"}
+                          <td align="right" className={isNegative(change.acos)}>
+                            {current.acos ? charge.acos : "0"}
                           </td>
                           <td
                             align="right"

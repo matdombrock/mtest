@@ -216,39 +216,39 @@ class UpperControls extends Component {
           .toISOString()
       };
       if (activeTab === 1) {
-        dataSecond.period =
-          selectedDateRange === "lastMonth"
-            ? "last-month"
-            : selectedDateRange === "last7Days"
-            ? "7"
-            : selectedDateRange === "last14Days"
-            ? "14"
-            : selectedDateRange === "this30Days"
-            ? "30"
-            : selectedDateRange === "lastWeek"
-            ? "last-week"
-            : selectedDateRange === "currentMonth"
-            ? "current-month"
-            : "yesterday";
-        brand &&
-          fetchSalesDataBySKU(dataSecond)
-            .then(data => {
-              if (!data) throw false;
-              this.props.setError(false);
-              if (data.status !== 200) {
-                this.props.setSKUComparisonData({});
-                this.props.setError(data.message);
-              } else {
-                const payload = data;
-                this.props.setSKUComparisonData(payload);
-              }
-              this.props.setLoadingData(false);
-            })
-            .catch(error => {
-              this.props.setLoadingData(false);
-              console.log("request failed", error);
-              this.props.setError("Something went wrong please try again");
-            });
+        // dataSecond.period =
+        //   selectedDateRange === "lastMonth"
+        //     ? "last-month"
+        //     : selectedDateRange === "last7Days"
+        //     ? "7"
+        //     : selectedDateRange === "last14Days"
+        //     ? "14"
+        //     : selectedDateRange === "this30Days"
+        //     ? "30"
+        //     : selectedDateRange === "lastWeek"
+        //     ? "last-week"
+        //     : selectedDateRange === "currentMonth"
+        //     ? "current-month"
+        //     : "yesterday";
+        // brand &&
+        //   fetchSalesDataBySKU(dataSecond)
+        //     .then(data => {
+        //       if (!data) throw false;
+        //       this.props.setError(false);
+        //       if (data.status !== 200) {
+        //         this.props.setSKUComparisonData({});
+        //         this.props.setError(data.message);
+        //       } else {
+        //         const payload = data;
+        //         this.props.setSKUComparisonData(payload);
+        //       }
+        //       this.props.setLoadingData(false);
+        //     })
+        //     .catch(error => {
+        //       this.props.setLoadingData(false);
+        //       console.log("request failed", error);
+        //       this.props.setError("Something went wrong please try again");
+        //     });
       } else {
         brand &&
           fetchSalesData(dataSecond)
@@ -303,7 +303,7 @@ class UpperControls extends Component {
       this.props.setDates(startDate, endDate, customDateStart, customDateEnd);
     } else {
       this.props.setDates(startDate, endDate);
-      this.props.setSKUComparisonData({});
+      // this.props.setSKUComparisonData({});
       this.props.setSecondData({});
     }
   };
@@ -647,25 +647,27 @@ class UpperControls extends Component {
                           </div>
                         </>
                       )}
-                      <div className={s["item"]}>
-                        <p className={s["comparison-input"]}>
-                          <label className={s["comparison-input"]}>
-                            {" "}
-                            <input
-                              type="checkbox"
-                              checked={this.state.comparison}
-                              onChange={e =>
-                                this.togglecomparison(e.target.checked)
-                              }
-                              value="true"
-                              inputProps={{
-                                "aria-label": "primary checkbox"
-                              }}
-                            />
-                            Compare to past
-                          </label>
-                        </p>
-                      </div>
+                      {this.props.activeTab !== 1 && (
+                        <div className={s["item"]}>
+                          <p className={s["comparison-input"]}>
+                            <label className={s["comparison-input"]}>
+                              {" "}
+                              <input
+                                type="checkbox"
+                                checked={this.state.comparison}
+                                onChange={e =>
+                                  this.togglecomparison(e.target.checked)
+                                }
+                                value="true"
+                                inputProps={{
+                                  "aria-label": "primary checkbox"
+                                }}
+                              />
+                              Compare to past
+                            </label>
+                          </p>
+                        </div>
+                      )}
                       {this.state.comparison && (
                         <div className={s["item"]}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
