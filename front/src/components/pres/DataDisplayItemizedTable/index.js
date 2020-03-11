@@ -517,10 +517,8 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {!isNaN(parseFloat(current.revenue))
                               ? (
-                                  (parseFloat(current.revenue) /
-                                    parseFloat(
-                                      props.data.summary.totalRevenue
-                                    )) *
+                                  (parseFloat(current.spend) /
+                                    parseFloat(current.revenue)) *
                                   100
                                 ).toFixed(2) + "%"
                               : "N/A"}
@@ -529,9 +527,7 @@ const DataDisplayItemizedTable = props => {
                             {!isNaN(parseFloat(previous.revenue))
                               ? (
                                   (parseFloat(previous.revenue) /
-                                    parseFloat(
-                                      props.comparisons.summary.totalRevenue
-                                    )) *
+                                    parseFloat(previous.spend)) *
                                   100
                                 ).toFixed(2) + "%"
                               : "N/A"}
@@ -539,20 +535,22 @@ const DataDisplayItemizedTable = props => {
                           <td
                             align="right"
                             className={isNegative(
-                              (
-                                (parseFloat(current.revenue) /
-                                  parseFloat(props.data.summary.totalRevenue)) *
-                                100
-                              ).toFixed(2)
+                              (parseFloat(current.revenue) /
+                                parseFloat(current.spend)) *
+                                100 -
+                                (parseFloat(previous.revenue) /
+                                  parseFloat(previous.spend)) *
+                                  100
                             )}
                           >
                             {!isNaN(parseFloat(current.revenue))
                               ? (
                                   (parseFloat(current.revenue) /
-                                    parseFloat(
-                                      props.data.summary.totalRevenue
-                                    )) *
-                                  100
+                                    parseFloat(current.spend)) *
+                                    100 -
+                                  (parseFloat(previous.revenue) /
+                                    parseFloat(previous.spend)) *
+                                    100
                                 ).toFixed(2) + "%"
                               : "N/A"}
                           </td>
