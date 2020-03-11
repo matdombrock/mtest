@@ -45,7 +45,7 @@ const currentDataFormate = (current = [], previous = []) => {
         currentSKU.ad_orders,
         previousSKU.ad_orders
       ),
-      conversion_rate: getDifferenceInPercentage(
+      conversion_rate: getDifferenceInNumber(
         currentSKU.conversion_rate,
         previousSKU.conversion_rate
       ),
@@ -168,7 +168,7 @@ const getDifferenceInPercentage = (current, previous) => {
   const payload =
     totalDifference === 0
       ? 0
-      : Number((totalDifference / previous) * 100).toFixed(2);
+      : Number((totalDifference / Number(current)) * 100).toFixed(2);
   return isNaN(payload) ? 0 : payload;
 };
 
@@ -443,7 +443,10 @@ const DataDisplaySKUTable = props => {
                               ? "$" + numberWithCommas(change.shipped_cogs)
                               : "$0.00"}
                           </td>
-                          <td align="right" className={charge.shipped_cogs}>
+                          <td
+                            align="right"
+                            className={isNegative(charge.shipped_cogs)}
+                          >
                             {charge.shipped_cogs
                               ? charge.shipped_cogs + "%"
                               : "0%"}
@@ -476,19 +479,13 @@ const DataDisplaySKUTable = props => {
                             align="right"
                             className={isNegative(change.percent_total_sales)}
                           >
-                            {getDifferenceInNumber(change.percent_total_sales)}
+                            {change.percent_total_sales + "%"}
                           </td>
                           <td
                             align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                charge.percent_total_sales
-                              )
-                            )}
+                            className={isNegative(charge.percent_total_sales)}
                           >
-                            {getDifferenceInPercentage(
-                              charge.percent_total_sales
-                            ) + "%"}
+                            {charge.percent_total_sales + "%"}
                           </td>
                         </>
                       ) : (
@@ -724,7 +721,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {Number(previous.conversion_rate).toFixed(2) + "%"}
                           </td>
-                          <td align="right">{change.conversion_rate + "%"}</td>
+                          <td
+                            align="right"
+                            className={isNegative(change.conversion_rate)}
+                          >
+                            {change.conversion_rate + "%"}
+                          </td>
                           <td
                             align="right"
                             className={isNegative(charge.conversion_rate)}
@@ -751,23 +753,10 @@ const DataDisplaySKUTable = props => {
                               : "0%"}
                           </td>
                           <td align="right" className={isNegative(change.acos)}>
-                            {current.acos ? charge.acos : "0"}
+                            {change.acos + "0%"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.acos.toFixed(2),
-                                previous.acos.toFixed(2)
-                              )
-                            )}
-                          >
-                            {current.acos
-                              ? getDifferenceInPercentage(
-                                  current.acos.toFixed(2),
-                                  previous.acos.toFixed(2)
-                                ) + "%"
-                              : "0%"}
+                          <td align="right" className={isNegative(charge.acos)}>
+                            {charge.acos + "%"}
                           </td>
                         </>
                       ) : (
