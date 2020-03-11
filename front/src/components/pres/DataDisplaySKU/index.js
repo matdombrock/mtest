@@ -164,7 +164,7 @@ const getDifferenceInNumber = (current, previous) => {
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
   if (previous === 0 && current === 0) return 0;
-  if (previous === 0) return 100;
+  if (current === 0) return 100;
   const payload =
     totalDifference === 0
       ? 0
@@ -203,8 +203,11 @@ const DataDisplaySKUTable = props => {
               colSpan={active === 2 && "4"}
               onClick={() => headerClick(2)}
             >
-              Sales
-              {isComparisons && (active === 2 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 2 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Sales</span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -212,8 +215,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(3)}
               align="right"
             >
-              Units Sold{" "}
-              {isComparisons && (active === 3 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 3 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Units Sold </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -221,8 +227,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(4)}
               align="right"
             >
-              Shipped COGS{" "}
-              {isComparisons && (active === 4 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 4 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Shipped COGS </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -230,8 +239,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(5)}
               align="right"
             >
-              % of Total Sales{" "}
-              {isComparisons && (active === 5 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 5 ? <RemoveIcon /> : <AddIcon />)}
+                <span>% of Total Sales </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -239,8 +251,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(6)}
               align="right"
             >
-              Ad Clicks{" "}
-              {isComparisons && (active === 6 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 6 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Ad Clicks </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -248,8 +263,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(7)}
               align="right"
             >
-              Ad Impressions{" "}
-              {isComparisons && (active === 7 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 7 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Ad Impressions </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -257,8 +275,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(8)}
               align="right"
             >
-              Avg CPC{" "}
-              {isComparisons && (active === 8 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 8 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Avg CPC </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -266,8 +287,11 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(9)}
               align="right"
             >
-              Ad Spend{" "}
-              {isComparisons && (active === 9 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons && (active === 9 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Ad Spend </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -275,8 +299,12 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(10)}
               align="right"
             >
-              Ad Orders{" "}
-              {isComparisons && (active === 10 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons &&
+                  (active === 10 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Ad Orders </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -284,8 +312,12 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(11)}
               align="right"
             >
-              Ad Sales{" "}
-              {isComparisons && (active === 11 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons &&
+                  (active === 11 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Ad Sales </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -293,8 +325,12 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(12)}
               align="right"
             >
-              Conv Rate{" "}
-              {isComparisons && (active === 12 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons &&
+                  (active === 12 ? <RemoveIcon /> : <AddIcon />)}
+                <span>Conv Rate </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -302,8 +338,12 @@ const DataDisplaySKUTable = props => {
               onClick={() => headerClick(13)}
               align="right"
             >
-              ACoS{" "}
-              {isComparisons && (active === 13 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                {isComparisons &&
+                  (active === 13 ? <RemoveIcon /> : <AddIcon />)}
+                <span>ACoS </span>
+                <span />
+              </div>
             </th>
           </tr>
         </thead>
@@ -357,12 +397,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.sales
                               ? "$" + numberWithCommas(current.sales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.sales
                               ? "$" + numberWithCommas(previous.sales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -370,20 +410,20 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.sales
                               ? "$" + numberWithCommas(change.sales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.sales)}
                           >
-                            {charge.sales ? charge.sales + "%" : "0%"}
+                            {charge.sales ? charge.sales + "%" : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.sales
                             ? "$" + numberWithCommas(current.sales)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -392,12 +432,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.units_sold
                               ? numberWithCommas(current.units_sold)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.units_sold
                               ? numberWithCommas(previous.units_sold)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -405,20 +445,20 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.units_sold
                               ? numberWithCommas(change.units_sold)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.units_sold)}
                           >
-                            {charge.units_sold + "0%"}
+                            {charge.units_sold + "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.units_sold
                             ? numberWithCommas(current.units_sold)
-                            : "0"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -427,12 +467,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.shipped_cogs
                               ? "$" + numberWithCommas(current.shipped_cogs)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.shipped_cogs
                               ? "$" + numberWithCommas(previous.shipped_cogs)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
 
                           <td
@@ -441,7 +481,7 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.shipped_cogs
                               ? "$" + numberWithCommas(change.shipped_cogs)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -449,51 +489,55 @@ const DataDisplaySKUTable = props => {
                           >
                             {charge.shipped_cogs
                               ? charge.shipped_cogs + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.shipped_cogs
                             ? "$" + numberWithCommas(current.shipped_cogs)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
                       {isComparisons && active === 5 ? (
                         <>
                           <td align="right">
-                            {!isNaN(parseFloat(current.percent_total_sales))
+                            {!!current.percent_total_sales
                               ? Number(current.percent_total_sales).toFixed(2) +
                                 "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td align="right">
-                            {!isNaN(parseFloat(previous.percent_total_sales))
+                            {!!previous.percent_total_sales
                               ? Number(previous.percent_total_sales).toFixed(
                                   2
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(change.percent_total_sales)}
                           >
-                            {change.percent_total_sales + "%"}
+                            {!!change.percent_total_sales
+                              ? change.percent_total_sales + "%"
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.percent_total_sales)}
                           >
-                            {charge.percent_total_sales + "%"}
+                            {!!charge.percent_total_sales
+                              ? charge.percent_total_sales + "%"
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {!isNaN(parseFloat(current.percent_total_sales))
+                          {!!current.percent_total_sales
                             ? Number(current.percent_total_sales).toFixed(2) +
                               "%"
-                            : "0%"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -516,14 +560,14 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.ad_clicks
                               ? numberWithCommas(change.ad_clicks)
-                              : 0}
+                              : "N/A"}
                           </td>
 
                           <td
                             align="right"
                             className={isNegative(charge.ad_clicks)}
                           >
-                            {current.ad_clicks ? charge.ad_clicks + "%" : "0%"}
+                            {current.ad_clicks ? charge.ad_clicks + "%" : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -552,7 +596,7 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.ad_impressions
                               ? numberWithCommas(change.ad_impressions)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -560,7 +604,7 @@ const DataDisplaySKUTable = props => {
                           >
                             {charge.ad_impressions
                               ? charge.ad_impressions + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -576,12 +620,12 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.average_cpc
                               ? "$" + numberWithCommas(current.average_cpc)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.average_cpc
                               ? "$" + numberWithCommas(previous.average_cpc)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -589,7 +633,7 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.average_cpc
                               ? "$" + numberWithCommas(change.average_cpc)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -597,14 +641,14 @@ const DataDisplaySKUTable = props => {
                           >
                             {current.average_cpc
                               ? charge.average_cpc + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.average_cpc
                             ? "$" + numberWithCommas(current.average_cpc)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -626,13 +670,13 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.ad_spend
                               ? "$" + numberWithCommas(change.ad_spend)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.ad_spend)}
                           >
-                            {charge.ad_spend ? charge.ad_spend + "%" : "0%"}
+                            {charge.ad_spend ? charge.ad_spend + "%" : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -661,13 +705,13 @@ const DataDisplaySKUTable = props => {
                           >
                             {charge.ad_orders
                               ? numberWithCommas(charge.ad_orders)
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.ad_orders)}
                           >
-                            {change.ad_orders ? change.ad_orders + "%" : "0"}
+                            {change.ad_orders ? change.ad_orders + "%" : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -696,13 +740,13 @@ const DataDisplaySKUTable = props => {
                           >
                             {change.ad_sales
                               ? "$" + numberWithCommas(change.ad_sales)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.ad_sales)}
                           >
-                            {charge.ad_sales ? charge.ad_sales + "%" : "0%"}
+                            {charge.ad_sales ? charge.ad_sales + "%" : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -725,18 +769,24 @@ const DataDisplaySKUTable = props => {
                             align="right"
                             className={isNegative(change.conversion_rate)}
                           >
-                            {change.conversion_rate + "%"}
+                            {!!change.conversion_rate
+                              ? change.conversion_rate + "%"
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
                             className={isNegative(charge.conversion_rate)}
                           >
-                            {charge.conversion_rate + "%"}
+                            {!!charge.conversion_rate
+                              ? charge.conversion_rate + "%"
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {Number(current.conversion_rate).toFixed(2) + "%"}
+                          {current.conversion_rate
+                            ? Number(current.conversion_rate).toFixed(2) + "%"
+                            : "N/A"}
                         </td>
                       )}
 
@@ -745,23 +795,23 @@ const DataDisplaySKUTable = props => {
                           <td align="right">
                             {current.acos
                               ? current.acos.toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.acos
                               ? previous.acos.toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td align="right" className={isNegative(change.acos)}>
-                            {change.acos + "0%"}
+                            {!!change.acos ? change.acos + "%" : "N/A"}
                           </td>
                           <td align="right" className={isNegative(charge.acos)}>
-                            {charge.acos + "%"}
+                            {!!charge.acos ? charge.acos + "%" : "N/A "}
                           </td>
                         </>
                       ) : (
                         <td align="right">
-                          {current.acos ? current.acos.toFixed(2) + "%" : "0%"}
+                          {current.acos ? current.acos.toFixed(2) + "%" : "N/A"}
                         </td>
                       )}
                     </tr>

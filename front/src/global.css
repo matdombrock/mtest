@@ -33,3 +33,9 @@ body {
 .fixed-header-table thead th {
   z-index: 100;
 }
+
+.fixed-header-table thead th div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

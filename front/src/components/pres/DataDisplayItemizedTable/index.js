@@ -48,10 +48,10 @@ const getDifferenceInNumber = (current, previous) =>
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
-  if (previous === 0) return 100;
+  if (current === 0) return 100;
   return totalDifference === 0
     ? 0
-    : Number((totalDifference / previous) * 100).toFixed(2);
+    : Number((totalDifference / current) * 100).toFixed(2);
 };
 
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
@@ -87,8 +87,14 @@ const DataDisplayItemizedTable = props => {
               colSpan={isComparisons && active === 1 && "4"}
               onClick={() => headerClick(1)}
             >
-              Sales
-              {isComparisons && (active === 1 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 1 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Sales</span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -96,8 +102,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(2)}
               align="right"
             >
-              Units Sold{" "}
-              {isComparisons && (active === 2 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 2 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Units Sold </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -105,8 +117,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(3)}
               align="right"
             >
-              Shipped COGS{" "}
-              {isComparisons && (active === 3 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 3 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Shipped COGS </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -114,8 +132,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(4)}
               align="right"
             >
-              % of Total Sales{" "}
-              {isComparisons && (active === 4 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 4 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>% of Total Sales </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -123,8 +147,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(5)}
               align="right"
             >
-              Ad Clicks{" "}
-              {isComparisons && (active === 5 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 5 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Ad Clicks </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -132,8 +162,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(6)}
               align="right"
             >
-              Ad Impressions{" "}
-              {isComparisons && (active === 6 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 6 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Ad Impressions </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -141,8 +177,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(7)}
               align="right"
             >
-              Avg CPC{" "}
-              {isComparisons && (active === 7 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 7 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Avg CPC </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -150,8 +192,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(8)}
               align="right"
             >
-              Ad Spend{" "}
-              {isComparisons && (active === 8 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 8 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Ad Spend </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -159,8 +207,14 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(9)}
               align="right"
             >
-              Ad Orders{" "}
-              {isComparisons && (active === 9 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 9 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+                <span>Ad Orders </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -168,8 +222,15 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(10)}
               align="right"
             >
-              Ad Sales{" "}
-              {isComparisons && (active === 10 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 10 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+
+                <span>Ad Sales </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -177,8 +238,15 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(11)}
               align="right"
             >
-              Conv Rate{" "}
-              {isComparisons && (active === 11 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 11 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+
+                <span>Conv Rate </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -186,8 +254,15 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(12)}
               align="right"
             >
-              ACoS{" "}
-              {isComparisons && (active === 12 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 12 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+
+                <span>ACoS </span>
+                <span />
+              </div>
             </th>
             <th
               className={s.tableHead}
@@ -195,8 +270,17 @@ const DataDisplayItemizedTable = props => {
               onClick={() => headerClick(13)}
               align="right"
             >
-              {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
-              {isComparisons && (active === 13 ? <RemoveIcon /> : <AddIcon />)}
+              <div>
+                <span>
+                  {isComparisons &&
+                    (active === 13 ? <RemoveIcon /> : <AddIcon />)}
+                </span>
+
+                <span>
+                  {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
+                </span>
+                <span />
+              </div>
             </th>
           </tr>
         </thead>
@@ -267,12 +351,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.revenue
                               ? "$" + numberWithCommas(current.revenue)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {current.revenue
                               ? "$" + numberWithCommas(previous.revenue)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -291,7 +375,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.revenue
                                   )
                                 )
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -307,14 +391,14 @@ const DataDisplayItemizedTable = props => {
                                   current.revenue,
                                   previous.revenue
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.revenue
                             ? "$" + numberWithCommas(current.revenue)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -362,7 +446,7 @@ const DataDisplayItemizedTable = props => {
                                   current.units_sold,
                                   previous.units_sold
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -378,12 +462,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.wholesale_cost
                               ? "$" + numberWithCommas(current.wholesale_cost)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {current.wholesale_cost
                               ? "$" + numberWithCommas(previous.wholesale_cost)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
 
                           <td
@@ -403,7 +487,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.wholesale_cost
                                   )
                                 )
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -417,14 +501,14 @@ const DataDisplayItemizedTable = props => {
                                   current.wholesale_cost,
                                   previous.wholesale_cost
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.wholesale_cost
                             ? "$" + numberWithCommas(current.wholesale_cost)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -439,7 +523,7 @@ const DataDisplayItemizedTable = props => {
                                     )) *
                                   100
                                 ).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {!isNaN(parseFloat(previous.revenue))
@@ -450,7 +534,7 @@ const DataDisplayItemizedTable = props => {
                                     )) *
                                   100
                                 ).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -470,7 +554,7 @@ const DataDisplayItemizedTable = props => {
                                     )) *
                                   100
                                 ).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -488,7 +572,7 @@ const DataDisplayItemizedTable = props => {
                                     )) *
                                   100
                                 ).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -499,7 +583,7 @@ const DataDisplayItemizedTable = props => {
                                   parseFloat(props.data.summary.totalRevenue)) *
                                 100
                               ).toFixed(2) + "%"
-                            : "0%"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -532,7 +616,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.clicks
                                   )
                                 )
-                              : 0}
+                              : "N/A"}
                           </td>
 
                           <td
@@ -549,7 +633,7 @@ const DataDisplayItemizedTable = props => {
                                   current.clicks,
                                   previous.clicks
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -588,7 +672,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.impressions
                                   )
                                 )
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -604,7 +688,7 @@ const DataDisplayItemizedTable = props => {
                                   current.impressions,
                                   previous.impressions
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -620,12 +704,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.average_cpc
                               ? "$" + numberWithCommas(current.average_cpc)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.average_cpc
                               ? "$" + numberWithCommas(previous.average_cpc)
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -644,7 +728,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.average_cpc
                                   )
                                 )
-                              : "$0.00"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -660,14 +744,14 @@ const DataDisplayItemizedTable = props => {
                                   current.average_cpc,
                                   previous.average_cpc
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.average_cpc
                             ? "$" + numberWithCommas(current.average_cpc)
-                            : "$0.00"}
+                            : "N/A"}
                         </td>
                       )}
 
@@ -716,7 +800,7 @@ const DataDisplayItemizedTable = props => {
                                   current.spend,
                                   previous.spend
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -755,7 +839,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.orders
                                   )
                                 )
-                              : 0}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -771,7 +855,7 @@ const DataDisplayItemizedTable = props => {
                                   current.orders,
                                   previous.orders
                                 ) + "%"
-                              : "0"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -811,7 +895,7 @@ const DataDisplayItemizedTable = props => {
                                     previous.adSales
                                   )
                                 )
-                              : "0"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -827,7 +911,7 @@ const DataDisplayItemizedTable = props => {
                                   current.adSales,
                                   previous.adSales
                                 ) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
@@ -872,12 +956,12 @@ const DataDisplayItemizedTable = props => {
                           <td align="right">
                             {current.acos
                               ? (current.acos * 100).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td align="right">
                             {previous.acos
                               ? (previous.acos * 100).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -887,7 +971,7 @@ const DataDisplayItemizedTable = props => {
                           >
                             {current.acos
                               ? (current.acos * 100).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                           <td
                             align="right"
@@ -897,14 +981,14 @@ const DataDisplayItemizedTable = props => {
                           >
                             {current.acos
                               ? (current.acos * 100).toFixed(2) + "%"
-                              : "0%"}
+                              : "N/A"}
                           </td>
                         </>
                       ) : (
                         <td align="right">
                           {current.acos
                             ? (current.acos * 100).toFixed(2) + "%"
-                            : "0%"}
+                            : "N/A"}
                         </td>
                       )}
 
