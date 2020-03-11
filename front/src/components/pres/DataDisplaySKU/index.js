@@ -670,7 +670,7 @@ const DataDisplaySKUTable = props => {
                             align="right"
                             className={isNegative(charge.ad_orders)}
                           >
-                            {charge.ad_orders ? charge.ad_orders + "%" : "0"}
+                            {change.ad_orders ? change.ad_orders + "%" : "0"}
                           </td>
                         </>
                       ) : (
