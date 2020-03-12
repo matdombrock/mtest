@@ -113,7 +113,8 @@ const currentDataFormate = data => {
       current,
       previous,
       change,
-      charge
+      charge,
+      period: d.period
     });
   });
   return payload;
@@ -157,7 +158,7 @@ const DataDisplayItemizedTable = props => {
               className={s.tableHead}
               colSpan={isComparisons && active === 0 && "4"}
             >
-              # No
+              Date Range
             </th>
             <th
               className={s.tableHead}
@@ -416,7 +417,10 @@ const DataDisplayItemizedTable = props => {
                       </>
                     ) : (
                       <td component="th">
-                        <b>{i + 1}</b>
+                        <b>
+                          {moment(row.period.start).format("MM/DD/YYYY")} -{" "}
+                          {moment(row.period.end).format("MM/DD/YYYY")}
+                        </b>
                       </td>
                     )}
                     {isComparisons && active === 1 ? (
