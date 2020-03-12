@@ -40,12 +40,12 @@ class UpperControls extends Component {
       comparison: false,
       customDateRange: false,
       selectedSku: null,
-      customDateStart: moment()
-        .subtract(2, "weeks")
-        .startOf("isoWeek"),
-      customDateEnd: moment()
-        .subtract(2, "weeks")
-        .endOf("isoWeek"),
+      // customDateStart: moment()
+      //   .subtract(2, "weeks")
+      //   .startOf("isoWeek"),
+      // customDateEnd: moment()
+      //   .subtract(2, "weeks")
+      //   .endOf("isoWeek"),
       startDate: moment()
         .subtract(1, "weeks")
         .startOf("isoWeek"),
@@ -148,27 +148,27 @@ class UpperControls extends Component {
         .startOf("day")
         .toISOString()
     };
+    data.period =
+      selectedDateRange === "lastMonth"
+        ? "last-month"
+        : selectedDateRange === "last7Days"
+        ? "7-days"
+        : selectedDateRange === "last14Days"
+        ? "14-days"
+        : selectedDateRange === "this30Days"
+        ? "30-days"
+        : selectedDateRange === "lastWeek"
+        ? "last-week"
+        : selectedDateRange === "currentMonth"
+        ? "current-month"
+        : "yesterday";
     if (activeTab === 1) {
-      data.period =
-        selectedDateRange === "lastMonth"
-          ? "last-month"
-          : selectedDateRange === "last7Days"
-          ? "7-days"
-          : selectedDateRange === "last14Days"
-          ? "14-days"
-          : selectedDateRange === "this30Days"
-          ? "30-days"
-          : selectedDateRange === "lastWeek"
-          ? "last-week"
-          : selectedDateRange === "currentMonth"
-          ? "current-month"
-          : "yesterday";
       brand &&
         fetchSalesDataBySKU(data)
           .then(data => {
             if (!data) throw false;
             if (data.status !== 200) {
-              this.props.setSKUData({});
+              // this.props.setSKUData({});
               this.props.setError(data.message);
             } else {
               this.props.setError(false);
@@ -188,12 +188,13 @@ class UpperControls extends Component {
           .then(data => {
             if (!data) throw false;
             if (data.status !== 200) {
-              this.props.saleSetData({});
+              this.props.saleSetData();
               this.props.setError(data.message);
             } else {
               this.props.setError(false);
               const payload = data;
-              this.props.saleSetData(payload);
+              console.log("UpperControls -> fetchData -> data", data);
+              this.props.saleSetData(payload.data);
             }
             this.props.setLoadingData(false);
           })
@@ -204,133 +205,133 @@ class UpperControls extends Component {
           });
     }
 
-    if (comparison) {
-      const dataSecond = {
-        brand: brand,
-        byMonth: period === "weekly" ? false : true,
-        startDate: moment(customDateStart)
-          .startOf("day")
-          .toISOString(),
-        endDate: moment(customDateEnd)
-          .startOf("day")
-          .toISOString()
-      };
-      if (activeTab === 1) {
-        // dataSecond.period =
-        //   selectedDateRange === "lastMonth"
-        //     ? "last-month"
-        //     : selectedDateRange === "last7Days"
-        //     ? "7"
-        //     : selectedDateRange === "last14Days"
-        //     ? "14"
-        //     : selectedDateRange === "this30Days"
-        //     ? "30"
-        //     : selectedDateRange === "lastWeek"
-        //     ? "last-week"
-        //     : selectedDateRange === "currentMonth"
-        //     ? "current-month"
-        //     : "yesterday";
-        // brand &&
-        //   fetchSalesDataBySKU(dataSecond)
-        //     .then(data => {
-        //       if (!data) throw false;
-        //       this.props.setError(false);
-        //       if (data.status !== 200) {
-        //         this.props.setSKUComparisonData({});
-        //         this.props.setError(data.message);
-        //       } else {
-        //         const payload = data;
-        //         this.props.setSKUComparisonData(payload);
-        //       }
-        //       this.props.setLoadingData(false);
-        //     })
-        //     .catch(error => {
-        //       this.props.setLoadingData(false);
-        //       console.log("request failed", error);
-        //       this.props.setError("Something went wrong please try again");
-        //     });
-      } else {
-        brand &&
-          fetchSalesData(dataSecond)
-            .then(data => {
-              if (!data) throw false;
-              this.props.setError(false);
-              if (data.status !== 200) {
-                const payload = {
-                  summary: {
-                    totalRevenue: "0",
-                    totalCost: "0",
-                    unitsSold: 0,
-                    totalAdSpend: 0,
-                    totalAdSales: 0,
-                    averageAcos: "0"
-                  },
-                  period: "weekly",
-                  itemized: [
-                    {
-                      revenue: "0",
-                      average_selling_price: "0",
-                      wholesale_cost: "0",
-                      units_sold: 0,
-                      date: new Date(),
-                      impressions: 0,
-                      clicks: 0,
-                      spend: 0,
-                      orders: 0,
-                      adSales: 0,
-                      average_cpc: "0",
-                      acos: "0",
-                      cvr: "0"
-                    }
-                  ]
-                };
-                this.props.setSecondData(payload);
-              } else {
-                const payload = data;
-                this.props.setSecondData(payload);
-              }
-              this.props.setLoadingData(false);
-            })
-            .catch(error => {
-              console.log("request failed", error);
-              this.props.setError("Something went wrong please try again");
-              this.props.setLoadingData(false);
-            });
-      }
-    }
+    // if (comparison) {
+    //   const dataSecond = {
+    //     brand: brand,
+    //     byMonth: period === "weekly" ? false : true,
+    //     startDate: moment(customDateStart)
+    //       .startOf("day")
+    //       .toISOString(),
+    //     endDate: moment(customDateEnd)
+    //       .startOf("day")
+    //       .toISOString()
+    //   };
+    //   if (activeTab === 1) {
+    //     // dataSecond.period =
+    //     //   selectedDateRange === "lastMonth"
+    //     //     ? "last-month"
+    //     //     : selectedDateRange === "last7Days"
+    //     //     ? "7"
+    //     //     : selectedDateRange === "last14Days"
+    //     //     ? "14"
+    //     //     : selectedDateRange === "this30Days"
+    //     //     ? "30"
+    //     //     : selectedDateRange === "lastWeek"
+    //     //     ? "last-week"
+    //     //     : selectedDateRange === "currentMonth"
+    //     //     ? "current-month"
+    //     //     : "yesterday";
+    //     // brand &&
+    //     //   fetchSalesDataBySKU(dataSecond)
+    //     //     .then(data => {
+    //     //       if (!data) throw false;
+    //     //       this.props.setError(false);
+    //     //       if (data.status !== 200) {
+    //     //         this.props.setSKUComparisonData({});
+    //     //         this.props.setError(data.message);
+    //     //       } else {
+    //     //         const payload = data;
+    //     //         this.props.setSKUComparisonData(payload);
+    //     //       }
+    //     //       this.props.setLoadingData(false);
+    //     //     })
+    //     //     .catch(error => {
+    //     //       this.props.setLoadingData(false);
+    //     //       console.log("request failed", error);
+    //     //       this.props.setError("Something went wrong please try again");
+    //     //     });
+    //   } else {
+    //     brand &&
+    //       fetchSalesData(dataSecond)
+    //         .then(data => {
+    //           if (!data) throw false;
+    //           this.props.setError(false);
+    //           if (data.status !== 200) {
+    //             const payload = {
+    //               summary: {
+    //                 totalRevenue: "0",
+    //                 totalCost: "0",
+    //                 unitsSold: 0,
+    //                 totalAdSpend: 0,
+    //                 totalAdSales: 0,
+    //                 averageAcos: "0"
+    //               },
+    //               period: "weekly",
+    //               itemized: [
+    //                 {
+    //                   revenue: "0",
+    //                   average_selling_price: "0",
+    //                   wholesale_cost: "0",
+    //                   units_sold: 0,
+    //                   date: new Date(),
+    //                   impressions: 0,
+    //                   clicks: 0,
+    //                   spend: 0,
+    //                   orders: 0,
+    //                   adSales: 0,
+    //                   average_cpc: "0",
+    //                   acos: "0",
+    //                   cvr: "0"
+    //                 }
+    //               ]
+    //             };
+    //             this.props.setSecondData(payload);
+    //           } else {
+    //             const payload = data;
+    //             this.props.setSecondData(payload);
+    //           }
+    //           this.props.setLoadingData(false);
+    //         })
+    //         .catch(error => {
+    //           console.log("request failed", error);
+    //           this.props.setError("Something went wrong please try again");
+    //           this.props.setLoadingData(false);
+    //         });
+    //   }
+    // }
     this.setState({ showDropDown: false });
-    if (comparison) {
-      this.props.setDates(startDate, endDate, customDateStart, customDateEnd);
-    } else {
-      this.props.setDates(startDate, endDate);
-      // this.props.setSKUComparisonData({});
-      this.props.setSecondData({});
-    }
+    this.props.setDates(startDate, endDate);
+    // if (comparison) {
+    //   this.props.setDates(startDate, endDate, customDateStart, customDateEnd);
+    // } else {
+    // this.props.setSKUComparisonData({});
+    // this.props.setSecondData({});
+    // }
   };
 
   handleUpdateState = (key, value) => this.setState({ [key]: value });
   handleToday = () => {
     const dates = [moment(), moment()];
-    const comparisonDate = [moment().subtract(1, "days"), moment()];
+    // const comparisonDate = [moment().subtract(1, "days"), moment()];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "today"
     });
   };
   handleYesterday = () => {
     const dates = [moment().subtract(1, "days"), moment().subtract(1, "days")];
-    const comparisonDate = [
-      moment().subtract(2, "days"),
-      moment().subtract(1, "days")
-    ];
+    // const comparisonDate = [
+    //   moment().subtract(2, "days"),
+    //   moment().subtract(1, "days")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "yesterday"
     });
   };
@@ -343,19 +344,19 @@ class UpperControls extends Component {
         .subtract(1, "weeks")
         .endOf("isoWeek")
     ];
-    const comparisonDate = [
-      moment()
-        .subtract(2, "weeks")
-        .startOf("isoWeek"),
-      moment()
-        .subtract(2, "weeks")
-        .endOf("isoWeek")
-    ];
+    // const comparisonDate = [
+    //   moment()
+    //     .subtract(2, "weeks")
+    //     .startOf("isoWeek"),
+    //   moment()
+    //     .subtract(2, "weeks")
+    //     .endOf("isoWeek")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "lastWeek"
     });
   };
@@ -368,54 +369,54 @@ class UpperControls extends Component {
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "last7Days"
     });
   };
   handleThis30Days = () => {
     const dates = [moment().subtract(29, "days"), moment()];
-    const comparisonDate = [
-      moment().subtract(59, "days"),
-      moment().subtract(29, "days")
-    ];
+    // const comparisonDate = [
+    //   moment().subtract(59, "days"),
+    //   moment().subtract(29, "days")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "this30Days"
     });
   };
   handleThisMonth = () => {
     const dates = [moment().startOf("month"), moment().endOf("month")];
-    const comparisonDate = [
-      moment()
-        .subtract(1, "month")
-        .startOf("month"),
-      moment()
-        .subtract(1, "month")
-        .endOf("month")
-    ];
+    // const comparisonDate = [
+    //   moment()
+    //     .subtract(1, "month")
+    //     .startOf("month"),
+    //   moment()
+    //     .subtract(1, "month")
+    //     .endOf("month")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "thisMonth"
     });
   };
   handleLast14 = () => {
     const dates = [moment().subtract(13, "days"), moment()];
-    const comparisonDate = [
-      moment().subtract(29, "days"),
-      moment().subtract(14, "days")
-    ];
+    // const comparisonDate = [
+    //   moment().subtract(29, "days"),
+    //   moment().subtract(14, "days")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "last14Days"
     });
   };
@@ -428,37 +429,37 @@ class UpperControls extends Component {
         .subtract(1, "month")
         .endOf("month")
     ];
-    const comparisonDate = [
-      moment()
-        .subtract(2, "month")
-        .startOf("month"),
-      moment()
-        .subtract(1, "month")
-        .startOf("month")
-    ];
+    // const comparisonDate = [
+    //   moment()
+    //     .subtract(2, "month")
+    //     .startOf("month"),
+    //   moment()
+    //     .subtract(1, "month")
+    //     .startOf("month")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "lastMonth"
     });
   };
   handleCurrentMonth = () => {
     const dates = [moment().startOf("month"), moment()];
-    const comparisonDate = [
-      moment()
-        .subtract(2, "month")
-        .startOf("month"),
-      moment()
-        .subtract(1, "month")
-        .startOf("month")
-    ];
+    // const comparisonDate = [
+    //   moment()
+    //     .subtract(2, "month")
+    //     .startOf("month"),
+    //   moment()
+    //     .subtract(1, "month")
+    //     .startOf("month")
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
-      customDateStart: comparisonDate[0],
-      customDateEnd: comparisonDate[1],
+      // customDateStart: comparisonDate[0],
+      // customDateEnd: comparisonDate[1],
       selectedDateRange: "currentMonth"
     });
   };
@@ -595,7 +596,7 @@ class UpperControls extends Component {
                       >
                         Current Month
                       </div>
-                      {this.props.activeTab !== 1 && (
+                      {/* {this.props.activeTab !== 1 && (
                         <div
                           className={
                             activeSelectedDateRange === "custom" &&
@@ -610,8 +611,8 @@ class UpperControls extends Component {
                         >
                           Custom Range
                         </div>
-                      )}
-                      {activeSelectedDateRange === "custom" && (
+                      )} */}
+                      {/* {activeSelectedDateRange === "custom" && (
                         <>
                           <div className={s["item"]}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -646,8 +647,8 @@ class UpperControls extends Component {
                             </MuiPickersUtilsProvider>
                           </div>
                         </>
-                      )}
-                      {this.props.activeTab !== 1 && (
+                      )} */}
+                      {/* {this.props.activeTab !== 1 && (
                         <div className={s["item"]}>
                           <p className={s["comparison-input"]}>
                             <label className={s["comparison-input"]}>
@@ -667,8 +668,8 @@ class UpperControls extends Component {
                             </label>
                           </p>
                         </div>
-                      )}
-                      {this.state.comparison && (
+                      )} */}
+                      {/* {this.state.comparison && (
                         <div className={s["item"]}>
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
@@ -697,7 +698,7 @@ class UpperControls extends Component {
                             />
                           </MuiPickersUtilsProvider>
                         </div>
-                      )}
+                      )} */}
                       <div className={s["item"]}>
                         <Button
                           onClick={this.fetchData}

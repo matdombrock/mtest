@@ -12,60 +12,137 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
 const currentDataFormate = data => {
-  let temp = {
-    spend: 0,
-    orders: 0,
-    cvr: 0,
-    acos: 0,
-    adSales: 0,
-    revenue: 0,
-    units_sold: 0,
-    wholesale_cost: 0,
-    clicks: 0,
-    impressions: 0,
-    average_cpc: 0
-  };
-  data.map(row => {
-    temp.revenue += Math.round(Number(row.revenue));
-    temp.units_sold += Math.round(Number(row.units_sold));
-    temp.wholesale_cost += Math.round(Number(row.wholesale_cost));
-    temp.clicks += Math.round(Number(row.clicks));
-    temp.impressions += Math.round(Number(row.impressions));
-    temp.average_cpc += Number(row.average_cpc);
-    temp.spend += Math.round(Number(row.spend));
-    temp.orders += Math.round(Number(row.orders));
-    temp.adSales += Math.round(Number(row.adSales));
-    temp.cvr += Math.round(Number(row.cvr));
-    temp.acos += Math.round(Number(row.acos));
-    return false;
+  let payload = [];
+  data.map((d, i, arr) => {
+    const current = d.summary;
+    const previous =
+      i < arr.length - 1
+        ? arr[i + 1].summary
+        : {
+            acos: 0,
+            average_cpc: 0,
+            ad_clicks: 0,
+            ad_impressions: 0,
+            ad_orders: 0,
+            ad_sales: 0,
+            ad_spend: 0,
+            conversion_rate: 0,
+            sales: 0,
+            shipped_cogs: 0,
+            units_sold: 0,
+            asin: "N/A",
+            sku: "N/A",
+            percent_total_sales: 0,
+            item_number: "N/A"
+          };
+    const change = {
+      acos: getDifferenceInNumber(current.acos, previous.acos),
+      ad_clicks: getDifferenceInNumber(current.ad_clicks, previous.ad_clicks),
+      ad_impressions: getDifferenceInNumber(
+        current.ad_impressions,
+        previous.ad_impressions
+      ),
+      ad_orders: getDifferenceInNumber(current.ad_orders, previous.ad_orders),
+      ad_sales: getDifferenceInNumber(current.ad_sales, previous.ad_sales),
+      ad_spend: getDifferenceInNumber(current.ad_spend, previous.ad_spend),
+      asin: "N/A",
+      average_cpc: getDifferenceInNumber(
+        current.average_cpc,
+        previous.average_cpc
+      ),
+      conversion_rate: getDifferenceInNumber(
+        current.conversion_rate,
+        previous.conversion_rate
+      ),
+      item_number: "N/A",
+      percent_total_sales: getDifferenceInNumber(
+        current.percent_total_sales,
+        previous.percent_total_sales
+      ),
+      sales: getDifferenceInNumber(current.sales, previous.sales),
+      shipped_cogs: getDifferenceInNumber(
+        current.shipped_cogs,
+        previous.shipped_cogs
+      ),
+      sku: "N/A",
+      units_sold: getDifferenceInNumber(current.units_sold, previous.units_sold)
+    };
+    const charge = {
+      acos: getDifferenceInPercentage(current.acos, previous.acos),
+      ad_clicks: getDifferenceInPercentage(
+        current.ad_clicks,
+        previous.ad_clicks
+      ),
+      ad_impressions: getDifferenceInPercentage(
+        current.ad_impressions,
+        previous.ad_impressions
+      ),
+      ad_orders: getDifferenceInPercentage(
+        current.ad_orders,
+        previous.ad_orders
+      ),
+      ad_sales: getDifferenceInPercentage(current.ad_sales, previous.ad_sales),
+      ad_spend: getDifferenceInPercentage(current.ad_spend, previous.ad_spend),
+      asin: "N/A",
+      average_cpc: getDifferenceInPercentage(
+        current.average_cpc,
+        previous.average_cpc
+      ),
+      conversion_rate: getDifferenceInPercentage(
+        current.conversion_rate,
+        previous.conversion_rate
+      ),
+      item_number: "N/A",
+      percent_total_sales: getDifferenceInPercentage(
+        current.percent_total_sales,
+        previous.percent_total_sales
+      ),
+      sales: getDifferenceInPercentage(current.sales, previous.sales),
+      shipped_cogs: getDifferenceInPercentage(
+        current.shipped_cogs,
+        previous.shipped_cogs
+      ),
+      sku: "N/A",
+      units_sold: getDifferenceInPercentage(
+        current.units_sold,
+        previous.units_sold
+      )
+    };
+
+    payload.push({
+      current,
+      previous,
+      change,
+      charge
+    });
   });
-  temp.average_cpc = temp.average_cpc / data.length;
-  return [temp];
+  return payload;
 };
 
-const getDifferenceInNumber = (current, previous) =>
-  Number(current - previous).toFixed(2);
+const getDifferenceInNumber = (current, previous) => {
+  let payload = Number(current - previous).toFixed(2);
+  return isNaN(payload) ? 0 : Number(payload);
+};
 
 const getDifferenceInPercentage = (current, previous) => {
   const totalDifference = getDifferenceInNumber(current, previous);
-  if (current === 0) return 100;
-  return totalDifference === 0
-    ? 0
-    : Number((totalDifference / current) * 100).toFixed(2);
+  if (previous === 0 && current === 0) return 0;
+  if (previous === 0) return 100;
+  const payload =
+    totalDifference === 0
+      ? 0
+      : Number((totalDifference / Number(previous)) * 100).toFixed(2);
+  return isNaN(payload) ? 0 : Number(payload);
 };
 
 const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplayItemizedTable = props => {
-  const isComparisons = props.comparisons.period;
+  const isComparisons = true;
   const [active, setActive] = useState(false);
-  let currentData = props.data.itemized;
+  let currentData = props.data;
+  const data = currentDataFormate(currentData);
   if (!currentData) return null;
-  let previousData = props.comparisons.itemized;
-  if (isComparisons) {
-    currentData = currentDataFormate(currentData);
-    previousData = currentDataFormate(previousData);
-  }
 
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
@@ -80,7 +157,7 @@ const DataDisplayItemizedTable = props => {
               className={s.tableHead}
               colSpan={isComparisons && active === 0 && "4"}
             >
-              Date
+              # No
             </th>
             <th
               className={s.tableHead}
@@ -264,7 +341,7 @@ const DataDisplayItemizedTable = props => {
                 <span />
               </div>
             </th>
-            <th
+            {/* <th
               className={s.tableHead}
               colSpan={isComparisons && active === 13 && "4"}
               onClick={() => headerClick(13)}
@@ -281,14 +358,14 @@ const DataDisplayItemizedTable = props => {
                 </span>
                 <span />
               </div>
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
           {isComparisons && active && (
             <>
               <tr>
-                {active > 0 && (
+                {active !== 0 && (
                   <th
                     colSpan={active}
                     className={s.tableHead}
@@ -316,681 +393,465 @@ const DataDisplayItemizedTable = props => {
               </tr>
             </>
           )}
-          {currentData
-            ? currentData
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .reverse()
-                .map((row, i, array) => {
-                  const current = row;
-                  const previous =
-                    previousData && previousData.length ? previousData[i] : {};
-                  return (
-                    <tr key={i}>
-                      {active === 0 ? (
-                        <>
-                          <td component="th">
-                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
-                          </td>
-                          <td component="th">
-                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
-                          </td>
-                          <td component="th">
-                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
-                          </td>
-                          <td component="th">
-                            <b>{moment(current.date).format("MM/DD/YYYY")}</b>
-                          </td>
-                        </>
-                      ) : (
+          {data
+            ? data.map((row, i, array) => {
+                const { current, previous, change, charge } = row;
+                return (
+                  <tr key={i}>
+                    {active === 0 ? (
+                      <>
                         <td component="th">
-                          <b>{moment(current.date).format("MM/DD/YYYY")}</b>
+                          <b>{i + 1}</b>
                         </td>
-                      )}
-                      {isComparisons && active === 1 ? (
-                        <>
-                          <td align="right">
-                            {current.revenue
-                              ? "$" + numberWithCommas(current.revenue)
-                              : "N/A"}
+                        {/* <td component="th">
+                            <b>{i}</b>
                           </td>
-                          <td align="right">
-                            {current.revenue
-                              ? "$" + numberWithCommas(previous.revenue)
-                              : "N/A"}
+                          <td component="th">
+                            <b>{i}</b>
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.revenue,
-                                previous.revenue
-                              )
-                            )}
-                          >
-                            {current.revenue
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.revenue,
-                                    previous.revenue
-                                  )
-                                )
-                              : "N/A"}
+                          <td component="th">
+                            <b>{i}</b>
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.revenue,
-                                previous.revenue
-                              )
-                            )}
-                          >
-                            {current.revenue
-                              ? getDifferenceInPercentage(
-                                  current.revenue,
-                                  previous.revenue
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
+                        */}
+                      </>
+                    ) : (
+                      <td component="th">
+                        <b>{i + 1}</b>
+                      </td>
+                    )}
+                    {isComparisons && active === 1 ? (
+                      <>
                         <td align="right">
-                          {current.revenue
-                            ? "$" + numberWithCommas(current.revenue)
+                          {current.sales !== 0
+                            ? "$" + numberWithCommas(current.sales)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 2 ? (
-                        <>
-                          <td align="right">
-                            {current.units_sold
-                              ? numberWithCommas(current.units_sold)
-                              : 0}
-                          </td>
-                          <td align="right">
-                            {current.units_sold
-                              ? numberWithCommas(previous.units_sold)
-                              : 0}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.units_sold,
-                                previous.units_sold
-                              )
-                            )}
-                          >
-                            {current.units_sold
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.units_sold,
-                                    previous.units_sold
-                                  )
-                                )
-                              : 0}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.units_sold,
-                                previous.units_sold
-                              )
-                            )}
-                          >
-                            {current.units_sold
-                              ? getDifferenceInPercentage(
-                                  current.units_sold,
-                                  previous.units_sold
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
                         <td align="right">
-                          {current.units_sold
+                          {previous.sales !== 0
+                            ? "$" + numberWithCommas(previous.sales)
+                            : "N/A"}
+                        </td>
+                        <td align="right" className={isNegative(change.sales)}>
+                          {change.sales !== 0 ? "$" + change.sales : "N/A"}
+                        </td>
+                        <td align="right" className={isNegative(charge.sales)}>
+                          {charge.sales !== 0 ? charge.sales + "%" : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.sales !== 0
+                          ? "$" + numberWithCommas(current.sales)
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 2 ? (
+                      <>
+                        <td align="right">
+                          {current.units_sold !== 0
                             ? numberWithCommas(current.units_sold)
-                            : 0}
-                        </td>
-                      )}
-
-                      {isComparisons && active === 3 ? (
-                        <>
-                          <td align="right">
-                            {current.wholesale_cost
-                              ? "$" + numberWithCommas(current.wholesale_cost)
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {current.wholesale_cost
-                              ? "$" + numberWithCommas(previous.wholesale_cost)
-                              : "N/A"}
-                          </td>
-
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.wholesale_cost,
-                                previous.wholesale_cost
-                              )
-                            )}
-                          >
-                            {current.wholesale_cost
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.wholesale_cost,
-                                    previous.wholesale_cost
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={getDifferenceInPercentage(
-                              current.wholesale_cost,
-                              previous.wholesale_cost
-                            )}
-                          >
-                            {current.wholesale_cost
-                              ? getDifferenceInPercentage(
-                                  current.wholesale_cost,
-                                  previous.wholesale_cost
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td align="right">
-                          {current.wholesale_cost
-                            ? "$" + numberWithCommas(current.wholesale_cost)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 4 ? (
-                        <>
-                          <td align="right">
-                            {!isNaN(parseFloat(current.revenue))
-                              ? (
-                                  (parseFloat(current.spend) /
-                                    parseFloat(current.revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {!isNaN(parseFloat(previous.revenue))
-                              ? (
-                                  (parseFloat(previous.revenue) /
-                                    parseFloat(previous.spend)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              (parseFloat(current.revenue) /
-                                parseFloat(current.spend)) *
-                                100 -
-                                (parseFloat(previous.revenue) /
-                                  parseFloat(previous.spend)) *
-                                  100
-                            )}
-                          >
-                            {!isNaN(parseFloat(current.revenue))
-                              ? (
-                                  (parseFloat(current.revenue) /
-                                    parseFloat(current.spend)) *
-                                    100 -
-                                  (parseFloat(previous.revenue) /
-                                    parseFloat(previous.spend)) *
-                                    100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              (parseFloat(current.revenue) /
-                                parseFloat(props.data.summary.totalRevenue)) *
-                                100
-                            )}
-                          >
-                            {!isNaN(parseFloat(current.revenue))
-                              ? (
-                                  (parseFloat(current.revenue) /
-                                    parseFloat(
-                                      props.data.summary.totalRevenue
-                                    )) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
                         <td align="right">
-                          {!isNaN(parseFloat(current.revenue))
-                            ? (
-                                (parseFloat(current.revenue) /
-                                  parseFloat(props.data.summary.totalRevenue)) *
-                                100
-                              ).toFixed(2) + "%"
+                          {previous.units_sold !== 0
+                            ? numberWithCommas(previous.units_sold)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 5 ? (
-                        <>
-                          <td align="right">
-                            {current.clicks
-                              ? numberWithCommas(current.clicks)
-                              : "N/A"}
-                          </td>
-
-                          <td align="right">
-                            {previous.clicks
-                              ? numberWithCommas(previous.clicks)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.clicks,
-                                previous.clicks
-                              )
-                            )}
-                          >
-                            {previous.clicks
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.clicks,
-                                    previous.clicks
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.clicks,
-                                previous.clicks
-                              )
-                            )}
-                          >
-                            {current.clicks
-                              ? getDifferenceInPercentage(
-                                  current.clicks,
-                                  previous.clicks
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td align="right">
-                          {current.clicks
-                            ? numberWithCommas(current.clicks)
+                        <td
+                          align="right"
+                          className={isNegative(change.units_sold)}
+                        >
+                          {change.units_sold !== 0
+                            ? numberWithCommas(change.units_sold)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 6 ? (
-                        <>
-                          <td align="right">
-                            {current.impressions
-                              ? numberWithCommas(current.impressions)
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {previous.impressions
-                              ? numberWithCommas(previous.impressions)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.impressions,
-                                previous.impressions
-                              )
-                            )}
-                          >
-                            {current.impressions
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.impressions,
-                                    previous.impressions
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.impressions,
-                                previous.impressions
-                              )
-                            )}
-                          >
-                            {current.impressions
-                              ? getDifferenceInPercentage(
-                                  current.impressions,
-                                  previous.impressions
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td align="right">
-                          {current.impressions
-                            ? numberWithCommas(current.impressions)
+                        <td
+                          align="right"
+                          className={isNegative(charge.units_sold)}
+                        >
+                          {current.units_sold !== 0
+                            ? charge.units_sold + "%"
                             : "N/A"}
                         </td>
-                      )}
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.units_sold !== 0
+                          ? numberWithCommas(current.units_sold)
+                          : "N/A"}
+                      </td>
+                    )}
 
-                      {isComparisons && active === 7 ? (
-                        <>
-                          <td align="right">
-                            {current.average_cpc
-                              ? "$" + numberWithCommas(current.average_cpc)
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {previous.average_cpc
-                              ? "$" + numberWithCommas(previous.average_cpc)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.average_cpc,
-                                previous.average_cpc
-                              )
-                            )}
-                          >
-                            {current.average_cpc
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.average_cpc,
-                                    previous.average_cpc
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.average_cpc,
-                                previous.average_cpc
-                              )
-                            )}
-                          >
-                            {current.average_cpc
-                              ? getDifferenceInPercentage(
-                                  current.average_cpc,
-                                  previous.average_cpc
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
+                    {isComparisons && active === 3 ? (
+                      <>
+                        <td align="right">
+                          {current.shipped_cogs !== 0
+                            ? "$" + numberWithCommas(current.shipped_cogs)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.shipped_cogs !== 0
+                            ? "$" + numberWithCommas(previous.shipped_cogs)
+                            : "N/A"}
+                        </td>
+
+                        <td
+                          align="right"
+                          className={isNegative(change.shipped_cogs)}
+                        >
+                          {current.shipped_cogs !== 0
+                            ? "$" + numberWithCommas(change.shipped_cogs)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.shipped_cogs)}
+                        >
+                          {charge.shipped_cogs !== 0
+                            ? charge.shipped_cogs + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.shipped_cogs !== 0
+                          ? "$" + numberWithCommas(current.shipped_cogs)
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 4 ? (
+                      <>
+                        <td align="right">
+                          {current.percent_total_sales !== 0
+                            ? Number(current.percent_total_sales).toFixed(2) +
+                              "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.percent_total_sales !== 0
+                            ? Number(previous.percent_total_sales).toFixed(2) +
+                              "%"
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.percent_total_sales)}
+                        >
+                          {change.percent_total_sales !== 0
+                            ? change.percent_total_sales
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.percent_total_sales)}
+                        >
+                          {charge.percent_total_sales !== 0
+                            ? Number(charge.percent_total_sales).toFixed(2) +
+                              "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.percent_total_sales !== 0
+                          ? Number(current.percent_total_sales).toFixed(2) + "%"
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 5 ? (
+                      <>
+                        <td align="right">
+                          {current.ad_clicks !== 0
+                            ? numberWithCommas(current.ad_clicks)
+                            : "N/A"}
+                        </td>
+
+                        <td align="right">
+                          {previous.ad_clicks !== 0
+                            ? numberWithCommas(previous.ad_clicks)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.ad_clicks)}
+                        >
+                          {(change.ad_clicks !== 0) !== 0
+                            ? numberWithCommas(charge.ad_clicks)
+                            : "N/A"}
+                        </td>
+
+                        <td
+                          align="right"
+                          className={isNegative(charge.ad_clicks)}
+                        >
+                          {(charge.ad_clicks !== 0) !== 0
+                            ? getDifferenceInPercentage(charge.ad_clicks) + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.ad_clicks !== 0
+                          ? numberWithCommas(current.ad_clicks)
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 6 ? (
+                      <>
+                        <td align="right">
+                          {current.ad_impressions !== 0
+                            ? numberWithCommas(current.ad_impressions)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.ad_impressions !== 0
+                            ? numberWithCommas(previous.ad_impressions)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.ad_impressions)}
+                        >
+                          {change.ad_impressions !== 0
+                            ? numberWithCommas(change.ad_impressions)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.ad_impressions)}
+                        >
+                          {charge.ad_impressions !== 0
+                            ? charge.ad_impressions + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.ad_impressions
+                          ? numberWithCommas(current.ad_impressions)
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 7 ? (
+                      <>
                         <td align="right">
                           {current.average_cpc
                             ? "$" + numberWithCommas(current.average_cpc)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 8 ? (
-                        <>
-                          <td align="right">
-                            {current.spend
-                              ? "$" + numberWithCommas(current.spend)
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {previous.spend
-                              ? "$" + numberWithCommas(previous.spend)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.spend,
-                                previous.spend
-                              )
-                            )}
-                          >
-                            {current.spend
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.spend,
-                                    previous.spend
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.spend,
-                                previous.spend
-                              )
-                            )}
-                          >
-                            {current.spend
-                              ? getDifferenceInPercentage(
-                                  current.spend,
-                                  previous.spend
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
                         <td align="right">
-                          {current.spend
-                            ? "$" + numberWithCommas(current.spend)
+                          {previous.average_cpc
+                            ? "$" + numberWithCommas(previous.average_cpc)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 9 ? (
-                        <>
-                          <td align="right">
-                            {current.orders
-                              ? numberWithCommas(current.orders)
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {previous.orders
-                              ? numberWithCommas(previous.orders)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.orders,
-                                previous.orders
-                              )
-                            )}
-                          >
-                            {current.orders
-                              ? numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.orders,
-                                    previous.orders
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.orders,
-                                previous.orders
-                              )
-                            )}
-                          >
-                            {current.orders
-                              ? getDifferenceInPercentage(
-                                  current.orders,
-                                  previous.orders
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td align="right">
-                          {current.orders
-                            ? numberWithCommas(current.orders)
+                        <td
+                          align="right"
+                          className={isNegative(change.average_cpc)}
+                        >
+                          {change.average_cpc !== 0
+                            ? "$" + numberWithCommas(change.average_cpc)
                             : "N/A"}
                         </td>
-                      )}
-
-                      {isComparisons && active === 10 ? (
-                        <>
-                          <td align="right">
-                            {current.adSales
-                              ? "$" + numberWithCommas(current.adSales)
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {previous.adSales
-                              ? "$" + numberWithCommas(previous.adSales)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInNumber(
-                                current.adSales,
-                                previous.adSales
-                              )
-                            )}
-                          >
-                            {current.adSales
-                              ? "$" +
-                                numberWithCommas(
-                                  getDifferenceInNumber(
-                                    current.adSales,
-                                    previous.adSales
-                                  )
-                                )
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.adSales,
-                                previous.adSales
-                              )
-                            )}
-                          >
-                            {current.adSales
-                              ? getDifferenceInPercentage(
-                                  current.adSales,
-                                  previous.adSales
-                                ) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td align="right">
-                          {current.adSales
-                            ? "$" + numberWithCommas(current.adSales)
+                        <td
+                          align="right"
+                          className={isNegative(charge.average_cpc)}
+                        >
+                          {charge.average_cpc !== 0
+                            ? charge.average_cpc + "%"
                             : "N/A"}
                         </td>
-                      )}
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.average_cpc
+                          ? "$" + numberWithCommas(current.average_cpc)
+                          : "N/A"}
+                      </td>
+                    )}
 
-                      {isComparisons && active === 11 ? (
-                        <>
-                          <td align="right">{current.cvr + "%"}</td>
-                          <td align="right">{current.cvr + "%"}</td>
-                          <td align="right">
-                            {getDifferenceInNumber(current.cvr, previous.cvr) +
-                              "%"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              getDifferenceInPercentage(
-                                current.cvr,
-                                previous.cvr
-                              )
-                            )}
-                          >
-                            {getDifferenceInPercentage(
-                              current.cvr,
-                              previous.cvr
-                            ) + "%"}
-                          </td>
-                        </>
-                      ) : (
+                    {isComparisons && active === 8 ? (
+                      <>
                         <td align="right">
-                          {Number(current.cvr).toFixed(2) + "%"}
-                        </td>
-                      )}
-
-                      {isComparisons && active === 12 ? (
-                        <>
-                          <td align="right">
-                            {current.acos
-                              ? (current.acos * 100).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td align="right">
-                            {previous.acos
-                              ? (previous.acos * 100).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              (current.acos * 100).toFixed(2)
-                            )}
-                          >
-                            {current.acos
-                              ? (current.acos * 100).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(
-                              (current.acos * 100).toFixed(2)
-                            )}
-                          >
-                            {current.acos
-                              ? (current.acos * 100).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td align="right">
-                          {current.acos
-                            ? (current.acos * 100).toFixed(2) + "%"
+                          {current.ad_spend
+                            ? "$" + numberWithCommas(current.ad_spend)
                             : "N/A"}
                         </td>
-                      )}
+                        <td align="right">
+                          {previous.ad_spend
+                            ? "$" + numberWithCommas(previous.ad_spend)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.ad_spend)}
+                        >
+                          {change.ad_spend !== 0
+                            ? "$" + numberWithCommas(change.ad_spend)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.ad_spend)}
+                        >
+                          {current.ad_spend !== 0
+                            ? charge.ad_spend + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.ad_spend
+                          ? "$" + numberWithCommas(current.ad_spend)
+                          : "N/A"}
+                      </td>
+                    )}
 
-                      {isComparisons && active === 13 ? (
+                    {isComparisons && active === 9 ? (
+                      <>
+                        <td align="right">
+                          {current.ad_orders
+                            ? numberWithCommas(current.ad_orders)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.ad_orders
+                            ? numberWithCommas(previous.ad_orders)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.ad_orders)}
+                        >
+                          {change.ad_orders !== 0
+                            ? numberWithCommas(change.ad_orders)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.ad_orders)}
+                        >
+                          {charge.ad_orders !== 0
+                            ? charge.ad_orders + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.ad_orders
+                          ? numberWithCommas(current.ad_orders)
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 10 ? (
+                      <>
+                        <td align="right">
+                          {current.ad_sales
+                            ? "$" + numberWithCommas(current.ad_sales)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.ad_sales
+                            ? "$" + numberWithCommas(previous.ad_sales)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.ad_sales)}
+                        >
+                          {change.ad_sales !== 0
+                            ? "$" + numberWithCommas(change.ad_sales)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.ad_sales)}
+                        >
+                          {charge.ad_sales !== 0
+                            ? charge.ad_sales + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.ad_sales !== 0
+                          ? "$" + numberWithCommas(current.ad_sales)
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 11 ? (
+                      <>
+                        <td align="right">
+                          {current.conversion_rate !== 0
+                            ? Number(current.conversion_rate).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.conversion_rate !== 0
+                            ? Number(previous.conversion_rate).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.conversion_rate)}
+                        >
+                          {change.conversion_rate !== 0
+                            ? Number(change.conversion_rate).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.conversion_rate)}
+                        >
+                          {charge.conversion_rate !== 0
+                            ? Number(charge.conversion_rate).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {Number(current.conversion_rate).toFixed(2) + "%"}
+                      </td>
+                    )}
+
+                    {isComparisons && active === 12 ? (
+                      <>
+                        <td align="right">
+                          {current.acos !== 0
+                            ? Number(current.acos).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.acos !== 0
+                            ? Number(previous.acos).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right" className={isNegative(change.acos)}>
+                          {change.acos !== 0
+                            ? Number(change.acos).toFixed(2) + "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right" className={isNegative(charge.acos)}>
+                          {charge.acos !== 0
+                            ? Number(charge.acos).toFixed() + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.acos !== 0
+                          ? Number(current.acos).toFixed() + "%"
+                          : "N/A"}
+                      </td>
+                    )}
+
+                    {/* {isComparisons && active === 13 ? (
                         <>
                           <td
                             align="right"
@@ -1128,10 +989,10 @@ const DataDisplayItemizedTable = props => {
                               ).toFixed(2) + "%"
                             : "N/A"}
                         </td>
-                      )}
-                    </tr>
-                  );
-                })
+                      )} */}
+                  </tr>
+                );
+              })
             : ""}
         </tbody>
       </table>

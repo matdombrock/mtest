@@ -55,7 +55,7 @@ export const fetchSalesData = data => {
     body: JSON.stringify(data)
   })
     .then(async response => ({
-      ...(await response.json()),
+      data: await response.json(),
       status: response.status
     }))
     .then(response => response);

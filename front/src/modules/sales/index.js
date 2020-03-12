@@ -6,8 +6,8 @@ const SET_SKU_DATA = "sale/SET_SKU_DATA";
 const SET_SKU_DATA_COMPARISONS = "sale/SET_SKU_DATA_COMPARISONS";
 const SET_SALES_LOADING = "sale/SET_SALES_LOADING";
 const initialState = {
-  active: {},
-  comparisons: {},
+  active: [],
+  // comparisons: {},
   skuActive: {
     current: [],
     previous: []
@@ -41,6 +41,7 @@ export default (state = initialState, action) => {
 };
 
 const setData = data => {
+  console.log("data", data);
   return dispatch => {
     dispatch({
       type: SET_SALES_DATA,

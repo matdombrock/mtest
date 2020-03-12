@@ -42,7 +42,7 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, skuComparisons, isLoading }
     } = this.props;
-    console.log("Dashboard -> render -> skuActive", skuActive);
+    console.log("Dashboard -> render -> active", active);
     const {
       activeTab,
       isError,
@@ -73,17 +73,14 @@ class Dashboard extends Component {
             <Grid item xs={12} id="#report" className={s.inner}>
               {isError && <Alert severity="warning">{isError}</Alert>}
               {activeTab === 0 ? (
-                active && !!Object.keys(active).length && active.itemized ? (
+                active && !!active.length ? (
                   <>
-                    <DataDisplayCardGrid
+                    {/* <DataDisplayCardGrid
                       data={active}
-                      comparisons={comparisons}
                       startDate={startDate}
                       endDate={endDate}
-                      comparisonStartDate={comparisonStartDate}
-                      comparisonEndDate={comparisonEndDate}
                     />
-                    <Charts data={active} />
+                    <Charts data={active} /> */}
                     <DataDisplayItemizedTable
                       data={active}
                       comparisons={comparisons}
