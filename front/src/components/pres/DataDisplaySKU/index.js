@@ -16,121 +16,123 @@ const currentDataFormate = (current = [], previous = []) => {
   current.map(d => allSKU.push(d.sku));
   previous.map(d => allSKU.push(d.sku));
   allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
-  return allSKU.map(sku => {
-    let temp = {
-      ad_spend: 0,
-      ad_orders: 0,
-      conversion_rate: 0,
-      acos: 0,
-      ad_sales: 0,
-      sales: 0,
-      units_sold: 0,
-      shipped_cogs: 0,
-      ad_clicks: 0,
-      ad_impressions: 0,
-      average_cpc: 0,
-      wow_sales: 0,
-      percent_total_sales: 0
-    };
-    let currentSKU =
-      current.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
-    let previousSKU =
-      previous.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
-    let change = {
-      ad_spend: getDifferenceInNumber(
-        currentSKU.ad_spend,
-        previousSKU.ad_spend
-      ),
-      ad_orders: getDifferenceInNumber(
-        currentSKU.ad_orders,
-        previousSKU.ad_orders
-      ),
-      conversion_rate: getDifferenceInNumber(
-        currentSKU.conversion_rate,
-        previousSKU.conversion_rate
-      ),
-      acos: getDifferenceInNumber(currentSKU.acos, previousSKU.acos),
-      ad_sales: getDifferenceInNumber(
-        currentSKU.ad_sales,
-        previousSKU.ad_sales
-      ),
-      sales: getDifferenceInNumber(currentSKU.sales, previousSKU.sales),
-      units_sold: getDifferenceInNumber(
-        currentSKU.units_sold,
-        previousSKU.units_sold
-      ),
-      shipped_cogs: getDifferenceInNumber(
-        currentSKU.shipped_cogs,
-        previousSKU.shipped_cogs
-      ),
-      ad_clicks: getDifferenceInNumber(
-        currentSKU.ad_clicks,
-        previousSKU.ad_clicks
-      ),
-      ad_impressions: getDifferenceInNumber(
-        currentSKU.ad_impressions,
-        previousSKU.ad_impressions
-      ),
-      average_cpc: getDifferenceInNumber(
-        currentSKU.average_cpc,
-        previousSKU.average_cpc
-      ),
-      percent_total_sales: getDifferenceInNumber(
-        currentSKU.percent_total_sales,
-        previousSKU.percent_total_sales
-      )
-    };
-    let charge = {
-      ad_spend: getDifferenceInPercentage(
-        currentSKU.ad_spend,
-        previousSKU.ad_spend
-      ),
-      ad_orders: getDifferenceInPercentage(
-        currentSKU.ad_orders,
-        previousSKU.ad_orders
-      ),
-      conversion_rate: getDifferenceInPercentage(
-        currentSKU.conversion_rate,
-        previousSKU.conversion_rate
-      ),
-      acos: getDifferenceInPercentage(currentSKU.acos, previousSKU.acos),
-      ad_sales: getDifferenceInPercentage(
-        currentSKU.ad_sales,
-        previousSKU.ad_sales
-      ),
-      sales: getDifferenceInPercentage(currentSKU.sales, previousSKU.sales),
-      units_sold: getDifferenceInPercentage(
-        currentSKU.units_sold,
-        previousSKU.units_sold
-      ),
-      shipped_cogs: getDifferenceInPercentage(
-        currentSKU.shipped_cogs,
-        previousSKU.shipped_cogs
-      ),
-      ad_clicks: getDifferenceInPercentage(
-        currentSKU.ad_clicks,
-        previousSKU.ad_clicks
-      ),
-      ad_impressions: getDifferenceInPercentage(
-        currentSKU.ad_impressions,
-        previousSKU.ad_impressions
-      ),
-      average_cpc: getDifferenceInPercentage(
-        currentSKU.average_cpc,
-        previousSKU.average_cpc
-      ),
-      percent_total_sales: getDifferenceInPercentage(
-        currentSKU.percent_total_sales,
-        previousSKU.percent_total_sales
-      )
-    };
-    return {
-      current: currentSKU,
-      previous: previousSKU,
-      change,
-      charge
-    };
-  });
+  return allSKU
+    .map(sku => {
+      let temp = {
+        ad_spend: 0,
+        ad_orders: 0,
+        conversion_rate: 0,
+        acos: 0,
+        ad_sales: 0,
+        sales: 0,
+        units_sold: 0,
+        shipped_cogs: 0,
+        ad_clicks: 0,
+        ad_impressions: 0,
+        average_cpc: 0,
+        wow_sales: 0,
+        percent_total_sales: 0
+      };
+      let currentSKU = current.find(d => d.sku === sku);
+      if (!currentSKU) return false;
+      let previousSKU =
+        previous.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+      let change = {
+        ad_spend: getDifferenceInNumber(
+          currentSKU.ad_spend,
+          previousSKU.ad_spend
+        ),
+        ad_orders: getDifferenceInNumber(
+          currentSKU.ad_orders,
+          previousSKU.ad_orders
+        ),
+        conversion_rate: getDifferenceInNumber(
+          currentSKU.conversion_rate,
+          previousSKU.conversion_rate
+        ),
+        acos: getDifferenceInNumber(currentSKU.acos, previousSKU.acos),
+        ad_sales: getDifferenceInNumber(
+          currentSKU.ad_sales,
+          previousSKU.ad_sales
+        ),
+        sales: getDifferenceInNumber(currentSKU.sales, previousSKU.sales),
+        units_sold: getDifferenceInNumber(
+          currentSKU.units_sold,
+          previousSKU.units_sold
+        ),
+        shipped_cogs: getDifferenceInNumber(
+          currentSKU.shipped_cogs,
+          previousSKU.shipped_cogs
+        ),
+        ad_clicks: getDifferenceInNumber(
+          currentSKU.ad_clicks,
+          previousSKU.ad_clicks
+        ),
+        ad_impressions: getDifferenceInNumber(
+          currentSKU.ad_impressions,
+          previousSKU.ad_impressions
+        ),
+        average_cpc: getDifferenceInNumber(
+          currentSKU.average_cpc,
+          previousSKU.average_cpc
+        ),
+        percent_total_sales: getDifferenceInNumber(
+          currentSKU.percent_total_sales,
+          previousSKU.percent_total_sales
+        )
+      };
+      let charge = {
+        ad_spend: getDifferenceInPercentage(
+          currentSKU.ad_spend,
+          previousSKU.ad_spend
+        ),
+        ad_orders: getDifferenceInPercentage(
+          currentSKU.ad_orders,
+          previousSKU.ad_orders
+        ),
+        conversion_rate: getDifferenceInPercentage(
+          currentSKU.conversion_rate,
+          previousSKU.conversion_rate
+        ),
+        acos: getDifferenceInPercentage(currentSKU.acos, previousSKU.acos),
+        ad_sales: getDifferenceInPercentage(
+          currentSKU.ad_sales,
+          previousSKU.ad_sales
+        ),
+        sales: getDifferenceInPercentage(currentSKU.sales, previousSKU.sales),
+        units_sold: getDifferenceInPercentage(
+          currentSKU.units_sold,
+          previousSKU.units_sold
+        ),
+        shipped_cogs: getDifferenceInPercentage(
+          currentSKU.shipped_cogs,
+          previousSKU.shipped_cogs
+        ),
+        ad_clicks: getDifferenceInPercentage(
+          currentSKU.ad_clicks,
+          previousSKU.ad_clicks
+        ),
+        ad_impressions: getDifferenceInPercentage(
+          currentSKU.ad_impressions,
+          previousSKU.ad_impressions
+        ),
+        average_cpc: getDifferenceInPercentage(
+          currentSKU.average_cpc,
+          previousSKU.average_cpc
+        ),
+        percent_total_sales: getDifferenceInPercentage(
+          currentSKU.percent_total_sales,
+          previousSKU.percent_total_sales
+        )
+      };
+      return {
+        current: currentSKU,
+        previous: previousSKU,
+        change,
+        charge
+      };
+    })
+    .filter(d => d);
 
   // data.map(row => {
   //   temp.sales += Math.round(Number(row.sales));
