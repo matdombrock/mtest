@@ -401,7 +401,7 @@ const DataDisplayItemizedTable = props => {
                   <tr key={i}>
                     {active === 0 ? (
                       <>
-                        <td component="th">
+                        <td component="th" className="w-date">
                           <b>{i + 1}</b>
                         </td>
                         {/* <td component="th">
@@ -416,7 +416,7 @@ const DataDisplayItemizedTable = props => {
                         */}
                       </>
                     ) : (
-                      <td component="th">
+                      <td component="th" className="w-date">
                         <b>
                           {moment(row.period.start).format("MM/DD/YYYY")} -{" "}
                           {moment(row.period.end).format("MM/DD/YYYY")}
