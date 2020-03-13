@@ -34,7 +34,7 @@ class Charts extends React.Component {
       maxSellingPrice = 0.0,
       totalSales = 0,
       totalAdSales = 0;
-    const allSummaries = this.props.data.map(d => d.summary);
+    const allSummaries = this.props.data.map(d => d.summary).reverse();
     if (allSummaries) {
       for (let i = 0; i < allSummaries.length; i++) {
         totalSales += Number(allSummaries[i].sales);
@@ -105,7 +105,7 @@ class Charts extends React.Component {
                 <Line
                   name={"Ad Spend"}
                   type="monotone"
-                  dataKey="spend"
+                  dataKey="ad_spend"
                   stroke="red"
                 />
                 <XAxis dataKey="date" />
