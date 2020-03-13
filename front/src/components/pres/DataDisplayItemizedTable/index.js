@@ -418,8 +418,13 @@ const DataDisplayItemizedTable = props => {
                     ) : (
                       <td component="th" className="w-date">
                         <b>
-                          {moment(row.period.start).format("MM/DD/YYYY")} -{" "}
-                          {moment(row.period.end).format("MM/DD/YYYY")}
+                          {moment(row.period.start)
+                            .utc()
+                            .format("MM/DD/YYYY")}{" "}
+                          -{" "}
+                          {moment(row.period.end)
+                            .utc()
+                            .format("MM/DD/YYYY")}
                         </b>
                       </td>
                     )}
@@ -843,14 +848,14 @@ const DataDisplayItemizedTable = props => {
                         </td>
                         <td align="right" className={isNegative(charge.acos)}>
                           {charge.acos !== 0
-                            ? Number(charge.acos).toFixed() + "%"
+                            ? Number(charge.acos).toFixed(2) + "%"
                             : "N/A"}
                         </td>
                       </>
                     ) : (
                       <td align="right">
                         {current.acos !== 0
-                          ? Number(current.acos).toFixed() + "%"
+                          ? Number(current.acos).toFixed(2) + "%"
                           : "N/A"}
                       </td>
                     )}

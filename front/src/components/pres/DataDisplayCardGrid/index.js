@@ -2,6 +2,7 @@ import React from "react";
 import s from "./style.module.scss";
 import Grid from "@material-ui/core/Grid";
 import numberWithCommas from "../../../services/numberWithCommas";
+import moment from "moment";
 
 const DataDisplayCardGrid = props => {
   let currentPeriodData, periodOverPeriodData, previousPeriodData;
@@ -19,35 +20,31 @@ const DataDisplayCardGrid = props => {
   };
 
   //this is for figuring out hte period over period data
-  if (props.data.itemized) {
-    currentPeriodData = props.data.itemized
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .reverse()[0];
-    previousPeriodData = props.data.itemized
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .reverse()[1];
+  if (props.data[0].itemized) {
+    currentPeriodData = props.data[0].summary;
+    previousPeriodData = props.data[1].summary;
 
     if (currentPeriodData && previousPeriodData) {
       periodOverPeriodData = {
-        revenue: determineRelativePercentage(
-          currentPeriodData.revenue,
-          previousPeriodData.revenue
+        sales: determineRelativePercentage(
+          currentPeriodData.sales,
+          previousPeriodData.sales
         ),
         units_sold: determineRelativePercentage(
           currentPeriodData.units_sold,
           previousPeriodData.units_sold
         ),
-        wholesale_cost: determineRelativePercentage(
-          currentPeriodData.wholesale_cost,
-          previousPeriodData.wholesale_cost
+        shipped_cogs: determineRelativePercentage(
+          currentPeriodData.shipped_cogs,
+          previousPeriodData.shipped_cogs
         ),
-        spend: determineRelativePercentage(
-          currentPeriodData.spend,
-          previousPeriodData.spend
+        ad_spend: determineRelativePercentage(
+          currentPeriodData.ad_spend,
+          previousPeriodData.ad_spend
         ),
-        adSales: determineRelativePercentage(
-          currentPeriodData.adSales,
-          previousPeriodData.adSales
+        ad_sales: determineRelativePercentage(
+          currentPeriodData.ad_sales,
+          previousPeriodData.ad_sales
         ),
         acos: determineRelativePercentage(
           currentPeriodData.acos,
@@ -61,7 +58,13 @@ const DataDisplayCardGrid = props => {
     <div className={s.gridContainer}>
       <h3>
         Current Period Summary:{" "}
-        {currentPeriodData ? currentPeriodData.date : ""}
+        {moment(props.data[0].period.start)
+          .utc()
+          .format("MM/DD/YYYY")}{" "}
+        -{" "}
+        {moment(props.data[0].period.end)
+          .utc()
+          .format("MM/DD/YYYY")}
       </h3>
       <Grid container spacing={4}>
         <Grid item className={s.gridItem} xs={2}>
@@ -69,7 +72,7 @@ const DataDisplayCardGrid = props => {
             <p className={s.title}>Sales</p>
             <p className={s.data}>
               {currentPeriodData
-                ? "$" + numberWithCommas(currentPeriodData.revenue)
+                ? "$" + numberWithCommas(currentPeriodData.sales)
                 : "$0.00"}
             </p>
             <p
@@ -77,13 +80,13 @@ const DataDisplayCardGrid = props => {
                 s.data +
                 " " +
                 (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.revenue) === 1
+                Math.sign(periodOverPeriodData.sales) === 1
                   ? s.positive
                   : s.negative)
               }
             >
               {periodOverPeriodData
-                ? numberWithCommas(periodOverPeriodData.revenue) + "%"
+                ? numberWithCommas(periodOverPeriodData.sales) + "%"
                 : "0%"}{" "}
             </p>
           </div>
@@ -92,7 +95,7 @@ const DataDisplayCardGrid = props => {
           <div className={s.gridInner}>
             <p className={s.title}>Units Sold</p>
             <p className={s.data}>
-              {props.data.itemized
+              {props.data[0].itemized
                 ? numberWithCommas(currentPeriodData.units_sold)
                 : "0"}
             </p>
@@ -116,8 +119,8 @@ const DataDisplayCardGrid = props => {
           <div className={s.gridInner}>
             <p className={s.title}>Shipped COGS</p>
             <p className={s.data}>
-              {props.data.itemized
-                ? "$" + numberWithCommas(currentPeriodData.wholesale_cost)
+              {props.data[0].itemized
+                ? "$" + numberWithCommas(currentPeriodData.shipped_cogs)
                 : "$0.00"}
             </p>
             <p
@@ -125,13 +128,13 @@ const DataDisplayCardGrid = props => {
                 s.data +
                 " " +
                 (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.wholesale_cost) === 1
+                Math.sign(periodOverPeriodData.shipped_cogs) === 1
                   ? s.positive
                   : s.negative)
               }
             >
               {periodOverPeriodData
-                ? numberWithCommas(periodOverPeriodData.wholesale_cost) + "%"
+                ? numberWithCommas(periodOverPeriodData.shipped_cogs) + "%"
                 : "0%"}{" "}
             </p>
           </div>
@@ -140,8 +143,8 @@ const DataDisplayCardGrid = props => {
           <div className={s.gridInner}>
             <p className={s.title}>Ad Spend</p>
             <p className={s.data}>
-              {props.data.itemized
-                ? "$" + numberWithCommas(currentPeriodData.spend)
+              {props.data[0].itemized
+                ? "$" + numberWithCommas(currentPeriodData.ad_spend)
                 : "$0.00"}
             </p>
             <p
@@ -149,13 +152,13 @@ const DataDisplayCardGrid = props => {
                 s.data +
                 " " +
                 (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.spend) === -1
+                Math.sign(periodOverPeriodData.ad_spend) === 1
                   ? s.positive
                   : s.negative)
               }
             >
               {periodOverPeriodData
-                ? numberWithCommas(periodOverPeriodData.spend) + "%"
+                ? numberWithCommas(periodOverPeriodData.ad_spend) + "%"
                 : "0%"}{" "}
             </p>
           </div>
@@ -164,8 +167,8 @@ const DataDisplayCardGrid = props => {
           <div className={s.gridInner}>
             <p className={s.title}>Ad Sales</p>
             <p className={s.data}>
-              {props.data.itemized
-                ? "$" + numberWithCommas(currentPeriodData.adSales)
+              {props.data[0].itemized
+                ? "$" + numberWithCommas(currentPeriodData.ad_sales)
                 : "$0.00"}
             </p>
             <p
@@ -173,13 +176,13 @@ const DataDisplayCardGrid = props => {
                 s.data +
                 " " +
                 (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.adSales) === 1
+                Math.sign(periodOverPeriodData.ad_sales) === 1
                   ? s.positive
                   : s.negative)
               }
             >
               {periodOverPeriodData
-                ? numberWithCommas(periodOverPeriodData.adSales) + "%"
+                ? numberWithCommas(periodOverPeriodData.ad_sales) + "%"
                 : "0%"}{" "}
             </p>
           </div>
@@ -188,7 +191,7 @@ const DataDisplayCardGrid = props => {
           <div className={s.gridInner}>
             <p className={s.title}>ACoS</p>
             <p className={s.data}>
-              {props.data.itemized
+              {props.data[0].itemized
                 ? numberWithCommas(currentPeriodData.acos) + "%"
                 : "0%"}
             </p>

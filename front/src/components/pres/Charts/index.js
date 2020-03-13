@@ -32,31 +32,30 @@ class Charts extends React.Component {
       maxAdSales = 0.0,
       maxCvr = 0.0,
       maxSellingPrice = 0.0,
-      totalSales;
-    if (this.props.data.itemized) {
-      totalSales = (
-        parseFloat(this.props.data.summary.totalRevenue) -
-        parseFloat(this.props.data.summary.totalAdSales)
-      ).toFixed(2);
-      for (let i = 0; i < this.props.data.itemized.length; i++) {
-        if (parseFloat(this.props.data.itemized[i].revenue) > maxRevenue) {
-          maxRevenue = this.props.data.itemized[i].revenue;
+      totalSales = 0,
+      totalAdSales = 0;
+    const allSummaries = this.props.data.map(d => d.summary);
+    if (allSummaries) {
+      for (let i = 0; i < allSummaries.length; i++) {
+        totalSales += Number(allSummaries[i].sales);
+        if (parseFloat(allSummaries[i].sales) > maxRevenue) {
+          maxRevenue = allSummaries[i].sales;
         }
 
-        if (parseFloat(this.props.data.itemized[i].adSales) > maxAdSales) {
-          maxAdSales = this.props.data.itemized[i].adSales;
+        if (parseFloat(allSummaries[i].ad_sales) > maxAdSales) {
+          maxAdSales = allSummaries[i].ad_sales;
         }
 
-        if (parseFloat(this.props.data.itemized[i].cvr) > maxCvr) {
-          maxCvr = this.props.data.itemized[i].cvr;
+        if (parseFloat(allSummaries[i].conversion_rate) > maxCvr) {
+          maxCvr = allSummaries[i].conversion_rate;
         }
 
         if (
-          parseFloat(this.props.data.itemized[i].average_selling_price) >
-          maxSellingPrice
+          parseFloat(allSummaries[i].average_selling_price) > maxSellingPrice
         ) {
-          maxSellingPrice = this.props.data.itemized[i].average_selling_price;
+          maxSellingPrice = allSummaries[i].average_selling_price;
         }
+        totalAdSales += allSummaries[i].ad_sales || 0;
       }
     }
 
@@ -67,18 +66,12 @@ class Charts extends React.Component {
             <ResponsiveContainer width={"100%"} height={300}>
               <LineChart
                 margin={{ left: 50, top: 20, right: 5 }}
-                data={
-                  this.props.data.itemized
-                    ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
-                    : null
-                }
+                data={allSummaries ? allSummaries : null}
               >
                 <Line
                   name={"Total Sales"}
                   type="monotone"
-                  dataKey="revenue"
+                  dataKey="sales"
                   stroke="blue"
                 />
                 <XAxis dataKey="date" />
@@ -96,8 +89,8 @@ class Charts extends React.Component {
               <LineChart
                 margin={{ left: 50, top: 20, right: 5 }}
                 data={
-                  this.props.data.itemized
-                    ? this.props.data.itemized.sort(
+                  allSummaries
+                    ? allSummaries.sort(
                         (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
@@ -106,7 +99,7 @@ class Charts extends React.Component {
                 <Line
                   name={"Ad Sales"}
                   type="monotone"
-                  dataKey="adSales"
+                  dataKey="ad_sales"
                   stroke="blue"
                 />
                 <Line
@@ -129,8 +122,8 @@ class Charts extends React.Component {
             <ResponsiveContainer width={"100%"} height={300}>
               <LineChart
                 data={
-                  this.props.data.itemized
-                    ? this.props.data.itemized.sort(
+                  allSummaries
+                    ? allSummaries.sort(
                         (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
@@ -145,7 +138,7 @@ class Charts extends React.Component {
                   yAxisId="left"
                   name="Conversion Rate"
                   type="monotone"
-                  dataKey="cvr"
+                  dataKey="conversion_rate"
                   stroke="blue"
                 />
                 <Line
@@ -171,13 +164,7 @@ class Charts extends React.Component {
             <ResponsiveContainer width={"100%"} height={300}>
               <LineChart
                 margin={{ left: 20, top: 20, right: 5 }}
-                data={
-                  this.props.data.itemized
-                    ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
-                    : null
-                }
+                data={allSummaries || null}
               >
                 <Line
                   name={"Average Selling Price"}
@@ -200,8 +187,8 @@ class Charts extends React.Component {
               <LineChart
                 margin={{ left: 20, top: 20, right: 5 }}
                 data={
-                  this.props.data.itemized
-                    ? this.props.data.itemized.sort(
+                  allSummaries
+                    ? allSummaries.sort(
                         (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
@@ -227,16 +214,12 @@ class Charts extends React.Component {
                 <Pie
                   data={[
                     {
-                      value: this.props.data.summary
-                        ? parseFloat(this.props.data.summary.totalAdSales)
-                        : 0,
+                      value: totalAdSales || 0,
                       fill: "blue",
                       name: "Ad Sales"
                     },
                     {
-                      value: this.props.data.summary
-                        ? parseFloat(totalSales)
-                        : 0,
+                      value: totalSales || 0,
                       fill: "green",
                       name: "Total Sales (not including ad sales)"
                     }

@@ -75,12 +75,12 @@ class Dashboard extends Component {
               {activeTab === 0 ? (
                 active && !!active.length ? (
                   <>
-                    {/* <DataDisplayCardGrid
+                    <DataDisplayCardGrid
                       data={active}
                       startDate={startDate}
                       endDate={endDate}
                     />
-                    <Charts data={active} /> */}
+                    <Charts data={active} />
                     <DataDisplayItemizedTable
                       data={active}
                       comparisons={comparisons}
