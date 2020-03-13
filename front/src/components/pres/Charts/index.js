@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
+import moment from "moment";
 
 class Charts extends React.Component {
   constructor(props) {
@@ -34,7 +35,12 @@ class Charts extends React.Component {
       maxSellingPrice = 0.0,
       totalSales = 0,
       totalAdSales = 0;
-    const allSummaries = this.props.data.map(d => d.summary).reverse();
+    const allSummaries = this.props.data
+      .map(d => ({
+        ...d.summary
+        // date: `$`
+      }))
+      .reverse();
     if (allSummaries) {
       for (let i = 0; i < allSummaries.length; i++) {
         totalSales += Number(allSummaries[i].sales);
@@ -74,7 +80,15 @@ class Charts extends React.Component {
                   dataKey="sales"
                   stroke="blue"
                 />
-                <XAxis dataKey="date" />
+                <XAxis
+                  dataKey="date"
+                  // tick={{
+                  //   angle: 90,
+                  //   textAnchor: "start"
+                  //   // dominantBaseline: "ideographic"
+                  // }}
+                  // height={160}
+                />
                 <YAxis
                   domain={[0, parseFloat(maxRevenue)]}
                   tickFormatter={this.formatMoney}
@@ -108,7 +122,15 @@ class Charts extends React.Component {
                   dataKey="ad_spend"
                   stroke="red"
                 />
-                <XAxis dataKey="date" />
+                <XAxis
+                  dataKey="date"
+                  // tick={{
+                  //   angle: 90,
+                  //   textAnchor: "start",
+                  //   dominantBaseline: "ideographic"
+                  // }}
+                  // height={160}
+                />
                 <Legend verticalAlign="top" height={36} />
                 <YAxis
                   domain={[0, parseFloat(maxAdSales)]}
@@ -130,7 +152,15 @@ class Charts extends React.Component {
                 }
                 margin={{ left: 20, top: 20, right: 5 }}
               >
-                <XAxis dataKey="date" />
+                <XAxis
+                  dataKey="date"
+                  // tick={{
+                  //   angle: 90,
+                  //   textAnchor: "start",
+                  //   dominantBaseline: "ideographic"
+                  // }}
+                  // height={160}
+                />
                 <YAxis yAxisId="left" domain={[0, parseFloat(maxCvr)]} />
                 <YAxis yAxisId="right" orientation="right" />
                 <Legend verticalAlign="top" height={36} />
@@ -172,7 +202,15 @@ class Charts extends React.Component {
                   dataKey="average_selling_price"
                   stroke="blue"
                 />
-                <XAxis dataKey="date" />
+                <XAxis
+                  dataKey="date"
+                  // tick={{
+                  //   angle: 90,
+                  //   textAnchor: "start",
+                  //   dominantBaseline: "ideographic"
+                  // }}
+                  // height={160}
+                />
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
                 <YAxis
@@ -200,7 +238,15 @@ class Charts extends React.Component {
                   dataKey="acos"
                   stroke="blue"
                 />
-                <XAxis dataKey="date" />
+                <XAxis
+                  dataKey="date"
+                  // tick={{
+                  //   angle: 90,
+                  //   textAnchor: "start",
+                  //   dominantBaseline: "ideographic"
+                  // }}
+                  // height={160}
+                />
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
                 <YAxis />

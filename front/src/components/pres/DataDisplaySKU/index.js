@@ -187,7 +187,6 @@ const DataDisplaySKUTable = props => {
     currentData.itemized,
     previousData.itemized
   );
-  console.log("allSKUData", allSKUData);
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
   };
