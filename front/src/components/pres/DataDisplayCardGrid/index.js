@@ -19,6 +19,8 @@ const DataDisplayCardGrid = props => {
           )
       : "-" + (((previousNumber - number) / previousNumber) * 100).toFixed(2);
   };
+  const isNegative = value =>
+    Number(value) !== 0 && (Number(value) <= 0 ? s.negative : s.positive);
 
   //this is for figuring out hte period over period data
   if (props.data[0].itemized) {
@@ -71,20 +73,13 @@ const DataDisplayCardGrid = props => {
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Sales</p>
-            <p className={s.data}>
+            <p className={s.data + " " + isNegative(currentPeriodData.sales)}>
               {currentPeriodData
                 ? "$" + numberWithCommas(currentPeriodData.sales)
                 : "N/A"}
             </p>
             <p
-              className={
-                s.data +
-                " " +
-                (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.sales) === 1
-                  ? s.positive
-                  : s.negative)
-              }
+              className={s.data + " " + isNegative(periodOverPeriodData.sales)}
             >
               {periodOverPeriodData && periodOverPeriodData.sales !== 0
                 ? numberWithCommas(periodOverPeriodData.sales) + "%"
@@ -95,19 +90,18 @@ const DataDisplayCardGrid = props => {
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Units Sold</p>
-            <p className={s.data}>
+            <p
+              className={
+                s.data + " " + isNegative(currentPeriodData.units_sold)
+              }
+            >
               {props.data[0].itemized && currentPeriodData.units_sold !== 0
                 ? numberWithCommas(currentPeriodData.units_sold)
                 : "0"}
             </p>
             <p
               className={
-                s.data +
-                " " +
-                (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.units_sold) === 1
-                  ? s.positive
-                  : s.negative)
+                s.data + " " + isNegative(periodOverPeriodData.units_sold)
               }
             >
               {periodOverPeriodData && periodOverPeriodData.units_sold !== 0
@@ -119,19 +113,18 @@ const DataDisplayCardGrid = props => {
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Shipped COGS</p>
-            <p className={s.data}>
+            <p
+              className={
+                s.data + " " + isNegative(currentPeriodData.shipped_cogs)
+              }
+            >
               {props.data[0].itemized && currentPeriodData.shipped_cogs !== 0
                 ? "$" + numberWithCommas(currentPeriodData.shipped_cogs)
                 : "N/A"}
             </p>
             <p
               className={
-                s.data +
-                " " +
-                (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.shipped_cogs) === 1
-                  ? s.positive
-                  : s.negative)
+                s.data + " " + isNegative(periodOverPeriodData.shipped_cogs)
               }
             >
               {periodOverPeriodData && periodOverPeriodData.shipped_cogs !== 0
@@ -143,19 +136,16 @@ const DataDisplayCardGrid = props => {
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Ad Spend</p>
-            <p className={s.data}>
+            <p
+              className={s.data + " " + isNegative(currentPeriodData.ad_spend)}
+            >
               {props.data[0].itemized && currentPeriodData.ad_spend !== 0
                 ? "$" + numberWithCommas(currentPeriodData.ad_spend)
                 : "N/A"}
             </p>
             <p
               className={
-                s.data +
-                " " +
-                (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.ad_spend) === 1
-                  ? s.positive
-                  : s.negative)
+                s.data + " " + isNegative(periodOverPeriodData.ad_spend)
               }
             >
               {periodOverPeriodData && periodOverPeriodData.ad_spend !== 0
@@ -167,19 +157,16 @@ const DataDisplayCardGrid = props => {
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Ad Sales</p>
-            <p className={s.data}>
+            <p
+              className={s.data + " " + isNegative(currentPeriodData.ad_sales)}
+            >
               {props.data[0].itemized && currentPeriodData.ad_sales !== 0
                 ? "$" + numberWithCommas(currentPeriodData.ad_sales)
                 : "N/A"}
             </p>
             <p
               className={
-                s.data +
-                " " +
-                (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.ad_sales) === 1
-                  ? s.positive
-                  : s.negative)
+                s.data + " " + isNegative(periodOverPeriodData.ad_sales)
               }
             >
               {periodOverPeriodData && periodOverPeriodData.ad_sales !== 0
@@ -191,21 +178,12 @@ const DataDisplayCardGrid = props => {
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>ACoS</p>
-            <p className={s.data}>
+            <p className={s.data + " " + isNegative(currentPeriodData.acos)}>
               {props.data[0].itemized && currentPeriodData.acos !== 0
                 ? numberWithCommas(currentPeriodData.acos) + "%"
                 : "N/A"}
             </p>
-            <p
-              className={
-                s.data +
-                " " +
-                (periodOverPeriodData &&
-                Math.sign(periodOverPeriodData.acos) === 1
-                  ? s.positive
-                  : s.negative)
-              }
-            >
+            <p className={s.data + " " + isNegative(periodOverPeriodData.acos)}>
               {periodOverPeriodData
                 ? numberWithCommas(periodOverPeriodData.acos) + "%"
                 : "N/A"}{" "}

@@ -139,7 +139,8 @@ const getDifferenceInPercentage = (current, previous) => {
   return isNaN(payload) ? 0 : Number(payload);
 };
 
-const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
+const isNegative = value =>
+  Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplayItemizedTable = props => {
   const isComparisons = true;
