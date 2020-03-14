@@ -10,6 +10,9 @@ import s from "./style.module.scss";
 import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import SortIcon from "@material-ui/icons/Sort";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const currentDataFormate = data => {
   let payload = [];
@@ -141,12 +144,82 @@ const isNegative = value => (Number(value) <= 0 ? s.red : s.green);
 const DataDisplayItemizedTable = props => {
   const isComparisons = true;
   const [active, setActive] = useState(false);
+  const [sortBy, setSortBy] = useState(false);
+  const [sortByInner, setSortByInner] = useState(false);
+  const [sortAscendingBy, setSortAscendingBy] = useState(false);
   let currentData = props.data;
   const data = currentDataFormate(currentData);
   if (!currentData) return null;
 
+  const filterData = data.sort((a, b) => {
+    let tempSortBy = "asin";
+    if (sortBy === 0) {
+      tempSortBy = "date";
+    } else if (sortBy === 1) {
+      tempSortBy = "sales";
+    } else if (sortBy === 2) {
+      tempSortBy = "units_sold";
+    } else if (sortBy === 3) {
+      tempSortBy = "shipped_cogs";
+    } else if (sortBy === 4) {
+      tempSortBy = "percent_total_sales";
+    } else if (sortBy === 5) {
+      tempSortBy = "ad_clicks";
+    } else if (sortBy === 6) {
+      tempSortBy = "ad_impressions";
+    } else if (sortBy === 7) {
+      tempSortBy = "average_cpc";
+    } else if (sortBy === 8) {
+      tempSortBy = "ad_spend";
+    } else if (sortBy === 9) {
+      tempSortBy = "ad_orders";
+    } else if (sortBy === 10) {
+      tempSortBy = "ad_sales";
+    } else if (sortBy === 11) {
+      tempSortBy = "conversion_rate";
+    } else if (sortBy === 12) {
+      tempSortBy = "acos";
+    }
+    let tempFirst =
+      sortByInner === 0
+        ? "current"
+        : sortByInner === 1
+        ? "previous"
+        : sortByInner === 2
+        ? "change"
+        : sortByInner === 3
+        ? "charge"
+        : "current";
+    if (tempSortBy === "date")
+      return !sortAscendingBy
+        ? new Date(a.period.start).getTime() -
+            new Date(b.period.start).getTime()
+        : new Date(b.period.start).getTime() -
+            new Date(a.period.start).getTime();
+    return !sortAscendingBy
+      ? a[tempFirst][tempSortBy] - b[tempFirst][tempSortBy]
+      : b[tempFirst][tempSortBy] - a[tempFirst][tempSortBy];
+  });
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
+    setSortByInner(false);
+  };
+  const handleSort = columnId => {
+    if (columnId === sortBy) {
+      setSortAscendingBy(!sortAscendingBy);
+    } else {
+      setSortAscendingBy(false);
+    }
+    setSortBy(columnId);
+    setSortByInner(false);
+  };
+  const handleSortInner = columnId => {
+    if (columnId === sortByInner) {
+      setSortAscendingBy(!sortAscendingBy);
+    } else {
+      setSortAscendingBy(false);
+    }
+    setSortByInner(columnId);
   };
 
   return (
@@ -158,187 +231,358 @@ const DataDisplayItemizedTable = props => {
               className={s.tableHead}
               colSpan={isComparisons && active === 0 && "4"}
             >
-              Date Range
+              <div>
+                <span>
+                  <span>Date Range</span>
+                  <span onClick={() => handleSort(0)}>
+                    {" "}
+                    {active !== 0 &&
+                      (sortBy === 0 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
+              </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 1 && "4"}
-              onClick={() => headerClick(1)}
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(1)}>
                   {isComparisons &&
                     (active === 1 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Sales</span>
+                <span>
+                  <span>Sales</span>
+                  <span onClick={() => handleSort(1)}>
+                    {active !== 1 &&
+                      (sortBy === 1 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 2 && "4"}
-              onClick={() => headerClick(2)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(2)}>
                   {isComparisons &&
                     (active === 2 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Units Sold </span>
+                <span>
+                  <span>Units Sold </span>
+                  <span onClick={() => handleSort(2)}>
+                    {active !== 2 &&
+                      (sortBy === 2 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 3 && "4"}
-              onClick={() => headerClick(3)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(3)}>
                   {isComparisons &&
                     (active === 3 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Shipped COGS </span>
+                <span>
+                  <span>Shipped COGS </span>
+                  <span onClick={() => handleSort(3)}>
+                    {active !== 3 &&
+                      (sortBy === 3 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 4 && "4"}
-              onClick={() => headerClick(4)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(4)}>
                   {isComparisons &&
                     (active === 4 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>% of Total Sales </span>
+                <span>
+                  <span>% of Total Sales </span>
+                  <span onClick={() => handleSort(4)}>
+                    {active !== 4 &&
+                      (sortBy === 4 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 5 && "4"}
-              onClick={() => headerClick(5)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(5)}>
                   {isComparisons &&
                     (active === 5 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Ad Clicks </span>
+                <span>
+                  <span>Ad Clicks </span>
+                  <span onClick={() => handleSort(5)}>
+                    {active !== 5 &&
+                      (sortBy === 5 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 6 && "4"}
-              onClick={() => headerClick(6)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(6)}>
                   {isComparisons &&
                     (active === 6 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Ad Impressions </span>
+                <span>
+                  <span>Ad Impressions </span>
+                  <span onClick={() => handleSort(6)}>
+                    {active !== 6 &&
+                      (sortBy === 6 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 7 && "4"}
-              onClick={() => headerClick(7)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(7)}>
                   {isComparisons &&
                     (active === 7 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Avg CPC </span>
+                <span>
+                  <span>Avg CPC </span>
+                  <span onClick={() => handleSort(7)}>
+                    {active !== 7 &&
+                      (sortBy === 7 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 8 && "4"}
-              onClick={() => headerClick(8)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(8)}>
                   {isComparisons &&
                     (active === 8 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Ad Spend </span>
+                <span>
+                  <span>Ad Spend </span>
+
+                  <span onClick={() => handleSort(8)}>
+                    {active !== 8 &&
+                      (sortBy === 8 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>{" "}
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 9 && "4"}
-              onClick={() => headerClick(9)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(9)}>
                   {isComparisons &&
                     (active === 9 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-                <span>Ad Orders </span>
+                <span>
+                  <span>Ad Orders </span>
+                  <span onClick={() => handleSort(9)}>
+                    {active !== 9 &&
+                      (sortBy === 9 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>{" "}
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 10 && "4"}
-              onClick={() => headerClick(10)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(10)}>
                   {isComparisons &&
                     (active === 10 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-
-                <span>Ad Sales </span>
+                <span>
+                  <span>Ad Sales </span>
+                  <span onClick={() => handleSort(10)}>
+                    {active !== 1 &&
+                      (sortBy === 10 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>{" "}
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 11 && "4"}
-              onClick={() => headerClick(11)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(11)}>
                   {isComparisons &&
                     (active === 11 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-
-                <span>Conv Rate </span>
+                <span>
+                  <span>Conv Rate </span>
+                  <span onClick={() => handleSort(11)}>
+                    {active !== 1 &&
+                      (sortBy === 11 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>{" "}
                 <span />
               </div>
             </th>
             <th
               className={s.tableHead}
               colSpan={isComparisons && active === 12 && "4"}
-              onClick={() => headerClick(12)}
               align="right"
             >
               <div>
-                <span>
+                <span onClick={() => headerClick(12)}>
                   {isComparisons &&
                     (active === 12 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
-
-                <span>ACoS </span>
+                <span>
+                  <span>ACoS </span>
+                  <span onClick={() => handleSort(12)}>
+                    {active !== 1 &&
+                      (sortBy === 12 ? (
+                        sortAscendingBy ? (
+                          <ArrowDropUpIcon />
+                        ) : (
+                          <ArrowDropDownIcon />
+                        )
+                      ) : (
+                        <SortIcon />
+                      ))}
+                  </span>
+                </span>{" "}
                 <span />
               </div>
             </th>
@@ -378,24 +622,80 @@ const DataDisplayItemizedTable = props => {
                   <>
                     {" "}
                     <th className={s.tableHead} align="right">
-                      Current
+                      <div>
+                        <span>Current</span>
+                        <span onClick={() => handleSortInner(0)}>
+                          {" "}
+                          {sortByInner === 0 ? (
+                            sortAscendingBy ? (
+                              <ArrowDropUpIcon />
+                            ) : (
+                              <ArrowDropDownIcon />
+                            )
+                          ) : (
+                            <SortIcon />
+                          )}
+                        </span>
+                      </div>
                     </th>
                     <th className={s.tableHead} align="right">
-                      Previous
+                      <div>
+                        <span>Previous</span>
+                        <span onClick={() => handleSortInner(1)}>
+                          {" "}
+                          {sortByInner === 1 ? (
+                            sortAscendingBy ? (
+                              <ArrowDropUpIcon />
+                            ) : (
+                              <ArrowDropDownIcon />
+                            )
+                          ) : (
+                            <SortIcon />
+                          )}
+                        </span>
+                      </div>
                     </th>
                     <th className={s.tableHead} align="right">
-                      Change #
+                      <div>
+                        <span>Change #</span>
+                        <span onClick={() => handleSortInner(2)}>
+                          {" "}
+                          {sortByInner === 2 ? (
+                            sortAscendingBy ? (
+                              <ArrowDropUpIcon />
+                            ) : (
+                              <ArrowDropDownIcon />
+                            )
+                          ) : (
+                            <SortIcon />
+                          )}
+                        </span>
+                      </div>
                     </th>
                     <th className={s.tableHead} align="right">
-                      Change %
-                    </th>
+                      <div>
+                        <span>Change %</span>
+                        <span onClick={() => handleSortInner(3)}>
+                          {" "}
+                          {sortByInner === 3 ? (
+                            sortAscendingBy ? (
+                              <ArrowDropUpIcon />
+                            ) : (
+                              <ArrowDropDownIcon />
+                            )
+                          ) : (
+                            <SortIcon />
+                          )}
+                        </span>
+                      </div>
+                    </th>{" "}
                   </>
                 )}
               </tr>
             </>
           )}
-          {data
-            ? data.map((row, i, array) => {
+          {filterData
+            ? filterData.map((row, i, array) => {
                 const { current, previous, change, charge } = row;
                 return (
                   <tr key={i}>
