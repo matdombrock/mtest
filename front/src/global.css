@@ -39,6 +39,24 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.fixed-header-table thead th div span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fixed-header-table thead th div span span {
+  margin-left: 5px;
+}
+.fixed-header-table tbody th div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fixed-header-table tbody th div span span {
+  margin-left: 5px;
+}
+
 .w-date {
   width: 140px;
 }
