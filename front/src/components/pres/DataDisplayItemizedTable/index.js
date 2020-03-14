@@ -200,6 +200,7 @@ const DataDisplayItemizedTable = props => {
       ? a[tempFirst][tempSortBy] - b[tempFirst][tempSortBy]
       : b[tempFirst][tempSortBy] - a[tempFirst][tempSortBy];
   });
+
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
     setSortByInner(false);
@@ -887,8 +888,8 @@ const DataDisplayItemizedTable = props => {
                           align="right"
                           className={isNegative(change.ad_clicks)}
                         >
-                          {(change.ad_clicks !== 0) !== 0
-                            ? numberWithCommas(charge.ad_clicks)
+                          {change.ad_clicks !== 0
+                            ? numberWithCommas(change.ad_clicks)
                             : "N/A"}
                         </td>
 
@@ -896,8 +897,8 @@ const DataDisplayItemizedTable = props => {
                           align="right"
                           className={isNegative(charge.ad_clicks)}
                         >
-                          {(charge.ad_clicks !== 0) !== 0
-                            ? getDifferenceInPercentage(charge.ad_clicks) + "%"
+                          {charge.ad_clicks !== 0
+                            ? charge.ad_clicks + "%"
                             : "N/A"}
                         </td>
                       </>
