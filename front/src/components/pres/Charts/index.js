@@ -41,9 +41,11 @@ class Charts extends React.Component {
         // date: `$`
       }))
       .reverse();
+    totalAdSales = this.props.data[0].summary.ad_sales || 0;
+    totalSales =
+      Number(this.props.data[0].summary.sales) - Number(totalAdSales);
     if (allSummaries) {
       for (let i = 0; i < allSummaries.length; i++) {
-        totalSales += Number(allSummaries[i].sales);
         if (parseFloat(allSummaries[i].sales) > maxRevenue) {
           maxRevenue = allSummaries[i].sales;
         }
@@ -61,7 +63,6 @@ class Charts extends React.Component {
         ) {
           maxSellingPrice = allSummaries[i].average_selling_price;
         }
-        totalAdSales += allSummaries[i].ad_sales || 0;
       }
     }
 
