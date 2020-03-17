@@ -163,19 +163,19 @@ const DataDisplayItemizedTable = props => {
     } else if (sortBy === 3) {
       tempSortBy = "shipped_cogs";
     } else if (sortBy === 4) {
-      tempSortBy = "percent_total_sales";
-    } else if (sortBy === 5) {
       tempSortBy = "ad_clicks";
-    } else if (sortBy === 6) {
+    } else if (sortBy === 5) {
       tempSortBy = "ad_impressions";
-    } else if (sortBy === 7) {
+    } else if (sortBy === 6) {
       tempSortBy = "average_cpc";
-    } else if (sortBy === 8) {
+    } else if (sortBy === 7) {
       tempSortBy = "ad_spend";
-    } else if (sortBy === 9) {
+    } else if (sortBy === 8) {
       tempSortBy = "ad_orders";
-    } else if (sortBy === 10) {
+    } else if (sortBy === 9) {
       tempSortBy = "ad_sales";
+    } else if (sortBy === 10) {
+      tempSortBy = "percent_total_sales";
     } else if (sortBy === 11) {
       tempSortBy = "conversion_rate";
     } else if (sortBy === 12) {
@@ -346,7 +346,7 @@ const DataDisplayItemizedTable = props => {
                     (active === 4 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>% of Total Sales </span>
+                  <span>Ad Clicks </span>
                   <span onClick={() => handleSort(4)}>
                     {active !== 4 &&
                       (sortBy === 4 ? (
@@ -374,7 +374,7 @@ const DataDisplayItemizedTable = props => {
                     (active === 5 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>Ad Clicks </span>
+                  <span>Ad Impressions </span>
                   <span onClick={() => handleSort(5)}>
                     {active !== 5 &&
                       (sortBy === 5 ? (
@@ -402,7 +402,7 @@ const DataDisplayItemizedTable = props => {
                     (active === 6 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>Ad Impressions </span>
+                  <span>Avg CPC </span>
                   <span onClick={() => handleSort(6)}>
                     {active !== 6 &&
                       (sortBy === 6 ? (
@@ -430,7 +430,8 @@ const DataDisplayItemizedTable = props => {
                     (active === 7 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>Avg CPC </span>
+                  <span>Ad Spend </span>
+
                   <span onClick={() => handleSort(7)}>
                     {active !== 7 &&
                       (sortBy === 7 ? (
@@ -443,7 +444,7 @@ const DataDisplayItemizedTable = props => {
                         <SortIcon />
                       ))}
                   </span>
-                </span>
+                </span>{" "}
                 <span />
               </div>
             </th>
@@ -458,8 +459,7 @@ const DataDisplayItemizedTable = props => {
                     (active === 8 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>Ad Spend </span>
-
+                  <span>Ad Orders </span>
                   <span onClick={() => handleSort(8)}>
                     {active !== 8 &&
                       (sortBy === 8 ? (
@@ -487,7 +487,7 @@ const DataDisplayItemizedTable = props => {
                     (active === 9 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>Ad Orders </span>
+                  <span>Ad Sales </span>
                   <span onClick={() => handleSort(9)}>
                     {active !== 9 &&
                       (sortBy === 9 ? (
@@ -515,9 +515,9 @@ const DataDisplayItemizedTable = props => {
                     (active === 10 ? <RemoveIcon /> : <AddIcon />)}
                 </span>
                 <span>
-                  <span>Ad Sales </span>
+                  <span>% of Total Sales </span>
                   <span onClick={() => handleSort(10)}>
-                    {active !== 1 &&
+                    {active !== 10 &&
                       (sortBy === 10 ? (
                         sortAscendingBy ? (
                           <ArrowDropUpIcon />
@@ -528,7 +528,7 @@ const DataDisplayItemizedTable = props => {
                         <SortIcon />
                       ))}
                   </span>
-                </span>{" "}
+                </span>
                 <span />
               </div>
             </th>
@@ -545,7 +545,7 @@ const DataDisplayItemizedTable = props => {
                 <span>
                   <span>Conv Rate </span>
                   <span onClick={() => handleSort(11)}>
-                    {active !== 1 &&
+                    {active !== 11 &&
                       (sortBy === 11 ? (
                         sortAscendingBy ? (
                           <ArrowDropUpIcon />
@@ -573,7 +573,7 @@ const DataDisplayItemizedTable = props => {
                 <span>
                   <span>ACoS </span>
                   <span onClick={() => handleSort(12)}>
-                    {active !== 1 &&
+                    {active !== 12 &&
                       (sortBy === 12 ? (
                         sortAscendingBy ? (
                           <ArrowDropUpIcon />
@@ -835,46 +835,6 @@ const DataDisplayItemizedTable = props => {
                     {isComparisons && active === 4 ? (
                       <>
                         <td align="right">
-                          {current.percent_total_sales !== 0
-                            ? Number(current.percent_total_sales).toFixed(2) +
-                              "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.percent_total_sales !== 0
-                            ? Number(previous.percent_total_sales).toFixed(2) +
-                              "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.percent_total_sales)}
-                        >
-                          {change.percent_total_sales !== 0
-                            ? change.percent_total_sales
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.percent_total_sales)}
-                        >
-                          {charge.percent_total_sales !== 0
-                            ? Number(charge.percent_total_sales).toFixed(2) +
-                              "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.percent_total_sales !== 0
-                          ? Number(current.percent_total_sales).toFixed(2) + "%"
-                          : "N/A"}
-                      </td>
-                    )}
-
-                    {isComparisons && active === 5 ? (
-                      <>
-                        <td align="right">
                           {current.ad_clicks !== 0
                             ? numberWithCommas(current.ad_clicks)
                             : "N/A"}
@@ -911,7 +871,7 @@ const DataDisplayItemizedTable = props => {
                       </td>
                     )}
 
-                    {isComparisons && active === 6 ? (
+                    {isComparisons && active === 5 ? (
                       <>
                         <td align="right">
                           {current.ad_impressions !== 0
@@ -948,7 +908,7 @@ const DataDisplayItemizedTable = props => {
                       </td>
                     )}
 
-                    {isComparisons && active === 7 ? (
+                    {isComparisons && active === 6 ? (
                       <>
                         <td align="right">
                           {current.average_cpc
@@ -985,7 +945,7 @@ const DataDisplayItemizedTable = props => {
                       </td>
                     )}
 
-                    {isComparisons && active === 8 ? (
+                    {isComparisons && active === 7 ? (
                       <>
                         <td align="right">
                           {current.ad_spend
@@ -1022,7 +982,7 @@ const DataDisplayItemizedTable = props => {
                       </td>
                     )}
 
-                    {isComparisons && active === 9 ? (
+                    {isComparisons && active === 8 ? (
                       <>
                         <td align="right">
                           {current.ad_orders
@@ -1059,7 +1019,7 @@ const DataDisplayItemizedTable = props => {
                       </td>
                     )}
 
-                    {isComparisons && active === 10 ? (
+                    {isComparisons && active === 9 ? (
                       <>
                         <td align="right">
                           {current.ad_sales
@@ -1095,7 +1055,45 @@ const DataDisplayItemizedTable = props => {
                           : "N/A"}
                       </td>
                     )}
-
+                    {isComparisons && active === 10 ? (
+                      <>
+                        <td align="right">
+                          {current.percent_total_sales !== 0
+                            ? Number(current.percent_total_sales).toFixed(2) +
+                              "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.percent_total_sales !== 0
+                            ? Number(previous.percent_total_sales).toFixed(2) +
+                              "%"
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.percent_total_sales)}
+                        >
+                          {change.percent_total_sales !== 0
+                            ? change.percent_total_sales
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.percent_total_sales)}
+                        >
+                          {charge.percent_total_sales !== 0
+                            ? Number(charge.percent_total_sales).toFixed(2) +
+                              "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                      <td align="right">
+                        {current.percent_total_sales !== 0
+                          ? Number(current.percent_total_sales).toFixed(2) + "%"
+                          : "N/A"}
+                      </td>
+                    )}
                     {isComparisons && active === 11 ? (
                       <>
                         <td align="right">
