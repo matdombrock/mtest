@@ -745,9 +745,9 @@ class UpperControls extends Component {
                   <MenuItem key={1} value={"Select Periods"}>
                     Select Periods Count
                   </MenuItem>
-                  {[...Array(24)].map(
+                  {[...Array(25)].map(
                     (d, i) =>
-                      i > 0 && (
+                      i > 1 && (
                         <MenuItem key={i} value={i}>
                           {i} Periods
                         </MenuItem>
