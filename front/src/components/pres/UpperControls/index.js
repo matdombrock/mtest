@@ -53,7 +53,8 @@ class UpperControls extends Component {
         .subtract(1, "weeks")
         .endOf("isoWeek"),
       selectedDateRange: "lastWeek",
-      displayDateRange: "lastWeek"
+      displayDateRange: "lastWeek",
+      periodsCount: 2
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -84,6 +85,12 @@ class UpperControls extends Component {
 
   setBrand(value) {
     this.setState({ selectedBrand: value }, () =>
+      this.fetchData(this.state.selectedBrand, this.state.period)
+    );
+  }
+
+  setPeriods(value) {
+    this.setState({ periodsCount: value }, () =>
       this.fetchData(this.state.selectedBrand, this.state.period)
     );
   }
@@ -129,7 +136,8 @@ class UpperControls extends Component {
       endDate,
       selectedBrand: brand,
       period,
-      selectedDateRange
+      selectedDateRange,
+      periodsCount
     } = this.state;
     if (brand) {
       this.props.setLoadingData(true);
@@ -141,12 +149,7 @@ class UpperControls extends Component {
     let data = {
       brand: brand,
       byMonth: period === "weekly" ? false : true,
-      startDate: moment(startDate)
-        .startOf("day")
-        .toISOString(),
-      endDate: moment(endDate)
-        .startOf("day")
-        .toISOString()
+      period_count: periodsCount
     };
     data.period =
       selectedDateRange === "lastMonth"
@@ -300,7 +303,7 @@ class UpperControls extends Component {
     //   }
     // }
     this.setState({ showDropDown: false });
-    this.props.setDates(startDate, endDate);
+    // this.props.setDates(startDate, endDate);
     // if (comparison) {
     //   this.props.setDates(startDate, endDate, customDateStart, customDateEnd);
     // } else {
@@ -724,6 +727,35 @@ class UpperControls extends Component {
                   </>
                 )}
               </div>
+              {this.props.activeTab === 0 && (
+                <MuiSelect
+                  variant="outlined"
+                  onChange={e =>
+                    e.target.value !== "Select Periods" &&
+                    this.setPeriods(e.target.value)
+                  }
+                  value={
+                    this.state.periodsCount
+                      ? this.state.periodsCount
+                      : "Select Periods"
+                  }
+                  classes={s["colo-grey"]}
+                  style={{ marginRight: 10 }}
+                >
+                  <MenuItem key={1} value={"Select Periods"}>
+                    Select Periods Count
+                  </MenuItem>
+                  {[...Array(24)].map(
+                    (d, i) =>
+                      i > 0 && (
+                        <MenuItem key={i} value={i}>
+                          {i} Periods
+                        </MenuItem>
+                      )
+                  )}
+                </MuiSelect>
+              )}
+
               <MuiSelect
                 variant="outlined"
                 onChange={e =>
@@ -736,6 +768,7 @@ class UpperControls extends Component {
                     : "Select Brand"
                 }
                 classes={s["colo-grey"]}
+                style={{ marginRight: 10 }}
               >
                 <MenuItem key={1} value={"Select Brand"}>
                   Select Brand
