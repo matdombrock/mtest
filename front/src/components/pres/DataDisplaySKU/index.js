@@ -186,8 +186,8 @@ const DataDisplaySKUTable = props => {
   const [sortByInner, setSortByInner] = useState(false);
   const [sortAscendingBy, setSortAscendingBy] = useState(false);
   const isComparisons = true;
-  let currentData = props.data.current;
-  let previousData = props.data.previous;
+  let currentData = props.data.periods[0];
+  let previousData = props.data.periods[1];
   if (!currentData) return null;
   const allSKUData = currentDataFormate(
     currentData.itemized,

@@ -42,7 +42,7 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, skuComparisons, isLoading }
     } = this.props;
-    console.log("Dashboard -> render -> active", active);
+    console.log("Dashboard -> render -> skuActive", skuActive);
     const {
       activeTab,
       isError,
@@ -91,14 +91,14 @@ class Dashboard extends Component {
                 )
               ) : (
                 <>
-                  {skuActive &&
-                  !!Object.keys(skuActive).length &&
-                  skuActive.current &&
-                  skuActive.previous &&
-                  ((skuActive.current.itemized &&
-                    skuActive.current.itemized.length) ||
-                    (skuActive.previous.itemized &&
-                      skuActive.previous.itemized.length)) ? (
+                  {skuActive.periods &&
+                  skuActive.periods.length &&
+                  skuActive.periods[0] &&
+                  skuActive.periods[1] &&
+                  ((skuActive.periods[0].itemized &&
+                    skuActive.periods[0].itemized.length) ||
+                    (skuActive.periods[1].itemized &&
+                      skuActive.periods[1].itemized.length)) ? (
                     <>
                       {/* <DataDisplayCardGridSKU
                       data={skuActive}
