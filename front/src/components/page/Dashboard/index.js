@@ -42,6 +42,7 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, skuComparisons, isLoading }
     } = this.props;
+    console.log("Dashboard -> render -> active", active);
     const {
       activeTab,
       isError,
@@ -72,7 +73,7 @@ class Dashboard extends Component {
             <Grid item xs={12} id="#report" className={s.inner}>
               {isError && <Alert severity="warning">{isError}</Alert>}
               {activeTab === 0 ? (
-                active && !!active.length ? (
+                active && !!active.periods && !!active.periods.length ? (
                   <>
                     <DataDisplayCardGrid
                       data={active}

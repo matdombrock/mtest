@@ -6,11 +6,11 @@ const SET_SKU_DATA = "sale/SET_SKU_DATA";
 const SET_SKU_DATA_COMPARISONS = "sale/SET_SKU_DATA_COMPARISONS";
 const SET_SALES_LOADING = "sale/SET_SALES_LOADING";
 const initialState = {
-  active: [],
+  active: { periods: [], yoy: [] },
   // comparisons: {},
   skuActive: {
-    current: [],
-    previous: []
+    current: { periods: [], yoy: [] },
+    previous: { periods: [], yoy: [] }
   },
   // skuComparisons: {},
   isLoading: false

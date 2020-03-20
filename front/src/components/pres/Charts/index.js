@@ -29,21 +29,22 @@ class Charts extends React.Component {
   }
 
   render() {
+    const periods = this.props.data.periods;
     let maxRevenue = 0.0,
       maxAdSales = 0.0,
       maxCvr = 0.0,
       maxSellingPrice = 0.0,
       totalSales = 0,
       totalAdSales = 0;
-    const allSummaries = this.props.data
+
+    const allSummaries = periods
       .map(d => ({
         ...d.summary
         // date: `$`
       }))
       .reverse();
-    totalAdSales = this.props.data[0].summary.ad_sales || 0;
-    totalSales =
-      Number(this.props.data[0].summary.sales) - Number(totalAdSales);
+    totalAdSales = periods[0].summary.ad_sales || 0;
+    totalSales = Number(periods[0].summary.sales) - Number(totalAdSales);
     if (allSummaries) {
       for (let i = 0; i < allSummaries.length; i++) {
         if (parseFloat(allSummaries[i].sales) > maxRevenue) {

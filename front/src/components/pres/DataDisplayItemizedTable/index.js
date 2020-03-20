@@ -14,10 +14,29 @@ import SortIcon from "@material-ui/icons/Sort";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
-const currentDataFormate = data => {
+const currentDataFormate = ({ periods, yoy }) => {
   let payload = [];
-  data.map((d, i, arr) => {
+  periods.map((d, i, arr) => {
     const current = d.summary;
+    const yoySummry = yoy[i]
+      ? yoy[i].summary
+      : {
+          acos: 0,
+          average_cpc: 0,
+          ad_clicks: 0,
+          ad_impressions: 0,
+          ad_orders: 0,
+          ad_sales: 0,
+          ad_spend: 0,
+          conversion_rate: 0,
+          sales: 0,
+          shipped_cogs: 0,
+          units_sold: 0,
+          asin: "N/A",
+          sku: "N/A",
+          percent_total_sales: 0,
+          item_number: "N/A"
+        };
     const previous =
       i < arr.length - 1
         ? arr[i + 1].summary
@@ -111,13 +130,91 @@ const currentDataFormate = data => {
         previous.units_sold
       )
     };
+    const tempYoy = {
+      acos: getDifferenceInNumber(current.acos, yoySummry.acos),
+      ad_clicks: getDifferenceInNumber(current.ad_clicks, yoySummry.ad_clicks),
+      ad_impressions: getDifferenceInNumber(
+        current.ad_impressions,
+        yoySummry.ad_impressions
+      ),
+      ad_orders: getDifferenceInNumber(current.ad_orders, yoySummry.ad_orders),
+      ad_sales: getDifferenceInNumber(current.ad_sales, yoySummry.ad_sales),
+      ad_spend: getDifferenceInNumber(current.ad_spend, yoySummry.ad_spend),
+      asin: "N/A",
+      average_cpc: getDifferenceInNumber(
+        current.average_cpc,
+        yoySummry.average_cpc
+      ),
+      conversion_rate: getDifferenceInNumber(
+        current.conversion_rate,
+        yoySummry.conversion_rate
+      ),
+      item_number: "N/A",
+      percent_total_sales: getDifferenceInNumber(
+        current.percent_total_sales,
+        yoySummry.percent_total_sales
+      ),
+      sales: getDifferenceInNumber(current.sales, yoySummry.sales),
+      shipped_cogs: getDifferenceInNumber(
+        current.shipped_cogs,
+        yoySummry.shipped_cogs
+      ),
+      sku: "N/A",
+      units_sold: getDifferenceInNumber(
+        current.units_sold,
+        yoySummry.units_sold
+      )
+    };
 
+    const yoyCharge = {
+      acos: getDifferenceInPercentage(current.acos, yoySummry.acos),
+      ad_clicks: getDifferenceInPercentage(
+        current.ad_clicks,
+        yoySummry.ad_clicks
+      ),
+      ad_impressions: getDifferenceInPercentage(
+        current.ad_impressions,
+        yoySummry.ad_impressions
+      ),
+      ad_orders: getDifferenceInPercentage(
+        current.ad_orders,
+        yoySummry.ad_orders
+      ),
+      ad_sales: getDifferenceInPercentage(current.ad_sales, yoySummry.ad_sales),
+      ad_spend: getDifferenceInPercentage(current.ad_spend, yoySummry.ad_spend),
+      asin: "N/A",
+      average_cpc: getDifferenceInPercentage(
+        current.average_cpc,
+        yoySummry.average_cpc
+      ),
+      conversion_rate: getDifferenceInPercentage(
+        current.conversion_rate,
+        yoySummry.conversion_rate
+      ),
+      item_number: "N/A",
+      percent_total_sales: getDifferenceInPercentage(
+        current.percent_total_sales,
+        yoySummry.percent_total_sales
+      ),
+      sales: getDifferenceInPercentage(current.sales, yoySummry.sales),
+      shipped_cogs: getDifferenceInPercentage(
+        current.shipped_cogs,
+        yoySummry.shipped_cogs
+      ),
+      sku: "N/A",
+      units_sold: getDifferenceInPercentage(
+        current.units_sold,
+        yoySummry.units_sold
+      )
+    };
     payload.push({
       current,
       previous,
       change,
       charge,
-      period: d.period
+      period: d.period,
+      yoy: tempYoy,
+      yoyCharge
     });
   });
   return payload;
@@ -190,6 +287,10 @@ const DataDisplayItemizedTable = props => {
         ? "change"
         : sortByInner === 3
         ? "charge"
+        : sortByInner === 4
+        ? "yoy"
+        : sortByInner === 5
+        ? "yoyCharge"
         : "current";
     if (tempSortBy === "date")
       return !sortAscendingBy
@@ -201,7 +302,6 @@ const DataDisplayItemizedTable = props => {
       ? a[tempFirst][tempSortBy] - b[tempFirst][tempSortBy]
       : b[tempFirst][tempSortBy] - a[tempFirst][tempSortBy];
   });
-
   const headerClick = index => {
     isComparisons && setActive(active === index ? false : index);
     setSortByInner(false);
@@ -221,6 +321,7 @@ const DataDisplayItemizedTable = props => {
     } else {
       setSortAscendingBy(false);
     }
+    setSortBy(sortBy || active);
     setSortByInner(columnId);
   };
 
@@ -254,7 +355,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={isComparisons && active === 1 && "4"}
+              colSpan={isComparisons && active === 1 && "6"}
             >
               <div>
                 <span onClick={() => headerClick(1)}>
@@ -281,7 +382,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={isComparisons && active === 2 && "4"}
+              colSpan={isComparisons && active === 2 && "6"}
               align="right"
             >
               <div>
@@ -309,7 +410,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={isComparisons && active === 3 && "4"}
+              colSpan={isComparisons && active === 3 && "6"}
               align="right"
             >
               <div>
@@ -478,7 +579,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={isComparisons && active === 9 && "4"}
+              colSpan={isComparisons && active === 9 && "6"}
               align="right"
             >
               <div>
@@ -691,6 +792,50 @@ const DataDisplayItemizedTable = props => {
                         </span>
                       </div>
                     </th>{" "}
+                    {(active === 1 ||
+                      active === 2 ||
+                      active === 3 ||
+                      active === 9) && (
+                      <th className={s.tableHead} align="right">
+                        <div>
+                          <span>Change # YOY</span>
+                          <span onClick={() => handleSortInner(4)}>
+                            {" "}
+                            {sortByInner === 4 ? (
+                              sortAscendingBy ? (
+                                <ArrowDropUpIcon />
+                              ) : (
+                                <ArrowDropDownIcon />
+                              )
+                            ) : (
+                              <SortIcon />
+                            )}
+                          </span>
+                        </div>
+                      </th>
+                    )}
+                    {(active === 1 ||
+                      active === 2 ||
+                      active === 3 ||
+                      active === 9) && (
+                      <th className={s.tableHead} align="right">
+                        <div>
+                          <span>Change % YOY</span>
+                          <span onClick={() => handleSortInner(5)}>
+                            {" "}
+                            {sortByInner === 5 ? (
+                              sortAscendingBy ? (
+                                <ArrowDropUpIcon />
+                              ) : (
+                                <ArrowDropDownIcon />
+                              )
+                            ) : (
+                              <SortIcon />
+                            )}
+                          </span>
+                        </div>
+                      </th>
+                    )}
                   </>
                 )}
               </tr>
@@ -698,7 +843,14 @@ const DataDisplayItemizedTable = props => {
           )}
           {filterData
             ? filterData.map((row, i, array) => {
-                const { current, previous, change, charge } = row;
+                const {
+                  current,
+                  previous,
+                  change,
+                  charge,
+                  yoy,
+                  yoyCharge
+                } = row;
                 return (
                   <tr key={i}>
                     {active === 0 ? (
@@ -748,6 +900,19 @@ const DataDisplayItemizedTable = props => {
                         <td align="right" className={isNegative(charge.sales)}>
                           {charge.sales !== 0 ? charge.sales + "%" : "N/A"}
                         </td>
+                        <td align="right" className={isNegative(yoy.sales)}>
+                          {yoy.sales !== 0
+                            ? numberWithCommas(yoy.sales)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoyCharge.sales)}
+                        >
+                          {yoyCharge.sales !== 0
+                            ? yoyCharge.sales + "%"
+                            : "N/A"}
+                        </td>
                       </>
                     ) : (
                       <td align="right">
@@ -781,8 +946,24 @@ const DataDisplayItemizedTable = props => {
                           align="right"
                           className={isNegative(charge.units_sold)}
                         >
-                          {current.units_sold !== 0
+                          {charge.units_sold !== 0
                             ? charge.units_sold + "%"
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoy.units_sold)}
+                        >
+                          {yoy.units_sold !== 0
+                            ? numberWithCommas(yoy.units_sold)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoyCharge.units_sold)}
+                        >
+                          {yoyCharge.units_sold !== 0
+                            ? yoyCharge.units_sold + "%"
                             : "N/A"}
                         </td>
                       </>
@@ -821,6 +1002,22 @@ const DataDisplayItemizedTable = props => {
                         >
                           {charge.shipped_cogs !== 0
                             ? charge.shipped_cogs + "%"
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoy.shipped_cogs)}
+                        >
+                          {yoy.shipped_cogs !== 0
+                            ? numberWithCommas(yoy.shipped_cogs)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoyCharge.shipped_cogs)}
+                        >
+                          {yoyCharge.shipped_cogs !== 0
+                            ? yoyCharge.shipped_cogs + "%"
                             : "N/A"}
                         </td>
                       </>
@@ -1044,7 +1241,20 @@ const DataDisplayItemizedTable = props => {
                           className={isNegative(charge.ad_sales)}
                         >
                           {charge.ad_sales !== 0
-                            ? charge.ad_sales + "%"
+                            ? numberWithCommas(charge.ad_sales) + "%"
+                            : "N/A"}
+                        </td>
+                        <td align="right" className={isNegative(yoy.ad_sales)}>
+                          {yoy.ad_sales !== 0
+                            ? numberWithCommas(yoy.ad_sales)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoyCharge.ad_sales)}
+                        >
+                          {yoyCharge.ad_sales !== 0
+                            ? numberWithCommas(yoyCharge.ad_sales) + "%"
                             : "N/A"}
                         </td>
                       </>
