@@ -522,7 +522,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={isComparisons && active === 7 && "4"}
+              colSpan={isComparisons && active === 7 && "6"}
               align="right"
             >
               <div>
@@ -579,7 +579,7 @@ const DataDisplayItemizedTable = props => {
             </th>
             <th
               className={s.tableHead}
-              colSpan={isComparisons && active === 9 && "6"}
+              colSpan={isComparisons && active === 9 && "4"}
               align="right"
             >
               <div>
@@ -795,7 +795,7 @@ const DataDisplayItemizedTable = props => {
                     {(active === 1 ||
                       active === 2 ||
                       active === 3 ||
-                      active === 9) && (
+                      active === 7) && (
                       <th className={s.tableHead} align="right">
                         <div>
                           <span>Change # YOY</span>
@@ -817,7 +817,7 @@ const DataDisplayItemizedTable = props => {
                     {(active === 1 ||
                       active === 2 ||
                       active === 3 ||
-                      active === 9) && (
+                      active === 7) && (
                       <th className={s.tableHead} align="right">
                         <div>
                           <span>Change % YOY</span>
@@ -1170,6 +1170,19 @@ const DataDisplayItemizedTable = props => {
                             ? charge.ad_spend + "%"
                             : "N/A"}
                         </td>
+                        <td align="right" className={isNegative(yoy.ad_spend)}>
+                          {yoy.ad_spend !== 0
+                            ? "$" + numberWithCommas(yoy.ad_spend)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(yoyCharge.ad_spend)}
+                        >
+                          {yoyCharge.ad_spend !== 0
+                            ? yoyCharge.ad_spend + "%"
+                            : "N/A"}
+                        </td>
                       </>
                     ) : (
                       <td align="right">
@@ -1242,19 +1255,6 @@ const DataDisplayItemizedTable = props => {
                         >
                           {charge.ad_sales !== 0
                             ? numberWithCommas(charge.ad_sales) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(yoy.ad_sales)}>
-                          {yoy.ad_sales !== 0
-                            ? numberWithCommas(yoy.ad_sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoyCharge.ad_sales)}
-                        >
-                          {yoyCharge.ad_sales !== 0
-                            ? numberWithCommas(yoyCharge.ad_sales) + "%"
                             : "N/A"}
                         </td>
                       </>
