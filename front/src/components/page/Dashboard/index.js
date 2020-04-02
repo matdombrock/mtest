@@ -14,6 +14,7 @@ import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
 // import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGridSKU";
 import Alert from "@material-ui/lab/Alert";
 import { CircularProgress } from "@material-ui/core";
+import { CSVLink } from "react-csv";
 
 class Dashboard extends Component {
   state = {
@@ -42,7 +43,6 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, skuComparisons, isLoading }
     } = this.props;
-    console.log("Dashboard -> render -> skuActive", skuActive);
     const {
       activeTab,
       isError,

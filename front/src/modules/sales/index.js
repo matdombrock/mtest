@@ -41,7 +41,6 @@ export default (state = initialState, action) => {
 };
 
 const setData = data => {
-  console.log("data", data);
   return dispatch => {
     dispatch({
       type: SET_SALES_DATA,

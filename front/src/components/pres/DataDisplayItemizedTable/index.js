@@ -13,6 +13,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { CSVDownload, CSVLink } from "react-csv";
 
 const currentDataFormate = ({ periods, yoy }) => {
   let payload = [];
@@ -239,6 +240,50 @@ const getDifferenceInPercentage = (current, previous) => {
 const isNegative = value =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
+const getCSVVersion = data => {
+  const finalData = [];
+  const header = [
+    "Date Range",
+    "Sales",
+    "Units Sold",
+    "Shipped COGS",
+    "Ad Clicks ",
+    "Ad Impressions",
+    "Avg CPC",
+    "Ad Spend",
+    "Ad Orders ",
+    "Ad Sales",
+    "% of Total Sales",
+    "Conv Rate",
+    "ACoS"
+  ];
+  finalData.push(header);
+  data.map(({ current, period }) => {
+    const temp = [];
+    temp.push(
+      `${moment(period.start)
+        .utc()
+        .format("MM/DD/YYYY")} - ${moment(period.end)
+        .utc()
+        .format("MM/DD/YYYY")}`
+    );
+    temp.push(current.sales);
+    temp.push(current.units_sold);
+    temp.push(current.shipped_cogs);
+    temp.push(current.ad_clicks);
+    temp.push(current.ad_impressions);
+    temp.push(current.average_cpc);
+    temp.push(current.ad_spend);
+    temp.push(current.ad_orders);
+    temp.push(current.ad_sales);
+    temp.push(current.percent_total_sales);
+    temp.push(current.conversion_rate);
+    temp.push(current.acos);
+    finalData.push(temp);
+  });
+  return finalData;
+};
+
 const DataDisplayItemizedTable = props => {
   const isComparisons = true;
   const [active, setActive] = useState(false);
@@ -326,370 +371,374 @@ const DataDisplayItemizedTable = props => {
   };
 
   return (
-    <div className={s.noBoxShadow + " fixed-header-table"}>
-      <table aria-label="simple table">
-        <thead>
-          <tr>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 0 && "4"}
-            >
-              <div>
-                <span>
-                  <span>Date Range</span>
-                  <span onClick={() => handleSort(0)}>
-                    {" "}
-                    {active !== 0 &&
-                      (sortBy === 0 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+    <>
+      <CSVLink data={getCSVVersion(filterData)} filename={"brand.csv"}>
+        Download me
+      </CSVLink>{" "}
+      <div className={s.noBoxShadow + " fixed-header-table"}>
+        <table aria-label="simple table">
+          <thead>
+            <tr>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 0 && "4"}
+              >
+                <div>
+                  <span>
+                    <span>Date Range</span>
+                    <span onClick={() => handleSort(0)}>
+                      {" "}
+                      {active !== 0 &&
+                        (sortBy === 0 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 1 && "6"}
-            >
-              <div>
-                <span onClick={() => headerClick(1)}>
-                  {isComparisons &&
-                    (active === 1 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Sales</span>
-                  <span onClick={() => handleSort(1)}>
-                    {active !== 1 &&
-                      (sortBy === 1 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 1 && "6"}
+              >
+                <div>
+                  <span onClick={() => headerClick(1)}>
+                    {isComparisons &&
+                      (active === 1 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Sales</span>
+                    <span onClick={() => handleSort(1)}>
+                      {active !== 1 &&
+                        (sortBy === 1 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 2 && "6"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(2)}>
-                  {isComparisons &&
-                    (active === 2 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Units Sold </span>
-                  <span onClick={() => handleSort(2)}>
-                    {active !== 2 &&
-                      (sortBy === 2 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 2 && "6"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(2)}>
+                    {isComparisons &&
+                      (active === 2 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Units Sold </span>
+                    <span onClick={() => handleSort(2)}>
+                      {active !== 2 &&
+                        (sortBy === 2 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 3 && "6"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(3)}>
-                  {isComparisons &&
-                    (active === 3 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Shipped COGS </span>
-                  <span onClick={() => handleSort(3)}>
-                    {active !== 3 &&
-                      (sortBy === 3 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 3 && "6"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(3)}>
+                    {isComparisons &&
+                      (active === 3 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Shipped COGS </span>
+                    <span onClick={() => handleSort(3)}>
+                      {active !== 3 &&
+                        (sortBy === 3 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 4 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(4)}>
-                  {isComparisons &&
-                    (active === 4 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Ad Clicks </span>
-                  <span onClick={() => handleSort(4)}>
-                    {active !== 4 &&
-                      (sortBy === 4 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 4 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(4)}>
+                    {isComparisons &&
+                      (active === 4 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Ad Clicks </span>
+                    <span onClick={() => handleSort(4)}>
+                      {active !== 4 &&
+                        (sortBy === 4 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 5 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(5)}>
-                  {isComparisons &&
-                    (active === 5 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Ad Impressions </span>
-                  <span onClick={() => handleSort(5)}>
-                    {active !== 5 &&
-                      (sortBy === 5 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 5 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(5)}>
+                    {isComparisons &&
+                      (active === 5 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Ad Impressions </span>
+                    <span onClick={() => handleSort(5)}>
+                      {active !== 5 &&
+                        (sortBy === 5 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 6 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(6)}>
-                  {isComparisons &&
-                    (active === 6 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Avg CPC </span>
-                  <span onClick={() => handleSort(6)}>
-                    {active !== 6 &&
-                      (sortBy === 6 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 6 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(6)}>
+                    {isComparisons &&
+                      (active === 6 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Avg CPC </span>
+                    <span onClick={() => handleSort(6)}>
+                      {active !== 6 &&
+                        (sortBy === 6 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 7 && "6"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(7)}>
-                  {isComparisons &&
-                    (active === 7 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Ad Spend </span>
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 7 && "6"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(7)}>
+                    {isComparisons &&
+                      (active === 7 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Ad Spend </span>
 
-                  <span onClick={() => handleSort(7)}>
-                    {active !== 7 &&
-                      (sortBy === 7 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                    <span onClick={() => handleSort(7)}>
+                      {active !== 7 &&
+                        (sortBy === 7 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
+                  </span>{" "}
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 8 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(8)}>
+                    {isComparisons &&
+                      (active === 8 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
-                </span>{" "}
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 8 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(8)}>
-                  {isComparisons &&
-                    (active === 8 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Ad Orders </span>
-                  <span onClick={() => handleSort(8)}>
-                    {active !== 8 &&
-                      (sortBy === 8 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span>
+                    <span>Ad Orders </span>
+                    <span onClick={() => handleSort(8)}>
+                      {active !== 8 &&
+                        (sortBy === 8 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
+                  </span>{" "}
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 9 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(9)}>
+                    {isComparisons &&
+                      (active === 9 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
-                </span>{" "}
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 9 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(9)}>
-                  {isComparisons &&
-                    (active === 9 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Ad Sales </span>
-                  <span onClick={() => handleSort(9)}>
-                    {active !== 9 &&
-                      (sortBy === 9 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span>
+                    <span>Ad Sales </span>
+                    <span onClick={() => handleSort(9)}>
+                      {active !== 9 &&
+                        (sortBy === 9 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
+                  </span>{" "}
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 10 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(10)}>
+                    {isComparisons &&
+                      (active === 10 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
-                </span>{" "}
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 10 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(10)}>
-                  {isComparisons &&
-                    (active === 10 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>% of Total Sales </span>
-                  <span onClick={() => handleSort(10)}>
-                    {active !== 10 &&
-                      (sortBy === 10 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span>
+                    <span>% of Total Sales </span>
+                    <span onClick={() => handleSort(10)}>
+                      {active !== 10 &&
+                        (sortBy === 10 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
                   </span>
-                </span>
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 11 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(11)}>
-                  {isComparisons &&
-                    (active === 11 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>Conv Rate </span>
-                  <span onClick={() => handleSort(11)}>
-                    {active !== 11 &&
-                      (sortBy === 11 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 11 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(11)}>
+                    {isComparisons &&
+                      (active === 11 ? <RemoveIcon /> : <AddIcon />)}
+                  </span>
+                  <span>
+                    <span>Conv Rate </span>
+                    <span onClick={() => handleSort(11)}>
+                      {active !== 11 &&
+                        (sortBy === 11 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
+                          <SortIcon />
+                        ))}
+                    </span>
+                  </span>{" "}
+                  <span />
+                </div>
+              </th>
+              <th
+                className={s.tableHead}
+                colSpan={isComparisons && active === 12 && "4"}
+                align="right"
+              >
+                <div>
+                  <span onClick={() => headerClick(12)}>
+                    {isComparisons &&
+                      (active === 12 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
-                </span>{" "}
-                <span />
-              </div>
-            </th>
-            <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 12 && "4"}
-              align="right"
-            >
-              <div>
-                <span onClick={() => headerClick(12)}>
-                  {isComparisons &&
-                    (active === 12 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-                <span>
-                  <span>ACoS </span>
-                  <span onClick={() => handleSort(12)}>
-                    {active !== 12 &&
-                      (sortBy === 12 ? (
-                        sortAscendingBy ? (
-                          <ArrowDropUpIcon />
+                  <span>
+                    <span>ACoS </span>
+                    <span onClick={() => handleSort(12)}>
+                      {active !== 12 &&
+                        (sortBy === 12 ? (
+                          sortAscendingBy ? (
+                            <ArrowDropUpIcon />
+                          ) : (
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                          <ArrowDropDownIcon />
-                        )
-                      ) : (
-                        <SortIcon />
-                      ))}
-                  </span>
-                </span>{" "}
-                <span />
-              </div>
-            </th>
-            {/* <th
+                          <SortIcon />
+                        ))}
+                    </span>
+                  </span>{" "}
+                  <span />
+                </div>
+              </th>
+              {/* <th
               className={s.tableHead}
               colSpan={isComparisons && active === 13 && "4"}
               onClick={() => headerClick(13)}
@@ -707,101 +756,29 @@ const DataDisplayItemizedTable = props => {
                 <span />
               </div>
             </th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {isComparisons && active && (
-            <>
-              <tr>
-                {active !== 0 && (
-                  <th
-                    colSpan={active}
-                    className={s.tableHead}
-                    align="right"
-                  ></th>
-                )}
+            </tr>
+          </thead>
+          <tbody>
+            {isComparisons && active && (
+              <>
+                <tr>
+                  {active !== 0 && (
+                    <th
+                      colSpan={active}
+                      className={s.tableHead}
+                      align="right"
+                    ></th>
+                  )}
 
-                {active !== false && (
-                  <>
-                    {" "}
-                    <th className={s.tableHead} align="right">
-                      <div>
-                        <span>Current</span>
-                        <span onClick={() => handleSortInner(0)}>
-                          {" "}
-                          {sortByInner === 0 ? (
-                            sortAscendingBy ? (
-                              <ArrowDropUpIcon />
-                            ) : (
-                              <ArrowDropDownIcon />
-                            )
-                          ) : (
-                            <SortIcon />
-                          )}
-                        </span>
-                      </div>
-                    </th>
-                    <th className={s.tableHead} align="right">
-                      <div>
-                        <span>Previous</span>
-                        <span onClick={() => handleSortInner(1)}>
-                          {" "}
-                          {sortByInner === 1 ? (
-                            sortAscendingBy ? (
-                              <ArrowDropUpIcon />
-                            ) : (
-                              <ArrowDropDownIcon />
-                            )
-                          ) : (
-                            <SortIcon />
-                          )}
-                        </span>
-                      </div>
-                    </th>
-                    <th className={s.tableHead} align="right">
-                      <div>
-                        <span>Change #</span>
-                        <span onClick={() => handleSortInner(2)}>
-                          {" "}
-                          {sortByInner === 2 ? (
-                            sortAscendingBy ? (
-                              <ArrowDropUpIcon />
-                            ) : (
-                              <ArrowDropDownIcon />
-                            )
-                          ) : (
-                            <SortIcon />
-                          )}
-                        </span>
-                      </div>
-                    </th>
-                    <th className={s.tableHead} align="right">
-                      <div>
-                        <span>Change %</span>
-                        <span onClick={() => handleSortInner(3)}>
-                          {" "}
-                          {sortByInner === 3 ? (
-                            sortAscendingBy ? (
-                              <ArrowDropUpIcon />
-                            ) : (
-                              <ArrowDropDownIcon />
-                            )
-                          ) : (
-                            <SortIcon />
-                          )}
-                        </span>
-                      </div>
-                    </th>{" "}
-                    {(active === 1 ||
-                      active === 2 ||
-                      active === 3 ||
-                      active === 7) && (
+                  {active !== false && (
+                    <>
+                      {" "}
                       <th className={s.tableHead} align="right">
                         <div>
-                          <span>Change # YOY</span>
-                          <span onClick={() => handleSortInner(4)}>
+                          <span>Current</span>
+                          <span onClick={() => handleSortInner(0)}>
                             {" "}
-                            {sortByInner === 4 ? (
+                            {sortByInner === 0 ? (
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
@@ -813,17 +790,12 @@ const DataDisplayItemizedTable = props => {
                           </span>
                         </div>
                       </th>
-                    )}
-                    {(active === 1 ||
-                      active === 2 ||
-                      active === 3 ||
-                      active === 7) && (
                       <th className={s.tableHead} align="right">
                         <div>
-                          <span>Change % YOY</span>
-                          <span onClick={() => handleSortInner(5)}>
+                          <span>Previous</span>
+                          <span onClick={() => handleSortInner(1)}>
                             {" "}
-                            {sortByInner === 5 ? (
+                            {sortByInner === 1 ? (
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
@@ -835,30 +807,107 @@ const DataDisplayItemizedTable = props => {
                           </span>
                         </div>
                       </th>
-                    )}
-                  </>
-                )}
-              </tr>
-            </>
-          )}
-          {filterData
-            ? filterData.map((row, i, array) => {
-                const {
-                  current,
-                  previous,
-                  change,
-                  charge,
-                  yoy,
-                  yoyCharge
-                } = row;
-                return (
-                  <tr key={i}>
-                    {active === 0 ? (
-                      <>
-                        <td component="th" className="w-date">
-                          <b>{i + 1}</b>
-                        </td>
-                        {/* <td component="th">
+                      <th className={s.tableHead} align="right">
+                        <div>
+                          <span>Change #</span>
+                          <span onClick={() => handleSortInner(2)}>
+                            {" "}
+                            {sortByInner === 2 ? (
+                              sortAscendingBy ? (
+                                <ArrowDropUpIcon />
+                              ) : (
+                                <ArrowDropDownIcon />
+                              )
+                            ) : (
+                              <SortIcon />
+                            )}
+                          </span>
+                        </div>
+                      </th>
+                      <th className={s.tableHead} align="right">
+                        <div>
+                          <span>Change %</span>
+                          <span onClick={() => handleSortInner(3)}>
+                            {" "}
+                            {sortByInner === 3 ? (
+                              sortAscendingBy ? (
+                                <ArrowDropUpIcon />
+                              ) : (
+                                <ArrowDropDownIcon />
+                              )
+                            ) : (
+                              <SortIcon />
+                            )}
+                          </span>
+                        </div>
+                      </th>{" "}
+                      {(active === 1 ||
+                        active === 2 ||
+                        active === 3 ||
+                        active === 7) && (
+                        <th className={s.tableHead} align="right">
+                          <div>
+                            <span>Change # YOY</span>
+                            <span onClick={() => handleSortInner(4)}>
+                              {" "}
+                              {sortByInner === 4 ? (
+                                sortAscendingBy ? (
+                                  <ArrowDropUpIcon />
+                                ) : (
+                                  <ArrowDropDownIcon />
+                                )
+                              ) : (
+                                <SortIcon />
+                              )}
+                            </span>
+                          </div>
+                        </th>
+                      )}
+                      {(active === 1 ||
+                        active === 2 ||
+                        active === 3 ||
+                        active === 7) && (
+                        <th className={s.tableHead} align="right">
+                          <div>
+                            <span>Change % YOY</span>
+                            <span onClick={() => handleSortInner(5)}>
+                              {" "}
+                              {sortByInner === 5 ? (
+                                sortAscendingBy ? (
+                                  <ArrowDropUpIcon />
+                                ) : (
+                                  <ArrowDropDownIcon />
+                                )
+                              ) : (
+                                <SortIcon />
+                              )}
+                            </span>
+                          </div>
+                        </th>
+                      )}
+                    </>
+                  )}
+                </tr>
+              </>
+            )}
+            {filterData
+              ? filterData.map((row, i, array) => {
+                  const {
+                    current,
+                    previous,
+                    change,
+                    charge,
+                    yoy,
+                    yoyCharge
+                  } = row;
+                  return (
+                    <tr key={i}>
+                      {active === 0 ? (
+                        <>
+                          <td component="th" className="w-date">
+                            <b>{i + 1}</b>
+                          </td>
+                          {/* <td component="th">
                             <b>{i}</b>
                           </td>
                           <td component="th">
@@ -868,509 +917,521 @@ const DataDisplayItemizedTable = props => {
                             <b>{i}</b>
                           </td>
                         */}
-                      </>
-                    ) : (
-                      <td component="th" className="w-date">
-                        <b>
-                          {moment(row.period.start)
-                            .utc()
-                            .format("MM/DD/YYYY")}{" "}
-                          -{" "}
-                          {moment(row.period.end)
-                            .utc()
-                            .format("MM/DD/YYYY")}
-                        </b>
-                      </td>
-                    )}
-                    {isComparisons && active === 1 ? (
-                      <>
+                        </>
+                      ) : (
+                        <td component="th" className="w-date">
+                          <b>
+                            {moment(row.period.start)
+                              .utc()
+                              .format("MM/DD/YYYY")}{" "}
+                            -{" "}
+                            {moment(row.period.end)
+                              .utc()
+                              .format("MM/DD/YYYY")}
+                          </b>
+                        </td>
+                      )}
+                      {isComparisons && active === 1 ? (
+                        <>
+                          <td align="right">
+                            {current.sales !== 0
+                              ? "$" + numberWithCommas(current.sales)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.sales !== 0
+                              ? "$" + numberWithCommas(previous.sales)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.sales)}
+                          >
+                            {change.sales !== 0 ? "$" + change.sales : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.sales)}
+                          >
+                            {charge.sales !== 0 ? charge.sales + "%" : "N/A"}
+                          </td>
+                          <td align="right" className={isNegative(yoy.sales)}>
+                            {yoy.sales !== 0
+                              ? numberWithCommas(yoy.sales)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoyCharge.sales)}
+                          >
+                            {yoyCharge.sales !== 0
+                              ? yoyCharge.sales + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.sales !== 0
                             ? "$" + numberWithCommas(current.sales)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.sales !== 0
-                            ? "$" + numberWithCommas(previous.sales)
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(change.sales)}>
-                          {change.sales !== 0 ? "$" + change.sales : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(charge.sales)}>
-                          {charge.sales !== 0 ? charge.sales + "%" : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(yoy.sales)}>
-                          {yoy.sales !== 0
-                            ? numberWithCommas(yoy.sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoyCharge.sales)}
-                        >
-                          {yoyCharge.sales !== 0
-                            ? yoyCharge.sales + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.sales !== 0
-                          ? "$" + numberWithCommas(current.sales)
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 2 ? (
-                      <>
+                      {isComparisons && active === 2 ? (
+                        <>
+                          <td align="right">
+                            {current.units_sold !== 0
+                              ? numberWithCommas(current.units_sold)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.units_sold !== 0
+                              ? numberWithCommas(previous.units_sold)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.units_sold)}
+                          >
+                            {change.units_sold !== 0
+                              ? numberWithCommas(change.units_sold)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.units_sold)}
+                          >
+                            {charge.units_sold !== 0
+                              ? charge.units_sold + "%"
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoy.units_sold)}
+                          >
+                            {yoy.units_sold !== 0
+                              ? numberWithCommas(yoy.units_sold)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoyCharge.units_sold)}
+                          >
+                            {yoyCharge.units_sold !== 0
+                              ? yoyCharge.units_sold + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.units_sold !== 0
                             ? numberWithCommas(current.units_sold)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.units_sold !== 0
-                            ? numberWithCommas(previous.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.units_sold)}
-                        >
-                          {change.units_sold !== 0
-                            ? numberWithCommas(change.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.units_sold)}
-                        >
-                          {charge.units_sold !== 0
-                            ? charge.units_sold + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoy.units_sold)}
-                        >
-                          {yoy.units_sold !== 0
-                            ? numberWithCommas(yoy.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoyCharge.units_sold)}
-                        >
-                          {yoyCharge.units_sold !== 0
-                            ? yoyCharge.units_sold + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.units_sold !== 0
-                          ? numberWithCommas(current.units_sold)
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 3 ? (
-                      <>
+                      {isComparisons && active === 3 ? (
+                        <>
+                          <td align="right">
+                            {current.shipped_cogs !== 0
+                              ? "$" + numberWithCommas(current.shipped_cogs)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.shipped_cogs !== 0
+                              ? "$" + numberWithCommas(previous.shipped_cogs)
+                              : "N/A"}
+                          </td>
+
+                          <td
+                            align="right"
+                            className={isNegative(change.shipped_cogs)}
+                          >
+                            {current.shipped_cogs !== 0
+                              ? "$" + numberWithCommas(change.shipped_cogs)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.shipped_cogs)}
+                          >
+                            {charge.shipped_cogs !== 0
+                              ? charge.shipped_cogs + "%"
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoy.shipped_cogs)}
+                          >
+                            {yoy.shipped_cogs !== 0
+                              ? numberWithCommas(yoy.shipped_cogs)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoyCharge.shipped_cogs)}
+                          >
+                            {yoyCharge.shipped_cogs !== 0
+                              ? yoyCharge.shipped_cogs + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.shipped_cogs !== 0
                             ? "$" + numberWithCommas(current.shipped_cogs)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.shipped_cogs !== 0
-                            ? "$" + numberWithCommas(previous.shipped_cogs)
-                            : "N/A"}
-                        </td>
+                      )}
 
-                        <td
-                          align="right"
-                          className={isNegative(change.shipped_cogs)}
-                        >
-                          {current.shipped_cogs !== 0
-                            ? "$" + numberWithCommas(change.shipped_cogs)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.shipped_cogs)}
-                        >
-                          {charge.shipped_cogs !== 0
-                            ? charge.shipped_cogs + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoy.shipped_cogs)}
-                        >
-                          {yoy.shipped_cogs !== 0
-                            ? numberWithCommas(yoy.shipped_cogs)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoyCharge.shipped_cogs)}
-                        >
-                          {yoyCharge.shipped_cogs !== 0
-                            ? yoyCharge.shipped_cogs + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.shipped_cogs !== 0
-                          ? "$" + numberWithCommas(current.shipped_cogs)
-                          : "N/A"}
-                      </td>
-                    )}
+                      {isComparisons && active === 4 ? (
+                        <>
+                          <td align="right">
+                            {current.ad_clicks !== 0
+                              ? numberWithCommas(current.ad_clicks)
+                              : "N/A"}
+                          </td>
 
-                    {isComparisons && active === 4 ? (
-                      <>
+                          <td align="right">
+                            {previous.ad_clicks !== 0
+                              ? numberWithCommas(previous.ad_clicks)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.ad_clicks)}
+                          >
+                            {change.ad_clicks !== 0
+                              ? numberWithCommas(change.ad_clicks)
+                              : "N/A"}
+                          </td>
+
+                          <td
+                            align="right"
+                            className={isNegative(charge.ad_clicks)}
+                          >
+                            {charge.ad_clicks !== 0
+                              ? charge.ad_clicks + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.ad_clicks !== 0
                             ? numberWithCommas(current.ad_clicks)
                             : "N/A"}
                         </td>
+                      )}
 
+                      {isComparisons && active === 5 ? (
+                        <>
+                          <td align="right">
+                            {current.ad_impressions !== 0
+                              ? numberWithCommas(current.ad_impressions)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.ad_impressions !== 0
+                              ? numberWithCommas(previous.ad_impressions)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.ad_impressions)}
+                          >
+                            {change.ad_impressions !== 0
+                              ? numberWithCommas(change.ad_impressions)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.ad_impressions)}
+                          >
+                            {charge.ad_impressions !== 0
+                              ? charge.ad_impressions + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
-                          {previous.ad_clicks !== 0
-                            ? numberWithCommas(previous.ad_clicks)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_clicks)}
-                        >
-                          {change.ad_clicks !== 0
-                            ? numberWithCommas(change.ad_clicks)
-                            : "N/A"}
-                        </td>
-
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_clicks)}
-                        >
-                          {charge.ad_clicks !== 0
-                            ? charge.ad_clicks + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.ad_clicks !== 0
-                          ? numberWithCommas(current.ad_clicks)
-                          : "N/A"}
-                      </td>
-                    )}
-
-                    {isComparisons && active === 5 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_impressions !== 0
+                          {current.ad_impressions
                             ? numberWithCommas(current.ad_impressions)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.ad_impressions !== 0
-                            ? numberWithCommas(previous.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_impressions)}
-                        >
-                          {change.ad_impressions !== 0
-                            ? numberWithCommas(change.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_impressions)}
-                        >
-                          {charge.ad_impressions !== 0
-                            ? charge.ad_impressions + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.ad_impressions
-                          ? numberWithCommas(current.ad_impressions)
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 6 ? (
-                      <>
+                      {isComparisons && active === 6 ? (
+                        <>
+                          <td align="right">
+                            {current.average_cpc
+                              ? "$" + numberWithCommas(current.average_cpc)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.average_cpc
+                              ? "$" + numberWithCommas(previous.average_cpc)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.average_cpc)}
+                          >
+                            {change.average_cpc !== 0
+                              ? "$" + numberWithCommas(change.average_cpc)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.average_cpc)}
+                          >
+                            {charge.average_cpc !== 0
+                              ? charge.average_cpc + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.average_cpc
                             ? "$" + numberWithCommas(current.average_cpc)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.average_cpc
-                            ? "$" + numberWithCommas(previous.average_cpc)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.average_cpc)}
-                        >
-                          {change.average_cpc !== 0
-                            ? "$" + numberWithCommas(change.average_cpc)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.average_cpc)}
-                        >
-                          {charge.average_cpc !== 0
-                            ? charge.average_cpc + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.average_cpc
-                          ? "$" + numberWithCommas(current.average_cpc)
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 7 ? (
-                      <>
+                      {isComparisons && active === 7 ? (
+                        <>
+                          <td align="right">
+                            {current.ad_spend
+                              ? "$" + numberWithCommas(current.ad_spend)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.ad_spend
+                              ? "$" + numberWithCommas(previous.ad_spend)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.ad_spend)}
+                          >
+                            {change.ad_spend !== 0
+                              ? "$" + numberWithCommas(change.ad_spend)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.ad_spend)}
+                          >
+                            {current.ad_spend !== 0
+                              ? charge.ad_spend + "%"
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoy.ad_spend)}
+                          >
+                            {yoy.ad_spend !== 0
+                              ? "$" + numberWithCommas(yoy.ad_spend)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(yoyCharge.ad_spend)}
+                          >
+                            {yoyCharge.ad_spend !== 0
+                              ? yoyCharge.ad_spend + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.ad_spend
                             ? "$" + numberWithCommas(current.ad_spend)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.ad_spend
-                            ? "$" + numberWithCommas(previous.ad_spend)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_spend)}
-                        >
-                          {change.ad_spend !== 0
-                            ? "$" + numberWithCommas(change.ad_spend)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_spend)}
-                        >
-                          {current.ad_spend !== 0
-                            ? charge.ad_spend + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(yoy.ad_spend)}>
-                          {yoy.ad_spend !== 0
-                            ? "$" + numberWithCommas(yoy.ad_spend)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(yoyCharge.ad_spend)}
-                        >
-                          {yoyCharge.ad_spend !== 0
-                            ? yoyCharge.ad_spend + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.ad_spend
-                          ? "$" + numberWithCommas(current.ad_spend)
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 8 ? (
-                      <>
+                      {isComparisons && active === 8 ? (
+                        <>
+                          <td align="right">
+                            {current.ad_orders
+                              ? numberWithCommas(current.ad_orders)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.ad_orders
+                              ? numberWithCommas(previous.ad_orders)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.ad_orders)}
+                          >
+                            {change.ad_orders !== 0
+                              ? numberWithCommas(change.ad_orders)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.ad_orders)}
+                          >
+                            {charge.ad_orders !== 0
+                              ? charge.ad_orders + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.ad_orders
                             ? numberWithCommas(current.ad_orders)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.ad_orders
-                            ? numberWithCommas(previous.ad_orders)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_orders)}
-                        >
-                          {change.ad_orders !== 0
-                            ? numberWithCommas(change.ad_orders)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_orders)}
-                        >
-                          {charge.ad_orders !== 0
-                            ? charge.ad_orders + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.ad_orders
-                          ? numberWithCommas(current.ad_orders)
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 9 ? (
-                      <>
+                      {isComparisons && active === 9 ? (
+                        <>
+                          <td align="right">
+                            {current.ad_sales
+                              ? "$" + numberWithCommas(current.ad_sales)
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.ad_sales
+                              ? "$" + numberWithCommas(previous.ad_sales)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.ad_sales)}
+                          >
+                            {change.ad_sales !== 0
+                              ? "$" + numberWithCommas(change.ad_sales)
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.ad_sales)}
+                          >
+                            {charge.ad_sales !== 0
+                              ? numberWithCommas(charge.ad_sales) + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
-                          {current.ad_sales
+                          {current.ad_sales !== 0
                             ? "$" + numberWithCommas(current.ad_sales)
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.ad_sales
-                            ? "$" + numberWithCommas(previous.ad_sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_sales)}
-                        >
-                          {change.ad_sales !== 0
-                            ? "$" + numberWithCommas(change.ad_sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_sales)}
-                        >
-                          {charge.ad_sales !== 0
-                            ? numberWithCommas(charge.ad_sales) + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.ad_sales !== 0
-                          ? "$" + numberWithCommas(current.ad_sales)
-                          : "N/A"}
-                      </td>
-                    )}
-                    {isComparisons && active === 10 ? (
-                      <>
+                      )}
+                      {isComparisons && active === 10 ? (
+                        <>
+                          <td align="right">
+                            {current.percent_total_sales !== 0
+                              ? Number(current.percent_total_sales).toFixed(2) +
+                                "%"
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.percent_total_sales !== 0
+                              ? Number(previous.percent_total_sales).toFixed(
+                                  2
+                                ) + "%"
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.percent_total_sales)}
+                          >
+                            {change.percent_total_sales !== 0
+                              ? change.percent_total_sales
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.percent_total_sales)}
+                          >
+                            {charge.percent_total_sales !== 0
+                              ? Number(charge.percent_total_sales).toFixed(2) +
+                                "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.percent_total_sales !== 0
                             ? Number(current.percent_total_sales).toFixed(2) +
                               "%"
                             : "N/A"}
                         </td>
+                      )}
+                      {isComparisons && active === 11 ? (
+                        <>
+                          <td align="right">
+                            {current.conversion_rate !== 0
+                              ? Number(current.conversion_rate).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.conversion_rate !== 0
+                              ? Number(previous.conversion_rate).toFixed(2) +
+                                "%"
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(change.conversion_rate)}
+                          >
+                            {change.conversion_rate !== 0
+                              ? Number(change.conversion_rate).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                          <td
+                            align="right"
+                            className={isNegative(charge.conversion_rate)}
+                          >
+                            {charge.conversion_rate !== 0
+                              ? Number(charge.conversion_rate).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
-                          {previous.percent_total_sales !== 0
-                            ? Number(previous.percent_total_sales).toFixed(2) +
-                              "%"
-                            : "N/A"}
+                          {Number(current.conversion_rate).toFixed(2) + "%"}
                         </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.percent_total_sales)}
-                        >
-                          {change.percent_total_sales !== 0
-                            ? change.percent_total_sales
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.percent_total_sales)}
-                        >
-                          {charge.percent_total_sales !== 0
-                            ? Number(charge.percent_total_sales).toFixed(2) +
-                              "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.percent_total_sales !== 0
-                          ? Number(current.percent_total_sales).toFixed(2) + "%"
-                          : "N/A"}
-                      </td>
-                    )}
-                    {isComparisons && active === 11 ? (
-                      <>
-                        <td align="right">
-                          {current.conversion_rate !== 0
-                            ? Number(current.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.conversion_rate !== 0
-                            ? Number(previous.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.conversion_rate)}
-                        >
-                          {change.conversion_rate !== 0
-                            ? Number(change.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.conversion_rate)}
-                        >
-                          {charge.conversion_rate !== 0
-                            ? Number(charge.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {Number(current.conversion_rate).toFixed(2) + "%"}
-                      </td>
-                    )}
+                      )}
 
-                    {isComparisons && active === 12 ? (
-                      <>
+                      {isComparisons && active === 12 ? (
+                        <>
+                          <td align="right">
+                            {current.acos !== 0
+                              ? Number(current.acos).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                          <td align="right">
+                            {previous.acos !== 0
+                              ? Number(previous.acos).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                          <td align="right" className={isNegative(change.acos)}>
+                            {change.acos !== 0
+                              ? Number(change.acos).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                          <td align="right" className={isNegative(charge.acos)}>
+                            {charge.acos !== 0
+                              ? Number(charge.acos).toFixed(2) + "%"
+                              : "N/A"}
+                          </td>
+                        </>
+                      ) : (
                         <td align="right">
                           {current.acos !== 0
                             ? Number(current.acos).toFixed(2) + "%"
                             : "N/A"}
                         </td>
-                        <td align="right">
-                          {previous.acos !== 0
-                            ? Number(previous.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(change.acos)}>
-                          {change.acos !== 0
-                            ? Number(change.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(charge.acos)}>
-                          {charge.acos !== 0
-                            ? Number(charge.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                      <td align="right">
-                        {current.acos !== 0
-                          ? Number(current.acos).toFixed(2) + "%"
-                          : "N/A"}
-                      </td>
-                    )}
+                      )}
 
-                    {/* {isComparisons && active === 13 ? (
+                      {/* {isComparisons && active === 13 ? (
                         <>
                           <td
                             align="right"
@@ -1509,13 +1570,14 @@ const DataDisplayItemizedTable = props => {
                             : "N/A"}
                         </td>
                       )} */}
-                  </tr>
-                );
-              })
-            : ""}
-        </tbody>
-      </table>
-    </div>
+                    </tr>
+                  );
+                })
+              : ""}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 

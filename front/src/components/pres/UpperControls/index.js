@@ -196,7 +196,6 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
-              console.log("UpperControls -> fetchData -> data", data);
               this.props.saleSetData(payload.data);
             }
             this.props.setLoadingData(false);
