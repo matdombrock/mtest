@@ -54,7 +54,8 @@ class UpperControls extends Component {
         .endOf("isoWeek"),
       selectedDateRange: "lastWeek",
       displayDateRange: "lastWeek",
-      periodsCount: 2
+      periodsCount: 2,
+      isYOY: false
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -72,6 +73,14 @@ class UpperControls extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.activeTab !== prevProps.activeTab) {
       this.fetchData();
+    }
+    if (
+      this.props.brands.length !== prevProps.brands.length &&
+      this.props.brands.length === 1
+    ) {
+      this.setState({ selectedBrand: this.props.brands[0].brand_name }, () =>
+        this.fetchData()
+      );
     }
   }
   download() {
@@ -137,7 +146,8 @@ class UpperControls extends Component {
       selectedBrand: brand,
       period,
       selectedDateRange,
-      periodsCount
+      periodsCount,
+      isYOY
     } = this.state;
     if (brand) {
       this.props.setLoadingData(true);
@@ -149,7 +159,8 @@ class UpperControls extends Component {
     let data = {
       brand: brand,
       byMonth: period === "weekly" ? false : true,
-      period_count: periodsCount
+      period_count: periodsCount,
+      load_yoy: isYOY
     };
     data.period =
       selectedDateRange === "lastMonth"
@@ -650,26 +661,26 @@ class UpperControls extends Component {
                           </div>
                         </>
                       )} */}
+                      <div className={s["item"]}>
+                        <p className={s["comparison-input"]}>
+                          <label className={s["comparison-input"]}>
+                            {" "}
+                            <input
+                              type="checkbox"
+                              checked={this.state.isYOY}
+                              onChange={e =>
+                                this.setState({ isYOY: e.target.checked })
+                              }
+                              value="true"
+                              inputProps={{
+                                "aria-label": "primary checkbox"
+                              }}
+                            />
+                            Load YOY
+                          </label>
+                        </p>
+                      </div>
                       {/* {this.props.activeTab !== 1 && (
-                        <div className={s["item"]}>
-                          <p className={s["comparison-input"]}>
-                            <label className={s["comparison-input"]}>
-                              {" "}
-                              <input
-                                type="checkbox"
-                                checked={this.state.comparison}
-                                onChange={e =>
-                                  this.togglecomparison(e.target.checked)
-                                }
-                                value="true"
-                                inputProps={{
-                                  "aria-label": "primary checkbox"
-                                }}
-                              />
-                              Compare to past
-                            </label>
-                          </p>
-                        </div>
                       )} */}
                       {/* {this.state.comparison && (
                         <div className={s["item"]}>
@@ -754,32 +765,33 @@ class UpperControls extends Component {
                   )}
                 </MuiSelect>
               )}
-
-              <MuiSelect
-                variant="outlined"
-                onChange={e =>
-                  e.target.value !== "Select Brand" &&
-                  this.setBrand(e.target.value)
-                }
-                value={
-                  this.state.selectedBrand
-                    ? this.state.selectedBrand
-                    : "Select Brand"
-                }
-                classes={s["colo-grey"]}
-                style={{ marginRight: 10 }}
-              >
-                <MenuItem key={1} value={"Select Brand"}>
-                  Select Brand
-                </MenuItem>
-                {this.props.brands.length !== 0
-                  ? this.props.brands.map(brand => (
-                      <MenuItem key={brand.id} value={brand.brand_name}>
-                        {brand.brand_name}
-                      </MenuItem>
-                    ))
-                  : ""}
-              </MuiSelect>
+              {this.props.brands.length > 1 && (
+                <MuiSelect
+                  variant="outlined"
+                  onChange={e =>
+                    e.target.value !== "Select Brand" &&
+                    this.setBrand(e.target.value)
+                  }
+                  value={
+                    this.state.selectedBrand
+                      ? this.state.selectedBrand
+                      : "Select Brand"
+                  }
+                  classes={s["colo-grey"]}
+                  style={{ marginRight: 10 }}
+                >
+                  <MenuItem key={1} value={"Select Brand"}>
+                    Select Brand
+                  </MenuItem>
+                  {this.props.brands.length !== 0
+                    ? this.props.brands.map(brand => (
+                        <MenuItem key={brand.id} value={brand.brand_name}>
+                          {brand.brand_name}
+                        </MenuItem>
+                      ))
+                    : ""}
+                </MuiSelect>
+              )}
               {/* <MuiSelect
       variant="outlined"
       onChange={e => this.changePeriod(e.target.value)}
@@ -960,7 +972,7 @@ class UpperControls extends Component {
 
 const mapStateToProps = state => ({
   sales: state.sales,
-  brands: state.brands
+  brands: state.brands.splice(0, 1)
 });
 
 const mapDispatchToProps = dispatch =>
