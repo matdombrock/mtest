@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Legend,
   PieChart,
-  Pie
+  Pie,
 } from "recharts";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
@@ -19,7 +19,7 @@ class Charts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maxValue: 0
+      maxValue: 0,
     };
     this.formatMoney = this.formatMoney.bind(this);
   }
@@ -38,13 +38,18 @@ class Charts extends React.Component {
       totalAdSales = 0;
 
     const allSummaries = periods
-      .map(d => ({
-        ...d.summary
+      .map((d) => ({
+        ...d.summary,
         // date: `$`
       }))
       .reverse();
     totalAdSales = periods[0].summary.ad_sales || 0;
-    totalSales = Number(periods[0].summary.sales) - Number(totalAdSales);
+    totalSales =
+      Number(periods[0].summary.sales) > 0
+        ? Number(periods[0].summary.sales) - Number(totalAdSales)
+        : 0;
+    console.log("Charts -> render -> totalAdSales", totalAdSales);
+    console.log("Charts -> render -> totalSales", totalSales);
     if (allSummaries) {
       for (let i = 0; i < allSummaries.length; i++) {
         if (parseFloat(allSummaries[i].sales) > maxRevenue) {
@@ -190,7 +195,7 @@ class Charts extends React.Component {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <ResponsiveContainer width={"100%"} height={300}>
@@ -216,7 +221,7 @@ class Charts extends React.Component {
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
                 <YAxis
-                  domain={[0, parseFloat(maxSellingPrice)]}
+                  domain={[0, parseFloat(maxSellingPrice || 0)]}
                   tickFormatter={this.formatMoney}
                 />
               </LineChart>
@@ -264,13 +269,13 @@ class Charts extends React.Component {
                     {
                       value: totalAdSales || 0,
                       fill: "blue",
-                      name: "Ad Sales"
+                      name: "Ad Sales",
                     },
                     {
                       value: totalSales || 0,
                       fill: "green",
-                      name: "Total Sales (not including ad sales)"
-                    }
+                      name: "Total Sales (not including ad sales)",
+                    },
                   ]}
                   dataKey="value"
                   cx="50%"
@@ -278,7 +283,7 @@ class Charts extends React.Component {
                   innerRadius={60}
                   outerRadius={80}
                   fill="#82ca9d"
-                  label={data => "$" + numberWithCommas(data.payload.value)}
+                  label={(data) => "$" + numberWithCommas(data.payload.value)}
                 />
               </PieChart>
             </ResponsiveContainer>
