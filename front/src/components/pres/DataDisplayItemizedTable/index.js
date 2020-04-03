@@ -245,20 +245,124 @@ const getCSVVersion = data => {
   const header = [
     "Date Range",
     "Sales",
+    "",
+    "",
+    "",
+    "",
+    "",
     "Units Sold",
+    "",
+    "",
+    "",
+    "",
+    "",
     "Shipped COGS",
+    "",
+    "",
+    "",
+    "",
+    "",
     "Ad Clicks ",
+    "",
+    "",
+    "",
     "Ad Impressions",
+    "",
+    "",
+    "",
     "Avg CPC",
+    "",
+    "",
+    "",
     "Ad Spend",
+    "",
+    "",
+    "",
+    "",
+    "",
     "Ad Orders ",
+    "",
+    "",
+    "",
     "Ad Sales",
+    "",
+    "",
+    "",
     "% of Total Sales",
+    "",
+    "",
+    "",
     "Conv Rate",
-    "ACoS"
+    "",
+    "",
+    "",
+    "ACoS",
+    "",
+    "",
+    ""
+  ];
+  const headerOfComparison = [
+    "",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Change # YOY",
+    "Change % YOY",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Change # YOY",
+    "Change % YOY",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Change # YOY",
+    "Change % YOY",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Change # YOY",
+    "Change % YOY",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %",
+    "Current",
+    "Previous",
+    "Change #",
+    "Change %"
   ];
   finalData.push(header);
-  data.map(({ current, period }) => {
+  finalData.push(headerOfComparison);
+  data.map(({ current, period, previous, change, yoy, charge, yoyCharge }) => {
     const temp = [];
     temp.push(
       `${moment(period.start)
@@ -267,18 +371,184 @@ const getCSVVersion = data => {
         .utc()
         .format("MM/DD/YYYY")}`
     );
-    temp.push(current.sales);
-    temp.push(current.units_sold);
-    temp.push(current.shipped_cogs);
-    temp.push(current.ad_clicks);
-    temp.push(current.ad_impressions);
-    temp.push(current.average_cpc);
-    temp.push(current.ad_spend);
-    temp.push(current.ad_orders);
-    temp.push(current.ad_sales);
-    temp.push(current.percent_total_sales);
-    temp.push(current.conversion_rate);
-    temp.push(current.acos);
+
+    temp.push(
+      current.sales !== 0 ? "$" + numberWithCommas(current.sales) : "N/A"
+    );
+    temp.push(
+      previous.sales !== 0 ? "$" + numberWithCommas(previous.sales) : "N/A"
+    );
+    temp.push(change.sales !== 0 ? "$" + change.sales : "N/A");
+    temp.push(charge.sales !== 0 ? charge.sales + "%" : "N/A");
+    temp.push(yoy.sales !== 0 ? numberWithCommas(yoy.sales) : "N/A");
+    temp.push(yoyCharge.sales !== 0 ? yoyCharge.sales + "%" : "N/A");
+
+    temp.push(
+      current.units_sold !== 0 ? numberWithCommas(current.units_sold) : "N/A"
+    );
+    temp.push(
+      previous.units_sold !== 0 ? numberWithCommas(previous.units_sold) : "N/A"
+    );
+    temp.push(
+      change.units_sold !== 0 ? numberWithCommas(change.units_sold) : "N/A"
+    );
+    temp.push(charge.units_sold !== 0 ? charge.units_sold + "%" : "N/A");
+    temp.push(yoy.units_sold !== 0 ? numberWithCommas(yoy.units_sold) : "N/A");
+    temp.push(yoyCharge.units_sold !== 0 ? yoyCharge.units_sold + "%" : "N/A");
+
+    temp.push(
+      current.shipped_cogs !== 0
+        ? "$" + numberWithCommas(current.shipped_cogs)
+        : "N/A"
+    );
+    temp.push(
+      previous.shipped_cogs !== 0
+        ? "$" + numberWithCommas(previous.shipped_cogs)
+        : "N/A"
+    );
+    temp.push(
+      current.shipped_cogs !== 0
+        ? "$" + numberWithCommas(change.shipped_cogs)
+        : "N/A"
+    );
+    temp.push(charge.shipped_cogs !== 0 ? charge.shipped_cogs + "%" : "N/A");
+    temp.push(
+      yoy.shipped_cogs !== 0 ? numberWithCommas(yoy.shipped_cogs) : "N/A"
+    );
+    temp.push(
+      yoyCharge.shipped_cogs !== 0 ? yoyCharge.shipped_cogs + "%" : "N/A"
+    );
+
+    temp.push(
+      current.ad_clicks !== 0 ? numberWithCommas(current.ad_clicks) : "N/A"
+    );
+    temp.push(
+      previous.ad_clicks !== 0 ? numberWithCommas(previous.ad_clicks) : "N/A"
+    );
+    temp.push(
+      change.ad_clicks !== 0 ? numberWithCommas(change.ad_clicks) : "N/A"
+    );
+    temp.push(charge.ad_clicks !== 0 ? charge.ad_clicks + "%" : "N/A");
+
+    temp.push(
+      current.ad_impressions !== 0
+        ? numberWithCommas(current.ad_impressions)
+        : "N/A"
+    );
+    temp.push(
+      previous.ad_impressions !== 0
+        ? numberWithCommas(previous.ad_impressions)
+        : "N/A"
+    );
+    temp.push(
+      change.ad_impressions !== 0
+        ? numberWithCommas(change.ad_impressions)
+        : "N/A"
+    );
+    temp.push(
+      charge.ad_impressions !== 0 ? charge.ad_impressions + "%" : "N/A"
+    );
+
+    temp.push(
+      current.average_cpc ? "$" + numberWithCommas(current.average_cpc) : "N/A"
+    );
+    temp.push(
+      previous.average_cpc
+        ? "$" + numberWithCommas(previous.average_cpc)
+        : "N/A"
+    );
+    temp.push(
+      change.average_cpc !== 0
+        ? "$" + numberWithCommas(change.average_cpc)
+        : "N/A"
+    );
+    temp.push(charge.average_cpc !== 0 ? charge.average_cpc + "%" : "N/A");
+
+    temp.push(
+      current.ad_spend ? "$" + numberWithCommas(current.ad_spend) : "N/A"
+    );
+    temp.push(
+      previous.ad_spend ? "$" + numberWithCommas(previous.ad_spend) : "N/A"
+    );
+    temp.push(
+      change.ad_spend !== 0 ? "$" + numberWithCommas(change.ad_spend) : "N/A"
+    );
+    temp.push(current.ad_spend !== 0 ? charge.ad_spend + "%" : "N/A");
+    temp.push(
+      yoy.ad_spend !== 0 ? "$" + numberWithCommas(yoy.ad_spend) : "N/A"
+    );
+    temp.push(yoyCharge.ad_spend !== 0 ? yoyCharge.ad_spend + "%" : "N/A");
+
+    temp.push(current.ad_orders ? numberWithCommas(current.ad_orders) : "N/A");
+    temp.push(
+      previous.ad_orders ? numberWithCommas(previous.ad_orders) : "N/A"
+    );
+    temp.push(
+      change.ad_orders !== 0 ? numberWithCommas(change.ad_orders) : "N/A"
+    );
+    temp.push(charge.ad_orders !== 0 ? charge.ad_orders + "%" : "N/A");
+
+    temp.push(
+      current.ad_sales ? "$" + numberWithCommas(current.ad_sales) : "N/A"
+    );
+    temp.push(
+      previous.ad_sales ? "$" + numberWithCommas(previous.ad_sales) : "N/A"
+    );
+    temp.push(
+      change.ad_sales !== 0 ? "$" + numberWithCommas(change.ad_sales) : "N/A"
+    );
+    temp.push(
+      charge.ad_sales !== 0 ? numberWithCommas(charge.ad_sales) + "%" : "N/A"
+    );
+
+    temp.push(
+      current.percent_total_sales !== 0
+        ? Number(current.percent_total_sales).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      previous.percent_total_sales !== 0
+        ? Number(previous.percent_total_sales).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      change.percent_total_sales !== 0 ? change.percent_total_sales : "N/A"
+    );
+    temp.push(
+      charge.percent_total_sales !== 0
+        ? Number(charge.percent_total_sales).toFixed(2) + "%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.conversion_rate !== 0
+        ? Number(current.conversion_rate).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      previous.conversion_rate !== 0
+        ? Number(previous.conversion_rate).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      change.conversion_rate !== 0
+        ? Number(change.conversion_rate).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      charge.conversion_rate !== 0
+        ? Number(charge.conversion_rate).toFixed(2) + "%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.acos !== 0 ? Number(current.acos).toFixed(2) + "%" : "N/A"
+    );
+    temp.push(
+      previous.acos !== 0 ? Number(previous.acos).toFixed(2) + "%" : "N/A"
+    );
+    temp.push(change.acos !== 0 ? Number(change.acos).toFixed(2) + "%" : "N/A");
+    temp.push(charge.acos !== 0 ? Number(charge.acos).toFixed(2) + "%" : "N/A");
     finalData.push(temp);
   });
   return finalData;
