@@ -17,39 +17,372 @@ import { CSVDownload, CSVLink } from "react-csv";
 
 const getCSVVersion = data => {
   const finalData = [];
-  const header = [
-    "Item #",
-    "ASIN",
-    "Sales",
-    "Units Sold",
-    "Shipped COGS",
-    "Ad Clicks",
-    "Ad Impressions",
-    "Avg CPC",
-    "Ad Spend",
-    "Ad Orders",
-    "Ad Sales",
-    "% of Total Sales",
-    "Conv Rate",
-    "ACoS"
-  ];
+  const getHeaderColumn = (isFourColumn = true, title = false) => {
+    const tempColumns = [
+      !title ? "Current" : title,
+      !title ? "Previous" : "",
+      !title ? "Change #" : "",
+      !title ? "Change %" : "",
+      !title ? "Change # YOY" : "",
+      !title ? "Change % YOY" : ""
+    ];
+    return isFourColumn ? tempColumns.slice(0, 4) : tempColumns;
+  };
+  const header = [];
+  const headerOfComparison = [];
+  header.push("Item #");
+  header.push("ASIN");
+  header.push(...getHeaderColumn(false, "Sales"));
+  header.push(...getHeaderColumn(false, "Units Sold"));
+  header.push(...getHeaderColumn(false, "Shipped COGS"));
+  header.push(...getHeaderColumn(true, "Ad Clicks"));
+  header.push(...getHeaderColumn(true, "Ad Impressions"));
+  header.push(...getHeaderColumn(true, "Avg CPC"));
+  header.push(...getHeaderColumn(false, "Ad Spend"));
+  header.push(...getHeaderColumn(true, "Ad Orders"));
+  header.push(...getHeaderColumn(true, "Ad Sales"));
+  header.push(...getHeaderColumn(true, "% of Total Sales"));
+  header.push(...getHeaderColumn(true, "Conv Rate"));
+  header.push(...getHeaderColumn(true, "ACoS"));
+
+  headerOfComparison.push("");
+  headerOfComparison.push("");
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+
   finalData.push(header);
-  data.map(({ current, period }) => {
+  finalData.push(headerOfComparison);
+  data.map(({ current, previous, change, charge, yoy, yoyCharge, yoySKU }) => {
     const temp = [];
-    temp.push(current.item_number);
-    temp.push(current.asin);
-    temp.push(current.sales);
-    temp.push(current.units_sold);
-    temp.push(current.shipped_cogs);
-    temp.push(current.ad_clicks);
-    temp.push(current.ad_impressions);
-    temp.push(current.average_cpc);
-    temp.push(current.ad_spend);
-    temp.push(current.ad_orders);
-    temp.push(current.ad_sales);
-    temp.push(current.percent_total_sales);
-    temp.push(current.conversion_rate);
-    temp.push(current.acos);
+
+    temp.push(current.item_number || "N/A");
+
+    temp.push(current.asin || "N/A");
+
+    temp.push(current.sales ? "$" + numberWithCommas(current.sales) : "N/A");
+    temp.push(previous.sales ? "$" + numberWithCommas(previous.sales) : "N/A");
+    temp.push(
+      change.sales !== 0
+        ? "$" + numberWithCommas(change.sales)
+        : current.sales > 0 && previous.sales > 0
+        ? "$0.00"
+        : "N/A"
+    );
+    temp.push(
+      charge.sales !== 0
+        ? charge.sales + "%"
+        : current.sales > 0 && previous.sales > 0
+        ? "0%"
+        : "N/A"
+    );
+    temp.push(
+      yoy.sales !== 0
+        ? "$" + numberWithCommas(yoy.sales)
+        : current.sales > 0 && yoySKU.sales > 0
+        ? "$0.00"
+        : "N/A"
+    );
+    temp.push(
+      yoyCharge.sales !== 0
+        ? yoyCharge.sales + "%"
+        : current.sales > 0 && yoySKU.sales > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.units_sold ? numberWithCommas(current.units_sold) : "N/A"
+    );
+    temp.push(
+      previous.units_sold ? numberWithCommas(previous.units_sold) : "N/A"
+    );
+    temp.push(
+      change.units_sold !== 0
+        ? numberWithCommas(change.units_sold)
+        : current.units_sold > 0 && previous.units_sold > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.units_sold !== 0
+        ? charge.units_sold + "%"
+        : current.units_sold > 0 && previous.units_sold > 0
+        ? "0%"
+        : "N/A"
+    );
+    temp.push(
+      yoy.units_sold !== 0
+        ? numberWithCommas(yoy.units_sold)
+        : current.units_sold > 0 && yoySKU.units_sold > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      yoyCharge.units_sold !== 0
+        ? yoyCharge.units_sold + "%"
+        : current.units_sold > 0 && yoySKU.units_sold > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.shipped_cogs
+        ? "$" + numberWithCommas(current.shipped_cogs)
+        : "N/A"
+    );
+    temp.push(
+      previous.shipped_cogs
+        ? "$" + numberWithCommas(previous.shipped_cogs)
+        : "N/A"
+    );
+    temp.push(
+      change.shipped_cogs !== 0
+        ? "$" + numberWithCommas(change.shipped_cogs)
+        : current.shipped_cogs > 0 && previous.shipped_cogs > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.shipped_cogs
+        ? charge.shipped_cogs + "%"
+        : current.shipped_cogs > 0 && previous.shipped_cogs > 0
+        ? "0%"
+        : "N/A"
+    );
+    temp.push(
+      yoy.shipped_cogs !== 0
+        ? "$" + numberWithCommas(yoy.shipped_cogs)
+        : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      yoyCharge.shipped_cogs
+        ? yoyCharge.shipped_cogs + "%"
+        : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(current.ad_clicks ? numberWithCommas(current.ad_clicks) : "N/A");
+    temp.push(
+      previous.ad_clicks ? numberWithCommas(previous.ad_clicks) : "N/A"
+    );
+    temp.push(
+      change.ad_clicks !== 0
+        ? numberWithCommas(change.ad_clicks)
+        : current.ad_clicks > 0 && previous.ad_clicks > 0
+        ? "0.00"
+        : "N/A"
+    );
+    temp.push(
+      current.ad_clicks !== 0
+        ? charge.ad_clicks + "%"
+        : current.ad_clicks > 0 && previous.ad_clicks > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.ad_impressions ? numberWithCommas(current.ad_impressions) : "N/A"
+    );
+    temp.push(
+      previous.ad_impressions
+        ? numberWithCommas(previous.ad_impressions)
+        : "N/A"
+    );
+    temp.push(
+      change.ad_impressions !== 0
+        ? numberWithCommas(change.ad_impressions)
+        : current.ad_impressions > 0 && previous.ad_impressions > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.ad_impressions
+        ? charge.ad_impressions + "%"
+        : current.ad_impressions > 0 && previous.ad_impressions > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.average_cpc ? "$" + numberWithCommas(current.average_cpc) : "N/A"
+    );
+    temp.push(
+      previous.average_cpc
+        ? "$" + numberWithCommas(previous.average_cpc)
+        : "N/A"
+    );
+    temp.push(
+      change.average_cpc !== 0
+        ? "$" + numberWithCommas(change.average_cpc)
+        : current.average_cpc > 0 && previous.average_cpc > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.average_cpc !== 0
+        ? charge.average_cpc + "%"
+        : current.average_cpc > 0 && previous.average_cpc > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.ad_spend ? "$" + numberWithCommas(current.ad_spend) : "N/A"
+    );
+    temp.push(
+      previous.ad_spend ? "$" + numberWithCommas(previous.ad_spend) : "N/A"
+    );
+    temp.push(
+      change.ad_spend !== 0
+        ? "$" + numberWithCommas(change.ad_spend)
+        : current.ad_spend > 0 && previous.ad_spend > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.ad_spend !== 0
+        ? charge.ad_spend + "%"
+        : current.ad_spend > 0 && previous.ad_spend > 0
+        ? "0%"
+        : "N/A"
+    );
+    temp.push(
+      yoy.ad_spend !== 0
+        ? "$" + numberWithCommas(yoy.ad_spend)
+        : current.ad_spend > 0 && yoySKU.ad_spend > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      yoyCharge.ad_spend !== 0
+        ? yoyCharge.ad_spend + "%"
+        : current.ad_spend > 0 && yoySKU.ad_spend > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      !!current.ad_orders ? numberWithCommas(current.ad_orders) : "N/A"
+    );
+    temp.push(
+      !!previous.ad_orders ? numberWithCommas(previous.ad_orders) : "N/A"
+    );
+    temp.push(
+      change.ad_orders !== 0
+        ? numberWithCommas(change.ad_orders)
+        : current.ad_orders > 0 && previous.ad_orders > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.ad_orders !== 0
+        ? charge.ad_orders + "%"
+        : current.ad_orders > 0 && previous.ad_orders > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.ad_sales ? "$" + numberWithCommas(current.ad_sales) : "N/A"
+    );
+    temp.push(
+      previous.ad_sales ? "$" + numberWithCommas(previous.ad_sales) : "N/A"
+    );
+    temp.push(
+      change.ad_sales !== 0
+        ? "$" + numberWithCommas(change.ad_sales)
+        : current.ad_sales > 0 && previous.ad_sales > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.ad_sales !== 0
+        ? charge.ad_sales + "%"
+        : current.ad_sales > 0 && previous.ad_sales > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      !!current.percent_total_sales
+        ? Number(current.percent_total_sales).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      !!previous.percent_total_sales
+        ? Number(previous.percent_total_sales).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      change.percent_total_sales !== 0
+        ? change.percent_total_sales + "%"
+        : current.percent_total_sales > 0 && previous.percent_total_sales > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      !!charge.percent_total_sales
+        ? charge.percent_total_sales + "%"
+        : current.percent_total_sales > 0 && previous.percent_total_sales > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(
+      current.conversion_rate !== 0
+        ? Number(current.conversion_rate).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      previous.conversion_rate !== 0
+        ? Number(previous.conversion_rate).toFixed(2) + "%"
+        : "N/A"
+    );
+    temp.push(
+      change.conversion_rate !== 0
+        ? change.conversion_rate + "%"
+        : current.conversion_rate > 0 && previous.conversion_rate > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.conversion_rate !== 0
+        ? charge.conversion_rate + "%"
+        : current.conversion_rate > 0 && previous.conversion_rate > 0
+        ? "0%"
+        : "N/A"
+    );
+
+    temp.push(current.acos ? current.acos.toFixed(2) + "%" : "N/A");
+    temp.push(previous.acos ? previous.acos.toFixed(2) + "%" : "N/A");
+    temp.push(
+      change.acos !== 0
+        ? change.acos + "%"
+        : current.acos > 0 && previous.acos > 0
+        ? "0"
+        : "N/A"
+    );
+    temp.push(
+      charge.acos !== 0
+        ? charge.acos + "%"
+        : current.acos > 0 && previous.acos > 0
+        ? "0%"
+        : "N/A"
+    );
+
     finalData.push(temp);
   });
   return finalData;
