@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import {
   fetchBrands,
   fetchSalesData,
-  fetchSalesDataBySKU
+  fetchSalesDataBySKU,
 } from "../../../services/api";
 import MuiSelect from "@material-ui/core/Select";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -23,7 +23,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
@@ -46,16 +46,12 @@ class UpperControls extends Component {
       // customDateEnd: moment()
       //   .subtract(2, "weeks")
       //   .endOf("isoWeek"),
-      startDate: moment()
-        .subtract(1, "weeks")
-        .startOf("isoWeek"),
-      endDate: moment()
-        .subtract(1, "weeks")
-        .endOf("isoWeek"),
+      startDate: moment().subtract(1, "weeks").startOf("isoWeek"),
+      endDate: moment().subtract(1, "weeks").endOf("isoWeek"),
       selectedDateRange: "lastWeek",
       displayDateRange: "lastWeek",
       periodsCount: 2,
-      isYOY: false
+      isYOY: false,
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -66,7 +62,7 @@ class UpperControls extends Component {
   }
 
   componentDidMount() {
-    fetchBrands().then(data => this.props.brandSetData(data));
+    fetchBrands().then((data) => this.props.brandSetData(data));
     this.fetchData();
   }
 
@@ -85,7 +81,7 @@ class UpperControls extends Component {
   }
   download() {
     const filename = "report.pdf";
-    html2canvas(document.getElementById("#report")).then(canvas => {
+    html2canvas(document.getElementById("#report")).then((canvas) => {
       let pdf = new jsPDF("p", "mm", "a4");
       pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 211, 298);
       pdf.save(filename);
@@ -120,7 +116,7 @@ class UpperControls extends Component {
       this.setState({
         customDateRange: checked,
         customDateStart: null,
-        customDateEnd: null
+        customDateEnd: null,
       });
   }
 
@@ -147,20 +143,20 @@ class UpperControls extends Component {
       period,
       selectedDateRange,
       periodsCount,
-      isYOY
+      isYOY,
     } = this.state;
     if (brand) {
       this.props.setLoadingData(true);
     }
     const { activeTab } = this.props;
     this.setState({
-      displayDateRange: selectedDateRange
+      displayDateRange: selectedDateRange,
     });
     let data = {
       brand: brand,
       byMonth: period === "weekly" ? false : true,
       period_count: periodsCount,
-      load_yoy: isYOY
+      load_yoy: isYOY,
     };
     data.period =
       selectedDateRange === "lastMonth"
@@ -179,7 +175,7 @@ class UpperControls extends Component {
     if (activeTab === 1) {
       brand &&
         fetchSalesDataBySKU(data)
-          .then(data => {
+          .then((data) => {
             if (!data) throw false;
             if (data.status !== 200) {
               // this.props.setSKUData({});
@@ -191,7 +187,7 @@ class UpperControls extends Component {
             }
             this.props.setLoadingData(false);
           })
-          .catch(error => {
+          .catch((error) => {
             this.props.setLoadingData(false);
             console.log("request failed", error);
             this.props.setError("Something went wrong please try again");
@@ -199,7 +195,7 @@ class UpperControls extends Component {
     } else {
       brand &&
         fetchSalesData(data)
-          .then(data => {
+          .then((data) => {
             if (!data) throw false;
             if (data.status !== 200) {
               this.props.saleSetData();
@@ -211,7 +207,7 @@ class UpperControls extends Component {
             }
             this.props.setLoadingData(false);
           })
-          .catch(error => {
+          .catch((error) => {
             this.props.setLoadingData(false);
             console.log("request failed", error);
             this.props.setError("Something went wrong please try again");
@@ -331,7 +327,7 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "today"
+      selectedDateRange: "today",
     });
   };
   handleYesterday = () => {
@@ -345,17 +341,13 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "yesterday"
+      selectedDateRange: "yesterday",
     });
   };
   handleLastWeek = () => {
     const dates = [
-      moment()
-        .subtract(1, "weeks")
-        .startOf("isoWeek"),
-      moment()
-        .subtract(1, "weeks")
-        .endOf("isoWeek")
+      moment().subtract(1, "weeks").startOf("isoWeek"),
+      moment().subtract(1, "weeks").endOf("isoWeek"),
     ];
     // const comparisonDate = [
     //   moment()
@@ -370,21 +362,21 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "lastWeek"
+      selectedDateRange: "lastWeek",
     });
   };
   handleLast7Days = () => {
     const dates = [moment().subtract(6, "days"), moment()];
     const comparisonDate = [
       moment().subtract(12, "days"),
-      moment().subtract(6, "days")
+      moment().subtract(6, "days"),
     ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "last7Days"
+      selectedDateRange: "last7Days",
     });
   };
   handleThis30Days = () => {
@@ -398,7 +390,7 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "this30Days"
+      selectedDateRange: "this30Days",
     });
   };
   handleThisMonth = () => {
@@ -416,7 +408,7 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "thisMonth"
+      selectedDateRange: "thisMonth",
     });
   };
   handleLast14 = () => {
@@ -430,17 +422,13 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "last14Days"
+      selectedDateRange: "last14Days",
     });
   };
   handleLastMonth = () => {
     const dates = [
-      moment()
-        .subtract(1, "month")
-        .startOf("month"),
-      moment()
-        .subtract(1, "month")
-        .endOf("month")
+      moment().subtract(1, "month").startOf("month"),
+      moment().subtract(1, "month").endOf("month"),
     ];
     // const comparisonDate = [
     //   moment()
@@ -455,7 +443,7 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "lastMonth"
+      selectedDateRange: "lastMonth",
     });
   };
   handleCurrentMonth = () => {
@@ -473,7 +461,7 @@ class UpperControls extends Component {
       endDate: dates[1],
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
-      selectedDateRange: "currentMonth"
+      selectedDateRange: "currentMonth",
     });
   };
   render() {
@@ -482,7 +470,7 @@ class UpperControls extends Component {
       endDate,
       showDropDown,
       selectedDateRange,
-      displayDateRange
+      displayDateRange,
     } = this.state;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
@@ -541,7 +529,7 @@ class UpperControls extends Component {
                       onClick={() =>
                         this.setState({
                           showDropDown: false,
-                          selectedDateRange: ""
+                          selectedDateRange: "",
                         })
                       }
                     ></div>
@@ -668,12 +656,12 @@ class UpperControls extends Component {
                             <input
                               type="checkbox"
                               checked={this.state.isYOY}
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.setState({ isYOY: e.target.checked })
                               }
                               value="true"
                               inputProps={{
-                                "aria-label": "primary checkbox"
+                                "aria-label": "primary checkbox",
                               }}
                             />
                             Load YOY
@@ -724,7 +712,7 @@ class UpperControls extends Component {
                           onClick={() =>
                             this.setState({
                               showDropDown: false,
-                              selectedDateRange: ""
+                              selectedDateRange: "",
                             })
                           }
                           variant="contained"
@@ -740,7 +728,7 @@ class UpperControls extends Component {
               {this.props.activeTab === 0 && (
                 <MuiSelect
                   variant="outlined"
-                  onChange={e =>
+                  onChange={(e) =>
                     e.target.value !== "Select Periods" &&
                     this.setPeriods(e.target.value)
                   }
@@ -768,7 +756,7 @@ class UpperControls extends Component {
               {this.props.brands.length > 1 && (
                 <MuiSelect
                   variant="outlined"
-                  onChange={e =>
+                  onChange={(e) =>
                     e.target.value !== "Select Brand" &&
                     this.setBrand(e.target.value)
                   }
@@ -784,7 +772,7 @@ class UpperControls extends Component {
                     Select Brand
                   </MenuItem>
                   {this.props.brands.length !== 0
-                    ? this.props.brands.map(brand => (
+                    ? this.props.brands.map((brand) => (
                         <MenuItem key={brand.id} value={brand.brand_name}>
                           {brand.brand_name}
                         </MenuItem>
@@ -844,7 +832,7 @@ class UpperControls extends Component {
                 <MuiSelect
                   className={s.select}
                   variant="outlined"
-                  onChange={e => this.setBrand(e.target.value)}
+                  onChange={(e) => this.setBrand(e.target.value)}
                   value={
                     this.state.selectedBrand
                       ? this.state.selectedBrand
@@ -855,7 +843,7 @@ class UpperControls extends Component {
                     Select Brand
                   </MenuItem>
                   {this.props.brands.length !== 0
-                    ? this.props.brands.map(brand => (
+                    ? this.props.brands.map((brand) => (
                         <MenuItem key={brand.id} value={brand.brand_name}>
                           {brand.brand_name}
                         </MenuItem>
@@ -869,7 +857,7 @@ class UpperControls extends Component {
                   aria-label="Period"
                   name="period"
                   value={this.state.period}
-                  onChange={e => this.changePeriod(e.target.value)}
+                  onChange={(e) => this.changePeriod(e.target.value)}
                 >
                   <FormControlLabel
                     value="weekly"
@@ -888,10 +876,10 @@ class UpperControls extends Component {
                   {" "}
                   <Checkbox
                     checked={this.state.comparison}
-                    onChange={e => this.togglecomparison(e.target.checked)}
+                    onChange={(e) => this.togglecomparison(e.target.checked)}
                     value="true"
                     inputProps={{
-                      "aria-label": "primary checkbox"
+                      "aria-label": "primary checkbox",
                     }}
                   />
                   Comparison between few reports
@@ -901,7 +889,7 @@ class UpperControls extends Component {
                 {this.state.comparison === true ? (
                   <TextField
                     label={"SKU"}
-                    onChange={e => this.changeSelectedSku(e)}
+                    onChange={(e) => this.changeSelectedSku(e)}
                   />
                 ) : (
                   ""
@@ -912,10 +900,12 @@ class UpperControls extends Component {
                   {" "}
                   <Checkbox
                     checked={this.state.customDateRange}
-                    onChange={e => this.toggleCustomDateRange(e.target.checked)}
+                    onChange={(e) =>
+                      this.toggleCustomDateRange(e.target.checked)
+                    }
                     value="true"
                     inputProps={{
-                      "aria-label": "primary checkbox"
+                      "aria-label": "primary checkbox",
                     }}
                   />
                   Custom Date Range
@@ -931,9 +921,9 @@ class UpperControls extends Component {
                       margin="normal"
                       label="Custom Date Start"
                       value={this.state.customDateStart}
-                      onChange={e => this.setCustomDateStart(e)}
+                      onChange={(e) => this.setCustomDateStart(e)}
                       KeyboardButtonProps={{
-                        "aria-label": "change date"
+                        "aria-label": "change date",
                       }}
                     />
                     <KeyboardDatePicker
@@ -943,9 +933,9 @@ class UpperControls extends Component {
                       margin="normal"
                       label="Custom Date End"
                       value={this.state.customDateEnd}
-                      onChange={e => this.setCustomDateEnd(e)}
+                      onChange={(e) => this.setCustomDateEnd(e)}
                       KeyboardButtonProps={{
-                        "aria-label": "change date"
+                        "aria-label": "change date",
                       }}
                     />
                   </MuiPickersUtilsProvider>
@@ -970,16 +960,16 @@ class UpperControls extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   sales: state.sales,
-  brands: state.brands.splice(0, 1)
+  brands: state.brands,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       ...salesActions,
-      ...brandActions
+      ...brandActions,
     },
     dispatch
   );
