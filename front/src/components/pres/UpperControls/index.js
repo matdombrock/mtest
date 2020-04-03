@@ -89,15 +89,11 @@ class UpperControls extends Component {
   }
 
   setBrand(value) {
-    this.setState({ selectedBrand: value }, () =>
-      this.fetchData(this.state.selectedBrand, this.state.period)
-    );
+    this.setState({ selectedBrand: value });
   }
 
   setPeriods(value) {
-    this.setState({ periodsCount: value }, () =>
-      this.fetchData(this.state.selectedBrand, this.state.period)
-    );
+    this.setState({ periodsCount: value });
   }
 
   changePeriod(value) {
@@ -704,7 +700,12 @@ class UpperControls extends Component {
                       )} */}
                       <div className={s["item"]}>
                         <Button
-                          onClick={this.fetchData}
+                          onClick={() =>
+                            this.setState({
+                              showDropDown: false,
+                              displayDateRange: selectedDateRange,
+                            })
+                          }
                           variant="contained"
                           className={s.button}
                         >
@@ -782,6 +783,13 @@ class UpperControls extends Component {
                     : ""}
                 </MuiSelect>
               )}
+              <Button
+                onClick={this.fetchData}
+                variant="contained"
+                className={s.button}
+              >
+                Submit
+              </Button>
               {/* <MuiSelect
       variant="outlined"
       onChange={e => this.changePeriod(e.target.value)}
