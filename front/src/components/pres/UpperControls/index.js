@@ -183,6 +183,7 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
+              if (!isYOY) payload.yoy = [];
               this.props.setSKUData(payload);
             }
             this.props.setLoadingData(false);
@@ -203,6 +204,7 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
+              if (!isYOY) payload.yoy = [];
               this.props.saleSetData(payload.data);
             }
             this.props.setLoadingData(false);

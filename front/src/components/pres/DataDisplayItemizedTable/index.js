@@ -36,7 +36,7 @@ const currentDataFormate = ({ periods, yoy }) => {
           asin: "N/A",
           sku: "N/A",
           percent_total_sales: 0,
-          item_number: "N/A"
+          item_number: "N/A",
         };
     const previous =
       i < arr.length - 1
@@ -56,7 +56,7 @@ const currentDataFormate = ({ periods, yoy }) => {
             asin: "N/A",
             sku: "N/A",
             percent_total_sales: 0,
-            item_number: "N/A"
+            item_number: "N/A",
           };
     const change = {
       acos: getDifferenceInNumber(current.acos, previous.acos),
@@ -88,7 +88,10 @@ const currentDataFormate = ({ periods, yoy }) => {
         previous.shipped_cogs
       ),
       sku: "N/A",
-      units_sold: getDifferenceInNumber(current.units_sold, previous.units_sold)
+      units_sold: getDifferenceInNumber(
+        current.units_sold,
+        previous.units_sold
+      ),
     };
     const charge = {
       acos: getDifferenceInPercentage(current.acos, previous.acos),
@@ -129,7 +132,7 @@ const currentDataFormate = ({ periods, yoy }) => {
       units_sold: getDifferenceInPercentage(
         current.units_sold,
         previous.units_sold
-      )
+      ),
     };
     const tempYoy = {
       acos: getDifferenceInNumber(current.acos, yoySummry.acos),
@@ -164,7 +167,7 @@ const currentDataFormate = ({ periods, yoy }) => {
       units_sold: getDifferenceInNumber(
         current.units_sold,
         yoySummry.units_sold
-      )
+      ),
     };
 
     const yoyCharge = {
@@ -206,7 +209,7 @@ const currentDataFormate = ({ periods, yoy }) => {
       units_sold: getDifferenceInPercentage(
         current.units_sold,
         yoySummry.units_sold
-      )
+      ),
     };
     payload.push({
       current,
@@ -215,7 +218,7 @@ const currentDataFormate = ({ periods, yoy }) => {
       charge,
       period: d.period,
       yoy: tempYoy,
-      yoyCharge
+      yoyCharge,
     });
   });
   return payload;
@@ -237,10 +240,10 @@ const getDifferenceInPercentage = (current, previous) => {
   return isNaN(payload) ? 0 : Number(payload);
 };
 
-const isNegative = value =>
+const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
-const getCSVVersion = data => {
+const getCSVVersion = (data, isYoY) => {
   const finalData = [];
   const getHeaderColumn = (isFourColumn = true, title = false) => {
     const tempColumns = [
@@ -249,9 +252,9 @@ const getCSVVersion = data => {
       !title ? "Change #" : "",
       !title ? "Change %" : "",
       !title ? "Change # YOY" : "",
-      !title ? "Change % YOY" : ""
+      !title ? "Change % YOY" : "",
     ];
-    return isFourColumn ? tempColumns.slice(0, 4) : tempColumns;
+    return isFourColumn || !isYoY ? tempColumns.slice(0, 4) : tempColumns;
   };
   const header = [];
   header.push("Date Range");
@@ -287,9 +290,7 @@ const getCSVVersion = data => {
   data.map(({ current, period, previous, change, yoy, charge, yoyCharge }) => {
     const temp = [];
     temp.push(
-      `${moment(period.start)
-        .utc()
-        .format("MM/DD/YYYY")} - ${moment(period.end)
+      `${moment(period.start).utc().format("MM/DD/YYYY")} - ${moment(period.end)
         .utc()
         .format("MM/DD/YYYY")}`
     );
@@ -302,8 +303,10 @@ const getCSVVersion = data => {
     );
     temp.push(change.sales !== 0 ? "$" + change.sales : "N/A");
     temp.push(charge.sales !== 0 ? charge.sales + "%" : "N/A");
-    temp.push(yoy.sales !== 0 ? numberWithCommas(yoy.sales) : "N/A");
-    temp.push(yoyCharge.sales !== 0 ? yoyCharge.sales + "%" : "N/A");
+    if (isYoY) {
+      temp.push(yoy.sales !== 0 ? numberWithCommas(yoy.sales) : "N/A");
+      temp.push(yoyCharge.sales !== 0 ? yoyCharge.sales + "%" : "N/A");
+    }
 
     temp.push(
       current.units_sold !== 0 ? numberWithCommas(current.units_sold) : "N/A"
@@ -315,8 +318,14 @@ const getCSVVersion = data => {
       change.units_sold !== 0 ? numberWithCommas(change.units_sold) : "N/A"
     );
     temp.push(charge.units_sold !== 0 ? charge.units_sold + "%" : "N/A");
-    temp.push(yoy.units_sold !== 0 ? numberWithCommas(yoy.units_sold) : "N/A");
-    temp.push(yoyCharge.units_sold !== 0 ? yoyCharge.units_sold + "%" : "N/A");
+    if (isYoY) {
+      temp.push(
+        yoy.units_sold !== 0 ? numberWithCommas(yoy.units_sold) : "N/A"
+      );
+      temp.push(
+        yoyCharge.units_sold !== 0 ? yoyCharge.units_sold + "%" : "N/A"
+      );
+    }
 
     temp.push(
       current.shipped_cogs !== 0
@@ -334,12 +343,14 @@ const getCSVVersion = data => {
         : "N/A"
     );
     temp.push(charge.shipped_cogs !== 0 ? charge.shipped_cogs + "%" : "N/A");
-    temp.push(
-      yoy.shipped_cogs !== 0 ? numberWithCommas(yoy.shipped_cogs) : "N/A"
-    );
-    temp.push(
-      yoyCharge.shipped_cogs !== 0 ? yoyCharge.shipped_cogs + "%" : "N/A"
-    );
+    if (isYoY) {
+      temp.push(
+        yoy.shipped_cogs !== 0 ? numberWithCommas(yoy.shipped_cogs) : "N/A"
+      );
+      temp.push(
+        yoyCharge.shipped_cogs !== 0 ? yoyCharge.shipped_cogs + "%" : "N/A"
+      );
+    }
 
     temp.push(
       current.ad_clicks !== 0 ? numberWithCommas(current.ad_clicks) : "N/A"
@@ -396,11 +407,12 @@ const getCSVVersion = data => {
       change.ad_spend !== 0 ? "$" + numberWithCommas(change.ad_spend) : "N/A"
     );
     temp.push(current.ad_spend !== 0 ? charge.ad_spend + "%" : "N/A");
-    temp.push(
-      yoy.ad_spend !== 0 ? "$" + numberWithCommas(yoy.ad_spend) : "N/A"
-    );
-    temp.push(yoyCharge.ad_spend !== 0 ? yoyCharge.ad_spend + "%" : "N/A");
-
+    if (isYoY) {
+      temp.push(
+        yoy.ad_spend !== 0 ? "$" + numberWithCommas(yoy.ad_spend) : "N/A"
+      );
+      temp.push(yoyCharge.ad_spend !== 0 ? yoyCharge.ad_spend + "%" : "N/A");
+    }
     temp.push(current.ad_orders ? numberWithCommas(current.ad_orders) : "N/A");
     temp.push(
       previous.ad_orders ? numberWithCommas(previous.ad_orders) : "N/A"
@@ -476,13 +488,14 @@ const getCSVVersion = data => {
   return finalData;
 };
 
-const DataDisplayItemizedTable = props => {
+const DataDisplayItemizedTable = (props) => {
   const isComparisons = true;
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
   const [sortByInner, setSortByInner] = useState(false);
   const [sortAscendingBy, setSortAscendingBy] = useState(false);
   let currentData = props.data;
+  let isYoY = !!currentData.yoy.length;
   const data = currentDataFormate(currentData);
   if (!currentData) return null;
 
@@ -539,11 +552,11 @@ const DataDisplayItemizedTable = props => {
       ? a[tempFirst][tempSortBy] - b[tempFirst][tempSortBy]
       : b[tempFirst][tempSortBy] - a[tempFirst][tempSortBy];
   });
-  const headerClick = index => {
+  const headerClick = (index) => {
     isComparisons && setActive(active === index ? false : index);
     setSortByInner(false);
   };
-  const handleSort = columnId => {
+  const handleSort = (columnId) => {
     if (columnId === sortBy) {
       setSortAscendingBy(!sortAscendingBy);
     } else {
@@ -552,7 +565,7 @@ const DataDisplayItemizedTable = props => {
     setSortBy(columnId);
     setSortByInner(false);
   };
-  const handleSortInner = columnId => {
+  const handleSortInner = (columnId) => {
     if (columnId === sortByInner) {
       setSortAscendingBy(!sortAscendingBy);
     } else {
@@ -564,7 +577,7 @@ const DataDisplayItemizedTable = props => {
 
   return (
     <>
-      <CSVLink data={getCSVVersion(filterData)} filename={"brand.csv"}>
+      <CSVLink data={getCSVVersion(filterData, isYoY)} filename={"brand.csv"}>
         Download me
       </CSVLink>{" "}
       <div className={s.noBoxShadow + " fixed-header-table"}>
@@ -596,7 +609,7 @@ const DataDisplayItemizedTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 1 && "6"}
+                colSpan={isComparisons && active === 1 && (isYoY ? "6" : "4")}
               >
                 <div>
                   <span onClick={() => headerClick(1)}>
@@ -623,7 +636,7 @@ const DataDisplayItemizedTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 2 && "6"}
+                colSpan={isComparisons && active === 2 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -651,7 +664,7 @@ const DataDisplayItemizedTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 3 && "6"}
+                colSpan={isComparisons && active === 3 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -763,7 +776,7 @@ const DataDisplayItemizedTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 7 && "6"}
+                colSpan={isComparisons && active === 7 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1036,47 +1049,49 @@ const DataDisplayItemizedTable = props => {
                       {(active === 1 ||
                         active === 2 ||
                         active === 3 ||
-                        active === 7) && (
-                        <th className={s.tableHead} align="right">
-                          <div>
-                            <span>Change # YOY</span>
-                            <span onClick={() => handleSortInner(4)}>
-                              {" "}
-                              {sortByInner === 4 ? (
-                                sortAscendingBy ? (
-                                  <ArrowDropUpIcon />
+                        active === 7) &&
+                        isYoY && (
+                          <th className={s.tableHead} align="right">
+                            <div>
+                              <span>Change # YOY</span>
+                              <span onClick={() => handleSortInner(4)}>
+                                {" "}
+                                {sortByInner === 4 ? (
+                                  sortAscendingBy ? (
+                                    <ArrowDropUpIcon />
+                                  ) : (
+                                    <ArrowDropDownIcon />
+                                  )
                                 ) : (
-                                  <ArrowDropDownIcon />
-                                )
-                              ) : (
-                                <SortIcon />
-                              )}
-                            </span>
-                          </div>
-                        </th>
-                      )}
+                                  <SortIcon />
+                                )}
+                              </span>
+                            </div>
+                          </th>
+                        )}
                       {(active === 1 ||
                         active === 2 ||
                         active === 3 ||
-                        active === 7) && (
-                        <th className={s.tableHead} align="right">
-                          <div>
-                            <span>Change % YOY</span>
-                            <span onClick={() => handleSortInner(5)}>
-                              {" "}
-                              {sortByInner === 5 ? (
-                                sortAscendingBy ? (
-                                  <ArrowDropUpIcon />
+                        active === 7) &&
+                        isYoY && (
+                          <th className={s.tableHead} align="right">
+                            <div>
+                              <span>Change % YOY</span>
+                              <span onClick={() => handleSortInner(5)}>
+                                {" "}
+                                {sortByInner === 5 ? (
+                                  sortAscendingBy ? (
+                                    <ArrowDropUpIcon />
+                                  ) : (
+                                    <ArrowDropDownIcon />
+                                  )
                                 ) : (
-                                  <ArrowDropDownIcon />
-                                )
-                              ) : (
-                                <SortIcon />
-                              )}
-                            </span>
-                          </div>
-                        </th>
-                      )}
+                                  <SortIcon />
+                                )}
+                              </span>
+                            </div>
+                          </th>
+                        )}
                     </>
                   )}
                 </tr>
@@ -1090,7 +1105,7 @@ const DataDisplayItemizedTable = props => {
                     change,
                     charge,
                     yoy,
-                    yoyCharge
+                    yoyCharge,
                   } = row;
                   return (
                     <tr key={i}>
@@ -1117,9 +1132,7 @@ const DataDisplayItemizedTable = props => {
                               .utc()
                               .format("MM/DD/YYYY")}{" "}
                             -{" "}
-                            {moment(row.period.end)
-                              .utc()
-                              .format("MM/DD/YYYY")}
+                            {moment(row.period.end).utc().format("MM/DD/YYYY")}
                           </b>
                         </td>
                       )}
@@ -1147,19 +1160,26 @@ const DataDisplayItemizedTable = props => {
                           >
                             {charge.sales !== 0 ? charge.sales + "%" : "N/A"}
                           </td>
-                          <td align="right" className={isNegative(yoy.sales)}>
-                            {yoy.sales !== 0
-                              ? numberWithCommas(yoy.sales)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.sales)}
-                          >
-                            {yoyCharge.sales !== 0
-                              ? yoyCharge.sales + "%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              <td
+                                align="right"
+                                className={isNegative(yoy.sales)}
+                              >
+                                {yoy.sales !== 0
+                                  ? numberWithCommas(yoy.sales)
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.sales)}
+                              >
+                                {yoyCharge.sales !== 0
+                                  ? yoyCharge.sales + "%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
@@ -1197,22 +1217,26 @@ const DataDisplayItemizedTable = props => {
                               ? charge.units_sold + "%"
                               : "N/A"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoy.units_sold)}
-                          >
-                            {yoy.units_sold !== 0
-                              ? numberWithCommas(yoy.units_sold)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.units_sold)}
-                          >
-                            {yoyCharge.units_sold !== 0
-                              ? yoyCharge.units_sold + "%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              <td
+                                align="right"
+                                className={isNegative(yoy.units_sold)}
+                              >
+                                {yoy.units_sold !== 0
+                                  ? numberWithCommas(yoy.units_sold)
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.units_sold)}
+                              >
+                                {yoyCharge.units_sold !== 0
+                                  ? yoyCharge.units_sold + "%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
@@ -1251,22 +1275,26 @@ const DataDisplayItemizedTable = props => {
                               ? charge.shipped_cogs + "%"
                               : "N/A"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoy.shipped_cogs)}
-                          >
-                            {yoy.shipped_cogs !== 0
-                              ? numberWithCommas(yoy.shipped_cogs)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.shipped_cogs)}
-                          >
-                            {yoyCharge.shipped_cogs !== 0
-                              ? yoyCharge.shipped_cogs + "%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              <td
+                                align="right"
+                                className={isNegative(yoy.shipped_cogs)}
+                              >
+                                {yoy.shipped_cogs !== 0
+                                  ? numberWithCommas(yoy.shipped_cogs)
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.shipped_cogs)}
+                              >
+                                {yoyCharge.shipped_cogs !== 0
+                                  ? yoyCharge.shipped_cogs + "%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
@@ -1417,22 +1445,26 @@ const DataDisplayItemizedTable = props => {
                               ? charge.ad_spend + "%"
                               : "N/A"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoy.ad_spend)}
-                          >
-                            {yoy.ad_spend !== 0
-                              ? "$" + numberWithCommas(yoy.ad_spend)
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.ad_spend)}
-                          >
-                            {yoyCharge.ad_spend !== 0
-                              ? yoyCharge.ad_spend + "%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              <td
+                                align="right"
+                                className={isNegative(yoy.ad_spend)}
+                              >
+                                {yoy.ad_spend !== 0
+                                  ? "$" + numberWithCommas(yoy.ad_spend)
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.ad_spend)}
+                              >
+                                {yoyCharge.ad_spend !== 0
+                                  ? yoyCharge.ad_spend + "%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
