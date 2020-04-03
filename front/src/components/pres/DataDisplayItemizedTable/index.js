@@ -242,124 +242,46 @@ const isNegative = value =>
 
 const getCSVVersion = data => {
   const finalData = [];
-  const header = [
-    "Date Range",
-    "Sales",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Units Sold",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Shipped COGS",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Ad Clicks ",
-    "",
-    "",
-    "",
-    "Ad Impressions",
-    "",
-    "",
-    "",
-    "Avg CPC",
-    "",
-    "",
-    "",
-    "Ad Spend",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "Ad Orders ",
-    "",
-    "",
-    "",
-    "Ad Sales",
-    "",
-    "",
-    "",
-    "% of Total Sales",
-    "",
-    "",
-    "",
-    "Conv Rate",
-    "",
-    "",
-    "",
-    "ACoS",
-    "",
-    "",
-    ""
-  ];
-  const headerOfComparison = [
-    "",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Change # YOY",
-    "Change % YOY",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Change # YOY",
-    "Change % YOY",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Change # YOY",
-    "Change % YOY",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Change # YOY",
-    "Change % YOY",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %",
-    "Current",
-    "Previous",
-    "Change #",
-    "Change %"
-  ];
+  const getHeaderColumn = (isFourColumn = true, title = false) => {
+    const tempColumns = [
+      !title ? "Current" : title,
+      !title ? "Previous" : "",
+      !title ? "Change #" : "",
+      !title ? "Change %" : "",
+      !title ? "Change # YOY" : "",
+      !title ? "Change % YOY" : ""
+    ];
+    return isFourColumn ? tempColumns.slice(0, 4) : tempColumns;
+  };
+  const header = [];
+  header.push("Date Range");
+  header.push(...getHeaderColumn(false, "Sales"));
+  header.push(...getHeaderColumn(false, "Units Sold"));
+  header.push(...getHeaderColumn(false, "Shipped COGS"));
+  header.push(...getHeaderColumn(true, "Ad Clicks"));
+  header.push(...getHeaderColumn(true, "Ad Impressions"));
+  header.push(...getHeaderColumn(true, "Avg CPC"));
+  header.push(...getHeaderColumn(false, "Ad Spend"));
+  header.push(...getHeaderColumn(true, "Ad Orders"));
+  header.push(...getHeaderColumn(true, "Ad Sales"));
+  header.push(...getHeaderColumn(true, "% of Total Sales"));
+  header.push(...getHeaderColumn(true, "Conv Rate"));
+  header.push(...getHeaderColumn(true, "ACoS"));
+  const headerOfComparison = [];
+
+  headerOfComparison.push("");
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn());
   finalData.push(header);
   finalData.push(headerOfComparison);
   data.map(({ current, period, previous, change, yoy, charge, yoyCharge }) => {
