@@ -15,7 +15,7 @@ import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVDownload, CSVLink } from "react-csv";
 
-const getCSVVersion = data => {
+const getCSVVersion = (data, isYoY) => {
   const finalData = [];
   const getHeaderColumn = (isFourColumn = true, title = false) => {
     const tempColumns = [
@@ -24,9 +24,9 @@ const getCSVVersion = data => {
       !title ? "Change #" : "",
       !title ? "Change %" : "",
       !title ? "Change # YOY" : "",
-      !title ? "Change % YOY" : ""
+      !title ? "Change % YOY" : "",
     ];
-    return isFourColumn ? tempColumns.slice(0, 4) : tempColumns;
+    return isFourColumn || !isYoY ? tempColumns.slice(0, 4) : tempColumns;
   };
   const header = [];
   const headerOfComparison = [];
@@ -85,20 +85,22 @@ const getCSVVersion = data => {
         ? "0%"
         : "N/A"
     );
-    temp.push(
-      yoy.sales !== 0
-        ? "$" + numberWithCommas(yoy.sales)
-        : current.sales > 0 && yoySKU.sales > 0
-        ? "$0.00"
-        : "N/A"
-    );
-    temp.push(
-      yoyCharge.sales !== 0
-        ? yoyCharge.sales + "%"
-        : current.sales > 0 && yoySKU.sales > 0
-        ? "0%"
-        : "N/A"
-    );
+    if (isYoY) {
+      temp.push(
+        yoy.sales !== 0
+          ? "$" + numberWithCommas(yoy.sales)
+          : current.sales > 0 && yoySKU.sales > 0
+          ? "$0.00"
+          : "N/A"
+      );
+      temp.push(
+        yoyCharge.sales !== 0
+          ? yoyCharge.sales + "%"
+          : current.sales > 0 && yoySKU.sales > 0
+          ? "0%"
+          : "N/A"
+      );
+    }
 
     temp.push(
       current.units_sold ? numberWithCommas(current.units_sold) : "N/A"
@@ -120,20 +122,22 @@ const getCSVVersion = data => {
         ? "0%"
         : "N/A"
     );
-    temp.push(
-      yoy.units_sold !== 0
-        ? numberWithCommas(yoy.units_sold)
-        : current.units_sold > 0 && yoySKU.units_sold > 0
-        ? "0"
-        : "N/A"
-    );
-    temp.push(
-      yoyCharge.units_sold !== 0
-        ? yoyCharge.units_sold + "%"
-        : current.units_sold > 0 && yoySKU.units_sold > 0
-        ? "0%"
-        : "N/A"
-    );
+    if (isYoY) {
+      temp.push(
+        yoy.units_sold !== 0
+          ? numberWithCommas(yoy.units_sold)
+          : current.units_sold > 0 && yoySKU.units_sold > 0
+          ? "0"
+          : "N/A"
+      );
+      temp.push(
+        yoyCharge.units_sold !== 0
+          ? yoyCharge.units_sold + "%"
+          : current.units_sold > 0 && yoySKU.units_sold > 0
+          ? "0%"
+          : "N/A"
+      );
+    }
 
     temp.push(
       current.shipped_cogs
@@ -159,20 +163,22 @@ const getCSVVersion = data => {
         ? "0%"
         : "N/A"
     );
-    temp.push(
-      yoy.shipped_cogs !== 0
-        ? "$" + numberWithCommas(yoy.shipped_cogs)
-        : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
-        ? "0"
-        : "N/A"
-    );
-    temp.push(
-      yoyCharge.shipped_cogs
-        ? yoyCharge.shipped_cogs + "%"
-        : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
-        ? "0%"
-        : "N/A"
-    );
+    if (isYoY) {
+      temp.push(
+        yoy.shipped_cogs !== 0
+          ? "$" + numberWithCommas(yoy.shipped_cogs)
+          : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
+          ? "0"
+          : "N/A"
+      );
+      temp.push(
+        yoyCharge.shipped_cogs
+          ? yoyCharge.shipped_cogs + "%"
+          : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
+          ? "0%"
+          : "N/A"
+      );
+    }
 
     temp.push(current.ad_clicks ? numberWithCommas(current.ad_clicks) : "N/A");
     temp.push(
@@ -259,20 +265,22 @@ const getCSVVersion = data => {
         ? "0%"
         : "N/A"
     );
-    temp.push(
-      yoy.ad_spend !== 0
-        ? "$" + numberWithCommas(yoy.ad_spend)
-        : current.ad_spend > 0 && yoySKU.ad_spend > 0
-        ? "0"
-        : "N/A"
-    );
-    temp.push(
-      yoyCharge.ad_spend !== 0
-        ? yoyCharge.ad_spend + "%"
-        : current.ad_spend > 0 && yoySKU.ad_spend > 0
-        ? "0%"
-        : "N/A"
-    );
+    if (isYoY) {
+      temp.push(
+        yoy.ad_spend !== 0
+          ? "$" + numberWithCommas(yoy.ad_spend)
+          : current.ad_spend > 0 && yoySKU.ad_spend > 0
+          ? "0"
+          : "N/A"
+      );
+      temp.push(
+        yoyCharge.ad_spend !== 0
+          ? yoyCharge.ad_spend + "%"
+          : current.ad_spend > 0 && yoySKU.ad_spend > 0
+          ? "0%"
+          : "N/A"
+      );
+    }
 
     temp.push(
       !!current.ad_orders ? numberWithCommas(current.ad_orders) : "N/A"
@@ -390,11 +398,11 @@ const getCSVVersion = data => {
 
 const currentDataFormate = (current = [], previous = [], yoy = []) => {
   let allSKU = [];
-  current.map(d => allSKU.push(d.sku));
-  previous.map(d => allSKU.push(d.sku));
+  current.map((d) => allSKU.push(d.sku));
+  previous.map((d) => allSKU.push(d.sku));
   allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
   return allSKU
-    .map(sku => {
+    .map((sku) => {
       let temp = {
         ad_spend: 0,
         ad_orders: 0,
@@ -408,14 +416,14 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
         ad_impressions: 0,
         average_cpc: 0,
         wow_sales: 0,
-        percent_total_sales: 0
+        percent_total_sales: 0,
       };
-      let currentSKU = current.find(d => d.sku === sku);
+      let currentSKU = current.find((d) => d.sku === sku);
       if (!currentSKU) return false;
       let previousSKU =
-        previous.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+        previous.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
       let yoySKU =
-        yoy.find(d => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+        yoy.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
       let change = {
         ad_spend: getDifferenceInNumber(
           currentSKU.ad_spend,
@@ -458,7 +466,7 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
         percent_total_sales: getDifferenceInNumber(
           currentSKU.percent_total_sales,
           previousSKU.percent_total_sales
-        )
+        ),
       };
       let charge = {
         ad_spend: getDifferenceInPercentage(
@@ -502,7 +510,7 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
         percent_total_sales: getDifferenceInPercentage(
           currentSKU.percent_total_sales,
           previousSKU.percent_total_sales
-        )
+        ),
       };
       let tempYoy = {
         ad_spend: getDifferenceInNumber(currentSKU.ad_spend, yoySKU.ad_spend),
@@ -540,7 +548,7 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
         percent_total_sales: getDifferenceInNumber(
           currentSKU.percent_total_sales,
           yoySKU.percent_total_sales
-        )
+        ),
       };
       let yoyCharge = {
         ad_spend: getDifferenceInPercentage(
@@ -584,7 +592,7 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
         percent_total_sales: getDifferenceInPercentage(
           currentSKU.percent_total_sales,
           yoySKU.percent_total_sales
-        )
+        ),
       };
       return {
         current: currentSKU,
@@ -593,10 +601,10 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
         charge,
         yoy: tempYoy,
         yoyCharge,
-        yoySKU
+        yoySKU,
       };
     })
-    .filter(d => d);
+    .filter((d) => d);
 
   // data.map(row => {
   //   temp.sales += Math.round(Number(row.sales));
@@ -638,10 +646,10 @@ const getDifferenceInPercentage = (current, previous) => {
   return isNaN(payload) ? 0 : payload;
 };
 
-const isNegative = value =>
+const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
-const DataDisplaySKUTable = props => {
+const DataDisplaySKUTable = (props) => {
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
   const [sortByInner, setSortByInner] = useState(false);
@@ -650,10 +658,11 @@ const DataDisplaySKUTable = props => {
   let currentData = props.data.periods[0];
   let previousData = props.data.periods[1];
   if (!currentData) return null;
+  let isYoY = !!props.data.yoy.length;
   const allSKUData = currentDataFormate(
     currentData.itemized,
     previousData.itemized,
-    props.data.yoy[0].itemized
+    !!props.data.yoy.length ? props.data.yoy[0].itemized : []
   );
   const filterSKUData = allSKUData.sort((a, b) => {
     let tempSortBy = "asin";
@@ -705,11 +714,11 @@ const DataDisplaySKUTable = props => {
       : b[tempFirst][tempSortBy] - a[tempFirst][tempSortBy];
   });
 
-  const headerClick = index => {
+  const headerClick = (index) => {
     isComparisons && setActive(active === index ? false : index);
     setSortByInner(false);
   };
-  const handleSort = columnId => {
+  const handleSort = (columnId) => {
     if (columnId === sortBy) {
       setSortAscendingBy(!sortAscendingBy);
     } else {
@@ -718,7 +727,7 @@ const DataDisplaySKUTable = props => {
     setSortBy(columnId);
     setSortByInner(false);
   };
-  const handleSortInner = columnId => {
+  const handleSortInner = (columnId) => {
     if (columnId === sortByInner) {
       setSortAscendingBy(!sortAscendingBy);
     } else {
@@ -729,7 +738,7 @@ const DataDisplaySKUTable = props => {
   };
   return (
     <>
-      <CSVLink data={getCSVVersion(filterSKUData)} filename={"sku.csv"}>
+      <CSVLink data={getCSVVersion(filterSKUData, isYoY)} filename={"sku.csv"}>
         Download me
       </CSVLink>{" "}
       <div className={s.noBoxShadow + " fixed-header-table"}>
@@ -776,7 +785,10 @@ const DataDisplaySKUTable = props => {
                   </span>
                 </div>
               </th>
-              <th className={s.tableHead} colSpan={active === 2 && "6"}>
+              <th
+                className={s.tableHead}
+                colSpan={active === 2 && (isYoY ? "6" : "4")}
+              >
                 <div>
                   <span onClick={() => headerClick(2)}>
                     {isComparisons &&
@@ -802,7 +814,7 @@ const DataDisplaySKUTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={active === 3 && "6"}
+                colSpan={active === 3 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -830,7 +842,7 @@ const DataDisplaySKUTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={active === 4 && "6"}
+                colSpan={active === 4 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -942,7 +954,7 @@ const DataDisplaySKUTable = props => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={active === 8 && "6"}
+                colSpan={active === 8 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1196,47 +1208,49 @@ const DataDisplaySKUTable = props => {
                       {(active === 2 ||
                         active === 3 ||
                         active === 4 ||
-                        active === 8) && (
-                        <th className={s.tableHead} align="right">
-                          <div>
-                            <span>Change # YOY</span>
-                            <span onClick={() => handleSortInner(4)}>
-                              {" "}
-                              {sortByInner === 4 ? (
-                                sortAscendingBy ? (
-                                  <ArrowDropUpIcon />
+                        active === 8) &&
+                        isYoY && (
+                          <th className={s.tableHead} align="right">
+                            <div>
+                              <span>Change # YOY</span>
+                              <span onClick={() => handleSortInner(4)}>
+                                {" "}
+                                {sortByInner === 4 ? (
+                                  sortAscendingBy ? (
+                                    <ArrowDropUpIcon />
+                                  ) : (
+                                    <ArrowDropDownIcon />
+                                  )
                                 ) : (
-                                  <ArrowDropDownIcon />
-                                )
-                              ) : (
-                                <SortIcon />
-                              )}
-                            </span>
-                          </div>
-                        </th>
-                      )}
+                                  <SortIcon />
+                                )}
+                              </span>
+                            </div>
+                          </th>
+                        )}
                       {(active === 2 ||
                         active === 3 ||
                         active === 4 ||
-                        active === 8) && (
-                        <th className={s.tableHead} align="right">
-                          <div>
-                            <span>Change % YOY</span>
-                            <span onClick={() => handleSortInner(5)}>
-                              {" "}
-                              {sortByInner === 5 ? (
-                                sortAscendingBy ? (
-                                  <ArrowDropUpIcon />
+                        active === 8) &&
+                        isYoY && (
+                          <th className={s.tableHead} align="right">
+                            <div>
+                              <span>Change % YOY</span>
+                              <span onClick={() => handleSortInner(5)}>
+                                {" "}
+                                {sortByInner === 5 ? (
+                                  sortAscendingBy ? (
+                                    <ArrowDropUpIcon />
+                                  ) : (
+                                    <ArrowDropDownIcon />
+                                  )
                                 ) : (
-                                  <ArrowDropDownIcon />
-                                )
-                              ) : (
-                                <SortIcon />
-                              )}
-                            </span>
-                          </div>
-                        </th>
-                      )}
+                                  <SortIcon />
+                                )}
+                              </span>
+                            </div>
+                          </th>
+                        )}
                     </>
                   )}
                 </tr>
@@ -1251,7 +1265,7 @@ const DataDisplaySKUTable = props => {
                     charge,
                     yoy,
                     yoyCharge,
-                    yoySKU
+                    yoySKU,
                   } = row;
 
                   return (
@@ -1293,23 +1307,31 @@ const DataDisplaySKUTable = props => {
                               ? "0%"
                               : "N/A"}
                           </td>
-                          <td align="right" className={isNegative(yoy.sales)}>
-                            {yoy.sales !== 0
-                              ? "$" + numberWithCommas(yoy.sales)
-                              : current.sales > 0 && yoySKU.sales > 0
-                              ? "$0.00"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.sales)}
-                          >
-                            {yoyCharge.sales !== 0
-                              ? yoyCharge.sales + "%"
-                              : current.sales > 0 && yoySKU.sales > 0
-                              ? "0%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              {" "}
+                              <td
+                                align="right"
+                                className={isNegative(yoy.sales)}
+                              >
+                                {yoy.sales !== 0
+                                  ? "$" + numberWithCommas(yoy.sales)
+                                  : current.sales > 0 && yoySKU.sales > 0
+                                  ? "$0.00"
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.sales)}
+                              >
+                                {yoyCharge.sales !== 0
+                                  ? yoyCharge.sales + "%"
+                                  : current.sales > 0 && yoySKU.sales > 0
+                                  ? "0%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
@@ -1353,26 +1375,33 @@ const DataDisplaySKUTable = props => {
                               ? "0%"
                               : "N/A"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoy.units_sold)}
-                          >
-                            {yoy.units_sold !== 0
-                              ? numberWithCommas(yoy.units_sold)
-                              : current.units_sold > 0 && yoySKU.units_sold > 0
-                              ? "0"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.units_sold)}
-                          >
-                            {yoyCharge.units_sold !== 0
-                              ? yoyCharge.units_sold + "%"
-                              : current.units_sold > 0 && yoySKU.units_sold > 0
-                              ? "0%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              {" "}
+                              <td
+                                align="right"
+                                className={isNegative(yoy.units_sold)}
+                              >
+                                {yoy.units_sold !== 0
+                                  ? numberWithCommas(yoy.units_sold)
+                                  : current.units_sold > 0 &&
+                                    yoySKU.units_sold > 0
+                                  ? "0"
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.units_sold)}
+                              >
+                                {yoyCharge.units_sold !== 0
+                                  ? yoyCharge.units_sold + "%"
+                                  : current.units_sold > 0 &&
+                                    yoySKU.units_sold > 0
+                                  ? "0%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
@@ -1417,28 +1446,33 @@ const DataDisplaySKUTable = props => {
                               ? "0%"
                               : "N/A"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoy.shipped_cogs)}
-                          >
-                            {yoy.shipped_cogs !== 0
-                              ? "$" + numberWithCommas(yoy.shipped_cogs)
-                              : current.shipped_cogs > 0 &&
-                                yoySKU.shipped_cogs > 0
-                              ? "0"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.shipped_cogs)}
-                          >
-                            {yoyCharge.shipped_cogs
-                              ? yoyCharge.shipped_cogs + "%"
-                              : current.shipped_cogs > 0 &&
-                                yoySKU.shipped_cogs > 0
-                              ? "0%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              {" "}
+                              <td
+                                align="right"
+                                className={isNegative(yoy.shipped_cogs)}
+                              >
+                                {yoy.shipped_cogs !== 0
+                                  ? "$" + numberWithCommas(yoy.shipped_cogs)
+                                  : current.shipped_cogs > 0 &&
+                                    yoySKU.shipped_cogs > 0
+                                  ? "0"
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.shipped_cogs)}
+                              >
+                                {yoyCharge.shipped_cogs
+                                  ? yoyCharge.shipped_cogs + "%"
+                                  : current.shipped_cogs > 0 &&
+                                    yoySKU.shipped_cogs > 0
+                                  ? "0%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
@@ -1609,26 +1643,30 @@ const DataDisplaySKUTable = props => {
                               ? "0%"
                               : "N/A"}
                           </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoy.ad_spend)}
-                          >
-                            {yoy.ad_spend !== 0
-                              ? "$" + numberWithCommas(yoy.ad_spend)
-                              : current.ad_spend > 0 && yoySKU.ad_spend > 0
-                              ? "0"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={isNegative(yoyCharge.ad_spend)}
-                          >
-                            {yoyCharge.ad_spend !== 0
-                              ? yoyCharge.ad_spend + "%"
-                              : current.ad_spend > 0 && yoySKU.ad_spend > 0
-                              ? "0%"
-                              : "N/A"}
-                          </td>
+                          {isYoY && (
+                            <>
+                              <td
+                                align="right"
+                                className={isNegative(yoy.ad_spend)}
+                              >
+                                {yoy.ad_spend !== 0
+                                  ? "$" + numberWithCommas(yoy.ad_spend)
+                                  : current.ad_spend > 0 && yoySKU.ad_spend > 0
+                                  ? "0"
+                                  : "N/A"}
+                              </td>
+                              <td
+                                align="right"
+                                className={isNegative(yoyCharge.ad_spend)}
+                              >
+                                {yoyCharge.ad_spend !== 0
+                                  ? yoyCharge.ad_spend + "%"
+                                  : current.ad_spend > 0 && yoySKU.ad_spend > 0
+                                  ? "0%"
+                                  : "N/A"}
+                              </td>
+                            </>
+                          )}
                         </>
                       ) : (
                         <td align="right">
