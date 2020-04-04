@@ -630,6 +630,41 @@ const currentDataFormate = (current = [], previous = [], yoy = []) => {
   // return [temp];
 };
 
+const getSummaryInTotal = (props) => {
+  const temp = {
+    ad_spend: 0,
+    ad_orders: 0,
+    conversion_rate: 0,
+    acos: 0,
+    ad_sales: 0,
+    sales: 0,
+    units_sold: 0,
+    shipped_cogs: 0,
+    ad_clicks: 0,
+    ad_impressions: 0,
+    average_cpc: 0,
+    wow_sales: 0,
+    percent_total_sales: 0,
+  };
+
+  props.map(({ current }) => {
+    temp.ad_spend += current.ad_spend;
+    temp.ad_orders += current.ad_orders;
+    temp.conversion_rate += current.conversion_rate;
+    temp.acos += current.acos;
+    temp.ad_sales += current.ad_sales;
+    temp.sales += current.sales;
+    temp.units_sold += current.units_sold;
+    temp.shipped_cogs += current.shipped_cogs;
+    temp.ad_clicks += current.ad_clicks;
+    temp.ad_impressions += current.ad_impressions;
+    temp.average_cpc += current.average_cpc;
+    temp.wow_sales += current.wow_sales;
+    temp.percent_total_sales += current.percent_total_sales;
+  });
+  return temp;
+};
+
 const getDifferenceInNumber = (current, previous) => {
   let payload = Number(current - previous).toFixed(2);
   return isNaN(payload) ? 0 : Number(payload);
@@ -736,6 +771,8 @@ const DataDisplaySKUTable = (props) => {
     setSortBy(sortBy || active);
     setSortByInner(columnId);
   };
+  const totalOfData = getSummaryInTotal(filterSKUData);
+  console.log("DataDisplaySKUTable -> totalOfData", totalOfData);
   return (
     <>
       <CSVLink data={getCSVVersion(filterSKUData, isYoY)} filename={"sku.csv"}>
@@ -1256,6 +1293,270 @@ const DataDisplaySKUTable = (props) => {
                 </tr>
               </>
             )}
+            <tr>
+              <td component="th">
+                <b>Total</b>
+              </td>
+
+              <td align="right"></td>
+              {isComparisons && active === 2 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.sales
+                      ? "$" + numberWithCommas(totalOfData.sales)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  {isYoY && (
+                    <>
+                      {" "}
+                      <td align="right"></td>
+                      <td align="right"></td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.sales
+                    ? "$" + numberWithCommas(totalOfData.sales)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 3 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.units_sold
+                      ? numberWithCommas(totalOfData.units_sold)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  {isYoY && (
+                    <>
+                      {" "}
+                      <td align="right"></td>
+                      <td align="right"></td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.units_sold
+                    ? numberWithCommas(totalOfData.units_sold)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 4 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.shipped_cogs
+                      ? "$" + numberWithCommas(totalOfData.shipped_cogs)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  {isYoY && (
+                    <>
+                      {" "}
+                      <td align="right"></td>
+                      <td align="right"></td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.shipped_cogs
+                    ? "$" + numberWithCommas(totalOfData.shipped_cogs)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 5 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_clicks
+                      ? numberWithCommas(totalOfData.ad_clicks)
+                      : "N/A"}
+                  </td>
+
+                  <td align="right"></td>
+                  <td align="right"></td>
+
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_clicks
+                    ? numberWithCommas(totalOfData.ad_clicks)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 6 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_impressions
+                      ? numberWithCommas(totalOfData.ad_impressions)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_impressions
+                    ? numberWithCommas(totalOfData.ad_impressions)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 7 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.average_cpc
+                      ? "$" + numberWithCommas(totalOfData.average_cpc)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.average_cpc !== 0
+                    ? "$" + numberWithCommas(totalOfData.average_cpc)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 8 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_spend
+                      ? "$" + numberWithCommas(totalOfData.ad_spend)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  {isYoY && (
+                    <>
+                      <td align="right"></td>
+                      <td align="right"></td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_spend !== 0
+                    ? "$" + numberWithCommas(totalOfData.ad_spend)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 9 ? (
+                <>
+                  <td align="right">
+                    {!!totalOfData.ad_orders
+                      ? numberWithCommas(totalOfData.ad_orders)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_orders !== 0
+                    ? numberWithCommas(totalOfData.ad_orders)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 10 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_sales
+                      ? "$" + numberWithCommas(totalOfData.ad_sales)
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_sales !== 0
+                    ? "$" + numberWithCommas(totalOfData.ad_sales)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 11 ? (
+                <>
+                  <td align="right">
+                    {!!totalOfData.percent_total_sales
+                      ? Number(totalOfData.percent_total_sales).toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {!!totalOfData.percent_total_sales
+                    ? Number(totalOfData.percent_total_sales).toFixed(2) + "%"
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 12 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.conversion_rate !== 0
+                      ? Number(totalOfData.conversion_rate).toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.conversion_rate !== 0
+                    ? Number(totalOfData.conversion_rate).toFixed(2) + "%"
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 13 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.acos
+                      ? totalOfData.acos.toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                  <td align="right"></td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.acos !== 0
+                    ? totalOfData.acos.toFixed(2) + "%"
+                    : "N/A"}
+                </td>
+              )}
+            </tr>
             {filterSKUData
               ? filterSKUData.map((row, i, array) => {
                   const {
