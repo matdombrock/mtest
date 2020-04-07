@@ -13,11 +13,12 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { CSVDownload, CSVLink } from "react-csv";
+import { CSVLink } from "react-csv";
 
 const currentDataFormate = ({ periods, yoy }) => {
   let payload = [];
   periods.map((d, i, arr) => {
+    if (i === arr.length - 1) return false;
     const current = d.summary;
     const yoySummry = yoy[i]
       ? yoy[i].summary
@@ -220,6 +221,7 @@ const currentDataFormate = ({ periods, yoy }) => {
       yoy: tempYoy,
       yoyCharge,
     });
+    return false;
   });
   return payload;
 };
@@ -484,6 +486,7 @@ const getCSVVersion = (data, isYoY) => {
     temp.push(change.acos !== 0 ? Number(change.acos).toFixed(2) + "%" : "N/A");
     temp.push(charge.acos !== 0 ? Number(charge.acos).toFixed(2) + "%" : "N/A");
     finalData.push(temp);
+    return false;
   });
   return finalData;
 };

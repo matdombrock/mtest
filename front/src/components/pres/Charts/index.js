@@ -13,7 +13,6 @@ import {
 } from "recharts";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
-import moment from "moment";
 
 class Charts extends React.Component {
   constructor(props) {
@@ -29,7 +28,8 @@ class Charts extends React.Component {
   }
 
   render() {
-    const periods = this.props.data.periods;
+    let periods = this.props.data.periods;
+    periods = periods.slice(0, periods.length - 1);
     let maxRevenue = 0.0,
       maxAdSales = 0.0,
       maxCvr = 0.0,

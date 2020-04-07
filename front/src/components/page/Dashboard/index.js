@@ -14,7 +14,7 @@ import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
 // import DataDisplayCardGridSKU from "../../pres/DataDisplayCardGridSKU";
 import Alert from "@material-ui/lab/Alert";
 import { CircularProgress } from "@material-ui/core";
-import { CSVLink } from "react-csv";
+// import { CSVLink } from "react-csv";
 
 class Dashboard extends Component {
   state = {
@@ -23,10 +23,10 @@ class Dashboard extends Component {
     startDate: null,
     endDate: null,
     comparisonStartDate: null,
-    comparisonEndDate: null
+    comparisonEndDate: null,
   };
-  handleTabChange = activeTab => this.setState({ activeTab });
-  setError = isError => this.setState({ isError });
+  handleTabChange = (activeTab) => this.setState({ activeTab });
+  setError = (isError) => this.setState({ isError });
   setDates = (
     startDate,
     endDate,
@@ -37,20 +37,13 @@ class Dashboard extends Component {
       startDate,
       endDate,
       comparisonEndDate,
-      comparisonStartDate
+      comparisonStartDate,
     });
   render() {
     const {
-      sales: { active, comparisons, skuActive, skuComparisons, isLoading }
+      sales: { active, comparisons, skuActive, isLoading },
     } = this.props;
-    const {
-      activeTab,
-      isError,
-      startDate,
-      endDate,
-      comparisonStartDate,
-      comparisonEndDate
-    } = this.state;
+    const { activeTab, isError, startDate, endDate } = this.state;
     return (
       <div className={s.container}>
         <UpperControls
@@ -127,14 +120,14 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  sales: state.sales
+const mapStateToProps = (state) => ({
+  sales: state.sales,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      ...salesActions
+      ...salesActions,
     },
     dispatch
   );

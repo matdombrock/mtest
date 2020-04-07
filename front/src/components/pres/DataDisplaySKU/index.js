@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import table from "@material-ui/core/Table";
 // import TableBody from '@material-ui/core/TableBody';
 // import tr from '@material-ui/core/tr';
@@ -13,7 +13,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { CSVDownload, CSVLink } from "react-csv";
+import { CSVLink } from "react-csv";
 
 const getCSVVersion = (data, isYoY) => {
   const finalData = [];
@@ -392,6 +392,7 @@ const getCSVVersion = (data, isYoY) => {
     );
 
     finalData.push(temp);
+    return false;
   });
   return finalData;
 };
@@ -661,6 +662,7 @@ const getSummaryInTotal = (props) => {
     temp.average_cpc += current.average_cpc;
     temp.wow_sales += current.wow_sales;
     temp.percent_total_sales += current.percent_total_sales;
+    return false;
   });
   return temp;
 };

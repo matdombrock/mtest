@@ -130,11 +130,6 @@ class UpperControls extends Component {
 
   fetchData = () => {
     const {
-      comparison,
-      customDateStart,
-      customDateEnd,
-      startDate,
-      endDate,
       selectedBrand: brand,
       period,
       selectedDateRange,
@@ -172,7 +167,7 @@ class UpperControls extends Component {
       brand &&
         fetchSalesDataBySKU(data)
           .then((data) => {
-            if (!data) throw false;
+            if (!data) throw Object.assign(new Error("Error"), { code: 402 });
             if (data.status !== 200) {
               // this.props.setSKUData({});
               this.props.setError(data.message);
@@ -193,7 +188,7 @@ class UpperControls extends Component {
       brand &&
         fetchSalesData(data)
           .then((data) => {
-            if (!data) throw false;
+            if (!data) throw Object.assign(new Error("Error"), { code: 402 });
             if (data.status !== 200) {
               this.props.saleSetData();
               this.props.setError(data.message);
@@ -365,10 +360,10 @@ class UpperControls extends Component {
   };
   handleLast7Days = () => {
     const dates = [moment().subtract(6, "days"), moment()];
-    const comparisonDate = [
-      moment().subtract(12, "days"),
-      moment().subtract(6, "days"),
-    ];
+    // const comparisonDate = [
+    //   moment().subtract(12, "days"),
+    //   moment().subtract(6, "days"),
+    // ];
     this.setState({
       startDate: dates[0],
       endDate: dates[1],
