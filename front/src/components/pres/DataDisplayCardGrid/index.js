@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import numberWithCommas from "../../../services/numberWithCommas";
 import moment from "moment";
 
-const DataDisplayCardGrid = props => {
+const DataDisplayCardGrid = (props) => {
   let currentPeriodData, periodOverPeriodData, previousPeriodData;
   const periods = props.data.periods;
   //an abstraction method to do the math for relative percentage between two #s
@@ -19,7 +19,7 @@ const DataDisplayCardGrid = props => {
           )
       : "-" + (((previousNumber - number) / previousNumber) * 100).toFixed(2);
   };
-  const isNegative = value =>
+  const isNegative = (value) =>
     Number(value) !== 0 && (Number(value) <= 0 ? s.negative : s.positive);
 
   //this is for figuring out hte period over period data
@@ -52,7 +52,7 @@ const DataDisplayCardGrid = props => {
         acos: determineRelativePercentage(
           currentPeriodData.acos,
           previousPeriodData.acos
-        )
+        ),
       };
     }
   }
@@ -61,13 +61,8 @@ const DataDisplayCardGrid = props => {
     <div className={s.gridContainer}>
       <h3>
         Current Period Summary:{" "}
-        {moment(periods[0].period.start)
-          .utc()
-          .format("MM/DD/YYYY")}{" "}
-        -{" "}
-        {moment(periods[0].period.end)
-          .utc()
-          .format("MM/DD/YYYY")}
+        {moment(periods[0].period.start).format("MM/DD/YYYY")} -{" "}
+        {moment(periods[0].period.end).format("MM/DD/YYYY")}
       </h3>
       <Grid container spacing={4}>
         <Grid item className={s.gridItem} xs={2}>

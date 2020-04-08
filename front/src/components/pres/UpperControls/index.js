@@ -46,8 +46,8 @@ class UpperControls extends Component {
       // customDateEnd: moment()
       //   .subtract(2, "weeks")
       //   .endOf("isoWeek"),
-      startDate: moment().subtract(1, "weeks").startOf("isoWeek"),
-      endDate: moment().subtract(1, "weeks").endOf("isoWeek"),
+      startDate: null,
+      endDate: null,
       selectedDateRange: "lastWeek",
       displayDateRange: "lastWeek",
       periodsCount: 2,
@@ -107,13 +107,11 @@ class UpperControls extends Component {
   }
 
   toggleCustomDateRange(checked) {
-    if (checked === false) this.setState({ customDateRange: checked });
-    if (checked === true)
-      this.setState({
-        customDateRange: checked,
-        customDateStart: null,
-        customDateEnd: null,
-      });
+    this.setState({
+      customDateRange: checked,
+      customDateStart: null,
+      customDateEnd: null,
+    });
   }
 
   setCustomDateStart(e) {
@@ -131,24 +129,39 @@ class UpperControls extends Component {
   fetchData = () => {
     const {
       selectedBrand: brand,
-      period,
+      // period,
       selectedDateRange,
       periodsCount,
       isYOY,
+      startDate,
+      endDate,
     } = this.state;
     if (brand) {
       this.props.setLoadingData(true);
     }
     const { activeTab } = this.props;
-    this.setState({
+    const payload = {
       displayDateRange: selectedDateRange,
-    });
+    };
     let data = {
       brand: brand,
-      byMonth: period === "weekly" ? false : true,
+      // byMonth: period === "weekly" ? false : true,
       period_count: periodsCount,
       load_yoy: isYOY,
     };
+    if (selectedDateRange !== "custom") {
+      payload.startDate = null;
+      payload.endDate = null;
+    } else {
+      data.custom_period = {
+        start: moment(startDate).format("YYYY-MM-DD"),
+        end: moment(endDate).format("YYYY-MM-DD"),
+      };
+    }
+    this.setState({
+      ...payload,
+    });
+
     data.period =
       selectedDateRange === "lastMonth"
         ? "last-month"
@@ -312,36 +325,42 @@ class UpperControls extends Component {
   };
 
   handleUpdateState = (key, value) => this.setState({ [key]: value });
+  handleChangeCustomDateRange = (value) =>
+    this.setState({
+      selectedDateRange: value,
+      startDate: moment().subtract(1, "months"),
+      endDate: moment(),
+    });
   handleToday = () => {
-    const dates = [moment(), moment()];
+    // const dates = [moment(), moment()];
     // const comparisonDate = [moment().subtract(1, "days"), moment()];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "today",
     });
   };
   handleYesterday = () => {
-    const dates = [moment().subtract(1, "days"), moment().subtract(1, "days")];
+    // const dates = [moment().subtract(1, "days"), moment().subtract(1, "days")];
     // const comparisonDate = [
     //   moment().subtract(2, "days"),
     //   moment().subtract(1, "days")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "yesterday",
     });
   };
   handleLastWeek = () => {
-    const dates = [
-      moment().subtract(1, "weeks").startOf("isoWeek"),
-      moment().subtract(1, "weeks").endOf("isoWeek"),
-    ];
+    // const dates = [
+    //   moment().subtract(1, "weeks").startOf("isoWeek"),
+    //   moment().subtract(1, "weeks").endOf("isoWeek"),
+    // ];
     // const comparisonDate = [
     //   moment()
     //     .subtract(2, "weeks")
@@ -351,43 +370,46 @@ class UpperControls extends Component {
     //     .endOf("isoWeek")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "lastWeek",
     });
   };
   handleLast7Days = () => {
-    const dates = [moment().subtract(6, "days"), moment()];
+    // const dates = [moment().subtract(6, "days"), moment()];
     // const comparisonDate = [
     //   moment().subtract(12, "days"),
     //   moment().subtract(6, "days"),
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "last7Days",
     });
   };
   handleThis30Days = () => {
-    const dates = [moment().subtract(29, "days"), moment()];
+    // const dates = [moment().subtract(29, "days"), moment()];
     // const comparisonDate = [
     //   moment().subtract(59, "days"),
     //   moment().subtract(29, "days")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "this30Days",
     });
   };
   handleThisMonth = () => {
-    const dates = [moment().startOf("month"), moment().endOf("month")];
+    // const dates = [moment().startOf("month"), moment().endOf("month")];
     // const comparisonDate = [
     //   moment()
     //     .subtract(1, "month")
@@ -397,32 +419,34 @@ class UpperControls extends Component {
     //     .endOf("month")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "thisMonth",
     });
   };
   handleLast14 = () => {
-    const dates = [moment().subtract(13, "days"), moment()];
+    // const dates = [moment().subtract(13, "days"), moment()];
     // const comparisonDate = [
     //   moment().subtract(29, "days"),
     //   moment().subtract(14, "days")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "last14Days",
     });
   };
   handleLastMonth = () => {
-    const dates = [
-      moment().subtract(1, "month").startOf("month"),
-      moment().subtract(1, "month").endOf("month"),
-    ];
+    // const dates = [
+    //   moment().subtract(1, "month").startOf("month"),
+    //   moment().subtract(1, "month").endOf("month"),
+    // ];
     // const comparisonDate = [
     //   moment()
     //     .subtract(2, "month")
@@ -432,15 +456,16 @@ class UpperControls extends Component {
     //     .startOf("month")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "lastMonth",
     });
   };
   handleCurrentMonth = () => {
-    const dates = [moment().startOf("month"), moment()];
+    // const dates = [moment().startOf("month"), moment()];
     // const comparisonDate = [
     //   moment()
     //     .subtract(2, "month")
@@ -450,8 +475,9 @@ class UpperControls extends Component {
     //     .startOf("month")
     // ];
     this.setState({
-      startDate: dates[0],
-      endDate: dates[1],
+      // startDate: null,
+      // endDate: null,
+
       // customDateStart: comparisonDate[0],
       // customDateEnd: comparisonDate[1],
       selectedDateRange: "currentMonth",
@@ -590,23 +616,20 @@ class UpperControls extends Component {
                       >
                         Current Month
                       </div>
-                      {/* {this.props.activeTab !== 1 && (
-                        <div
-                          className={
-                            activeSelectedDateRange === "custom" &&
-                            s["active-item"]
-                          }
-                          onClick={() => {
-                            this.handleUpdateState(
-                              "selectedDateRange",
-                              "custom"
-                            );
-                          }}
-                        >
-                          Custom Range
-                        </div>
-                      )} */}
-                      {/* {activeSelectedDateRange === "custom" && (
+                      {/* {this.props.activeTab !== 1 && ( */}
+                      <div
+                        className={
+                          activeSelectedDateRange === "custom" &&
+                          s["active-item"]
+                        }
+                        onClick={() => {
+                          this.handleChangeCustomDateRange("custom");
+                        }}
+                      >
+                        Custom Range
+                      </div>
+                      {/* )} */}
+                      {activeSelectedDateRange === "custom" && (
                         <>
                           <div className={s["item"]}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -617,11 +640,11 @@ class UpperControls extends Component {
                                 margin="normal"
                                 label="Custom Date Start"
                                 value={this.state.startDate}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.handleUpdateState("startDate", e)
                                 }
                                 KeyboardButtonProps={{
-                                  "aria-label": "change date"
+                                  "aria-label": "change date",
                                 }}
                               />
                               <KeyboardDatePicker
@@ -631,17 +654,17 @@ class UpperControls extends Component {
                                 margin="normal"
                                 label="Custom Date End"
                                 value={this.state.endDate}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.handleUpdateState("endDate", e)
                                 }
                                 KeyboardButtonProps={{
-                                  "aria-label": "change date"
+                                  "aria-label": "change date",
                                 }}
                               />
                             </MuiPickersUtilsProvider>
                           </div>
                         </>
-                      )} */}
+                      )}
                       <div className={s["item"]}>
                         <p className={s["comparison-input"]}>
                           <label className={s["comparison-input"]}>
