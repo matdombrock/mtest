@@ -187,6 +187,33 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
+              payload.periods = data?.periods?.map((d) => ({
+                ...d,
+                summary: {
+                  ...d.summary,
+                  acos: d.summary.ad_sales
+                    ? d.summary.ad_spend / d.summary.ad_sales
+                    : 0,
+                },
+                itemized: d.itemized.map((o) => ({
+                  ...o,
+                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                })),
+              }));
+              payload.yoy = data?.yoy?.map((d) => ({
+                ...d,
+                summary: {
+                  ...d.summary,
+                  acos: d.summary.ad_sales
+                    ? d.summary.ad_spend / d.summary.ad_sales
+                    : 0,
+                },
+                itemized: d.itemized.map((o) => ({
+                  ...o,
+                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                })),
+              }));
+
               if (!isYOY) payload.yoy = [];
               this.props.setSKUData(payload);
             }
@@ -208,8 +235,35 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
+              payload.periods = data.data?.periods?.map((d) => ({
+                ...d,
+                summary: {
+                  ...d.summary,
+                  acos: d.summary.ad_sales
+                    ? d.summary.ad_spend / d.summary.ad_sales
+                    : 0,
+                },
+                itemized: d.itemized.map((o) => ({
+                  ...o,
+                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                })),
+              }));
+              payload.yoy = data.data?.yoy?.map((d) => ({
+                ...d,
+                summary: {
+                  ...d.summary,
+                  acos: d.summary.ad_sales
+                    ? d.summary.ad_spend / d.summary.ad_sales
+                    : 0,
+                },
+                itemized: d.itemized.map((o) => ({
+                  ...o,
+                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                })),
+              }));
               if (!isYOY) payload.yoy = [];
-              this.props.saleSetData(payload.data);
+              console.log("UpperControls -> fetchData -> payload", payload);
+              this.props.saleSetData(payload);
             }
             this.props.setLoadingData(false);
           })

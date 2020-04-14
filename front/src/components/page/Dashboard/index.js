@@ -43,6 +43,7 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, isLoading },
     } = this.props;
+    console.log("Dashboard -> render -> skuActive", skuActive);
     const { activeTab, isError, startDate, endDate } = this.state;
     return (
       <div className={s.container}>
