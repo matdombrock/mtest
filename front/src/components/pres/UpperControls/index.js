@@ -40,18 +40,15 @@ class UpperControls extends Component {
       comparison: false,
       customDateRange: false,
       selectedSku: null,
-      // customDateStart: moment()
-      //   .subtract(2, "weeks")
-      //   .startOf("isoWeek"),
-      // customDateEnd: moment()
-      //   .subtract(2, "weeks")
-      //   .endOf("isoWeek"),
+      customDateStart: moment().subtract(2, "weeks").startOf("isoWeek"),
+      customDateEnd: moment().subtract(2, "weeks").endOf("isoWeek"),
       startDate: null,
       endDate: null,
       selectedDateRange: "lastWeek",
       displayDateRange: "lastWeek",
       periodsCount: 2,
       isYOY: false,
+      isCustomVisible: false,
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -135,6 +132,9 @@ class UpperControls extends Component {
       isYOY,
       startDate,
       endDate,
+      isCustomVisible,
+      customDateEnd,
+      customDateStart,
     } = this.state;
     if (brand) {
       this.props.setLoadingData(true);
@@ -152,12 +152,40 @@ class UpperControls extends Component {
     if (selectedDateRange !== "custom") {
       payload.startDate = null;
       payload.endDate = null;
+      payload.customDateStart = null;
+      payload.customDateEnd = null;
     } else {
       data.custom_period = {
         start: moment(startDate).format("YYYY-MM-DD"),
         end: moment(endDate).format("YYYY-MM-DD"),
       };
+      if (isCustomVisible) {
+        data.custom_compare_period = {
+          start: moment(customDateStart).format("YYYY-MM-DD"),
+          end: moment(customDateEnd).format("YYYY-MM-DD"),
+        };
+      }
     }
+    const fakePeriod = {
+      summary: {
+        acos: 0,
+        ad_clicks: 0,
+        ad_impressions: 0,
+        ad_orders: 0,
+        ad_sales: 0,
+        ad_spend: 0,
+        asin: "N/A",
+        average_cpc: 0,
+        conversion_rate: 0,
+        item_number: "N/A",
+        percent_total_sales: 0,
+        sales: 0,
+        shipped_cogs: 0,
+        sku: "N/A",
+        units_sold: 0,
+        average_selling_price: 0,
+      },
+    };
     this.setState({
       ...payload,
     });
@@ -192,12 +220,12 @@ class UpperControls extends Component {
                 summary: {
                   ...d.summary,
                   acos: d.summary.ad_sales
-                    ? d.summary.ad_spend / d.summary.ad_sales
+                    ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
-                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                  acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
               payload.yoy = data?.yoy?.map((d) => ({
@@ -205,12 +233,12 @@ class UpperControls extends Component {
                 summary: {
                   ...d.summary,
                   acos: d.summary.ad_sales
-                    ? d.summary.ad_spend / d.summary.ad_sales
+                    ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
-                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                  acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
 
@@ -240,12 +268,12 @@ class UpperControls extends Component {
                 summary: {
                   ...d.summary,
                   acos: d.summary.ad_sales
-                    ? d.summary.ad_spend / d.summary.ad_sales
+                    ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
-                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                  acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
               payload.yoy = data.data?.yoy?.map((d) => ({
@@ -253,14 +281,15 @@ class UpperControls extends Component {
                 summary: {
                   ...d.summary,
                   acos: d.summary.ad_sales
-                    ? d.summary.ad_spend / d.summary.ad_sales
+                    ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
-                  acos: o.ad_sales ? o.ad_spend / o.ad_sales : 0,
+                  acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
+              payload.periods.push(fakePeriod);
               if (!isYOY) payload.yoy = [];
               console.log("UpperControls -> fetchData -> payload", payload);
               this.props.saleSetData(payload);
@@ -544,6 +573,9 @@ class UpperControls extends Component {
       showDropDown,
       selectedDateRange,
       displayDateRange,
+      isCustomVisible,
+      customDateStart,
+      customDateEnd,
     } = this.state;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
@@ -576,9 +608,17 @@ class UpperControls extends Component {
                   <EventNoteIcon className={s.menuOpen} />{" "}
                   <p>
                     {displayDateRange === "custom"
-                      ? `${moment(startDate).format("MMM DD, YYYY")} - ${moment(
-                          endDate
-                        ).format("MMM DD, YYYY")}`
+                      ? isCustomVisible
+                        ? `${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format(
+                            "MMM DD, YYYY"
+                          )} VS ${moment(startDate).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(endDate).format("MMM DD, YYYY")}`
+                        : `${moment(startDate).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(endDate).format("MMM DD, YYYY")}`
                       : displayDateRange === "lastMonth"
                       ? "Last Month"
                       : displayDateRange === "last7Days"
@@ -710,6 +750,55 @@ class UpperControls extends Component {
                                 value={this.state.endDate}
                                 onChange={(e) =>
                                   this.handleUpdateState("endDate", e)
+                                }
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                              />
+                            </MuiPickersUtilsProvider>
+                          </div>
+                        </>
+                      )}
+                      <div
+                        className={
+                          activeSelectedDateRange === "custom" &&
+                          isCustomVisible &&
+                          s["active-item"]
+                        }
+                        onClick={() => {
+                          this.setState({ isCustomVisible: !isCustomVisible });
+                        }}
+                      >
+                        Custom Compare
+                      </div>
+                      {/* )} */}
+                      {activeSelectedDateRange === "custom" && isCustomVisible && (
+                        <>
+                          <div className={s["item"]}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="yyyy-MM-dd"
+                                margin="normal"
+                                label="Custom Date Start"
+                                value={this.state.customDateStart}
+                                onChange={(e) =>
+                                  this.handleUpdateState("customDateStart", e)
+                                }
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                              />
+                              <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="yyyy-MM-dd"
+                                margin="normal"
+                                label="Custom Date End"
+                                value={this.state.customDateEnd}
+                                onChange={(e) =>
+                                  this.handleUpdateState("customDateEnd", e)
                                 }
                                 KeyboardButtonProps={{
                                   "aria-label": "change date",
