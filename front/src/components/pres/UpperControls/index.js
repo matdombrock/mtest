@@ -289,7 +289,8 @@ class UpperControls extends Component {
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
-              payload.periods.push(fakePeriod);
+              if (selectedDateRange === "custom" && isCustomVisible)
+                payload.periods.push(fakePeriod);
               if (!isYOY) payload.yoy = [];
               console.log("UpperControls -> fetchData -> payload", payload);
               this.props.saleSetData(payload);
