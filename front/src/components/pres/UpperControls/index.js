@@ -49,6 +49,10 @@ class UpperControls extends Component {
       periodsCount: 2,
       isYOY: false,
       isCustomVisible: false,
+      isStartDateVisible: false,
+      isEndDateVisible: false,
+      isCustomStartDateVisible: false,
+      isCustomEndDateVisible: false,
     };
     this.setBrand = this.setBrand.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
@@ -409,12 +413,16 @@ class UpperControls extends Component {
   };
 
   handleUpdateState = (key, value) => this.setState({ [key]: value });
-  handleChangeCustomDateRange = (value) =>
+  handleChangeCustomDateRange = (value) => {
     this.setState({
       selectedDateRange: value,
       startDate: moment().subtract(1, "months"),
       endDate: moment(),
     });
+    setTimeout(() => {
+      this.setState({ isStartDateVisible: true });
+    }, 0);
+  };
   handleToday = () => {
     // const dates = [moment(), moment()];
     // const comparisonDate = [moment().subtract(1, "days"), moment()];
@@ -577,6 +585,10 @@ class UpperControls extends Component {
       isCustomVisible,
       customDateStart,
       customDateEnd,
+      isStartDateVisible,
+      isEndDateVisible,
+      isCustomEndDateVisible,
+      isCustomStartDateVisible,
     } = this.state;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
@@ -610,13 +622,13 @@ class UpperControls extends Component {
                   <p>
                     {displayDateRange === "custom"
                       ? isCustomVisible
-                        ? `${moment(customDateStart).format(
+                        ? `${moment(startDate).format(
                             "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format(
+                          )} - ${moment(endDate).format(
                             "MMM DD, YYYY"
-                          )} VS ${moment(startDate).format(
+                          )} VS ${moment(customDateStart).format(
                             "MMM DD, YYYY"
-                          )} - ${moment(endDate).format("MMM DD, YYYY")}`
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
                         : `${moment(startDate).format(
                             "MMM DD, YYYY"
                           )} - ${moment(endDate).format("MMM DD, YYYY")}`
@@ -735,12 +747,23 @@ class UpperControls extends Component {
                                 margin="normal"
                                 label="Custom Date Start"
                                 value={this.state.startDate}
-                                onChange={(e) =>
-                                  this.handleUpdateState("startDate", e)
-                                }
+                                onChange={(e) => {
+                                  this.handleUpdateState("startDate", e);
+                                  this.setState({
+                                    isStartDateVisible: false,
+                                    isEndDateVisible: true,
+                                  });
+                                }}
                                 KeyboardButtonProps={{
                                   "aria-label": "change date",
                                 }}
+                                open={isStartDateVisible}
+                                onClose={(e) =>
+                                  this.setState({ isStartDateVisible: false })
+                                }
+                                onOpen={(e) =>
+                                  this.setState({ isStartDateVisible: true })
+                                }
                               />
                               <KeyboardDatePicker
                                 disableToolbar
@@ -749,12 +772,20 @@ class UpperControls extends Component {
                                 margin="normal"
                                 label="Custom Date End"
                                 value={this.state.endDate}
-                                onChange={(e) =>
-                                  this.handleUpdateState("endDate", e)
-                                }
                                 KeyboardButtonProps={{
                                   "aria-label": "change date",
                                 }}
+                                onChange={(e) => {
+                                  this.handleUpdateState("endDate", e);
+                                  this.setState({ isEndDateVisible: false });
+                                }}
+                                open={isEndDateVisible}
+                                onClose={(e) =>
+                                  this.setState({ isEndDateVisible: false })
+                                }
+                                onOpen={(e) =>
+                                  this.setState({ isEndDateVisible: true })
+                                }
                               />
                             </MuiPickersUtilsProvider>
                           </div>
@@ -768,6 +799,11 @@ class UpperControls extends Component {
                         }
                         onClick={() => {
                           this.setState({ isCustomVisible: !isCustomVisible });
+                          setTimeout(
+                            () =>
+                              this.setState({ isCustomStartDateVisible: true }),
+                            0
+                          );
                         }}
                       >
                         Custom Compare
@@ -784,12 +820,27 @@ class UpperControls extends Component {
                                 margin="normal"
                                 label="Custom Date Start"
                                 value={this.state.customDateStart}
-                                onChange={(e) =>
-                                  this.handleUpdateState("customDateStart", e)
-                                }
+                                onChange={(e) => {
+                                  this.handleUpdateState("customDateStart", e);
+                                  this.setState({
+                                    isCustomStartDateVisible: false,
+                                    isCustomEndDateVisible: true,
+                                  });
+                                }}
                                 KeyboardButtonProps={{
                                   "aria-label": "change date",
                                 }}
+                                open={isCustomStartDateVisible}
+                                onClose={(e) =>
+                                  this.setState({
+                                    isCustomStartDateVisible: false,
+                                  })
+                                }
+                                onOpen={(e) =>
+                                  this.setState({
+                                    isCustomStartDateVisible: true,
+                                  })
+                                }
                               />
                               <KeyboardDatePicker
                                 disableToolbar
@@ -798,12 +849,26 @@ class UpperControls extends Component {
                                 margin="normal"
                                 label="Custom Date End"
                                 value={this.state.customDateEnd}
-                                onChange={(e) =>
-                                  this.handleUpdateState("customDateEnd", e)
-                                }
+                                onChange={(e) => {
+                                  this.handleUpdateState("customDateEnd", e);
+                                  this.setState({
+                                    isCustomEndDateVisible: false,
+                                  });
+                                }}
                                 KeyboardButtonProps={{
                                   "aria-label": "change date",
                                 }}
+                                open={isCustomEndDateVisible}
+                                onClose={(e) =>
+                                  this.setState({
+                                    isCustomEndDateVisible: false,
+                                  })
+                                }
+                                onOpen={(e) =>
+                                  this.setState({
+                                    isCustomEndDateVisible: true,
+                                  })
+                                }
                               />
                             </MuiPickersUtilsProvider>
                           </div>
