@@ -245,7 +245,7 @@ const getDifferenceInPercentage = (current, previous) => {
 const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
-const getCSVVersion = (data, isYoY) => {
+const getCSVVersion = (data, isYoY, totalOfData) => {
   const finalData = [];
   const getHeaderColumn = (isFourColumn = true, title = false) => {
     const tempColumns = [
@@ -448,7 +448,9 @@ const getCSVVersion = (data, isYoY) => {
         : "N/A"
     );
     temp.push(
-      change.percent_total_sales !== 0 ? change.percent_total_sales : "N/A"
+      change.percent_total_sales !== 0
+        ? change.percent_total_sales + "%"
+        : "N/A"
     );
     temp.push(
       charge.percent_total_sales !== 0
@@ -488,7 +490,671 @@ const getCSVVersion = (data, isYoY) => {
     finalData.push(temp);
     return false;
   });
+  let total = [];
+
+  total.push("Total");
+
+  // total.push("");
+
+  total.push(
+    totalOfData.sales.current
+      ? "$" + numberWithCommas(totalOfData.sales.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.sales.previous
+      ? "$" + numberWithCommas(totalOfData.sales.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.sales.change !== 0
+      ? "$" + numberWithCommas(totalOfData.sales.change)
+      : totalOfData.sales.current > 0 && totalOfData.sales.previous > 0
+      ? "$0.00"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.sales.charge !== 0
+      ? Number(totalOfData.sales.charge).toFixed(2) + "%"
+      : totalOfData.sales.current > 0 && totalOfData.sales.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+  if (isYoY) {
+    total.push(
+      totalOfData.sales.yoy !== 0
+        ? "$" + numberWithCommas(totalOfData.sales.yoy)
+        : totalOfData.sales.current > 0 && totalOfData.sales.yoySKU > 0
+        ? "$0.00"
+        : "N/A"
+    );
+    total.push(
+      totalOfData.sales.yoyCharge !== 0
+        ? Number(totalOfData.sales.yoyCharge).toFixed(2) + "%"
+        : totalOfData.sales.current > 0 && totalOfData.sales.yoySKU > 0
+        ? "0%"
+        : "N/A"
+    );
+  }
+
+  total.push(
+    totalOfData.units_sold.current
+      ? numberWithCommas(totalOfData.units_sold.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.units_sold.previous
+      ? numberWithCommas(totalOfData.units_sold.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.units_sold.change !== 0
+      ? numberWithCommas(totalOfData.units_sold.change)
+      : totalOfData.units_sold.current > 0 &&
+        totalOfData.units_sold.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.units_sold.charge !== 0
+      ? Number(totalOfData.units_sold.charge).toFixed(2) + "%"
+      : totalOfData.units_sold.current > 0 &&
+        totalOfData.units_sold.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+  if (isYoY) {
+    total.push(
+      totalOfData.units_sold.yoy !== 0
+        ? numberWithCommas(totalOfData.units_sold.yoy)
+        : totalOfData.units_sold.current > 0 &&
+          totalOfData.units_sold.yoySKU > 0
+        ? "0"
+        : "N/A"
+    );
+    total.push(
+      totalOfData.units_sold.yoyCharge !== 0
+        ? Number(totalOfData.units_sold.yoyCharge).toFixed(2) + "%"
+        : totalOfData.units_sold.current > 0 &&
+          totalOfData.units_sold.yoySKU > 0
+        ? "0%"
+        : "N/A"
+    );
+  }
+
+  total.push(
+    totalOfData.shipped_cogs.current
+      ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.shipped_cogs.previous
+      ? "$" + numberWithCommas(totalOfData.shipped_cogs.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.shipped_cogs.change !== 0
+      ? "$" + numberWithCommas(totalOfData.shipped_cogs.change)
+      : totalOfData.shipped_cogs.current > 0 &&
+        totalOfData.shipped_cogs.previous
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.shipped_cogs.charge
+      ? Number(totalOfData.shipped_cogs.charge).toFixed(2) + "%"
+      : totalOfData.shipped_cogs.current > 0 &&
+        totalOfData.shipped_cogs.previous
+      ? "0%"
+      : "N/A"
+  );
+  if (isYoY) {
+    total.push(
+      totalOfData.shipped_cogs.yoy !== 0
+        ? "$" + numberWithCommas(totalOfData.shipped_cogs.yoy)
+        : totalOfData.shipped_cogs.current > 0 &&
+          totalOfData.shipped_cogs.previous
+        ? "0"
+        : "N/A"
+    );
+    total.push(
+      totalOfData.shipped_cogs.yoyCharge
+        ? Number(totalOfData.shipped_cogs.yoyCharge).toFixed(2) + "%"
+        : totalOfData.shipped_cogs.current > 0 &&
+          totalOfData.shipped_cogs.yoySKU > 0
+        ? "0%"
+        : "N/A"
+    );
+  }
+
+  total.push(
+    totalOfData.ad_clicks.current
+      ? numberWithCommas(totalOfData.ad_clicks.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_clicks.previous
+      ? numberWithCommas(totalOfData.ad_clicks.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_clicks.change !== 0
+      ? numberWithCommas(totalOfData.ad_clicks.change)
+      : totalOfData.ad_clicks.current > 0 && totalOfData.ad_clicks.previous > 0
+      ? "0.00"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_clicks.current !== 0
+      ? Number(totalOfData.ad_clicks.charge).toFixed(2) + "%"
+      : totalOfData.ad_clicks.current > 0 && totalOfData.ad_clicks.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    totalOfData.ad_impressions.current
+      ? numberWithCommas(totalOfData.ad_impressions.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_impressions.previous
+      ? numberWithCommas(totalOfData.ad_impressions.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_impressions.change !== 0
+      ? numberWithCommas(totalOfData.ad_impressions.change)
+      : totalOfData.ad_impressions.current > 0 &&
+        totalOfData.ad_impressions.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_impressions.charge
+      ? Number(totalOfData.ad_impressions.charge).toFixed(2) + "%"
+      : totalOfData.ad_impressions.current > 0 &&
+        totalOfData.ad_impressions.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    totalOfData.average_cpc.current
+      ? "$" + numberWithCommas(totalOfData.average_cpc.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.average_cpc.previous
+      ? "$" + numberWithCommas(totalOfData.average_cpc.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.average_cpc.change !== 0
+      ? "$" + numberWithCommas(totalOfData.average_cpc.change)
+      : totalOfData.average_cpc.current > 0 &&
+        totalOfData.average_cpc.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.average_cpc.charge !== 0
+      ? Number(totalOfData.average_cpc.charge).toFixed(2) + "%"
+      : totalOfData.average_cpc.current > 0 &&
+        totalOfData.average_cpc.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    totalOfData.ad_spend.current
+      ? "$" + numberWithCommas(totalOfData.ad_spend.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_spend.previous
+      ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_spend.change !== 0
+      ? "$" + numberWithCommas(totalOfData.ad_spend.change)
+      : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_spend.charge !== 0
+      ? Number(totalOfData.ad_spend.charge).toFixed(2) + "%"
+      : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+  if (isYoY) {
+    total.push(
+      totalOfData.ad_spend.yoy !== 0
+        ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
+        : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.yoySKU > 0
+        ? "0"
+        : "N/A"
+    );
+    total.push(
+      totalOfData.ad_spend.yoyCharge !== 0
+        ? Number(totalOfData.ad_spend.yoyCharge).toFixed(2) + "%"
+        : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.yoySKU > 0
+        ? "0%"
+        : "N/A"
+    );
+  }
+
+  total.push(
+    !!totalOfData.ad_orders.current
+      ? numberWithCommas(totalOfData.ad_orders.current)
+      : "N/A"
+  );
+  total.push(
+    !!totalOfData.ad_orders.previous
+      ? numberWithCommas(totalOfData.ad_orders.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_orders.change !== 0
+      ? numberWithCommas(totalOfData.ad_orders.change)
+      : totalOfData.ad_orders.current > 0 && totalOfData.ad_orders.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_orders.charge !== 0
+      ? Number(totalOfData.ad_orders.charge).toFixed(2) + "%"
+      : totalOfData.ad_orders.current > 0 && totalOfData.ad_orders.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    totalOfData.ad_sales.current
+      ? "$" + numberWithCommas(totalOfData.ad_sales.current)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_sales.previous
+      ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_sales.change !== 0
+      ? "$" + numberWithCommas(totalOfData.ad_sales.change)
+      : totalOfData.ad_sales.current > 0 && totalOfData.ad_sales.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.ad_sales.charge !== 0
+      ? Number(totalOfData.ad_sales.charge).toFixed(2) + "%"
+      : totalOfData.ad_sales.current > 0 && totalOfData.ad_sales.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    !!totalOfData.percent_total_sales.current
+      ? Number(totalOfData.percent_total_sales.current).toFixed(2) + "%"
+      : "N/A"
+  );
+  total.push(
+    !!totalOfData.percent_total_sales.previous
+      ? Number(totalOfData.percent_total_sales.previous).toFixed(2) + "%"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.percent_total_sales.change !== 0
+      ? Number(totalOfData.percent_total_sales.change).toFixed(2) + "%"
+      : totalOfData.percent_total_sales.current > 0 &&
+        totalOfData.percent_total_sales.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    !!totalOfData.percent_total_sales.charge
+      ? Number(totalOfData.percent_total_sales.charge).toFixed(2) + "%"
+      : totalOfData.percent_total_sales.current > 0 &&
+        totalOfData.percent_total_sales.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    totalOfData.conversion_rate.current !== 0
+      ? Number(totalOfData.conversion_rate.current).toFixed(2) + "%"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.conversion_rate.previous !== 0
+      ? Number(totalOfData.conversion_rate.previous).toFixed(2) + "%"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.conversion_rate.change !== 0
+      ? Number(totalOfData.conversion_rate.change).toFixed(2) + "%"
+      : totalOfData.conversion_rate.current > 0 &&
+        totalOfData.conversion_rate.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.conversion_rate.charge !== 0
+      ? Number(totalOfData.conversion_rate.charge).toFixed(2) + "%"
+      : totalOfData.conversion_rate.current > 0 &&
+        totalOfData.conversion_rate.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  total.push(
+    totalOfData.acos.current ? totalOfData.acos.current.toFixed(2) + "%" : "N/A"
+  );
+  total.push(
+    totalOfData.acos.previous
+      ? totalOfData.acos.previous.toFixed(2) + "%"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.acos.change !== 0
+      ? Number(totalOfData.acos.change).toFixed(2) + "%"
+      : totalOfData.acos.current > 0 && totalOfData.acos.previous > 0
+      ? "0"
+      : "N/A"
+  );
+  total.push(
+    totalOfData.acos.charge !== 0
+      ? Number(totalOfData.acos.charge).toFixed(2) + "%"
+      : totalOfData.acos.current > 0 && totalOfData.acos.previous > 0
+      ? "0%"
+      : "N/A"
+  );
+  finalData.push(total);
   return finalData;
+};
+
+const getSummaryInTotal = (props) => {
+  const temp = {
+    sales: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    units_sold: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+
+    shipped_cogs: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+
+    average_cpc: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    ad_impressions: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    ad_clicks: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    ad_spend: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    ad_orders: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    ad_sales: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    percent_total_sales: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    conversion_rate: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+    acos: {
+      current: 0,
+      previous: 0,
+      change: 0,
+      charge: 0,
+      yoy: 0,
+      yoyCharge: 0,
+    },
+  };
+
+  props.map(({ current, previous, change, charge, yoy, yoyCharge, yoySKU }) => {
+    temp.ad_spend = {
+      current: temp.ad_spend.current + (current?.ad_spend || 0),
+      previous: temp.ad_spend.previous + (previous?.ad_spend || 0),
+      change: temp.ad_spend.change + (change?.ad_spend || 0),
+      charge: Number(temp.ad_spend.charge) + Number(charge?.ad_spend || 0),
+      yoy: temp.ad_spend.yoy + (yoy?.ad_spend || 0),
+      yoyCharge: temp.ad_spend.yoyCharge + (yoyCharge?.ad_spend || 0),
+    };
+    temp.ad_orders = {
+      current: temp.ad_orders.current + (current?.ad_orders || 0),
+      previous: temp.ad_orders.previous + (previous?.ad_orders || 0),
+      change: temp.ad_orders.change + (change?.ad_orders || 0),
+      charge: Number(temp.ad_orders.charge) + Number(charge?.ad_orders || 0),
+      yoy: temp.ad_orders.yoy + (yoy?.ad_orders || 0),
+      yoyCharge: temp.ad_orders.yoyCharge + (yoyCharge?.ad_orders || 0),
+    };
+    temp.conversion_rate = {
+      current: temp.conversion_rate.current + (current?.conversion_rate || 0),
+      previous:
+        temp.conversion_rate.previous + (previous?.conversion_rate || 0),
+      change: temp.conversion_rate.change + (change?.conversion_rate || 0),
+      charge:
+        Number(temp.conversion_rate.charge) +
+        Number(charge?.conversion_rate || 0),
+      yoy: temp.conversion_rate.yoy + (yoy?.conversion_rate || 0),
+      yoyCharge:
+        temp.conversion_rate.yoyCharge + (yoyCharge?.conversion_rate || 0),
+    };
+    temp.acos = {
+      current: temp.acos.current + (current?.acos || 0),
+      previous: temp.acos.previous + (previous?.acos || 0),
+      change: temp.acos.change + (change?.acos || 0),
+      charge: Number(temp.acos.charge) + Number(charge?.acos || 0),
+      yoy: temp.acos.yoy + (yoy?.acos || 0),
+      yoyCharge: temp.acos.yoyCharge + (yoyCharge?.acos || 0),
+    };
+    temp.ad_sales = {
+      current: temp.ad_sales.current + (current?.ad_sales || 0),
+      previous: temp.ad_sales.previous + (previous?.ad_sales || 0),
+      change: temp.ad_sales.change + (change?.ad_sales || 0),
+      charge: Number(temp.ad_sales.charge) + Number(charge?.ad_sales || 0),
+      yoy: temp.ad_sales.yoy + (yoy?.ad_sales || 0),
+      yoyCharge: temp.ad_sales.yoyCharge + (yoyCharge?.ad_sales || 0),
+    };
+    temp.sales = {
+      current: temp.sales.current + (current?.sales || 0),
+      previous: temp.sales.previous + (previous?.sales || 0),
+      change: temp.sales.change + (change?.sales || 0),
+      charge: Number(temp.sales.charge) + Number(charge?.sales || 0),
+      yoy: temp.sales.yoy + (yoy?.sales || 0),
+      yoyCharge: temp.sales.yoyCharge + (yoyCharge?.sales || 0),
+    };
+    temp.units_sold = {
+      current: temp.units_sold.current + (current?.units_sold || 0),
+      previous: temp.units_sold.previous + (previous?.units_sold || 0),
+      change: temp.units_sold.change + (change?.units_sold || 0),
+      charge: Number(temp.units_sold.charge) + Number(charge?.units_sold || 0),
+      yoy: temp.units_sold.yoy + (yoy?.units_sold || 0),
+      yoyCharge: temp.units_sold.yoyCharge + (yoyCharge?.units_sold || 0),
+    };
+    temp.shipped_cogs = {
+      current: temp.shipped_cogs.current + (current?.shipped_cogs || 0),
+      previous: temp.shipped_cogs.previous + (previous?.shipped_cogs || 0),
+      change: temp.shipped_cogs.change + (change?.shipped_cogs || 0),
+      charge:
+        Number(temp.shipped_cogs.charge) + Number(charge?.shipped_cogs || 0),
+      yoy: temp.shipped_cogs.yoy + (yoy?.shipped_cogs || 0),
+      yoyCharge: temp.shipped_cogs.yoyCharge + (yoyCharge?.shipped_cogs || 0),
+    };
+    temp.ad_clicks = {
+      current: temp.ad_clicks.current + (current?.ad_clicks || 0),
+      previous: temp.ad_clicks.previous + (previous?.ad_clicks || 0),
+      change: temp.ad_clicks.change + (change?.ad_clicks || 0),
+      charge: Number(temp.ad_clicks.charge) + Number(charge?.ad_clicks || 0),
+      yoy: temp.ad_clicks.yoy + (yoy?.ad_clicks || 0),
+      yoyCharge: temp.ad_clicks.yoyCharge + (yoyCharge?.ad_clicks || 0),
+    };
+    temp.ad_impressions = {
+      current: temp.ad_impressions.current + (current?.ad_impressions || 0),
+      previous: temp.ad_impressions.previous + (previous?.ad_impressions || 0),
+      change: temp.ad_impressions.change + (change?.ad_impressions || 0),
+      charge:
+        Number(temp.ad_impressions.charge) +
+        Number(charge?.ad_impressions || 0),
+      yoy: temp.ad_impressions.yoy + (yoy?.ad_impressions || 0),
+      yoyCharge:
+        temp.ad_impressions.yoyCharge + (yoyCharge?.ad_impressions || 0),
+    };
+    temp.average_cpc = {
+      current: temp.average_cpc.current + (current?.average_cpc || 0),
+      previous: temp.average_cpc.previous + (previous?.average_cpc || 0),
+      change: temp.average_cpc.change + (change?.average_cpc || 0),
+      charge:
+        Number(temp.average_cpc.charge) + Number(charge?.average_cpc || 0),
+      yoy: temp.average_cpc.yoy + (yoy?.average_cpc || 0),
+      yoyCharge: temp.average_cpc.yoyCharge + (yoyCharge?.average_cpc || 0),
+    };
+    temp.percent_total_sales = {
+      current:
+        temp.percent_total_sales.current + (current?.percent_total_sales || 0),
+      previous:
+        temp.percent_total_sales.previous +
+        (previous?.percent_total_sales || 0),
+      change:
+        temp.percent_total_sales.change + (change?.percent_total_sales || 0),
+      charge:
+        Number(temp.percent_total_sales.charge) +
+        Number(charge?.percent_total_sales || 0),
+      yoy: temp.percent_total_sales.yoy + (yoy?.percent_total_sales || 0),
+      yoyCharge:
+        temp.percent_total_sales.yoyCharge +
+        (yoyCharge?.percent_total_sales || 0),
+    };
+    return false;
+  });
+
+  temp.ad_spend.charge = temp.ad_spend.charge / props.length;
+  temp.ad_spend.yoyCharge = temp.ad_spend.yoyCharge / props.length;
+
+  temp.ad_orders.charge = temp.ad_orders.charge / props.length;
+  temp.ad_orders.yoyCharge = temp.ad_orders.yoyCharge / props.length;
+
+  temp.conversion_rate.current = temp.conversion_rate.current / props.length;
+  temp.conversion_rate.previous = temp.conversion_rate.previous / props.length;
+  temp.conversion_rate.change = temp.conversion_rate.change / props.length;
+  temp.conversion_rate.yoy = temp.conversion_rate.yoy / props.length;
+  temp.conversion_rate.charge = temp.conversion_rate.charge / props.length;
+  temp.conversion_rate.yoyCharge =
+    temp.conversion_rate.yoyCharge / props.length;
+
+  temp.acos.current = temp.acos.current / props.length;
+  temp.acos.previous = temp.acos.previous / props.length;
+  temp.acos.change = temp.acos.change / props.length;
+  temp.acos.yoy = temp.acos.yoy / props.length;
+  temp.acos.charge = temp.acos.charge / props.length;
+  temp.acos.yoyCharge = temp.acos.yoyCharge / props.length;
+
+  temp.ad_sales.charge = temp.ad_sales.charge / props.length;
+  temp.ad_sales.yoyCharge = temp.ad_sales.yoyCharge / props.length;
+
+  temp.sales.charge = temp.sales.charge / props.length;
+  temp.sales.yoyCharge = temp.sales.yoyCharge / props.length;
+
+  temp.units_sold.charge = temp.units_sold.charge / props.length;
+  temp.units_sold.yoyCharge = temp.units_sold.yoyCharge / props.length;
+
+  temp.shipped_cogs.charge = temp.shipped_cogs.charge / props.length;
+  temp.shipped_cogs.yoyCharge = temp.shipped_cogs.yoyCharge / props.length;
+
+  temp.ad_clicks.charge = temp.ad_clicks.charge / props.length;
+  temp.ad_clicks.yoyCharge = temp.ad_clicks.yoyCharge / props.length;
+
+  temp.ad_impressions.charge = temp.ad_impressions.charge / props.length;
+  temp.ad_impressions.yoyCharge = temp.ad_impressions.yoyCharge / props.length;
+
+  temp.average_cpc.current = temp.average_cpc.current / props.length;
+  temp.average_cpc.previous = temp.average_cpc.previous / props.length;
+  temp.average_cpc.change = temp.average_cpc.change / props.length;
+  temp.average_cpc.yoy = temp.average_cpc.yoy / props.length;
+  temp.average_cpc.charge = temp.average_cpc.charge / props.length;
+  temp.average_cpc.yoyCharge = temp.average_cpc.yoyCharge / props.length;
+
+  temp.percent_total_sales.current =
+    temp.percent_total_sales.current / props.length;
+  temp.percent_total_sales.previous =
+    temp.percent_total_sales.previous / props.length;
+  temp.percent_total_sales.change =
+    temp.percent_total_sales.change / props.length;
+  temp.percent_total_sales.yoy = temp.percent_total_sales.yoy / props.length;
+  temp.percent_total_sales.charge =
+    temp.percent_total_sales.charge / props.length;
+  temp.percent_total_sales.yoyCharge =
+    temp.percent_total_sales.yoyCharge / props.length;
+
+  return temp;
 };
 
 const DataDisplayItemizedTable = (props) => {
@@ -577,10 +1243,14 @@ const DataDisplayItemizedTable = (props) => {
     setSortBy(sortBy || active);
     setSortByInner(columnId);
   };
-
+  const totalOfData = getSummaryInTotal(filterData);
+  console.log("DataDisplayItemizedTable -> totalOfData", totalOfData);
   return (
     <>
-      <CSVLink data={getCSVVersion(filterData, isYoY)} filename={"brand.csv"}>
+      <CSVLink
+        data={getCSVVersion(filterData, isYoY, totalOfData)}
+        filename={"brand.csv"}
+      >
         Download me
       </CSVLink>{" "}
       <div className={s.noBoxShadow + " fixed-header-table"}>
@@ -1802,6 +2472,472 @@ const DataDisplayItemizedTable = (props) => {
                 })
               : ""}
           </tbody>
+
+          <tfoot>
+            <tr>
+              <td component="th">
+                <b>Total</b>
+              </td>
+
+              {isComparisons && active === 1 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.sales.current
+                      ? "$" + numberWithCommas(totalOfData.sales.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.sales.previous
+                      ? "$" + numberWithCommas(totalOfData.sales.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.sales.change
+                      ? "$" + numberWithCommas(totalOfData.sales.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.sales.charge
+                      ? numberWithCommas(totalOfData.sales.charge) + "%"
+                      : "N/A"}
+                  </td>
+                  {isYoY && (
+                    <>
+                      {" "}
+                      <td align="right">
+                        {totalOfData.sales.yoy
+                          ? "$" + numberWithCommas(totalOfData.sales.yoy)
+                          : "N/A"}
+                      </td>
+                      <td align="right">
+                        {totalOfData.sales.yoyCharge
+                          ? "$" + numberWithCommas(totalOfData.sales.yoyCharge)
+                          : "N/A"}
+                      </td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.sales.current
+                    ? "$" + numberWithCommas(totalOfData.sales.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 2 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.units_sold.current
+                      ? numberWithCommas(totalOfData.units_sold.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.units_sold.previous
+                      ? numberWithCommas(totalOfData.units_sold.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.units_sold.change
+                      ? numberWithCommas(totalOfData.units_sold.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.units_sold.charge
+                      ? numberWithCommas(totalOfData.units_sold.charge) + "%"
+                      : "N/A"}
+                  </td>
+                  {isYoY && (
+                    <>
+                      {" "}
+                      <td align="right">
+                        {totalOfData.units_sold.yoy
+                          ? numberWithCommas(totalOfData.units_sold.yoy)
+                          : "N/A"}
+                      </td>
+                      <td align="right">
+                        {totalOfData.units_sold.yoyCharge
+                          ? numberWithCommas(totalOfData.units_sold.yoyCharge)
+                          : "N/A"}
+                      </td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.units_sold.current
+                    ? numberWithCommas(totalOfData.units_sold.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 3 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.shipped_cogs.current
+                      ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.shipped_cogs.previous
+                      ? "$" +
+                        numberWithCommas(totalOfData.shipped_cogs.previous)
+                      : "N/A"}
+                  </td>
+
+                  <td align="right">
+                    {" "}
+                    {totalOfData.shipped_cogs.change
+                      ? "$" + numberWithCommas(totalOfData.shipped_cogs.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {" "}
+                    {totalOfData.shipped_cogs.charge
+                      ? numberWithCommas(totalOfData.shipped_cogs.charge) + "%"
+                      : "N/A"}
+                  </td>
+                  {isYoY && (
+                    <>
+                      {" "}
+                      <td align="right">
+                        {" "}
+                        {totalOfData.shipped_cogs.yoy
+                          ? "$" + numberWithCommas(totalOfData.shipped_cogs.yoy)
+                          : "N/A"}
+                      </td>
+                      <td align="right">
+                        {" "}
+                        {totalOfData.shipped_cogs.yoyCharge
+                          ? "$" +
+                            numberWithCommas(totalOfData.shipped_cogs.yoyCharge)
+                          : "N/A"}
+                      </td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.shipped_cogs.current
+                    ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 4 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_clicks.current
+                      ? numberWithCommas(totalOfData.ad_clicks.current)
+                      : "N/A"}
+                  </td>
+
+                  <td align="right">
+                    {totalOfData.ad_clicks.previous
+                      ? numberWithCommas(totalOfData.ad_clicks.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_clicks.change
+                      ? numberWithCommas(totalOfData.ad_clicks.change)
+                      : "N/A"}
+                  </td>
+
+                  <td align="right">
+                    {totalOfData.ad_clicks.charge
+                      ? numberWithCommas(totalOfData.ad_clicks.charge) + "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_clicks.current
+                    ? numberWithCommas(totalOfData.ad_clicks.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 5 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_impressions.current
+                      ? numberWithCommas(totalOfData.ad_impressions.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_impressions.previous
+                      ? numberWithCommas(totalOfData.ad_impressions.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_impressions.change
+                      ? numberWithCommas(totalOfData.ad_impressions.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_impressions.charge
+                      ? numberWithCommas(totalOfData.ad_impressions.charge) +
+                        "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_impressions.current
+                    ? numberWithCommas(totalOfData.ad_impressions.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 6 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.average_cpc.current
+                      ? "$" + numberWithCommas(totalOfData.average_cpc.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.average_cpc.previous
+                      ? "$" + numberWithCommas(totalOfData.average_cpc.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.average_cpc.change
+                      ? "$" + numberWithCommas(totalOfData.average_cpc.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.average_cpc.charge
+                      ? numberWithCommas(totalOfData.average_cpc.charge) + "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.average_cpc.current !== 0
+                    ? "$" + numberWithCommas(totalOfData.average_cpc.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 7 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_spend.current
+                      ? "$" + numberWithCommas(totalOfData.ad_spend.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_spend.previous
+                      ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_spend.change
+                      ? "$" + numberWithCommas(totalOfData.ad_spend.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_spend.charge
+                      ? numberWithCommas(totalOfData.ad_spend.charge) + "%"
+                      : "N/A"}
+                  </td>
+                  {isYoY && (
+                    <>
+                      <td align="right">
+                        {totalOfData.ad_spend.yoy
+                          ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
+                          : "N/A"}
+                      </td>
+                      <td align="right">
+                        {totalOfData.ad_spend.yoyCharge
+                          ? "$" +
+                            numberWithCommas(totalOfData.ad_spend.yoyCharge)
+                          : "N/A"}
+                      </td>
+                    </>
+                  )}
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_spend.current !== 0
+                    ? "$" + numberWithCommas(totalOfData.ad_spend.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 8 ? (
+                <>
+                  <td align="right">
+                    {!!totalOfData.ad_orders.current
+                      ? numberWithCommas(totalOfData.ad_orders.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {!!totalOfData.ad_orders.previous
+                      ? numberWithCommas(totalOfData.ad_orders.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {!!totalOfData.ad_orders.change
+                      ? numberWithCommas(totalOfData.ad_orders.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {!!totalOfData.ad_orders.charge
+                      ? numberWithCommas(totalOfData.ad_orders.charge) + "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_orders.current !== 0
+                    ? numberWithCommas(totalOfData.ad_orders.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 9 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.ad_sales.current
+                      ? "$" + numberWithCommas(totalOfData.ad_sales.current)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_sales.previous
+                      ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_sales.change
+                      ? "$" + numberWithCommas(totalOfData.ad_sales.change)
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.ad_sales.charge
+                      ? numberWithCommas(totalOfData.ad_sales.charge) + "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.ad_sales.current !== 0
+                    ? "$" + numberWithCommas(totalOfData.ad_sales.current)
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 10 ? (
+                <>
+                  <td align="right">
+                    {!!totalOfData.percent_total_sales.current
+                      ? Number(totalOfData.percent_total_sales.current).toFixed(
+                          2
+                        ) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {!!totalOfData.percent_total_sales.previous
+                      ? Number(
+                          totalOfData.percent_total_sales.previous
+                        ).toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {!!totalOfData.percent_total_sales.change
+                      ? Number(totalOfData.percent_total_sales.change).toFixed(
+                          2
+                        ) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {!!totalOfData.percent_total_sales.charge
+                      ? Number(totalOfData.percent_total_sales.charge).toFixed(
+                          2
+                        ) + "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {!!totalOfData.percent_total_sales.current
+                    ? Number(totalOfData.percent_total_sales.current).toFixed(
+                        2
+                      ) + "%"
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 11 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.conversion_rate.current !== 0
+                      ? Number(totalOfData.conversion_rate.current).toFixed(2) +
+                        "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.conversion_rate.previous !== 0
+                      ? Number(totalOfData.conversion_rate.previous).toFixed(
+                          2
+                        ) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.conversion_rate.change !== 0
+                      ? Number(totalOfData.conversion_rate.change).toFixed(2) +
+                        "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.conversion_rate.charge !== 0
+                      ? Number(totalOfData.conversion_rate.charge).toFixed(2) +
+                        "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.conversion_rate.current !== 0
+                    ? Number(totalOfData.conversion_rate.current).toFixed(2) +
+                      "%"
+                    : "N/A"}
+                </td>
+              )}
+
+              {isComparisons && active === 12 ? (
+                <>
+                  <td align="right">
+                    {totalOfData.acos.current
+                      ? totalOfData.acos.current.toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.acos.previous
+                      ? totalOfData.acos.previous.toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.acos.change
+                      ? totalOfData.acos.change.toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                  <td align="right">
+                    {totalOfData.acos.charge
+                      ? totalOfData.acos.charge.toFixed(2) + "%"
+                      : "N/A"}
+                  </td>
+                </>
+              ) : (
+                <td align="right">
+                  {totalOfData.acos.current !== 0
+                    ? totalOfData.acos.current.toFixed(2) + "%"
+                    : "N/A"}
+                </td>
+              )}
+            </tr>
+          </tfoot>
         </table>
       </div>
     </>

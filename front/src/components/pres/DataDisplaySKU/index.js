@@ -2904,7 +2904,7 @@ const DataDisplaySKUTable = (props) => {
                   </td>
                   <td align="right">
                     {totalOfData.ad_sales.charge
-                      ? numberWithCommas(totalOfData.ad_sales.d)
+                      ? numberWithCommas(totalOfData.ad_sales.charge) + "%"
                       : "N/A"}
                   </td>
                 </>
@@ -2940,9 +2940,10 @@ const DataDisplaySKUTable = (props) => {
                       : "N/A"}
                   </td>
                   <td align="right">
-                    {!!totalOfData.percent_total_sales.d
-                      ? Number(totalOfData.percent_total_sales.d).toFixed(2) +
-                        "%"
+                    {!!totalOfData.percent_total_sales.charge
+                      ? Number(totalOfData.percent_total_sales.charge).toFixed(
+                          2
+                        ) + "%"
                       : "N/A"}
                   </td>
                 </>
@@ -2978,7 +2979,7 @@ const DataDisplaySKUTable = (props) => {
                       : "N/A"}
                   </td>
                   <td align="right">
-                    {totalOfData.conversion_rate.d !== 0
+                    {totalOfData.conversion_rate.charge !== 0
                       ? Number(totalOfData.conversion_rate.charge).toFixed(2) +
                         "%"
                       : "N/A"}
