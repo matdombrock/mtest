@@ -133,13 +133,15 @@ class UpperControls extends Component {
       // period,
       selectedDateRange,
       periodsCount,
-      isYOY,
       startDate,
       endDate,
       isCustomVisible,
       customDateEnd,
       customDateStart,
+      compareType,
+      compareToPrevious,
     } = this.state;
+    const isYOY = compareToPrevious && compareType === "previous-range";
     if (brand) {
       this.props.setLoadingData(true);
     }
@@ -156,19 +158,20 @@ class UpperControls extends Component {
     if (selectedDateRange !== "custom") {
       payload.startDate = null;
       payload.endDate = null;
-      payload.customDateStart = null;
-      payload.customDateEnd = null;
     } else {
       data.custom_period = {
         start: moment(startDate).format("YYYY-MM-DD"),
         end: moment(endDate).format("YYYY-MM-DD"),
       };
-      if (isCustomVisible) {
-        data.custom_compare_period = {
-          start: moment(customDateStart).format("YYYY-MM-DD"),
-          end: moment(customDateEnd).format("YYYY-MM-DD"),
-        };
-      }
+    }
+    if (compareType !== "custom-range" || !compareToPrevious) {
+      payload.customDateStart = null;
+      payload.customDateEnd = null;
+    } else {
+      data.custom_compare_period = {
+        start: moment(customDateStart).format("YYYY-MM-DD"),
+        end: moment(customDateEnd).format("YYYY-MM-DD"),
+      };
     }
     // const fakePeriod = {
     //   summary: {
@@ -793,7 +796,30 @@ class UpperControls extends Component {
                           </div>
                         </>
                       )}
-                      <div
+                      <div className={s["item"]}>
+                        <p className={s["comparison-input"]}>
+                          <label className={s["comparison-input"]}>
+                            {" "}
+                            <input
+                              type="checkbox"
+                              checked={this.state.compareToPrevious}
+                              onChange={(e) =>
+                                this.setState({
+                                  compareToPrevious: e.target.checked,
+                                })
+                              }
+                              value="true"
+                              inputProps={{
+                                "aria-label": "primary checkbox",
+                              }}
+                            />
+                            Compare to Previous
+                          </label>
+                        </p>
+                      </div>
+                      {this.state.compareToPrevious && (
+                        <>
+                          {/* <div
                         className={
                           activeSelectedDateRange === "custom" &&
                           isCustomVisible &&
@@ -809,94 +835,121 @@ class UpperControls extends Component {
                         }}
                       >
                         Custom Compare
-                      </div>
-                      {/* )} */}
-                      {activeSelectedDateRange === "custom" && isCustomVisible && (
-                        <>
-                          <div className={s["item"]}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="yyyy-MM-dd"
-                                margin="normal"
-                                label="Custom Date Start"
-                                value={this.state.customDateStart}
-                                onChange={(e) => {
-                                  this.handleUpdateState("customDateStart", e);
-                                  this.setState({
-                                    isCustomStartDateVisible: false,
-                                    isCustomEndDateVisible: true,
-                                  });
-                                }}
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
-                                open={isCustomStartDateVisible}
-                                onClose={(e) =>
-                                  this.setState({
-                                    isCustomStartDateVisible: false,
-                                  })
-                                }
-                                onOpen={(e) =>
+                      </div> */}
+                          <MuiSelect
+                            variant="outlined"
+                            onChange={(e) => {
+                              console.log(
+                                "UpperControls -> render -> e.target.value",
+                                e.target.value
+                              );
+                              this.setState({
+                                compareType: e.target.value,
+                                isCustomVisible:
+                                  e.target.value === "custom-range",
+                                isYoy: e.target.value === "previous-range",
+                              });
+
+                              setTimeout(
+                                () =>
                                   this.setState({
                                     isCustomStartDateVisible: true,
-                                  })
-                                }
-                                maxDate={moment().subtract(1, "days")}
-                              />
-                              <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="yyyy-MM-dd"
-                                margin="normal"
-                                label="Custom Date End"
-                                value={this.state.customDateEnd}
-                                onChange={(e) => {
-                                  this.handleUpdateState("customDateEnd", e);
-                                  this.setState({
-                                    isCustomEndDateVisible: false,
-                                  });
-                                }}
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
-                                open={isCustomEndDateVisible}
-                                onClose={(e) =>
-                                  this.setState({
-                                    isCustomEndDateVisible: false,
-                                  })
-                                }
-                                onOpen={(e) =>
-                                  this.setState({
-                                    isCustomEndDateVisible: true,
-                                  })
-                                }
-                                maxDate={moment().subtract(1, "days")}
-                              />
-                            </MuiPickersUtilsProvider>
-                          </div>
+                                  }),
+                                10
+                              );
+                            }}
+                            value={
+                              this.state.compareType
+                                ? this.state.compareType
+                                : "Select Previous Type"
+                            }
+                            classes={{ root: "color-dark" }}
+                            style={{ width: "100%" }}
+                          >
+                            <MenuItem value={"previous-range"}>
+                              Previous Period + YOY
+                            </MenuItem>
+                            <MenuItem value={"custom-range"}>
+                              Custom Range
+                            </MenuItem>
+                          </MuiSelect>
+                          {/* )} */}
+                          {isCustomVisible && (
+                            <>
+                              <div className={s["item"]}>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                  <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="yyyy-MM-dd"
+                                    margin="normal"
+                                    label="Custom Date Start"
+                                    value={this.state.customDateStart}
+                                    onChange={(e) => {
+                                      this.handleUpdateState(
+                                        "customDateStart",
+                                        e
+                                      );
+                                      this.setState({
+                                        isCustomStartDateVisible: false,
+                                        isCustomEndDateVisible: true,
+                                      });
+                                    }}
+                                    KeyboardButtonProps={{
+                                      "aria-label": "change date",
+                                    }}
+                                    open={isCustomStartDateVisible}
+                                    onClose={(e) =>
+                                      this.setState({
+                                        isCustomStartDateVisible: false,
+                                      })
+                                    }
+                                    onOpen={(e) =>
+                                      this.setState({
+                                        isCustomStartDateVisible: true,
+                                      })
+                                    }
+                                    maxDate={moment().subtract(1, "days")}
+                                  />
+                                  <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="yyyy-MM-dd"
+                                    margin="normal"
+                                    label="Custom Date End"
+                                    value={this.state.customDateEnd}
+                                    onChange={(e) => {
+                                      this.handleUpdateState(
+                                        "customDateEnd",
+                                        e
+                                      );
+                                      this.setState({
+                                        isCustomEndDateVisible: false,
+                                      });
+                                    }}
+                                    KeyboardButtonProps={{
+                                      "aria-label": "change date",
+                                    }}
+                                    open={isCustomEndDateVisible}
+                                    onClose={(e) =>
+                                      this.setState({
+                                        isCustomEndDateVisible: false,
+                                      })
+                                    }
+                                    onOpen={(e) =>
+                                      this.setState({
+                                        isCustomEndDateVisible: true,
+                                      })
+                                    }
+                                    maxDate={moment().subtract(1, "days")}
+                                  />
+                                </MuiPickersUtilsProvider>
+                              </div>
+                            </>
+                          )}
                         </>
                       )}
-                      <div className={s["item"]}>
-                        <p className={s["comparison-input"]}>
-                          <label className={s["comparison-input"]}>
-                            {" "}
-                            <input
-                              type="checkbox"
-                              checked={this.state.isYOY}
-                              onChange={(e) =>
-                                this.setState({ isYOY: e.target.checked })
-                              }
-                              value="true"
-                              inputProps={{
-                                "aria-label": "primary checkbox",
-                              }}
-                            />
-                            Load YOY
-                          </label>
-                        </p>
-                      </div>
+
                       {/* {this.props.activeTab !== 1 && (
                       )} */}
                       {/* {this.state.comparison && (
