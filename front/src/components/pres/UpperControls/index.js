@@ -170,26 +170,26 @@ class UpperControls extends Component {
         };
       }
     }
-    const fakePeriod = {
-      summary: {
-        acos: 0,
-        ad_clicks: 0,
-        ad_impressions: 0,
-        ad_orders: 0,
-        ad_sales: 0,
-        ad_spend: 0,
-        asin: "N/A",
-        average_cpc: 0,
-        conversion_rate: 0,
-        item_number: "N/A",
-        percent_total_sales: 0,
-        sales: 0,
-        shipped_cogs: 0,
-        sku: "N/A",
-        units_sold: 0,
-        average_selling_price: 0,
-      },
-    };
+    // const fakePeriod = {
+    //   summary: {
+    //     acos: 0,
+    //     ad_clicks: 0,
+    //     ad_impressions: 0,
+    //     ad_orders: 0,
+    //     ad_sales: 0,
+    //     ad_spend: 0,
+    //     asin: "N/A",
+    //     average_cpc: 0,
+    //     conversion_rate: 0,
+    //     item_number: "N/A",
+    //     percent_total_sales: 0,
+    //     sales: 0,
+    //     shipped_cogs: 0,
+    //     sku: "N/A",
+    //     units_sold: 0,
+    //     average_selling_price: 0,
+    //   },
+    // };
     this.setState({
       ...payload,
     });
@@ -293,8 +293,8 @@ class UpperControls extends Component {
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
-              if (selectedDateRange === "custom" && isCustomVisible)
-                payload.periods.push(fakePeriod);
+              // if (selectedDateRange === "custom" && isCustomVisible)
+              //   payload.periods.push(fakePeriod);
               if (!isYOY) payload.yoy = [];
               console.log("UpperControls -> fetchData -> payload", payload);
               this.props.saleSetData(payload);
@@ -417,7 +417,7 @@ class UpperControls extends Component {
     this.setState({
       selectedDateRange: value,
       startDate: moment().subtract(1, "months"),
-      endDate: moment(),
+      endDate: moment().subtract(1, "days"),
     });
     setTimeout(() => {
       this.setState({ isStartDateVisible: true });
@@ -764,6 +764,7 @@ class UpperControls extends Component {
                                 onOpen={(e) =>
                                   this.setState({ isStartDateVisible: true })
                                 }
+                                maxDate={moment().subtract(1, "days")}
                               />
                               <KeyboardDatePicker
                                 disableToolbar
@@ -786,6 +787,7 @@ class UpperControls extends Component {
                                 onOpen={(e) =>
                                   this.setState({ isEndDateVisible: true })
                                 }
+                                maxDate={moment().subtract(1, "days")}
                               />
                             </MuiPickersUtilsProvider>
                           </div>
@@ -841,6 +843,7 @@ class UpperControls extends Component {
                                     isCustomStartDateVisible: true,
                                   })
                                 }
+                                maxDate={moment().subtract(1, "days")}
                               />
                               <KeyboardDatePicker
                                 disableToolbar
@@ -869,6 +872,7 @@ class UpperControls extends Component {
                                     isCustomEndDateVisible: true,
                                   })
                                 }
+                                maxDate={moment().subtract(1, "days")}
                               />
                             </MuiPickersUtilsProvider>
                           </div>

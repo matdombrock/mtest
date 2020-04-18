@@ -2473,363 +2473,403 @@ const DataDisplayItemizedTable = (props) => {
               : ""}
           </tbody>
 
-          <tfoot>
-            <tr>
-              <td component="th">
-                <b>Total</b>
-              </td>
+          {filterData.length > 1 && (
+            <tfoot>
+              <tr>
+                <td component="th">
+                  <b>Total</b>
+                </td>
 
-              {isComparisons && active === 1 ? (
-                <>
+                {isComparisons && active === 1 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.sales.current
+                        ? "$" + numberWithCommas(totalOfData.sales.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.sales.previous
+                        ? "$" + numberWithCommas(totalOfData.sales.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.sales.change
+                        ? "$" + numberWithCommas(totalOfData.sales.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.sales.charge
+                        ? numberWithCommas(totalOfData.sales.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {totalOfData.sales.yoy
+                            ? "$" + numberWithCommas(totalOfData.sales.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.sales.yoyCharge
+                            ? "$" +
+                              numberWithCommas(totalOfData.sales.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
                   <td align="right">
                     {totalOfData.sales.current
                       ? "$" + numberWithCommas(totalOfData.sales.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.sales.previous
-                      ? "$" + numberWithCommas(totalOfData.sales.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.sales.change
-                      ? "$" + numberWithCommas(totalOfData.sales.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.sales.charge
-                      ? numberWithCommas(totalOfData.sales.charge) + "%"
-                      : "N/A"}
-                  </td>
-                  {isYoY && (
-                    <>
-                      {" "}
-                      <td align="right">
-                        {totalOfData.sales.yoy
-                          ? "$" + numberWithCommas(totalOfData.sales.yoy)
-                          : "N/A"}
-                      </td>
-                      <td align="right">
-                        {totalOfData.sales.yoyCharge
-                          ? "$" + numberWithCommas(totalOfData.sales.yoyCharge)
-                          : "N/A"}
-                      </td>
-                    </>
-                  )}
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.sales.current
-                    ? "$" + numberWithCommas(totalOfData.sales.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 2 ? (
-                <>
+                {isComparisons && active === 2 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.units_sold.current
+                        ? numberWithCommas(totalOfData.units_sold.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_sold.previous
+                        ? numberWithCommas(totalOfData.units_sold.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_sold.change
+                        ? numberWithCommas(totalOfData.units_sold.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_sold.charge
+                        ? numberWithCommas(totalOfData.units_sold.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {totalOfData.units_sold.yoy
+                            ? numberWithCommas(totalOfData.units_sold.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.units_sold.yoyCharge
+                            ? numberWithCommas(totalOfData.units_sold.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
                   <td align="right">
                     {totalOfData.units_sold.current
                       ? numberWithCommas(totalOfData.units_sold.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.units_sold.previous
-                      ? numberWithCommas(totalOfData.units_sold.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.units_sold.change
-                      ? numberWithCommas(totalOfData.units_sold.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.units_sold.charge
-                      ? numberWithCommas(totalOfData.units_sold.charge) + "%"
-                      : "N/A"}
-                  </td>
-                  {isYoY && (
-                    <>
-                      {" "}
-                      <td align="right">
-                        {totalOfData.units_sold.yoy
-                          ? numberWithCommas(totalOfData.units_sold.yoy)
-                          : "N/A"}
-                      </td>
-                      <td align="right">
-                        {totalOfData.units_sold.yoyCharge
-                          ? numberWithCommas(totalOfData.units_sold.yoyCharge)
-                          : "N/A"}
-                      </td>
-                    </>
-                  )}
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.units_sold.current
-                    ? numberWithCommas(totalOfData.units_sold.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 3 ? (
-                <>
+                {isComparisons && active === 3 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.shipped_cogs.current
+                        ? "$" +
+                          numberWithCommas(totalOfData.shipped_cogs.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.shipped_cogs.previous
+                        ? "$" +
+                          numberWithCommas(totalOfData.shipped_cogs.previous)
+                        : "N/A"}
+                    </td>
+
+                    <td align="right">
+                      {" "}
+                      {totalOfData.shipped_cogs.change
+                        ? "$" +
+                          numberWithCommas(totalOfData.shipped_cogs.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {" "}
+                      {totalOfData.shipped_cogs.charge
+                        ? numberWithCommas(totalOfData.shipped_cogs.charge) +
+                          "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {" "}
+                          {totalOfData.shipped_cogs.yoy
+                            ? "$" +
+                              numberWithCommas(totalOfData.shipped_cogs.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {" "}
+                          {totalOfData.shipped_cogs.yoyCharge
+                            ? "$" +
+                              numberWithCommas(
+                                totalOfData.shipped_cogs.yoyCharge
+                              )
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
                   <td align="right">
                     {totalOfData.shipped_cogs.current
                       ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.shipped_cogs.previous
-                      ? "$" +
-                        numberWithCommas(totalOfData.shipped_cogs.previous)
-                      : "N/A"}
-                  </td>
+                )}
 
-                  <td align="right">
-                    {" "}
-                    {totalOfData.shipped_cogs.change
-                      ? "$" + numberWithCommas(totalOfData.shipped_cogs.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {" "}
-                    {totalOfData.shipped_cogs.charge
-                      ? numberWithCommas(totalOfData.shipped_cogs.charge) + "%"
-                      : "N/A"}
-                  </td>
-                  {isYoY && (
-                    <>
-                      {" "}
-                      <td align="right">
-                        {" "}
-                        {totalOfData.shipped_cogs.yoy
-                          ? "$" + numberWithCommas(totalOfData.shipped_cogs.yoy)
-                          : "N/A"}
-                      </td>
-                      <td align="right">
-                        {" "}
-                        {totalOfData.shipped_cogs.yoyCharge
-                          ? "$" +
-                            numberWithCommas(totalOfData.shipped_cogs.yoyCharge)
-                          : "N/A"}
-                      </td>
-                    </>
-                  )}
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.shipped_cogs.current
-                    ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
-                    : "N/A"}
-                </td>
-              )}
+                {isComparisons && active === 4 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.ad_clicks.current
+                        ? numberWithCommas(totalOfData.ad_clicks.current)
+                        : "N/A"}
+                    </td>
 
-              {isComparisons && active === 4 ? (
-                <>
+                    <td align="right">
+                      {totalOfData.ad_clicks.previous
+                        ? numberWithCommas(totalOfData.ad_clicks.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_clicks.change
+                        ? numberWithCommas(totalOfData.ad_clicks.change)
+                        : "N/A"}
+                    </td>
+
+                    <td align="right">
+                      {totalOfData.ad_clicks.charge
+                        ? numberWithCommas(totalOfData.ad_clicks.charge) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
                     {totalOfData.ad_clicks.current
                       ? numberWithCommas(totalOfData.ad_clicks.current)
                       : "N/A"}
                   </td>
+                )}
 
-                  <td align="right">
-                    {totalOfData.ad_clicks.previous
-                      ? numberWithCommas(totalOfData.ad_clicks.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_clicks.change
-                      ? numberWithCommas(totalOfData.ad_clicks.change)
-                      : "N/A"}
-                  </td>
-
-                  <td align="right">
-                    {totalOfData.ad_clicks.charge
-                      ? numberWithCommas(totalOfData.ad_clicks.charge) + "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.ad_clicks.current
-                    ? numberWithCommas(totalOfData.ad_clicks.current)
-                    : "N/A"}
-                </td>
-              )}
-
-              {isComparisons && active === 5 ? (
-                <>
+                {isComparisons && active === 5 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.ad_impressions.current
+                        ? numberWithCommas(totalOfData.ad_impressions.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_impressions.previous
+                        ? numberWithCommas(totalOfData.ad_impressions.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_impressions.change
+                        ? numberWithCommas(totalOfData.ad_impressions.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_impressions.charge
+                        ? numberWithCommas(totalOfData.ad_impressions.charge) +
+                          "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
                     {totalOfData.ad_impressions.current
                       ? numberWithCommas(totalOfData.ad_impressions.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.ad_impressions.previous
-                      ? numberWithCommas(totalOfData.ad_impressions.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_impressions.change
-                      ? numberWithCommas(totalOfData.ad_impressions.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_impressions.charge
-                      ? numberWithCommas(totalOfData.ad_impressions.charge) +
-                        "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.ad_impressions.current
-                    ? numberWithCommas(totalOfData.ad_impressions.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 6 ? (
-                <>
+                {isComparisons && active === 6 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.average_cpc.current
+                        ? "$" +
+                          numberWithCommas(totalOfData.average_cpc.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.average_cpc.previous
+                        ? "$" +
+                          numberWithCommas(totalOfData.average_cpc.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.average_cpc.change
+                        ? "$" + numberWithCommas(totalOfData.average_cpc.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.average_cpc.charge
+                        ? numberWithCommas(totalOfData.average_cpc.charge) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
-                    {totalOfData.average_cpc.current
+                    {totalOfData.average_cpc.current !== 0
                       ? "$" + numberWithCommas(totalOfData.average_cpc.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.average_cpc.previous
-                      ? "$" + numberWithCommas(totalOfData.average_cpc.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.average_cpc.change
-                      ? "$" + numberWithCommas(totalOfData.average_cpc.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.average_cpc.charge
-                      ? numberWithCommas(totalOfData.average_cpc.charge) + "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.average_cpc.current !== 0
-                    ? "$" + numberWithCommas(totalOfData.average_cpc.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 7 ? (
-                <>
+                {isComparisons && active === 7 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.ad_spend.current
+                        ? "$" + numberWithCommas(totalOfData.ad_spend.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_spend.previous
+                        ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_spend.change
+                        ? "$" + numberWithCommas(totalOfData.ad_spend.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_spend.charge
+                        ? numberWithCommas(totalOfData.ad_spend.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        <td align="right">
+                          {totalOfData.ad_spend.yoy
+                            ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.ad_spend.yoyCharge
+                            ? "$" +
+                              numberWithCommas(totalOfData.ad_spend.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
                   <td align="right">
-                    {totalOfData.ad_spend.current
+                    {totalOfData.ad_spend.current !== 0
                       ? "$" + numberWithCommas(totalOfData.ad_spend.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.ad_spend.previous
-                      ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_spend.change
-                      ? "$" + numberWithCommas(totalOfData.ad_spend.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_spend.charge
-                      ? numberWithCommas(totalOfData.ad_spend.charge) + "%"
-                      : "N/A"}
-                  </td>
-                  {isYoY && (
-                    <>
-                      <td align="right">
-                        {totalOfData.ad_spend.yoy
-                          ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
-                          : "N/A"}
-                      </td>
-                      <td align="right">
-                        {totalOfData.ad_spend.yoyCharge
-                          ? "$" +
-                            numberWithCommas(totalOfData.ad_spend.yoyCharge)
-                          : "N/A"}
-                      </td>
-                    </>
-                  )}
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.ad_spend.current !== 0
-                    ? "$" + numberWithCommas(totalOfData.ad_spend.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 8 ? (
-                <>
+                {isComparisons && active === 8 ? (
+                  <>
+                    <td align="right">
+                      {!!totalOfData.ad_orders.current
+                        ? numberWithCommas(totalOfData.ad_orders.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {!!totalOfData.ad_orders.previous
+                        ? numberWithCommas(totalOfData.ad_orders.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {!!totalOfData.ad_orders.change
+                        ? numberWithCommas(totalOfData.ad_orders.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {!!totalOfData.ad_orders.charge
+                        ? numberWithCommas(totalOfData.ad_orders.charge) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
-                    {!!totalOfData.ad_orders.current
+                    {totalOfData.ad_orders.current !== 0
                       ? numberWithCommas(totalOfData.ad_orders.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {!!totalOfData.ad_orders.previous
-                      ? numberWithCommas(totalOfData.ad_orders.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {!!totalOfData.ad_orders.change
-                      ? numberWithCommas(totalOfData.ad_orders.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {!!totalOfData.ad_orders.charge
-                      ? numberWithCommas(totalOfData.ad_orders.charge) + "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.ad_orders.current !== 0
-                    ? numberWithCommas(totalOfData.ad_orders.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 9 ? (
-                <>
+                {isComparisons && active === 9 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.ad_sales.current
+                        ? "$" + numberWithCommas(totalOfData.ad_sales.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_sales.previous
+                        ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_sales.change
+                        ? "$" + numberWithCommas(totalOfData.ad_sales.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_sales.charge
+                        ? numberWithCommas(totalOfData.ad_sales.charge) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
-                    {totalOfData.ad_sales.current
+                    {totalOfData.ad_sales.current !== 0
                       ? "$" + numberWithCommas(totalOfData.ad_sales.current)
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.ad_sales.previous
-                      ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_sales.change
-                      ? "$" + numberWithCommas(totalOfData.ad_sales.change)
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.ad_sales.charge
-                      ? numberWithCommas(totalOfData.ad_sales.charge) + "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.ad_sales.current !== 0
-                    ? "$" + numberWithCommas(totalOfData.ad_sales.current)
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 10 ? (
-                <>
+                {isComparisons && active === 10 ? (
+                  <>
+                    <td align="right">
+                      {!!totalOfData.percent_total_sales.current
+                        ? Number(
+                            totalOfData.percent_total_sales.current
+                          ).toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {!!totalOfData.percent_total_sales.previous
+                        ? Number(
+                            totalOfData.percent_total_sales.previous
+                          ).toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {!!totalOfData.percent_total_sales.change
+                        ? Number(
+                            totalOfData.percent_total_sales.change
+                          ).toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {!!totalOfData.percent_total_sales.charge
+                        ? Number(
+                            totalOfData.percent_total_sales.charge
+                          ).toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
                     {!!totalOfData.percent_total_sales.current
                       ? Number(totalOfData.percent_total_sales.current).toFixed(
@@ -2837,107 +2877,81 @@ const DataDisplayItemizedTable = (props) => {
                         ) + "%"
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {!!totalOfData.percent_total_sales.previous
-                      ? Number(
-                          totalOfData.percent_total_sales.previous
-                        ).toFixed(2) + "%"
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {!!totalOfData.percent_total_sales.change
-                      ? Number(totalOfData.percent_total_sales.change).toFixed(
-                          2
-                        ) + "%"
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {!!totalOfData.percent_total_sales.charge
-                      ? Number(totalOfData.percent_total_sales.charge).toFixed(
-                          2
-                        ) + "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {!!totalOfData.percent_total_sales.current
-                    ? Number(totalOfData.percent_total_sales.current).toFixed(
-                        2
-                      ) + "%"
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 11 ? (
-                <>
+                {isComparisons && active === 11 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.conversion_rate.current !== 0
+                        ? Number(totalOfData.conversion_rate.current).toFixed(
+                            2
+                          ) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.conversion_rate.previous !== 0
+                        ? Number(totalOfData.conversion_rate.previous).toFixed(
+                            2
+                          ) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.conversion_rate.change !== 0
+                        ? Number(totalOfData.conversion_rate.change).toFixed(
+                            2
+                          ) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.conversion_rate.charge !== 0
+                        ? Number(totalOfData.conversion_rate.charge).toFixed(
+                            2
+                          ) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
                     {totalOfData.conversion_rate.current !== 0
                       ? Number(totalOfData.conversion_rate.current).toFixed(2) +
                         "%"
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.conversion_rate.previous !== 0
-                      ? Number(totalOfData.conversion_rate.previous).toFixed(
-                          2
-                        ) + "%"
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.conversion_rate.change !== 0
-                      ? Number(totalOfData.conversion_rate.change).toFixed(2) +
-                        "%"
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.conversion_rate.charge !== 0
-                      ? Number(totalOfData.conversion_rate.charge).toFixed(2) +
-                        "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.conversion_rate.current !== 0
-                    ? Number(totalOfData.conversion_rate.current).toFixed(2) +
-                      "%"
-                    : "N/A"}
-                </td>
-              )}
+                )}
 
-              {isComparisons && active === 12 ? (
-                <>
+                {isComparisons && active === 12 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.acos.current
+                        ? totalOfData.acos.current.toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.acos.previous
+                        ? totalOfData.acos.previous.toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.acos.change
+                        ? totalOfData.acos.change.toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.acos.charge
+                        ? totalOfData.acos.charge.toFixed(2) + "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
                   <td align="right">
-                    {totalOfData.acos.current
+                    {totalOfData.acos.current !== 0
                       ? totalOfData.acos.current.toFixed(2) + "%"
                       : "N/A"}
                   </td>
-                  <td align="right">
-                    {totalOfData.acos.previous
-                      ? totalOfData.acos.previous.toFixed(2) + "%"
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.acos.change
-                      ? totalOfData.acos.change.toFixed(2) + "%"
-                      : "N/A"}
-                  </td>
-                  <td align="right">
-                    {totalOfData.acos.charge
-                      ? totalOfData.acos.charge.toFixed(2) + "%"
-                      : "N/A"}
-                  </td>
-                </>
-              ) : (
-                <td align="right">
-                  {totalOfData.acos.current !== 0
-                    ? totalOfData.acos.current.toFixed(2) + "%"
-                    : "N/A"}
-                </td>
-              )}
-            </tr>
-          </tfoot>
+                )}
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
     </>
