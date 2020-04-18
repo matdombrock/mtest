@@ -123,3 +123,7 @@ thead th:first-child,
 tfoot th:first-child {
   z-index: 5;
 }
+.color-dark {
+  color: black !important;
+  padding: 3px 0 !important;
+}
