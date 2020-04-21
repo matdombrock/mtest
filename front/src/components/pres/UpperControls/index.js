@@ -636,17 +636,45 @@ class UpperControls extends Component {
                             "MMM DD, YYYY"
                           )} - ${moment(endDate).format("MMM DD, YYYY")}`
                       : displayDateRange === "lastMonth"
-                      ? "Last Month"
+                      ? isCustomVisible
+                        ? `Last Month VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                        : "Last Month"
                       : displayDateRange === "last7Days"
-                      ? "last 7 Days"
+                      ? isCustomVisible
+                        ? `last 7 Days VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                        : "last 7 Days"
                       : displayDateRange === "last14Days"
-                      ? "Last 14 Days"
+                      ? isCustomVisible
+                        ? `last 14 Days VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                        : "Last 14 Days"
                       : displayDateRange === "this30Days"
-                      ? "Last 30 Days"
+                      ? isCustomVisible
+                        ? `last 30 Days VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                        : "Last 30 Days"
                       : displayDateRange === "lastWeek"
-                      ? "Last Week"
+                      ? isCustomVisible
+                        ? `Last Week VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                        : "Last Week"
                       : displayDateRange === "currentMonth"
-                      ? "Current Month"
+                      ? isCustomVisible
+                        ? `Current Month VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                        : "Current Month"
+                      : isCustomVisible
+                      ? `yesterday VS ${moment(customDateStart).format(
+                          "MMM DD, YYYY"
+                        )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
                       : "yesterday"}
                   </p>
                   <ExpandMoreIcon className={s.menuOpen} />
