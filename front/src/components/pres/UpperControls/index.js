@@ -1040,7 +1040,7 @@ class UpperControls extends Component {
                   </>
                 )}
               </div>
-              {this.props.activeTab === 0 && (
+              {!isCustomVisible && this.props.activeTab === 0 && (
                 <MuiSelect
                   variant="outlined"
                   onChange={(e) =>
