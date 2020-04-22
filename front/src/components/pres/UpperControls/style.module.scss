@@ -189,14 +189,17 @@
 .comparison-input {
   width: 100%;
   margin: 0px;
-  display: block !important;
+
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
   margin-bottom: 5px;
 }
-.back{
+.back {
   position: fixed;
   display: block;
   width: 100vw;
   height: 100vh;
-  top: 0;left: 0;
-
+  top: 0;
+  left: 0;
 }

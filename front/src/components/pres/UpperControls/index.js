@@ -841,7 +841,7 @@ class UpperControls extends Component {
                                 "aria-label": "primary checkbox",
                               }}
                             />
-                            Compare to Previous
+                            <span>Custom Compare</span>
                           </label>
                         </p>
                       </div>
