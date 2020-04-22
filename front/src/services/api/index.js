@@ -97,3 +97,17 @@ export const uploadProduct = (data) => {
     body: data,
   }).then((response) => response);
 };
+
+export const getAsins = (data) => {
+  let url = config.remoteIP + "/api/downloadProducts";
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": sessionStorage.getItem("moda_token"),
+    },
+    body: data,
+  })
+    .then((response) => response.json())
+    .then((response) => response);
+};

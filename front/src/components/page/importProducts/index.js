@@ -10,6 +10,8 @@ import { actions as usersActions } from "../../../modules/users";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import { getAsins } from "../../../services/api";
+import { CSVLink } from "react-csv";
 
 class ImportProducts extends React.Component {
   constructor(props) {
@@ -22,8 +24,15 @@ class ImportProducts extends React.Component {
         type: "",
         isShown: false,
       },
+      csv: "",
+      asinsCount: false,
     };
   }
+
+  componentDidMount() {
+    this.handleGetAsins();
+  }
+
   handleSubmit = async () => {
     try {
       const { file } = this.state;
@@ -39,46 +48,81 @@ class ImportProducts extends React.Component {
       console.log("ImportProducts -> handleSubmit -> error", error);
     }
   };
+  handleGetAsins = async () => {
+    try {
+      const response = await getAsins();
+      if (response.csv)
+        this.setState({
+          csv: response.csv,
+          count: String(response.csv).split("\n").length - 1,
+        });
+    } catch (error) {
+      console.log("ImportProducts -> handleSubmit -> error", error);
+    }
+  };
   _handleChangeFile = (e) => this.setState({ file: e.currentTarget.files });
   _handleAlert = (toggle, message = "", type = "success") =>
     this.setState((pre) => ({
       alert: { ...pre.alert, isShown: toggle, message, type },
     }));
   render() {
-    const { alert } = this.state;
+    const { alert, csv, count, file } = this.state;
     return (
       <div className={s.container}>
-        <Card style={{ marginBottom: "1em" }}>
-          <Grid container className={s.innerContainer}>
-            <Grid className={s.container} item xs={12}>
-              <p className={s.email}>Import Products</p>
+        <Grid container>
+          <Grid item xs={8} className={s.container}>
+            {/* <Card style={{ marginBottom: "1em" }}> */}
+            <Grid container className={s.innerContainer}>
+              <Grid className={s.container} item xs={12}>
+                <p className={s.email}>Missing Products</p>
+              </Grid>
+              <Grid item xs={6} className={s.container}>
+                <div className={s.userGridInner}>
+                  <Button variant="contained" component="label" className="p-2">
+                    {/* Upload File */}
+                    <input
+                      type="file"
+                      onChange={this._handleChangeFile}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      // style={{ display: "none" }}
+                    />
+                  </Button>
+                </div>
+              </Grid>
+              <Grid item xs={6} className={s.container}>
+                <div className={s.userGridInner}>
+                  <Button
+                    onClick={this.handleSubmit}
+                    variant="contained"
+                    color="primary"
+                    disabled={!file}
+                  >
+                    Upload
+                  </Button>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6} className={s.container}>
-              <div className={s.userGridInner}>
-                <Button variant="contained" component="label">
-                  Upload File
-                  <input
-                    type="file"
-                    onChange={this._handleChangeFile}
-                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    style={{ display: "none" }}
-                  />
-                </Button>
-              </div>
-            </Grid>
-            <Grid item xs={6} className={s.container}>
-              <div className={s.userGridInner}>
-                <Button
-                  onClick={this.handleSubmit}
-                  variant="contained"
-                  color="primary"
-                >
-                  Upload
-                </Button>
-              </div>
-            </Grid>
+            {/* </Card> */}
           </Grid>
-        </Card>
+
+          <Grid item xs={4} className={s.container}>
+            {/* <Card style={{ marginBottom: "1em" }}> */}
+            <p className={s.email}>Missing Products CSV({count || 0})</p>
+
+            <div className={s.userGridInner}>
+              <CSVLink
+                data={csv}
+                filename={"missing-asins.csv"}
+                className="text-decoration-none"
+              >
+                <Button variant="contained" color="primary">
+                  Download
+                </Button>
+              </CSVLink>
+            </div>
+            {/* </Card> */}
+          </Grid>
+        </Grid>
         {alert.isShown && (
           <Snackbar
             open={alert.isShown}

@@ -93,7 +93,9 @@ class Navbar extends React.Component {
                 ""
               )}
               {this.state.admin === "true" ? (
-                <MenuItem onClick={this.handleImport}>Import Data</MenuItem>
+                <MenuItem onClick={this.handleImport}>
+                  Missing Products(x)
+                </MenuItem>
               ) : (
                 ""
               )}
