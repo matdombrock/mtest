@@ -48,7 +48,6 @@ class UpperControls extends Component {
       displayDateRange: "lastWeek",
       periodsCount: 2,
       isYOY: false,
-      isCustomVisible: false,
       isStartDateVisible: false,
       isEndDateVisible: false,
       isCustomStartDateVisible: false,
@@ -135,7 +134,6 @@ class UpperControls extends Component {
       periodsCount,
       startDate,
       endDate,
-      isCustomVisible,
       customDateEnd,
       customDateStart,
       compareType,
@@ -296,8 +294,6 @@ class UpperControls extends Component {
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
                 })),
               }));
-              // if (selectedDateRange === "custom" && isCustomVisible)
-              //   payload.periods.push(fakePeriod);
               if (!isYOY) payload.yoy = [];
               console.log("UpperControls -> fetchData -> payload", payload);
               this.props.saleSetData(payload);
@@ -585,14 +581,15 @@ class UpperControls extends Component {
       showDropDown,
       selectedDateRange,
       displayDateRange,
-      isCustomVisible,
       customDateStart,
       customDateEnd,
       isStartDateVisible,
       isEndDateVisible,
       isCustomEndDateVisible,
       isCustomStartDateVisible,
+      compareType,
     } = this.state;
+    const isCustomVisible = this.props.sales.isComparison;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
       <>
@@ -622,7 +619,7 @@ class UpperControls extends Component {
                 >
                   {" "}
                   <EventNoteIcon className={s.menuOpen} />{" "}
-                  <p>
+                  <p style={{ textTransform: "capitalize" }}>
                     {displayDateRange === "custom"
                       ? isCustomVisible
                         ? `${moment(startDate).format(
@@ -831,11 +828,15 @@ class UpperControls extends Component {
                             <input
                               type="checkbox"
                               checked={this.state.compareToPrevious}
-                              onChange={(e) =>
+                              onChange={(e) => {
                                 this.setState({
                                   compareToPrevious: e.target.checked,
-                                })
-                              }
+                                });
+                                this.props.setComparison(
+                                  !!e.target.checked &&
+                                    compareType === "custom-range"
+                                );
+                              }}
                               value="true"
                               inputProps={{
                                 "aria-label": "primary checkbox",
@@ -847,37 +848,17 @@ class UpperControls extends Component {
                       </div>
                       {this.state.compareToPrevious && (
                         <>
-                          {/* <div
-                        className={
-                          activeSelectedDateRange === "custom" &&
-                          isCustomVisible &&
-                          s["active-item"]
-                        }
-                        onClick={() => {
-                          this.setState({ isCustomVisible: !isCustomVisible });
-                          setTimeout(
-                            () =>
-                              this.setState({ isCustomStartDateVisible: true }),
-                            0
-                          );
-                        }}
-                      >
-                        Custom Compare
-                      </div> */}
                           <MuiSelect
                             variant="outlined"
                             onChange={(e) => {
-                              console.log(
-                                "UpperControls -> render -> e.target.value",
-                                e.target.value
-                              );
                               this.setState({
                                 compareType: e.target.value,
-                                isCustomVisible:
-                                  e.target.value === "custom-range",
+
                                 isYoy: e.target.value === "previous-range",
                               });
-
+                              this.props.setComparison(
+                                e.target.value === "custom-range"
+                              );
                               setTimeout(
                                 () =>
                                   this.setState({

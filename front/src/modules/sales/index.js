@@ -5,15 +5,16 @@ const SET_SALES_COMPARISONS_DATA = "sale/SET_SALES_COMPARISONS_DATA";
 const SET_SKU_DATA = "sale/SET_SKU_DATA";
 const SET_SKU_DATA_COMPARISONS = "sale/SET_SKU_DATA_COMPARISONS";
 const SET_SALES_LOADING = "sale/SET_SALES_LOADING";
+const SET_COMPARISON = "sale/SET_COMPARISON";
+
 const initialState = {
   active: { periods: [], yoy: [] },
-  // comparisons: {},
   skuActive: {
     current: { periods: [], yoy: [] },
-    previous: { periods: [], yoy: [] }
+    previous: { periods: [], yoy: [] },
   },
-  // skuComparisons: {},
-  isLoading: false
+  isLoading: false,
+  isComparison: false,
 };
 
 export default (state = initialState, action) => {
@@ -34,52 +35,63 @@ export default (state = initialState, action) => {
     case SET_SALES_LOADING:
       state.isLoading = action.data;
       break;
+    case SET_COMPARISON:
+      state.isComparison = action.data;
+      break;
     default:
       break;
   }
   return state;
 };
 
-const setData = data => {
-  return dispatch => {
+const setData = (data) => {
+  return (dispatch) => {
     dispatch({
       type: SET_SALES_DATA,
-      data
+      data,
     });
   };
 };
 
-const setSKUData = data => {
-  return dispatch => {
+const setSKUData = (data) => {
+  return (dispatch) => {
     dispatch({
       type: SET_SKU_DATA,
-      data
+      data,
     });
   };
 };
 
-const setSKUComparisonData = data => {
-  return dispatch => {
+const setSKUComparisonData = (data) => {
+  return (dispatch) => {
     dispatch({
       type: SET_SKU_DATA_COMPARISONS,
-      data
+      data,
     });
   };
 };
 
-const setSecondData = data => {
-  return dispatch => {
+const setSecondData = (data) => {
+  return (dispatch) => {
     dispatch({
       type: SET_SALES_COMPARISONS_DATA,
-      data
+      data,
     });
   };
 };
-const setLoadingData = data => {
-  return dispatch => {
+const setLoadingData = (data) => {
+  return (dispatch) => {
     dispatch({
       type: SET_SALES_LOADING,
-      data
+      data,
+    });
+  };
+};
+const setComparison = (data) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_COMPARISON,
+      data,
     });
   };
 };
@@ -89,5 +101,6 @@ export const actions = {
   setSecondData,
   setSKUComparisonData,
   setSKUData,
-  setLoadingData
+  setLoadingData,
+  setComparison,
 };
