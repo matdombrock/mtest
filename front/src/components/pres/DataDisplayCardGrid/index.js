@@ -61,8 +61,8 @@ const DataDisplayCardGrid = (props) => {
     <div className={s.gridContainer}>
       <h3>
         Current Period Summary:{" "}
-        {moment(periods[0].period.start).format("MM/DD/YYYY")} -{" "}
-        {moment(periods[0].period.end).format("MM/DD/YYYY")}
+        {moment(periods[0].period.start).utc().format("MM/DD/YYYY")} -{" "}
+        {moment(periods[0].period.end).utc().format("MM/DD/YYYY")}
       </h3>
       <Grid container spacing={4}>
         <Grid item className={s.gridItem} xs={2}>
