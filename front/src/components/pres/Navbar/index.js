@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
+import { getAsins } from "../../../services/api";
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Navbar extends React.Component {
       username: null,
       admin: null,
       anchorEl: null,
+      count: 0,
     };
   }
 
@@ -22,8 +24,20 @@ class Navbar extends React.Component {
       admin: sessionStorage.getItem("moda_admin"),
       username: sessionStorage.getItem("moda_username"),
     });
+    this.handleGetAsins();
   }
 
+  handleGetAsins = async () => {
+    try {
+      const response = await getAsins();
+      if (response.csv)
+        this.setState({
+          count: String(response.csv).split("\n").length - 1,
+        });
+    } catch (error) {
+      console.log("ImportProducts -> handleSubmit -> error", error);
+    }
+  };
   handleClick = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -38,6 +52,7 @@ class Navbar extends React.Component {
   };
   handleImport = () => this.props.history.push("/import");
   render() {
+    const { count } = this.state;
     return (
       <div className={s.navWrapper}>
         <Grid container>
@@ -94,7 +109,7 @@ class Navbar extends React.Component {
               )}
               {this.state.admin === "true" ? (
                 <MenuItem onClick={this.handleImport}>
-                  Missing Products(x)
+                  Missing Products({count || 0})
                 </MenuItem>
               ) : (
                 ""
