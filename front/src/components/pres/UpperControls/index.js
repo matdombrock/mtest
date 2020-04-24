@@ -227,10 +227,27 @@ class UpperControls extends Component {
                   acos: d.summary.ad_sales
                     ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
+                  average_cpc: d.summary.ad_clicks
+                    ? d.summary.ad_spend / d.summary.ad_clicks
+                    : 0,
+                  average_selling_price: d.summary.units_sold
+                    ? d.summary.ad_sales / d.summary.units_sold
+                    : 0,
+                  percent_total_sales: d.summary.ad_spend
+                    ? (d.summary.sales / d.summary.ad_spend) * 100
+                    : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
+                  average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
+                  average_selling_price: o.units_sold
+                    ? o.ad_sales / o.units_sold
+                    : 0,
+
+                  percent_total_sales: o.ad_spend
+                    ? (o.sales / o.ad_spend) * 100
+                    : 0,
                 })),
               }));
               payload.yoy = data?.yoy?.map((d) => ({
@@ -240,14 +257,32 @@ class UpperControls extends Component {
                   acos: d.summary.ad_sales
                     ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
+                  average_cpc: d.summary.ad_clicks
+                    ? d.summary.ad_spend / d.summary.ad_clicks
+                    : 0,
+                  average_selling_price: d.summary.units_sold
+                    ? d.summary.ad_sales / d.summary.units_sold
+                    : 0,
+                  percent_total_sales: d.summary.ad_spend
+                    ? (d.summary.sales / d.summary.ad_spend) * 100
+                    : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
+                  average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
+                  average_selling_price: o.units_sold
+                    ? o.ad_sales / o.units_sold
+                    : 0,
+
+                  percent_total_sales: o.ad_spend
+                    ? (o.sales / o.ad_spend) * 100
+                    : 0,
                 })),
               }));
 
               if (!isYOY) payload.yoy = [];
+              console.log("UpperControls -> fetchData -> payload", payload);
               this.props.setSKUData(payload);
             }
             this.props.setLoadingData(false);
@@ -275,10 +310,27 @@ class UpperControls extends Component {
                   acos: d.summary.ad_sales
                     ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
+                  average_cpc: d.summary.ad_clicks
+                    ? d.summary.ad_spend / d.summary.ad_clicks
+                    : 0,
+                  average_selling_price: d.summary.units_sold
+                    ? d.summary.ad_sales / d.summary.units_sold
+                    : 0,
+                  percent_total_sales: d.summary.ad_spend
+                    ? (d.summary.sales / d.summary.ad_spend) * 100
+                    : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
+                  average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
+                  average_selling_price: o.units_sold
+                    ? o.ad_sales / o.units_sold
+                    : 0,
+
+                  percent_total_sales: o.ad_spend
+                    ? (o.sales / o.ad_spend) * 100
+                    : 0,
                 })),
               }));
               payload.yoy = data.data?.yoy?.map((d) => ({
@@ -288,10 +340,27 @@ class UpperControls extends Component {
                   acos: d.summary.ad_sales
                     ? (d.summary.ad_spend / d.summary.ad_sales) * 100
                     : 0,
+                  average_cpc: d.summary.ad_clicks
+                    ? d.summary.ad_spend / d.summary.ad_clicks
+                    : 0,
+                  average_selling_price: d.summary.units_sold
+                    ? d.summary.ad_sales / d.summary.units_sold
+                    : 0,
+                  percent_total_sales: d.summary.ad_spend
+                    ? (d.summary.sales / d.summary.ad_spend) * 100
+                    : 0,
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
                   acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
+                  average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
+                  average_selling_price: o.units_sold
+                    ? o.ad_sales / o.units_sold
+                    : 0,
+
+                  percent_total_sales: o.ad_spend
+                    ? (o.sales / o.ad_spend) * 100
+                    : 0,
                 })),
               }));
               if (!isYOY) payload.yoy = [];
