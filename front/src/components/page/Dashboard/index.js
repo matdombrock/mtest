@@ -8,8 +8,8 @@ import DataDisplayItemizedTable from '../../pres/DataDisplayItemizedTable';
 import LeftNavigationMenu from '../../pres/LeftNavigationMenu';
 import Grid from '@material-ui/core/Grid';
 import Charts from '../../pres/Charts';
+import DropboxUpload from '../../../dropbox/index'
 import s from './style.module.scss';
-
 class Dashboard extends Component{
 
     constructor(props){
@@ -29,6 +29,7 @@ class Dashboard extends Component{
                             <DataDisplayCardGrid data={this.props.sales} />
                             <Charts data={this.props.sales} />
                             <DataDisplayItemizedTable data={this.props.sales} />
+                            <DropboxUpload/>
                         </Grid>
                     </Grid>
                 </div>
