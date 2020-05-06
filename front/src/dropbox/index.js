@@ -6,7 +6,7 @@ import s from './style.module.scss';
 
 const DropboxUpload= () => {
     
-    const ACCESS_TOKEN = "";//TODO set from configuration
+    const ACCESS_TOKEN = "vfZWwPR8JgAAAAAAAAAAEnJro81IK61xOx_nCFR1tMrl2hfZBjS_5iSnv0T6ASvz";//TODO set from configuration
 
     const uploadFile = () => {
         
