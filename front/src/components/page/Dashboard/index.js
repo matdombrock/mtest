@@ -8,6 +8,7 @@ import DataDisplayItemizedTable from "../../pres/DataDisplayItemizedTable";
 import LeftNavigationMenu from "../../pres/LeftNavigationMenu";
 import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
+import ChartsV2 from "../../pres/ChartsV2";
 import s from "./style.module.scss";
 import DataDisplaySKUTable from "../../pres/DataDisplaySKU";
 // import SKUCharts from "../../pres/SKUCharts";
@@ -74,6 +75,7 @@ class Dashboard extends Component {
                       startDate={startDate}
                       endDate={endDate}
                     />
+                    <ChartsV2 report={active} />
                     <Charts data={active} />
                     <DataDisplayItemizedTable
                       data={active}
