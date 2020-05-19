@@ -4,6 +4,7 @@ import s from "./style.module.scss";
 import SingleLineChart from "./SingleLineChart";
 import MultipleLinesChart from "./MultipleLinesChart";
 import MultipleLinesYaxisChart from "./MultipleLinesYaxisChart";
+import DonutChart from './DonutChart'
 
 const ChartsV2 = (report) =>{
 
@@ -57,7 +58,7 @@ const ChartsV2 = (report) =>{
         <div className={s.canvas}>
         <Grid container>
           <Grid item xs={4}>
-            <SingleLineChart name='Total Sales' chartLabels={summaries.map((x,i) => i)} chartDataValues={summaries.map(x => x.sales)} />
+            <SingleLineChart name='Total Sales' chartLabels={summaries.map((x,i) => i)} chartDataValues={summaries.map(x => x.sales.toFixed(2))} />
           </Grid>
           <Grid item xs={4}>
             <MultipleLinesChart summaries={summaries} chartDataProp={getAdSalesAndAdSpendData()} />
@@ -68,10 +69,13 @@ const ChartsV2 = (report) =>{
         </Grid>
         <Grid container>
           <Grid item xs={4}>
-            <SingleLineChart name='Average Selling Price' chartLabels={summaries.map((x,i) => i)} chartDataValues={summaries.map(x => x.average_selling_price)} />
+            <SingleLineChart name='Average Selling Price' chartLabels={summaries.map((x,i) => i)} chartDataValues={summaries.map(x => x.average_selling_price.toFixed(2))} />
           </Grid>
           <Grid item xs={4}>
-            <SingleLineChart name='ACOS' chartLabels={summaries.map((x,i) => i)} chartDataValues={summaries.map(x => x.acos)} />
+            <SingleLineChart name='ACOS' chartLabels={summaries.map((x,i) => i)} chartDataValues={summaries.map(x => x.acos.toFixed(2))} />
+          </Grid>
+          <Grid item xs={4}>
+            <DonutChart chartDataValues={summaries} />
           </Grid>
         </Grid>
         </div>
