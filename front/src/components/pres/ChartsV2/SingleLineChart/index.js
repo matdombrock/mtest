@@ -2,7 +2,7 @@ import React from "react";
 import {Line} from 'react-chartjs-2';
 
 const SingleLineChart = ({name, chartLabels, chartDataValues}) =>{
-    console.log(chartDataValues);
+    
     const chartData = {
         labels: chartLabels,
         datasets: [

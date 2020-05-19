@@ -5,8 +5,8 @@ import SingleLineChart from "./SingleLineChart";
 import MultipleLinesChart from "./MultipleLinesChart";
 
 const ChartsV2 = (report) =>{
-    
-    let periods = report.report.data.periods;
+
+    let periods = report.report.periods;
     periods = periods.slice(0, periods.length - 1);
 
     const summaries = periods
@@ -48,7 +48,7 @@ const ChartsV2 = (report) =>{
         ]
       }
     }
-    console.log(summaries);
+    
     return(
         <div className={s.canvas}>
         <Grid container>
