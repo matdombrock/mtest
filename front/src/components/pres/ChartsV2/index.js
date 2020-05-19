@@ -3,18 +3,18 @@ import Grid from "@material-ui/core/Grid";
 import s from "./style.module.scss";
 import SingleLineChart from "./SingleLineChart";
 import MultipleLinesChart from "./MultipleLinesChart";
+import MultipleLinesYaxisChart from "./MultipleLinesYaxisChart";
 
 const ChartsV2 = (report) =>{
 
     let periods = report.report.periods;
     periods = periods.slice(0, periods.length - 1);
-
     const summaries = periods
       .map((d) => ({
         ...d.summary
       }))
       .reverse();
-      
+    
     const getAdSalesAndAdSpendData = () =>{
       return {
         datasets:[
@@ -38,12 +38,16 @@ const ChartsV2 = (report) =>{
           {
             name : 'Conversion Rate',
             key : 'conversion_rate',
-            color:'rgba(0,176,240,1)'
+            color:'rgba(0,176,240,1)',
+            position : 'left',
+            ticksMax : 35
           },
           {
             name : 'Average CPC',
             key : 'average_cpc',
-            color: 'rgba(244,115,120,1)'  
+            color: 'rgba(244,115,120,1)',
+            position : 'right',
+            ticksMax : 0.8
           }
         ]
       }
@@ -59,7 +63,7 @@ const ChartsV2 = (report) =>{
             <MultipleLinesChart summaries={summaries} chartDataProp={getAdSalesAndAdSpendData()} />
           </Grid>
           <Grid item xs={4}>
-            <MultipleLinesChart summaries={summaries} chartDataProp={getConversionRateAndAvgPPCData()} />
+            <MultipleLinesYaxisChart summaries={summaries} chartDataProp={getConversionRateAndAvgPPCData()} />
           </Grid>
         </Grid>
         <Grid container>
