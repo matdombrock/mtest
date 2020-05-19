@@ -1,3 +1,3 @@
 module.exports = {
-  remoteIP: "http://54.161.89.185:3001"
-}
+  remoteIP: "http://54.237.237.18:3001"
+};

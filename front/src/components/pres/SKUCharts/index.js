@@ -9,17 +9,16 @@ import {
   ResponsiveContainer,
   Legend,
   PieChart,
-  Pie,
+  Pie
 } from "recharts";
 import numberWithCommas from "../../../services/numberWithCommas";
 import s from "./style.module.scss";
-import { connect } from "react-redux";
 
-class Charts extends React.Component {
+class SKUCharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maxValue: 0,
+      maxValue: 0
     };
     this.formatMoney = this.formatMoney.bind(this);
   }
@@ -29,54 +28,36 @@ class Charts extends React.Component {
   }
 
   render() {
-    const { sales } = this.props;
-    let periods = this.props.data.periods;
-    if (!sales.isComparison) {
-      periods = periods.slice(0, periods.length - 1);
-    }
     let maxRevenue = 0.0,
       maxAdSales = 0.0,
       maxCvr = 0.0,
       maxSellingPrice = 0.0,
-      totalSales = 0,
-      totalAdSales = 0;
-
-    const allSummaries = periods
-      .map((d) => ({
-        ...d.summary,
-        // date: `$`
-      }))
-      .reverse();
-    console.log("Charts -> render -> allSummaries", allSummaries);
-    totalAdSales = periods[0].summary.ad_sales || 0;
-    totalSales =
-      Number(periods[0].summary.sales) > 0
-        ? Number(periods[0].summary.sales) - Number(totalAdSales)
-        : 0;
-    console.log("Charts -> render -> totalAdSales", totalAdSales);
-    console.log("Charts -> render -> totalSales", totalSales);
-    if (allSummaries) {
-      for (let i = 0; i < allSummaries.length; i++) {
-        if (parseFloat(allSummaries[i].sales) > maxRevenue) {
-          maxRevenue = allSummaries[i].sales;
+      totalSales;
+    if (this.props.data.itemized) {
+      totalSales = (
+        parseFloat(this.props.data.summary.totalRevenue) -
+        parseFloat(this.props.data.summary.totalAdSales)
+      ).toFixed(2);
+      for (let i = 0; i < this.props.data.itemized.length; i++) {
+        if (parseFloat(this.props.data.itemized[i].sales) > maxRevenue) {
+          maxRevenue = this.props.data.itemized[i].sales;
         }
 
-        if (parseFloat(allSummaries[i].ad_sales) > maxAdSales) {
-          maxAdSales = allSummaries[i].ad_sales;
+        if (parseFloat(this.props.data.itemized[i].ad_sales) > maxAdSales) {
+          maxAdSales = this.props.data.itemized[i].ad_sales;
         }
 
-        if (parseFloat(allSummaries[i].conversion_rate) > maxCvr) {
-          maxCvr = allSummaries[i].conversion_rate;
+        if (parseFloat(this.props.data.itemized[i].conversion_rate) > maxCvr) {
+          maxCvr = this.props.data.itemized[i].conversion_rate;
         }
 
         if (
-          parseFloat(allSummaries[i].average_selling_price) > maxSellingPrice
+          parseFloat(this.props.data.itemized[i].ad_orders) > maxSellingPrice
         ) {
-          maxSellingPrice = allSummaries[i].average_selling_price;
+          maxSellingPrice = this.props.data.itemized[i].ad_orders;
         }
       }
     }
-
     return (
       <div className={s.canvas}>
         <Grid container>
@@ -84,7 +65,13 @@ class Charts extends React.Component {
             <ResponsiveContainer width={"100%"} height={300}>
               <LineChart
                 margin={{ left: 50, top: 20, right: 5 }}
-                data={allSummaries ? allSummaries : null}
+                data={
+                  this.props.data.itemized
+                    ? this.props.data.itemized.sort(
+                        (a, b) => new Date(a.date) - new Date(b.date)
+                      )
+                    : null
+                }
               >
                 <Line
                   name={"Total Sales"}
@@ -92,15 +79,7 @@ class Charts extends React.Component {
                   dataKey="sales"
                   stroke="blue"
                 />
-                <XAxis
-                  dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start"
-                  //   // dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
-                />
+                <XAxis dataKey="date" />{" "}
                 <YAxis
                   domain={[0, parseFloat(maxRevenue)]}
                   tickFormatter={this.formatMoney}
@@ -115,8 +94,8 @@ class Charts extends React.Component {
               <LineChart
                 margin={{ left: 50, top: 20, right: 5 }}
                 data={
-                  allSummaries
-                    ? allSummaries.sort(
+                  this.props.data.itemized
+                    ? this.props.data.itemized.sort(
                         (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
@@ -134,16 +113,8 @@ class Charts extends React.Component {
                   dataKey="ad_spend"
                   stroke="red"
                 />
-                <XAxis
-                  dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
-                />
                 <Legend verticalAlign="top" height={36} />
+                <XAxis dataKey="date" />{" "}
                 <YAxis
                   domain={[0, parseFloat(maxAdSales)]}
                   tickFormatter={this.formatMoney}
@@ -156,31 +127,23 @@ class Charts extends React.Component {
             <ResponsiveContainer width={"100%"} height={300}>
               <LineChart
                 data={
-                  allSummaries
-                    ? allSummaries.sort(
+                  this.props.data.itemized
+                    ? this.props.data.itemized.sort(
                         (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
                 }
                 margin={{ left: 20, top: 20, right: 5 }}
               >
-                <XAxis
-                  dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
-                />
                 <YAxis yAxisId="left" domain={[0, parseFloat(maxCvr)]} />
                 <YAxis yAxisId="right" orientation="right" />
+                <XAxis dataKey="date" />{" "}
                 <Legend verticalAlign="top" height={36} />
                 <Line
                   yAxisId="left"
                   name="Conversion Rate"
                   type="monotone"
-                  dataKey="conversion_rate"
+                  dataKey="cvr"
                   stroke="blue"
                 />
                 <Line
@@ -200,33 +163,31 @@ class Charts extends React.Component {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "center"
             }}
           >
             <ResponsiveContainer width={"100%"} height={300}>
               <LineChart
                 margin={{ left: 20, top: 20, right: 5 }}
-                data={allSummaries || null}
+                data={
+                  this.props.data.itemized
+                    ? this.props.data.itemized.sort(
+                        (a, b) => new Date(a.date) - new Date(b.date)
+                      )
+                    : null
+                }
               >
                 <Line
-                  name={"Average Selling Price"}
+                  name={"Total Orders"}
                   type="monotone"
-                  dataKey="average_selling_price"
+                  dataKey="ad_orders"
                   stroke="blue"
                 />
-                <XAxis
-                  dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
-                />
+                <XAxis dataKey="date" />
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
                 <YAxis
-                  domain={[0, parseFloat(maxSellingPrice || 0)]}
+                  domain={[0, parseFloat(maxSellingPrice)]}
                   tickFormatter={this.formatMoney}
                 />
               </LineChart>
@@ -237,8 +198,8 @@ class Charts extends React.Component {
               <LineChart
                 margin={{ left: 20, top: 20, right: 5 }}
                 data={
-                  allSummaries
-                    ? allSummaries.sort(
+                  this.props.data.itemized
+                    ? this.props.data.itemized.sort(
                         (a, b) => new Date(a.date) - new Date(b.date)
                       )
                     : null
@@ -250,15 +211,7 @@ class Charts extends React.Component {
                   dataKey="acos"
                   stroke="blue"
                 />
-                <XAxis
-                  dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
-                />
+                <XAxis dataKey="date" />
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
                 <YAxis />
@@ -272,15 +225,19 @@ class Charts extends React.Component {
                 <Pie
                   data={[
                     {
-                      value: totalAdSales || 0,
+                      value: this.props.data.summary
+                        ? parseFloat(this.props.data.summary.totalAdSales)
+                        : 0,
                       fill: "blue",
-                      name: "Ad Sales",
+                      name: "Ad Sales"
                     },
                     {
-                      value: totalSales || 0,
+                      value: this.props.data.summary
+                        ? parseFloat(totalSales)
+                        : 0,
                       fill: "green",
-                      name: "Total Sales (not including ad sales)",
-                    },
+                      name: "Total Sales (not including ad sales)"
+                    }
                   ]}
                   dataKey="value"
                   cx="50%"
@@ -288,7 +245,7 @@ class Charts extends React.Component {
                   innerRadius={60}
                   outerRadius={80}
                   fill="#82ca9d"
-                  label={(data) => "$" + numberWithCommas(data.payload.value)}
+                  label={data => "$" + numberWithCommas(data.payload.value)}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -299,9 +256,4 @@ class Charts extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  sales: state.sales,
-  brands: state.brands,
-});
-
-export default connect(mapStateToProps, null)(Charts);
+export default SKUCharts;

@@ -7,8 +7,11 @@
   box-shadow: none !important;
   // border:none !important;
   overflow-x: scroll;
-  max-height: 90vh !important;
+
+  height: 60vh !important;
   width: 92% !important;
+  margin-top: 10px;
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -16,7 +19,6 @@
     border: 1px solid #ddd;
     // min-height: 200px;
     background-color: #fff;
-
     width: 2150px !important;
   }
   th {

@@ -23,19 +23,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LeftNavigationMenu() {
+export default function LeftNavigationMenu(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
+  const {active} = props
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    props.changeTab(newValue);
   };
 
   return (
     <div className={s.container}>
       <Tabs
-        orientation="vertical"
-        value={value}
+        // orientation="vertical"
+        value={active}
         onChange={handleChange}
         aria-label="Vertical tabs example"
         className={classes.tabs}

@@ -1,6 +1,135 @@
 body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.MuiOutlinedInput-input {
+  padding: 7px !important;
+  color: #fff;
+}
+.MuiInputBase-root.MuiOutlinedInput-root svg {
+  display: none;
+}
+.MuiSelect-outlined.MuiSelect-outlined {
+  font-size: 12px;
+  color: #fff;
+}
+
+.fixed-header-table {
+  position: relative;
+  border-collapse: collapse;
+}
+.fixed-header-table thead th,
+.fixed-header-table tfoot td {
+  transition-duration: 0.3s;
+  background: white;
+  position: sticky;
+  top: -1px;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  padding: 10px 5px !important;
+}
+.fixed-header-table tfoot td {
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.fixed-header-table thead th {
+  z-index: 100;
+}
+
+.fixed-header-table thead th div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fixed-header-table thead th div span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fixed-header-table thead th div span span {
+  margin-left: 5px;
+}
+.fixed-header-table tbody th div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100px;
+}
+.fixed-header-table tbody th div span span {
+  margin-left: 5px;
+}
+
+.w-date {
+  width: 150px;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #fff !important;
+  border-width: 1px !important;
+}
+
+.intro {
+  max-width: 1280px;
+  margin: 1em auto;
+}
+.table-scroll {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+  margin: auto;
+  overflow: auto;
+  height: 350px;
+}
+.table-scroll table {
+  width: 100%;
+  min-width: 1280px;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table-wrap {
+  position: relative;
+}
+.table-scroll th,
+.table-scroll td {
+  padding: 5px 10px;
+  vertical-align: top;
+}
+.table-scroll thead th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+/* safari and ios need the tfoot itself to be position:sticky also */
+.table-scroll tfoot,
+.table-scroll tfoot th,
+.table-scroll tfoot td {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+}
+
+th:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+thead th:first-child,
+tfoot th:first-child {
+  z-index: 5;
+}
+.color-dark {
+  color: black !important;
+  padding: 3px 0 !important;
+}
+.text-decoration-none {
+  text-decoration: none;
+}
+.p-2 {
+  padding: 10px;
+}
