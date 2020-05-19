@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import {Line} from 'react-chartjs-2';
 import s from "./style.module.scss";
 import TotalSalesChart from "./TotalSalesChart";
 
