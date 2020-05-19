@@ -28,7 +28,7 @@ const MultipleLinesChart = ({summaries, chartDataProp}) =>{
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: summaries.map(s => s[x.key])
+            data: summaries.map(s => s[x.key].toFixed(2))
           })
       });
     return(
