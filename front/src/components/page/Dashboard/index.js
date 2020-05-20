@@ -76,7 +76,6 @@ class Dashboard extends Component {
                       endDate={endDate}
                     />
                     <ChartsV2 report={active} />
-                    <Charts data={active} />
                     <DataDisplayItemizedTable
                       data={active}
                       comparisons={comparisons}
