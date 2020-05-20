@@ -94,12 +94,12 @@ class Charts extends React.Component {
                 />
                 <XAxis
                   dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start"
-                  //   // dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
+                // tick={{
+                //   angle: 90,
+                //   textAnchor: "start"
+                //   // dominantBaseline: "ideographic"
+                // }}
+                // height={160}
                 />
                 <YAxis
                   domain={[0, parseFloat(maxRevenue)]}
@@ -117,8 +117,8 @@ class Charts extends React.Component {
                 data={
                   allSummaries
                     ? allSummaries.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
               >
@@ -136,12 +136,12 @@ class Charts extends React.Component {
                 />
                 <XAxis
                   dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
+                // tick={{
+                //   angle: 90,
+                //   textAnchor: "start",
+                //   dominantBaseline: "ideographic"
+                // }}
+                // height={160}
                 />
                 <Legend verticalAlign="top" height={36} />
                 <YAxis
@@ -158,34 +158,34 @@ class Charts extends React.Component {
                 data={
                   allSummaries
                     ? allSummaries.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
                 margin={{ left: 20, top: 20, right: 5 }}
               >
                 <XAxis
                   dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
+                // tick={{
+                //   angle: 90,
+                //   textAnchor: "start",
+                //   dominantBaseline: "ideographic"
+                // }}
+                // height={160}
                 />
                 <YAxis yAxisId="left" domain={[0, parseFloat(maxCvr)]} />
                 <YAxis yAxisId="right" orientation="right" />
                 <Legend verticalAlign="top" height={36} />
                 <Line
                   yAxisId="left"
-                  name="Conversion Rate"
+                  name="Conversion Rate %"
                   type="monotone"
                   dataKey="conversion_rate"
                   stroke="blue"
                 />
                 <Line
                   yAxisId="right"
-                  name="Average CPC"
+                  name="Average CPC $"
                   type="monotone"
                   dataKey="average_cpc"
                   stroke="red"
@@ -216,12 +216,12 @@ class Charts extends React.Component {
                 />
                 <XAxis
                   dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
+                // tick={{
+                //   angle: 90,
+                //   textAnchor: "start",
+                //   dominantBaseline: "ideographic"
+                // }}
+                // height={160}
                 />
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
@@ -239,8 +239,8 @@ class Charts extends React.Component {
                 data={
                   allSummaries
                     ? allSummaries.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
               >
@@ -252,12 +252,12 @@ class Charts extends React.Component {
                 />
                 <XAxis
                   dataKey="date"
-                  // tick={{
-                  //   angle: 90,
-                  //   textAnchor: "start",
-                  //   dominantBaseline: "ideographic"
-                  // }}
-                  // height={160}
+                // tick={{
+                //   angle: 90,
+                //   textAnchor: "start",
+                //   dominantBaseline: "ideographic"
+                // }}
+                // height={160}
                 />
                 <Legend verticalAlign="top" height={36} />
                 <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
