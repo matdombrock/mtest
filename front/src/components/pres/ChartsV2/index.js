@@ -40,15 +40,13 @@ const ChartsV2 = (report) =>{
             name : 'Conversion Rate',
             key : 'conversion_rate',
             color:'rgba(0,176,240,1)',
-            position : 'left',
-            ticksMax : 35
+            position : 'left'
           },
           {
             name : 'Average CPC',
             key : 'average_cpc',
             color: 'rgba(244,115,120,1)',
-            position : 'right',
-            ticksMax : 0.8
+            position : 'right'
           }
         ]
       }
