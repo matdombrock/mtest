@@ -2,7 +2,7 @@ import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 
 const DonutChart = (props) => {
-    
+
     const { chartDataValues } = props;
 
     const getAdSales = () => {
@@ -24,8 +24,8 @@ const DonutChart = (props) => {
 
     const data = {
         labels: [
-            'Ad Sales',
-            'Total Sales (not including ad sales)'
+            'Ad Sales ($)',
+            'Total Sales ($) (not including ad sales)'
         ],
         datasets: [{
             data: [getAdSales(), getTotalSales()],
