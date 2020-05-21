@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { getAsins } from "../../../services/api";
+import { getMissingProductCount } from "../../../services/api";
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -29,10 +29,11 @@ class Navbar extends React.Component {
 
   handleGetAsins = async () => {
     try {
-      const response = await getAsins();
-      if (response.csv)
+      const response = await getMissingProductCount();
+
+      if (response)
         this.setState({
-          count: String(response.csv).split("\n").length - 1,
+          count: response,
         });
     } catch (error) {
       console.log("ImportProducts -> handleSubmit -> error", error);
@@ -42,15 +43,15 @@ class Navbar extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleClose = (path) => {
     this.setState({ anchorEl: null });
+    if (path) this.props.history.push(path);
   };
 
   logout = () => {
     sessionStorage.clear();
     window.location.reload();
   };
-  handleImport = () => this.props.history.push("/import");
   render() {
     const { count } = this.state;
     return (
@@ -89,9 +90,7 @@ class Navbar extends React.Component {
               onClose={this.handleClose}
             >
               {this.state.admin === "true" ? (
-                <MenuItem
-                  onClick={() => (window.location.pathname = "/manage-users")}
-                >
+                <MenuItem onClick={() => this.handleClose("/manage-users")}>
                   Manage Users
                 </MenuItem>
               ) : (
@@ -108,7 +107,7 @@ class Navbar extends React.Component {
                 ""
               )}
               {this.state.admin === "true" ? (
-                <MenuItem onClick={this.handleImport}>
+                <MenuItem onClick={() => this.handleClose("/import")}>
                   Missing Products({count || 0})
                 </MenuItem>
               ) : (
