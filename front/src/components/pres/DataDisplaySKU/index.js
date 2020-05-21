@@ -145,7 +145,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       );
     }
 
-    temp.push(current.units_per_order ? "$" + numberWithCommas(current.orders) : "N/A");
+    temp.push(current.orders ? "$" + numberWithCommas(current.orders) : "N/A");
     temp.push(previous.orders ? "$" + numberWithCommas(previous.orders) : "N/A");
     temp.push(
       change.orders !== 0
@@ -1506,14 +1506,29 @@ const getSummaryInTotal = (props) => {
     return false;
   });
 
-  temp.orders.charge = temp.orders.charge / props.length;
-  temp.orders.yoyCharge = temp.orders.yoyCharge / props.length;
+  const { length: _length } = props
+  const { asp: _asp, units_per_order: _units_per_order, orders: _orders } = temp
 
-  temp.units_per_order.charge = temp.units_per_order.charge / props.length;
-  temp.units_per_order.yoyCharge = temp.units_per_order.yoyCharge / props.length;
+  temp.asp.current = _asp.current / _length;
+  temp.asp.previous = _asp.previous / _length;
+  temp.asp.change = _asp.change / _length;
+  temp.asp.yoy = _asp.yoy / _length;
+  temp.asp.charge = _asp.charge / _length;
+  temp.asp.yoyCharge = _asp.yoyCharge / _length;
 
-  temp.asp.charge = temp.asp.charge / props.length;
-  temp.asp.yoyCharge = temp.asp.yoyCharge / props.length;
+  temp.units_per_order.current = _units_per_order.current / _length;
+  temp.units_per_order.previous = _units_per_order.previous / _length;
+  temp.units_per_order.change = _units_per_order.change / _length;
+  temp.units_per_order.yoy = _units_per_order.yoy / _length;
+  temp.units_per_order.charge = _units_per_order.charge / _length;
+  temp.units_per_order.yoyCharge = _units_per_order.yoyCharge / _length;
+
+  temp.orders.current = _orders.current / _length;
+  temp.orders.previous = _orders.previous / _length;
+  temp.orders.change = _orders.change / _length;
+  temp.orders.yoy = _orders.yoy / _length;
+  temp.orders.charge = _orders.charge / _length;
+  temp.orders.yoyCharge = _orders.yoyCharge / _length;
 
   temp.ad_spend.charge = temp.ad_spend.charge / props.length;
   temp.ad_spend.yoyCharge = temp.ad_spend.yoyCharge / props.length;
@@ -2534,7 +2549,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 5 ? (
+                    {isComparisons && active === 6 ? (
                       <>
                         <td align="right">
                           {current.sales
@@ -2600,7 +2615,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 6 ? (
+                    {isComparisons && active === 7 ? (
                       <>
                         <td align="right">
                           {current.units_sold
@@ -2670,7 +2685,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 7 ? (
+                    {isComparisons && active === 8 ? (
                       <>
                         <td align="right">
                           {current.shipped_cogs
@@ -2741,7 +2756,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 8 ? (
+                    {isComparisons && active === 9 ? (
                       <>
                         <td align="right">
                           {current.ad_clicks
@@ -2784,7 +2799,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 9 ? (
+                    {isComparisons && active === 10 ? (
                       <>
                         <td align="right">
                           {current.ad_impressions
@@ -2827,7 +2842,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 10 ? (
+                    {isComparisons && active === 11 ? (
                       <>
                         <td align="right">
                           {current.average_cpc
@@ -2870,7 +2885,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 11 ? (
+                    {isComparisons && active === 12 ? (
                       <>
                         <td align="right">
                           {current.ad_spend
@@ -2935,7 +2950,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 12 ? (
+                    {isComparisons && active === 13 ? (
                       <>
                         <td align="right">
                           {!!current.ad_orders
@@ -2976,7 +2991,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 13 ? (
+                    {isComparisons && active === 14 ? (
                       <>
                         <td align="right">
                           {current.ad_sales
@@ -3017,7 +3032,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 14 ? (
+                    {isComparisons && active === 15 ? (
                       <>
                         <td align="right">
                           {!!current.percent_total_sales
@@ -3064,7 +3079,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 15 ? (
+                    {isComparisons && active === 16 ? (
                       <>
                         <td align="right">
                           {current.conversion_rate !== 0
@@ -3108,7 +3123,7 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 16 ? (
+                    {isComparisons && active === 17 ? (
                       <>
                         <td align="right">
                           {current.acos

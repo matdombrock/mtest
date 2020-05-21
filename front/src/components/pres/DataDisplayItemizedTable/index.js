@@ -1330,26 +1330,29 @@ const getSummaryInTotal = (props) => {
     return false;
   });
 
-  temp.asp.current = temp.asp.current / props.length;
-  temp.asp.previous = temp.asp.previous / props.length;
-  temp.asp.change = temp.asp.change / props.length;
-  temp.asp.yoy = temp.asp.yoy / props.length;
-  temp.asp.charge = temp.asp.charge / props.length;
-  temp.asp.yoyCharge = temp.asp.yoyCharge / props.length;
+  const { length: _length } = props
+  const { asp: _asp, units_per_order: _units_per_order, orders: _orders } = temp
 
-  temp.units_per_order.current = temp.units_per_order.current / props.length;
-  temp.units_per_order.previous = temp.units_per_order.previous / props.length;
-  temp.units_per_order.change = temp.units_per_order.change / props.length;
-  temp.units_per_order.yoy = temp.units_per_order.yoy / props.length;
-  temp.units_per_order.charge = temp.units_per_order.charge / props.length;
-  temp.units_per_order.yoyCharge = temp.units_per_order.yoyCharge / props.length;
+  temp.asp.current = _asp.current / _length;
+  temp.asp.previous = _asp.previous / _length;
+  temp.asp.change = _asp.change / _length;
+  temp.asp.yoy = _asp.yoy / _length;
+  temp.asp.charge = _asp.charge / _length;
+  temp.asp.yoyCharge = _asp.yoyCharge / _length;
 
-  temp.orders.current = temp.orders.current / props.length;
-  temp.orders.previous = temp.orders.previous / props.length;
-  temp.orders.change = temp.orders.change / props.length;
-  temp.orders.yoy = temp.orders.yoy / props.length;
-  temp.orders.charge = temp.orders.charge / props.length;
-  temp.orders.yoyCharge = temp.orders.yoyCharge / props.length;
+  temp.units_per_order.current = _units_per_order.current / _length;
+  temp.units_per_order.previous = _units_per_order.previous / _length;
+  temp.units_per_order.change = _units_per_order.change / _length;
+  temp.units_per_order.yoy = _units_per_order.yoy / _length;
+  temp.units_per_order.charge = _units_per_order.charge / _length;
+  temp.units_per_order.yoyCharge = _units_per_order.yoyCharge / _length;
+
+  temp.orders.current = _orders.current / _length;
+  temp.orders.previous = _orders.previous / _length;
+  temp.orders.change = _orders.change / _length;
+  temp.orders.yoy = _orders.yoy / _length;
+  temp.orders.charge = _orders.charge / _length;
+  temp.orders.yoyCharge = _orders.yoyCharge / _length;
 
   temp.ad_spend.charge = temp.ad_spend.charge / props.length;
   temp.ad_spend.yoyCharge = temp.ad_spend.yoyCharge / props.length;
