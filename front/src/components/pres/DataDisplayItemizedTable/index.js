@@ -624,17 +624,17 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 
   total.push(
     totalOfData.units_per_order.current
-      ?  numberWithCommas(totalOfData.units_per_order.current)
+      ? numberWithCommas(totalOfData.units_per_order.current)
       : "N/A"
   );
   total.push(
     totalOfData.units_per_order.previous
-      ?  numberWithCommas(totalOfData.units_per_order.previous)
+      ? numberWithCommas(totalOfData.units_per_order.previous)
       : "N/A"
   );
   total.push(
     totalOfData.units_per_order.change !== 0
-      ?  numberWithCommas(totalOfData.units_per_order.change)
+      ? numberWithCommas(totalOfData.units_per_order.change)
       : totalOfData.units_per_order.current > 0 &&
         totalOfData.units_per_order.previous > 0
       ? "$0.00"
@@ -651,7 +651,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   if (isYoY) {
     total.push(
       totalOfData.units_per_order.yoy !== 0
-        ?  numberWithCommas(totalOfData.units_per_order.yoy)
+        ? numberWithCommas(totalOfData.units_per_order.yoy)
         : totalOfData.units_per_order.current > 0 &&
           totalOfData.units_per_order.yoySKU > 0
         ? "$0.00"
@@ -1542,7 +1542,6 @@ const DataDisplayItemizedTable = (props) => {
     setSortByInner(columnId);
   };
   const totalOfData = getSummaryInTotal(filterData);
-  console.log("DataDisplayItemizedTable -> totalOfData", totalOfData);
   return (
     <>
       <CSVLink
@@ -2101,48 +2100,48 @@ const DataDisplayItemizedTable = (props) => {
                       {(active === 1 ||
                         active === 2 ||
                         active === 3 ||
-                        active === 7) &&
+                        active === 4 ||
+                        active === 5 ||
+                        active === 6 ||
+                        active === 10) &&
                         isYoY && (
-                          <th className={s.tableHead} align="right">
-                            <div>
-                              <span>Change # YOY</span>
-                              <span onClick={() => handleSortInner(4)}>
-                                {" "}
-                                {sortByInner === 4 ? (
-                                  sortAscendingBy ? (
-                                    <ArrowDropUpIcon />
+                          <>
+                            <th className={s.tableHead} align="right">
+                              <div>
+                                <span>Change # YOY</span>
+                                <span onClick={() => handleSortInner(4)}>
+                                  {" "}
+                                  {sortByInner === 4 ? (
+                                    sortAscendingBy ? (
+                                      <ArrowDropUpIcon />
+                                    ) : (
+                                      <ArrowDropDownIcon />
+                                    )
                                   ) : (
-                                    <ArrowDropDownIcon />
-                                  )
-                                ) : (
-                                  <SortIcon />
-                                )}
-                              </span>
-                            </div>
-                          </th>
-                        )}
-                      {(active === 1 ||
-                        active === 2 ||
-                        active === 3 ||
-                        active === 7) &&
-                        isYoY && (
-                          <th className={s.tableHead} align="right">
-                            <div>
-                              <span>Change % YOY</span>
-                              <span onClick={() => handleSortInner(5)}>
-                                {" "}
-                                {sortByInner === 5 ? (
-                                  sortAscendingBy ? (
-                                    <ArrowDropUpIcon />
+                                    <SortIcon />
+                                  )}
+                                </span>
+                              </div>
+                            </th>
+
+                            <th className={s.tableHead} align="right">
+                              <div>
+                                <span>Change % YOY</span>
+                                <span onClick={() => handleSortInner(5)}>
+                                  {" "}
+                                  {sortByInner === 5 ? (
+                                    sortAscendingBy ? (
+                                      <ArrowDropUpIcon />
+                                    ) : (
+                                      <ArrowDropDownIcon />
+                                    )
                                   ) : (
-                                    <ArrowDropDownIcon />
-                                  )
-                                ) : (
-                                  <SortIcon />
-                                )}
-                              </span>
-                            </div>
-                          </th>
+                                    <SortIcon />
+                                  )}
+                                </span>
+                              </div>
+                            </th>
+                          </>
                         )}
                     </>
                   )}
