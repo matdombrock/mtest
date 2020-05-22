@@ -9,22 +9,22 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues }) => {
       {
         label: name,
         fill: false,
-        lineTension: 0.1,
+        lineTension: 0,
         backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(0,176,240,1)',
+        borderColor: '#F1996B',
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(0,176,240,1)',
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(0,176,240,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBorderColor: '#fff',
+        pointBackgroundColor: '#F1996B',
+        pointBorderWidth: 3,
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: '#F1996B',
+        pointHoverBorderColor: '#F1996B',
+        pointHoverBorderWidth: 3,
+        pointRadius: 4,
+        pointHitRadius: 4,
         data: chartDataValues
       }
     ]
@@ -38,9 +38,17 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues }) => {
             callback: function (value, index, values) {
               return '$ ' + value
             }
+          },
+          gridLines: {
+            display: false
           }
         }
-      ]
+      ],
+      xAxes: [{
+        gridLines: {
+          display: false
+        }
+      }]
     }
   }
 
