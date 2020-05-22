@@ -56,7 +56,7 @@ const ChartsV2 = (report) => {
     <div className={s.canvas}>
       <Grid container>
         <Grid item xs={4}>
-          <SingleLineChart name='Total Sales ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.sales.toFixed(2))} />
+          <SingleLineChart name='Total Sales' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.sales.toFixed(2))} />
         </Grid>
         <Grid item xs={4}>
           <MultipleLinesChart summaries={summaries} chartDataProp={getAdSalesAndAdSpendData()} />

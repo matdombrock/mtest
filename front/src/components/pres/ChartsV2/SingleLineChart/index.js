@@ -1,5 +1,5 @@
-import React from "react";
-import { Line } from 'react-chartjs-2';
+import React from 'react';
+import { Line } from 'react-chartjs-2'
 
 const SingleLineChart = ({ name, chartLabels, chartDataValues }) => {
 
@@ -49,6 +49,15 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues }) => {
           display: false
         }
       }]
+    },
+    legend: {
+      display: true,
+      position: 'top',
+      align: 'end',
+      labels: {
+        fontColor: '#F1996B',
+        usePointStyle: true,
+      }
     }
   }
 
