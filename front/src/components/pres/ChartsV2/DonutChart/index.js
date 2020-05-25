@@ -21,17 +21,6 @@ const DonutChart = ({ chartDataValues }) => {
     }
 
     const data = {
-        scales: {
-            yAxes: [
-                {
-                    ticks: {
-                        callback: function (value, index, values) {
-                            return '$ ' + value
-                        }
-                    }
-                }
-            ]
-        },
         labels: [
             'Ad Sales ($)',
             'Total Sales ($) (not including ad sales)'

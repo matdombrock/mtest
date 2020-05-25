@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import s from "./style.module.scss";
 import SingleLineChart from "./SingleLineChart";
 import MultipleLinesChart from "./MultipleLinesChart";
+import MultipleLinesChartV2 from "./MultipleLinesChartV2";
 import MultipleLinesYaxisChart from "./MultipleLinesYaxisChart";
 import DonutChart from './DonutChart'
 
@@ -63,6 +64,17 @@ const ChartsV2 = (report) => {
         </Grid>
         <Grid item xs={4}>
           <MultipleLinesYaxisChart summaries={summaries} chartDataProp={getConversionRateAndAvgPPCData()} />
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={4}>
+
+        </Grid>
+        <Grid item xs={4}>
+          <MultipleLinesChartV2 summaries={summaries} chartDataProp={getAdSalesAndAdSpendData()} />
+        </Grid>
+        <Grid item xs={4}>
+
         </Grid>
       </Grid>
       <Grid container>

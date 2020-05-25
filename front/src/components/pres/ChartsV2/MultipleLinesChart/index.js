@@ -2,7 +2,6 @@ import React from "react";
 import { Line } from 'react-chartjs-2';
 
 const MultipleLinesChart = ({ summaries, chartDataProp }) => {
-
   const chartData = {
     labels: summaries.map((x, i) => i),
     datasets: []
@@ -28,7 +27,7 @@ const MultipleLinesChart = ({ summaries, chartDataProp }) => {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: summaries.map(s => s[x.key].toFixed(2))
+      data: summaries.map(s => s[x.key].toFixed(2)),
     })
   });
 
