@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Dashboard from "./components/page/Dashboard";
 import Login from "./components/page/Login";
-import Navbar from "./components/pres/Navbar";
 import ManageUsers from "./components/page/ManageUsers";
 import { Route, Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -9,7 +8,7 @@ import { createBrowserHistory as createHistory } from "history";
 import { checkToken } from "./services/api";
 import store from "./store";
 import "./global.css";
-import importProducts from "./components/page/importProducts";
+import importProducts from "./components/page/importProducts"
 
 const history = createHistory();
 
@@ -27,7 +26,6 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history} basename={"/"}>
           <React.Fragment>
-            <Navbar />
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/manage-users"} component={ManageUsers} />
             <Route exact path={"/import"} component={importProducts} />

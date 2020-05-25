@@ -6,6 +6,7 @@ import UpperControls from "../../pres/UpperControls";
 import DataDisplayCardGrid from "../../pres/DataDisplayCardGrid";
 import DataDisplayItemizedTable from "../../pres/DataDisplayItemizedTable";
 import LeftNavigationMenu from "../../pres/LeftNavigationMenu";
+import TopBanner from './../../pres/TopBanner/topBanner';
 import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
 import ChartsV2 from "../../pres/ChartsV2";
@@ -47,55 +48,58 @@ class Dashboard extends Component {
     console.log("Dashboard -> render -> skuActive", skuActive);
     const { activeTab, isError, startDate, endDate } = this.state;
     return (
-      <div className={s.container}>
-        <UpperControls
-          activeTab={activeTab}
-          setError={this.setError}
-          setDates={this.setDates}
-        />
-        <Grid container className={s.gridContainer}>
-          <Grid item className={s.item} xs={12}>
-            <LeftNavigationMenu
-              active={activeTab}
-              changeTab={this.handleTabChange}
-            />
-          </Grid>
-          {isLoading ? (
-            <Grid item xs={12} className={s.innerWithPaddingTop}>
-              <CircularProgress />
+      <>
+        <TopBanner />
+        <div className={s.container}>
+
+          <UpperControls
+            activeTab={activeTab}
+            setError={this.setError}
+            setDates={this.setDates}
+          />
+          <Grid container className={s.gridContainer}>
+            <Grid item className={s.item} xs={12}>
+              <LeftNavigationMenu
+                active={activeTab}
+                changeTab={this.handleTabChange}
+              />
             </Grid>
-          ) : (
-            <Grid item xs={12} id="#report" className={s.inner}>
-              {isError && <Alert severity="warning">{isError}</Alert>}
-              {activeTab === 0 ? (
-                active && !!active.periods && !!active.periods.length ? (
-                  <>
-                    <DataDisplayCardGrid
-                      data={active}
-                      startDate={startDate}
-                      endDate={endDate}
-                    />
-                    <ChartsV2 report={active} />
-                    <DataDisplayItemizedTable
-                      data={active}
-                      comparisons={comparisons}
-                    />
-                  </>
-                ) : (
-                  <p>No Record Found</p>
-                )
-              ) : (
-                <>
-                  {skuActive.periods &&
-                  skuActive.periods.length &&
-                  skuActive.periods[0] &&
-                  skuActive.periods[1] &&
-                  ((skuActive.periods[0].itemized &&
-                    skuActive.periods[0].itemized.length) ||
-                    (skuActive.periods[1].itemized &&
-                      skuActive.periods[1].itemized.length)) ? (
-                    <>
-                      {/* <DataDisplayCardGridSKU
+            {isLoading ? (
+              <Grid item xs={12} className={s.innerWithPaddingTop}>
+                <CircularProgress />
+              </Grid>
+            ) : (
+                <Grid item xs={12} id="#report" className={s.inner}>
+                  {isError && <Alert severity="warning">{isError}</Alert>}
+                  {activeTab === 0 ? (
+                    active && !!active.periods && !!active.periods.length ? (
+                      <>
+                        <DataDisplayCardGrid
+                          data={active}
+                          startDate={startDate}
+                          endDate={endDate}
+                        />
+                        <ChartsV2 report={active} />
+                        <DataDisplayItemizedTable
+                          data={active}
+                          comparisons={comparisons}
+                        />
+                      </>
+                    ) : (
+                        <p>No Record Found</p>
+                      )
+                  ) : (
+                      <>
+                        {skuActive.periods &&
+                          skuActive.periods.length &&
+                          skuActive.periods[0] &&
+                          skuActive.periods[1] &&
+                          ((skuActive.periods[0].itemized &&
+                            skuActive.periods[0].itemized.length) ||
+                            (skuActive.periods[1].itemized &&
+                              skuActive.periods[1].itemized.length)) ? (
+                            <>
+                              {/* <DataDisplayCardGridSKU
                       data={skuActive}
                       comparisons={skuComparisons}
                       startDate={startDate}
@@ -104,20 +108,21 @@ class Dashboard extends Component {
                       comparisonEndDate={comparisonEndDate}
                     />
                     <SKUCharts data={skuActive} /> */}
-                      <DataDisplaySKUTable
-                        data={skuActive}
-                        // comparisons={skuComparisons}
-                      />
-                    </>
-                  ) : (
-                    <p>No Record Found in SKU</p>
-                  )}{" "}
-                </>
+                              <DataDisplaySKUTable
+                                data={skuActive}
+                              // comparisons={skuComparisons}
+                              />
+                            </>
+                          ) : (
+                            <p>No Record Found in SKU</p>
+                          )}{" "}
+                      </>
+                    )}
+                </Grid>
               )}
-            </Grid>
-          )}
-        </Grid>
-      </div>
+          </Grid>
+        </div>
+      </>
     );
   }
 }

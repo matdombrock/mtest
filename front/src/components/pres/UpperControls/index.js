@@ -199,16 +199,16 @@ class UpperControls extends Component {
       selectedDateRange === "lastMonth"
         ? "last-month"
         : selectedDateRange === "last7Days"
-        ? "7-days"
-        : selectedDateRange === "last14Days"
-        ? "14-days"
-        : selectedDateRange === "this30Days"
-        ? "30-days"
-        : selectedDateRange === "lastWeek"
-        ? "last-week"
-        : selectedDateRange === "currentMonth"
-        ? "current-month"
-        : "yesterday";
+          ? "7-days"
+          : selectedDateRange === "last14Days"
+            ? "14-days"
+            : selectedDateRange === "this30Days"
+              ? "30-days"
+              : selectedDateRange === "lastWeek"
+                ? "last-week"
+                : selectedDateRange === "currentMonth"
+                  ? "current-month"
+                  : "yesterday";
     if (activeTab === 1) {
       brand &&
         fetchSalesDataBySKU(data)
@@ -663,23 +663,26 @@ class UpperControls extends Component {
     return (
       <>
         <div className={s.controlsContainer}>
-          <Grid container>
-            <Grid item xs={4} className={s.gridItem}>
+          <Grid container style={{ paddingLeft: '30px', paddingRight: '30px' }}>
+            <Grid item xs={1}>
+              <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
+            </Grid>
+            <Grid item xs={4} className={s.gridItem} style={{ paddingLeft: '30px' }}>
               <p className={s.dashboardLabel}>
                 {" "}
                 {this.props.activeTab === 0 ? (
                   <>
-                    <b>Brand Overview Dashboard:</b> {this.state.selectedBrand}
+                    <b>Brand Overview Dashboard: {this.state.selectedBrand} </b>
                   </>
                 ) : (
-                  <>
-                    <b>SKU Overview:</b> {this.state.selectedBrand}
-                  </>
-                )}
+                    <>
+                      <b>SKU Overview: {this.state.selectedBrand} </b>
+                    </>
+                  )}
               </p>
             </Grid>
-            <Grid item xs={8} className={[s.gridItem, s["menu-container"]]}>
-              <div className={s["position-relative"]}>
+            <Grid item xs={7} className={[s.gridItem, s["menu-container"]]} >
+              <div className={s["position-relative"]} >
                 <div
                   onClick={() =>
                     this.handleUpdateState("showDropDown", !showDropDown)
@@ -687,61 +690,61 @@ class UpperControls extends Component {
                   className={s["position-relative"]}
                 >
                   {" "}
-                  <EventNoteIcon className={s.menuOpen} />{" "}
+                  {/* <EventNoteIcon className={s.menuOpen} />{" "} */}
                   <p style={{ textTransform: "capitalize" }}>
                     {displayDateRange === "custom"
                       ? isCustomVisible
                         ? `${moment(startDate).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(endDate).format(
-                            "MMM DD, YYYY"
-                          )} VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : `${moment(startDate).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(endDate).format("MMM DD, YYYY")}`
-                      : displayDateRange === "lastMonth"
-                      ? isCustomVisible
-                        ? `Last Month VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last Month"
-                      : displayDateRange === "last7Days"
-                      ? isCustomVisible
-                        ? `last 7 Days VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "last 7 Days"
-                      : displayDateRange === "last14Days"
-                      ? isCustomVisible
-                        ? `last 14 Days VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last 14 Days"
-                      : displayDateRange === "this30Days"
-                      ? isCustomVisible
-                        ? `last 30 Days VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last 30 Days"
-                      : displayDateRange === "lastWeek"
-                      ? isCustomVisible
-                        ? `Last Week VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last Week"
-                      : displayDateRange === "currentMonth"
-                      ? isCustomVisible
-                        ? `Current Month VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Current Month"
-                      : isCustomVisible
-                      ? `yesterday VS ${moment(customDateStart).format(
+                          "MMM DD, YYYY"
+                        )} - ${moment(endDate).format(
+                          "MMM DD, YYYY"
+                        )} VS ${moment(customDateStart).format(
                           "MMM DD, YYYY"
                         )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                      : "yesterday"}
+                        : `${moment(startDate).format(
+                          "MMM DD, YYYY"
+                        )} - ${moment(endDate).format("MMM DD, YYYY")}`
+                      : displayDateRange === "lastMonth"
+                        ? isCustomVisible
+                          ? `Last Month VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                          : "Last Month"
+                        : displayDateRange === "last7Days"
+                          ? isCustomVisible
+                            ? `last 7 Days VS ${moment(customDateStart).format(
+                              "MMM DD, YYYY"
+                            )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                            : "last 7 Days"
+                          : displayDateRange === "last14Days"
+                            ? isCustomVisible
+                              ? `last 14 Days VS ${moment(customDateStart).format(
+                                "MMM DD, YYYY"
+                              )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                              : "Last 14 Days"
+                            : displayDateRange === "this30Days"
+                              ? isCustomVisible
+                                ? `last 30 Days VS ${moment(customDateStart).format(
+                                  "MMM DD, YYYY"
+                                )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                : "Last 30 Days"
+                              : displayDateRange === "lastWeek"
+                                ? isCustomVisible
+                                  ? `Last Week VS ${moment(customDateStart).format(
+                                    "MMM DD, YYYY"
+                                  )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                  : "Last Week"
+                                : displayDateRange === "currentMonth"
+                                  ? isCustomVisible
+                                    ? `Current Month VS ${moment(customDateStart).format(
+                                      "MMM DD, YYYY"
+                                    )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                    : "Current Month"
+                                  : isCustomVisible
+                                    ? `yesterday VS ${moment(customDateStart).format(
+                                      "MMM DD, YYYY"
+                                    )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                    : "yesterday"}
                   </p>
                   <ExpandMoreIcon className={s.menuOpen} />
                 </div>
@@ -903,7 +906,7 @@ class UpperControls extends Component {
                                 });
                                 this.props.setComparison(
                                   !!e.target.checked &&
-                                    compareType === "custom-range"
+                                  compareType === "custom-range"
                                 );
                               }}
                               value="true"
@@ -1103,7 +1106,7 @@ class UpperControls extends Component {
                       : "Select Periods"
                   }
                   classes={s["colo-grey"]}
-                  style={{ marginRight: 10 }}
+                  style={btnStyleOutlined}
                 >
                   <MenuItem key={1} value={"Select Periods"}>
                     Select Periods Count
@@ -1131,24 +1134,26 @@ class UpperControls extends Component {
                       : "Select Brand"
                   }
                   classes={s["colo-grey"]}
-                  style={{ marginRight: 10 }}
+                  // style={{ marginRight: 10 }}
+                  style={btnStyleOutlined}
                 >
                   <MenuItem key={1} value={"Select Brand"}>
                     Select Brand
                   </MenuItem>
                   {this.props.brands.length !== 0
                     ? this.props.brands.map((brand) => (
-                        <MenuItem key={brand.id} value={brand.brand_name}>
-                          {brand.brand_name}
-                        </MenuItem>
-                      ))
+                      <MenuItem key={brand.id} value={brand.brand_name}>
+                        {brand.brand_name}
+                      </MenuItem>
+                    ))
                     : ""}
                 </MuiSelect>
               )}
               <Button
                 onClick={this.fetchData}
                 variant="contained"
-                className={s.button}
+                // className={s.button}
+                style={btnStyleContained}
               >
                 Submit
               </Button>
@@ -1216,10 +1221,10 @@ class UpperControls extends Component {
                   </MenuItem>
                   {this.props.brands.length !== 0
                     ? this.props.brands.map((brand) => (
-                        <MenuItem key={brand.id} value={brand.brand_name}>
-                          {brand.brand_name}
-                        </MenuItem>
-                      ))
+                      <MenuItem key={brand.id} value={brand.brand_name}>
+                        {brand.brand_name}
+                      </MenuItem>
+                    ))
                     : ""}
                 </MuiSelect>
               </Grid>
@@ -1264,8 +1269,8 @@ class UpperControls extends Component {
                     onChange={(e) => this.changeSelectedSku(e)}
                   />
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </Grid>
               <Grid item xs={6}>
                 <p style={{ width: "100%", margin: "0px" }}>
@@ -1312,8 +1317,8 @@ class UpperControls extends Component {
                     />
                   </MuiPickersUtilsProvider>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </Grid>
               <Grid item xs={12}>
                 <Button
@@ -1347,3 +1352,18 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpperControls);
+
+const btnStyleOutlined = {
+  borderRadius: 0,
+  border: '2px solid #4fbcc3',
+  marginLeft: '15px'
+}
+
+const btnStyleContained = {
+  borderRadius: 0,
+  marginLeft: '15px',
+  boxShadow: 'none',
+  backgroundColor: '#4fbcc3',
+  color: '#fff',
+  paddingLeft: '10px',
+}

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Tabs, Tab, Grid } from '@material-ui/core';
 import s from './style.module.scss';
 
 function a11yProps(index) {
@@ -24,24 +23,59 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function LeftNavigationMenu(props) {
+  const [isFirstTabClicked, setIsFirstTabClicked] = useState(true)
+  const [isSecondTabClicked, setIsSecondTabClicked] = useState(false)
   const classes = useStyles();
-  const {active} = props
+  const { active } = props
   const handleChange = (event, newValue) => {
     props.changeTab(newValue);
   };
 
+  const handleFirstTabClick = () => {
+    setIsFirstTabClicked(true)
+    setIsSecondTabClicked(false)
+  }
+
+  const handleSecondTabClick = () => {
+    setIsSecondTabClicked(true)
+    setIsFirstTabClicked(false)
+  }
+
+  const styleFirstTab = () => {
+    return {
+      color: isFirstTabClicked ? '#e79563' : '#000',
+      textShadow: 'none',
+      fontSize: '15px'
+    }
+  }
+
+  const styleSecondTab = () => {
+    return {
+      color: isSecondTabClicked ? '#e79563' : '#000',
+      textShadow: 'none',
+      fontSize: '15px'
+    }
+  }
+
   return (
     <div className={s.container}>
-      <Tabs
-        // orientation="vertical"
-        value={active}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className={classes.tabs}
+      <Grid
+        container
+        direction='row'
+        justify='center'
+        alignItems='center'
       >
-        <Tab className={s.tab} label="Brand Dashboard" {...a11yProps(0)} />
-        <Tab className={s.tab} label="SKU Dashboard" {...a11yProps(1)} />
-      </Tabs>
+        <Tabs
+          // orientation="vertical"
+          value={active}
+          onChange={handleChange}
+
+        >
+          <Tab className={s.tab} label="Brand Dashboard" {...a11yProps(0)} onClick={handleFirstTabClick} style={styleFirstTab()} />
+          <span className={s.dashboardSeparator}>|</span>
+          <Tab className={s.tab} label="SKU Dashboard" {...a11yProps(1)} onClick={handleSecondTabClick} style={styleSecondTab()} />
+        </Tabs>
+      </Grid>
     </div>
   );
 }
