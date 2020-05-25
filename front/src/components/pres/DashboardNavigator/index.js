@@ -45,7 +45,8 @@ export default function LeftNavigationMenu(props) {
     return {
       color: isFirstTabClicked ? '#e79563' : '#000',
       textShadow: 'none',
-      fontSize: '15px'
+      fontSize: '15px',
+      textDecoration: isSecondTabClicked && 'underline'
     }
   }
 
@@ -53,7 +54,8 @@ export default function LeftNavigationMenu(props) {
     return {
       color: isSecondTabClicked ? '#e79563' : '#000',
       textShadow: 'none',
-      fontSize: '15px'
+      fontSize: '15px',
+      textDecoration: isFirstTabClicked && 'underline'
     }
   }
 
@@ -69,7 +71,6 @@ export default function LeftNavigationMenu(props) {
           // orientation="vertical"
           value={active}
           onChange={handleChange}
-
         >
           <Tab className={s.tab} label="Brand Dashboard" {...a11yProps(0)} onClick={handleFirstTabClick} style={styleFirstTab()} />
           <span className={s.dashboardSeparator}>|</span>

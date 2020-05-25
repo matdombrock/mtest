@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import UpperControls from "../../pres/UpperControls";
 import DataDisplayCardGrid from "../../pres/DataDisplayCardGrid";
 import DataDisplayItemizedTable from "../../pres/DataDisplayItemizedTable";
-import LeftNavigationMenu from "../../pres/LeftNavigationMenu";
+import DashboardNavigator from "../../pres/DashboardNavigator";
 import TopBanner from './../../pres/TopBanner/topBanner';
 import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
@@ -59,7 +59,7 @@ class Dashboard extends Component {
           />
           <Grid container className={s.gridContainer}>
             <Grid item className={s.item} xs={12}>
-              <LeftNavigationMenu
+              <DashboardNavigator
                 active={activeTab}
                 changeTab={this.handleTabChange}
               />

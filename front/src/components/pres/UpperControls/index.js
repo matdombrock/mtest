@@ -667,16 +667,16 @@ class UpperControls extends Component {
             <Grid item xs={1}>
               <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
             </Grid>
-            <Grid item xs={4} className={s.gridItem} style={{ paddingLeft: '30px' }}>
+            <Grid item xs={4} className={s.gridItem} style={{ paddingLeft: '100px' }}>
               <p className={s.dashboardLabel}>
                 {" "}
                 {this.props.activeTab === 0 ? (
                   <>
-                    <b>Brand Overview Dashboard: {this.state.selectedBrand} </b>
+                    Brand Overview Dashboard: {this.state.selectedBrand}
                   </>
                 ) : (
                     <>
-                      <b>SKU Overview: {this.state.selectedBrand} </b>
+                      SKU Overview: {this.state.selectedBrand}
                     </>
                   )}
               </p>

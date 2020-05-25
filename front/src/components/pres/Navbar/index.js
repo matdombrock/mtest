@@ -53,15 +53,15 @@ class Navbar extends React.Component {
       <div className={s.navWrapper}>
         {this.state.username ? (
           <div>
-            <Button
+            <p
               aria-controls="simple-menu"
               aria-haspopup="true"
               onClick={this.handleClick}
               className={s.userName}
-              style={{ backgroundColor: 'transparent' }}
+              style={{ backgroundColor: 'transparent', fontSize: '13px', textDecoration: 'underline' }}
             >
-              {this.state.username}
-            </Button>
+              {this.state.username.toUpperCase()}
+            </p>
             <Menu
               id="simple-menu"
               anchorEl={this.state.anchorEl}

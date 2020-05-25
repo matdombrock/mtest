@@ -176,3 +176,18 @@ tfoot th:first-child {
 .MuiButton-label{
   padding-left: 3px
 }
+
+/*Dashboard navigator*/
+.style_container__2eZhQ{
+  padding-left: 13px;
+  padding-right: 13px
+}
+
+.MuiTabs-root{
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.MuiTab-wrapper{
+  font-size: 18px
+}

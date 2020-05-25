@@ -31,10 +31,13 @@ const TopBanner = () => {
                         <Grid item>
                             <Navbar />
                         </Grid>
+                        <Grid item style={{ paddingTop: '12px', color: '#fff' }}>
+                            -
+                        </Grid>
                         <Grid item>
                             {
                                 user &&
-                                <Button style={btnLogout} onClick={handleBtnLogoutClick}>Logout</Button>
+                                <p style={btnLogout} onClick={handleBtnLogoutClick}>LOGOUT</p>
                             }
                         </Grid>
                     </Grid>
@@ -49,7 +52,8 @@ const btnLogout = { //not working on style.module.scss
     textDecoration: 'underline',
     backgroundColor: 'transparent',
     paddingRight: '30px',
-    paddingLeft: '15px',
+    paddingLeft: '8px',
+    fontSize: '13px'
 }
 
 const profile = { //not working on style.module.scss
