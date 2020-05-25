@@ -171,3 +171,8 @@ tfoot th:first-child {
   color: #3ac5c0;
   font-size: 13px;
 }
+
+/*Submit*/
+.MuiButton-label{
+  padding-left: 3px
+}
