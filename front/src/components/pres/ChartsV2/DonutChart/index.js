@@ -1,28 +1,37 @@
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
+import 'chartjs-plugin-datalabels'
 
-const DonutChart = (props) => {
-
-    const { chartDataValues } = props;
-
+const DonutChart = ({ chartDataValues }) => {
     const getAdSales = () => {
-        if (!chartDataValues.length) return 0;
-        const { ad_sales } = chartDataValues[1];
-        if (!ad_sales) return 0;
-        return ad_sales.toFixed(2);
+        if (!chartDataValues.length) return 0
+        const { ad_sales } = chartDataValues[1]
+        if (!ad_sales) return 0
+        return ad_sales.toFixed(2)
     }
 
     const getTotalSales = () => {
-        if (!chartDataValues.length) return 0;
+        if (!chartDataValues.length) return 0
 
-        const { ad_sales, sales } = chartDataValues[1];
-        if (!ad_sales || !sales) return 0;
+        const { ad_sales, sales } = chartDataValues[1]
+        if (!ad_sales || !sales) return 0
 
-        const totalSales = sales && sales - ad_sales;
-        return totalSales.toFixed(2);
+        const totalSales = sales && sales - ad_sales
+        return totalSales.toFixed(2)
     }
 
     const data = {
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return '$ ' + value
+                        }
+                    }
+                }
+            ]
+        },
         labels: [
             'Ad Sales ($)',
             'Total Sales ($) (not including ad sales)'
@@ -30,17 +39,21 @@ const DonutChart = (props) => {
         datasets: [{
             data: [getAdSales(), getTotalSales()],
             backgroundColor: [
-                '#36A2EB',
-                '#1fc22a'
+                '#ff9662',
+                '#4fbcc3'
             ],
             hoverBackgroundColor: [
-                '#36A2EB',
-                '#1fc22a'
+                '#ff9662',
+                '#4fbcc3'
             ]
         }]
-    };
+    }
 
-    return <Doughnut data={data} />
+    const options = {
+        cutoutPercentage: 85
+    }
+
+    return <Doughnut data={data} options={options} />
 }
 
 export default DonutChart

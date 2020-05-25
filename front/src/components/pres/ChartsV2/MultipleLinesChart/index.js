@@ -43,6 +43,11 @@ const MultipleLinesChart = ({ summaries, chartDataProp }) => {
           }
         }
       ]
+    },
+    plugins: {
+      datalabels: {
+        display: false
+      }
     }
   }
 

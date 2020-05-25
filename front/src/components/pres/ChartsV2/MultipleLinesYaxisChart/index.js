@@ -58,6 +58,11 @@ const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
 
     chartData.datasets.push(getChartDataset(summariesData, x));
     chartDataOptions.scales.yAxes.push(getYAxesScale(summariesData, x));
+    chartDataOptions.plugins = {
+      datalabels: {
+        display: false
+      }
+    }
   });
 
   return (

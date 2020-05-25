@@ -58,6 +58,11 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues }) => {
         fontColor: '#F1996B',
         usePointStyle: true,
       }
+    },
+    plugins: {
+      datalabels: {
+        display: false
+      }
     }
   }
 
