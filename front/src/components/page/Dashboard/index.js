@@ -70,54 +70,56 @@ class Dashboard extends Component {
               </Grid>
             ) : (
                 <Grid item xs={12} id="#report" className={s.inner}>
-                  {isError && <Alert severity="warning">{isError}</Alert>}
-                  {activeTab === 0 ? (
-                    active && !!active.periods && !!active.periods.length ? (
-                      <>
-                        <DataDisplayCardGrid
-                          data={active}
-                          startDate={startDate}
-                          endDate={endDate}
-                        />
-                        <ChartsV2 report={active} />
-                        <DataDisplayItemizedTable
-                          data={active}
-                          comparisons={comparisons}
-                        />
-                      </>
-                    ) : (
+                  {
+                    isError &&
+                    <Alert severity="warning">{isError}</Alert>
+                  }
+                  {
+                    activeTab === 0 ?
+                      active && !!active.periods && !!active.periods.length ?
+                        <>
+                          <DataDisplayCardGrid
+                            data={active}
+                            startDate={startDate}
+                            endDate={endDate}
+                          />
+                          <ChartsV2 report={active} />
+                          <DataDisplayItemizedTable
+                            data={active}
+                            comparisons={comparisons}
+                          />
+                        </> :
                         <p>No Record Found</p>
-                      )
-                  ) : (
-                      <>
-                        {skuActive.periods &&
-                          skuActive.periods.length &&
-                          skuActive.periods[0] &&
-                          skuActive.periods[1] &&
-                          ((skuActive.periods[0].itemized &&
-                            skuActive.periods[0].itemized.length) ||
-                            (skuActive.periods[1].itemized &&
-                              skuActive.periods[1].itemized.length)) ? (
+                      : <>
+                        {
+                          skuActive.periods &&
+                            skuActive.periods.length &&
+                            skuActive.periods[0] &&
+                            skuActive.periods[1] &&
+                            ((skuActive.periods[0].itemized &&
+                              skuActive.periods[0].itemized.length) ||
+                              (skuActive.periods[1].itemized &&
+                                skuActive.periods[1].itemized.length)) ?
                             <>
                               {/* <DataDisplayCardGridSKU
-                      data={skuActive}
-                      comparisons={skuComparisons}
-                      startDate={startDate}
-                      endDate={endDate}
-                      comparisonStartDate={comparisonStartDate}
-                      comparisonEndDate={comparisonEndDate}
-                    />
-                    <SKUCharts data={skuActive} /> */}
+                                  data={skuActive}
+                                  comparisons={skuComparisons}
+                                  startDate={startDate}
+                                  endDate={endDate}
+                                  comparisonStartDate={comparisonStartDate}
+                                  comparisonEndDate={comparisonEndDate}
+                                />
+                                <SKUCharts data={skuActive} /> */}
                               <DataDisplaySKUTable
                                 data={skuActive}
                               // comparisons={skuComparisons}
                               />
                             </>
-                          ) : (
+                            :
                             <p>No Record Found in SKU</p>
-                          )}{" "}
+                        }
                       </>
-                    )}
+                  }
                 </Grid>
               )}
           </Grid>

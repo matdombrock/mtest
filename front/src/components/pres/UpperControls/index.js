@@ -27,6 +27,7 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
+import capitalize from 'capitalize'
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
@@ -209,7 +210,7 @@ class UpperControls extends Component {
                 : selectedDateRange === "currentMonth"
                   ? "current-month"
                   : "yesterday";
-    if (activeTab === 1) {
+    if (activeTab === 2) {
       brand &&
         fetchSalesDataBySKU(data)
           .then((data) => {
@@ -658,6 +659,8 @@ class UpperControls extends Component {
       isCustomStartDateVisible,
       compareType,
     } = this.state;
+
+
     const isCustomVisible = this.props.sales.isComparison;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
@@ -667,21 +670,21 @@ class UpperControls extends Component {
             <Grid item xs={1}>
               <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
             </Grid>
-            <Grid item xs={4} className={s.gridItem} style={{ paddingLeft: '100px' }}>
+            <Grid item xs={5} className={s.gridItem} style={{ paddingLeft: '100px' }}>
               <p className={s.dashboardLabel}>
                 {" "}
                 {this.props.activeTab === 0 ? (
                   <>
-                    Brand Overview Dashboard: {this.state.selectedBrand}
+                    Brand Overview Dashboard: {capitalize.words(this.state.selectedBrand ? this.state.selectedBrand.toLowerCase() : '')}
                   </>
                 ) : (
                     <>
-                      SKU Overview: {this.state.selectedBrand}
+                      SKU Overview: {capitalize.words(this.state.selectedBrand ? this.state.selectedBrand.toLowerCase() : '')}
                     </>
                   )}
               </p>
             </Grid>
-            <Grid item xs={7} className={[s.gridItem, s["menu-container"]]} >
+            <Grid item xs={6} className={[s.gridItem, s["menu-container"]]} >
               <div className={s["position-relative"]} >
                 <div
                   onClick={() =>
@@ -706,45 +709,45 @@ class UpperControls extends Component {
                         )} - ${moment(endDate).format("MMM DD, YYYY")}`
                       : displayDateRange === "lastMonth"
                         ? isCustomVisible
-                          ? `Last Month VS ${moment(customDateStart).format(
+                          ? `LAST MONTH VS ${moment(customDateStart).format(
                             "MMM DD, YYYY"
                           )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                          : "Last Month"
+                          : "LAST MONTH"
                         : displayDateRange === "last7Days"
                           ? isCustomVisible
-                            ? `last 7 Days VS ${moment(customDateStart).format(
+                            ? `LAST 7 DAYS VS ${moment(customDateStart).format(
                               "MMM DD, YYYY"
                             )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                            : "last 7 Days"
+                            : "LAST 7 DAYS"
                           : displayDateRange === "last14Days"
                             ? isCustomVisible
-                              ? `last 14 Days VS ${moment(customDateStart).format(
+                              ? `LAST 14 DAYS VS ${moment(customDateStart).format(
                                 "MMM DD, YYYY"
                               )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                              : "Last 14 Days"
+                              : "LAST 14 DAYS"
                             : displayDateRange === "this30Days"
                               ? isCustomVisible
-                                ? `last 30 Days VS ${moment(customDateStart).format(
+                                ? `LAST 30 DAYS VS ${moment(customDateStart).format(
                                   "MMM DD, YYYY"
                                 )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                                : "Last 30 Days"
+                                : "LAST 30 DAYS"
                               : displayDateRange === "lastWeek"
                                 ? isCustomVisible
-                                  ? `Last Week VS ${moment(customDateStart).format(
+                                  ? `LAST WEEK VS ${moment(customDateStart).format(
                                     "MMM DD, YYYY"
                                   )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                                  : "Last Week"
+                                  : "LAST WEEK"
                                 : displayDateRange === "currentMonth"
                                   ? isCustomVisible
-                                    ? `Current Month VS ${moment(customDateStart).format(
+                                    ? `CURRENT MONTH VS ${moment(customDateStart).format(
                                       "MMM DD, YYYY"
                                     )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                                    : "Current Month"
+                                    : "CURRENT MONTH"
                                   : isCustomVisible
-                                    ? `yesterday VS ${moment(customDateStart).format(
+                                    ? `YESTERDAY VS ${moment(customDateStart).format(
                                       "MMM DD, YYYY"
                                     )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                                    : "yesterday"}
+                                    : "YESTERDAY"}
                   </p>
                   <ExpandMoreIcon className={s.menuOpen} />
                 </div>
@@ -767,7 +770,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleYesterday}
                       >
-                        Yesterday
+                        YESTERDAY
                       </div>
                       <div
                         className={
@@ -776,7 +779,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLastWeek}
                       >
-                        Last Week
+                        LAST WEEK
                       </div>
                       <div
                         className={
@@ -785,7 +788,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLast7Days}
                       >
-                        Last 7 Days
+                        LAST 7 DAYS
                       </div>
                       <div
                         className={
@@ -794,7 +797,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLast14}
                       >
-                        Last 14 Days
+                        LAST 14 DAYS
                       </div>
                       <div
                         className={
@@ -803,7 +806,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleThis30Days}
                       >
-                        Last 30 Days
+                        LAST 30 DAYS
                       </div>
                       <div
                         className={
@@ -812,7 +815,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLastMonth}
                       >
-                        Last Month
+                        LAST MONTH
                       </div>
                       <div
                         className={
@@ -821,7 +824,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleCurrentMonth}
                       >
-                        Current Month
+                        CURRENT MONTH
                       </div>
                       {/* {this.props.activeTab !== 1 && ( */}
                       <div
@@ -833,7 +836,7 @@ class UpperControls extends Component {
                           this.handleChangeCustomDateRange("custom");
                         }}
                       >
-                        Custom Range
+                        CUSTOM RANGE
                       </div>
                       {/* )} */}
                       {activeSelectedDateRange === "custom" && (
@@ -914,7 +917,7 @@ class UpperControls extends Component {
                                 "aria-label": "primary checkbox",
                               }}
                             />
-                            <span>Custom Compare</span>
+                            <span>CUSTOM COMPARE</span>
                           </label>
                         </p>
                       </div>
@@ -948,10 +951,10 @@ class UpperControls extends Component {
                             style={{ width: "100%" }}
                           >
                             <MenuItem value={"previous-range"}>
-                              Previous Period + YOY
+                              PREVIOUS PERIOD + YOY
                             </MenuItem>
                             <MenuItem value={"custom-range"}>
-                              Custom Range
+                              CUSTOM RANGE
                             </MenuItem>
                           </MuiSelect>
                           {/* )} */}
@@ -1097,25 +1100,25 @@ class UpperControls extends Component {
                 <MuiSelect
                   variant="outlined"
                   onChange={(e) =>
-                    e.target.value !== "Select Periods" &&
+                    e.target.value !== "SELECT PERIODS" &&
                     this.setPeriods(e.target.value)
                   }
                   value={
                     this.state.periodsCount
                       ? this.state.periodsCount
-                      : "Select Periods"
+                      : "SELECT PERIODS"
                   }
                   classes={s["colo-grey"]}
                   style={btnStyleOutlined}
                 >
-                  <MenuItem key={1} value={"Select Periods"}>
-                    Select Periods Count
+                  <MenuItem key={1} value={"SELECT PERIODS"}>
+                    SELECT PERIODS
                   </MenuItem>
                   {[...Array(25)].map(
                     (d, i) =>
                       i > 1 && (
                         <MenuItem key={i} value={i}>
-                          {i} Periods
+                          {i} PERIODS
                         </MenuItem>
                       )
                   )}
@@ -1125,25 +1128,25 @@ class UpperControls extends Component {
                 <MuiSelect
                   variant="outlined"
                   onChange={(e) =>
-                    e.target.value !== "Select Brand" &&
+                    e.target.value !== "SELECT BRAND" &&
                     this.setBrand(e.target.value)
                   }
                   value={
                     this.state.selectedBrand
                       ? this.state.selectedBrand
-                      : "Select Brand"
+                      : "SELECT BRAND"
                   }
                   classes={s["colo-grey"]}
                   // style={{ marginRight: 10 }}
                   style={btnStyleOutlined}
                 >
-                  <MenuItem key={1} value={"Select Brand"}>
-                    Select Brand
+                  <MenuItem key={1} value={"SELECT BRAND"}>
+                    SELECT BRAND
                   </MenuItem>
                   {this.props.brands.length !== 0
                     ? this.props.brands.map((brand) => (
-                      <MenuItem key={brand.id} value={brand.brand_name}>
-                        {brand.brand_name}
+                      <MenuItem key={brand.id} value={brand.brand_name.toUpperCase()}>
+                        {brand.brand_name.toUpperCase()}
                       </MenuItem>
                     ))
                     : ""}
