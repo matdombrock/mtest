@@ -53,7 +53,8 @@ const btnLogout = { //not working on style.module.scss
     backgroundColor: 'transparent',
     paddingRight: '30px',
     paddingLeft: '8px',
-    fontSize: '13px'
+    fontSize: '13px',
+    cursor: 'pointer'
 }
 
 const profile = { //not working on style.module.scss
