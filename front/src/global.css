@@ -160,7 +160,7 @@ tfoot th:first-child {
 }
 
 /*Date Range Filter*/
-.style_menu-container__pEn4F > div:first-child > div:first-child{
+div[class*='style_menu-container'] > div:first-child > div:first-child{
   border-radius: 0;
   background-color: #4fbcc3;
   border: 3px solid #4fbcc3;
