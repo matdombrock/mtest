@@ -169,7 +169,7 @@ tfoot th:first-child {
 /*Select Brand*/
 .MuiSelect-root.MuiSelect-select.MuiSelect-selectMenu.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input{
   color: #3ac5c0;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /*Submit*/
