@@ -4,6 +4,8 @@ import { Doughnut } from 'react-chartjs-2'
 const DonutChart = (props) => {
 
     const { chartDataValues } = props;
+    const colorTealMedium = getComputedStyle(document.body).getPropertyValue('--teal-medium');
+    const colorOrangeDark = getComputedStyle(document.body).getPropertyValue('--orange-dark');
 
     const getAdSales = () => {
         if (!chartDataValues.length) return 0;
@@ -30,12 +32,12 @@ const DonutChart = (props) => {
         datasets: [{
             data: [getAdSales(), getTotalSales()],
             backgroundColor: [
-                '#36A2EB',
-                '#1fc22a'
+                colorOrangeDark,
+                colorTealMedium
             ],
             hoverBackgroundColor: [
-                '#36A2EB',
-                '#1fc22a'
+                colorOrangeDark,
+                colorTealMedium
             ]
         }]
     };

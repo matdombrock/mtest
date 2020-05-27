@@ -43,7 +43,7 @@ export default function LeftNavigationMenu(props) {
 
   const styleFirstTab = () => {
     return {
-      color: isFirstTabClicked ? '#e79563' : '#000',
+      color: isFirstTabClicked ? 'var(--orange)' : '#000',
       textShadow: 'none',
       fontSize: '15px',
       textDecoration: isSecondTabClicked && 'underline'
@@ -52,7 +52,7 @@ export default function LeftNavigationMenu(props) {
 
   const styleSecondTab = () => {
     return {
-      color: isSecondTabClicked ? '#e79563' : '#000',
+      color: isSecondTabClicked ? 'var(--orange)' : '#000',
       textShadow: 'none',
       fontSize: '15px',
       textDecoration: isFirstTabClicked && 'underline'

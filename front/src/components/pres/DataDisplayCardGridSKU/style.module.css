@@ -36,6 +36,6 @@
 }
 
 .negative {
-  color: red;
+  color: var(--red);
 }
 /*# sourceMappingURL=style.module.css.map */

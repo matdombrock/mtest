@@ -1358,7 +1358,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(UpperControls);
 
 const btnStyleOutlined = {
   borderRadius: 0,
-  border: '2px solid #4fbcc3',
+  border: '2px solid var(--teal-dark)',
   marginLeft: '15px'
 }
 
@@ -1366,7 +1366,7 @@ const btnStyleContained = {
   borderRadius: 0,
   marginLeft: '15px',
   boxShadow: 'none',
-  backgroundColor: '#4fbcc3',
+  backgroundColor: 'var(--teal-dark)',
   color: '#fff',
   paddingLeft: '10px',
 }

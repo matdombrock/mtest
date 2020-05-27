@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { createBrowserHistory as createHistory } from "history";
 import { checkToken } from "./services/api";
 import store from "./store";
+import "./colors.css";
 import "./global.css";
 import importProducts from "./components/page/importProducts"
 

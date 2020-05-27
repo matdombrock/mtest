@@ -1,6 +1,6 @@
 .topBannerWrapper {
   height: 30px;
-  background-color: #3ac5c0;
+  background-color: var(--teal)eal);
 }
 
 .topBannerTitle {
