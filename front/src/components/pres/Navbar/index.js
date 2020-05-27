@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { getMissingProductCount } from "../../../services/api";
+import { getAsins } from "../../../services/api"
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -29,11 +29,10 @@ class Navbar extends React.Component {
 
   handleGetAsins = async () => {
     try {
-      const response = await getMissingProductCount();
-
-      if (response)
+      const response = await getAsins();
+      if (response.csv)
         this.setState({
-          count: response,
+          count: String(response.csv).split("\n").length - 1,
         });
     } catch (error) {
       console.log("ImportProducts -> handleSubmit -> error", error);
@@ -43,45 +42,26 @@ class Navbar extends React.Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = (path) => {
+  handleClose = () => {
     this.setState({ anchorEl: null });
-    if (path) this.props.history.push(path);
   };
 
-  logout = () => {
-    sessionStorage.clear();
-    window.location.reload();
-  };
+  handleImport = () => this.props.history.push("/import");
   render() {
     const { count } = this.state;
-    return (
+    return <>
       <div className={s.navWrapper}>
-        <Grid container>
-          <Grid item xs={2} className={s.titleGrid}>
-            <img
-              alt=""
-              onClick={() => (window.location.pathname = "/")}
-              src="/img/logo.png"
-              className={s.logo}
-            />
-          </Grid>
-          <Grid item className={s.titleGrid}>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              {" "}
-              <p className={s.pageTitle}>Analytics Portal</p>
-            </Link>
-          </Grid>
-        </Grid>
         {this.state.username ? (
           <div>
-            <Button
+            <p
               aria-controls="simple-menu"
               aria-haspopup="true"
               onClick={this.handleClick}
               className={s.userName}
+              style={{ backgroundColor: 'transparent', fontSize: '13px', textDecoration: 'underline' }}
             >
-              {this.state.username}
-            </Button>
+              {this.state.username.toUpperCase()}
+            </p>
             <Menu
               id="simple-menu"
               anchorEl={this.state.anchorEl}
@@ -90,37 +70,38 @@ class Navbar extends React.Component {
               onClose={this.handleClose}
             >
               {this.state.admin === "true" ? (
-                <MenuItem onClick={() => this.handleClose("/manage-users")}>
+                <MenuItem
+                  onClick={() => (window.location.pathname = "/manage-users")}
+                >
                   Manage Users
                 </MenuItem>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {this.state.admin === "true" ? (
                 <MenuItem onClick={this.handleClose}>Manage Brands</MenuItem>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {this.state.admin === "true" ? (
                 <MenuItem onClick={this.handleClose}>Manage Products</MenuItem>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {this.state.admin === "true" ? (
-                <MenuItem onClick={() => this.handleClose("/import")}>
+                <MenuItem onClick={this.handleImport}>
                   Missing Products({count || 0})
                 </MenuItem>
               ) : (
-                ""
-              )}
-              <MenuItem onClick={this.logout}>Logout</MenuItem>
+                  ""
+                )}
             </Menu>
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
-    );
+    </>
   }
 }
 
