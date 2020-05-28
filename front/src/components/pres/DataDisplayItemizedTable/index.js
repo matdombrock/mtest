@@ -67,10 +67,7 @@ const currentDataFormate = ({ periods, yoy }) => {
         };
     const change = {
       asp: getDifferenceInNumber(current.asp, previous.asp),
-      units_per_order: getDifferenceInNumber(
-        current.units_per_order,
-        previous.units_per_order
-      ),
+      units_per_order: getDifferenceInNumber(current.units_per_order, previous.units_per_order),
       orders: getDifferenceInNumber(current.orders, previous.orders),
       acos: getDifferenceInNumber(current.acos, previous.acos),
       ad_clicks: getDifferenceInNumber(current.ad_clicks, previous.ad_clicks),
@@ -108,10 +105,7 @@ const currentDataFormate = ({ periods, yoy }) => {
     };
     const charge = {
       asp: getDifferenceInPercentage(current.asp, previous.asp),
-      units_per_order: getDifferenceInPercentage(
-        current.units_per_order,
-        previous.units_per_order
-      ),
+      units_per_order: getDifferenceInPercentage(current.units_per_order, previous.units_per_order),
       orders: getDifferenceInPercentage(current.orders, previous.orders),
       acos: getDifferenceInPercentage(current.acos, previous.acos),
       ad_clicks: getDifferenceInPercentage(
@@ -155,10 +149,7 @@ const currentDataFormate = ({ periods, yoy }) => {
     };
     const tempYoy = {
       asp: getDifferenceInNumber(current.asp, yoySummry.asp),
-      units_per_order: getDifferenceInNumber(
-        current.units_per_order,
-        yoySummry.units_per_order
-      ),
+      units_per_order: getDifferenceInNumber(current.units_per_order, yoySummry.units_per_order),
       orders: getDifferenceInNumber(current.orders, yoySummry.orders),
       acos: getDifferenceInNumber(current.acos, yoySummry.acos),
       ad_clicks: getDifferenceInNumber(current.ad_clicks, yoySummry.ad_clicks),
@@ -197,10 +188,7 @@ const currentDataFormate = ({ periods, yoy }) => {
 
     const yoyCharge = {
       asp: getDifferenceInPercentage(current.asp, yoySummry.asp),
-      units_per_order: getDifferenceInPercentage(
-        current.units_per_order,
-        yoySummry.units_per_order
-      ),
+      units_per_order: getDifferenceInPercentage(current.units_per_order, yoySummry.units_per_order),
       orders: getDifferenceInPercentage(current.orders, yoySummry.orders),
       acos: getDifferenceInPercentage(current.acos, yoySummry.acos),
       ad_clicks: getDifferenceInPercentage(
@@ -290,9 +278,9 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   };
   const header = [];
   header.push("Date Range");
-  header.push(...getHeaderColumn(false, "ASP"));
-  header.push(...getHeaderColumn(false, "Units Per Order"));
-  header.push(...getHeaderColumn(false, "Orders"));
+  header.push(...getHeaderColumn(false, 'ASP'));
+  header.push(...getHeaderColumn(false, 'Units Per Order'));
+  header.push(...getHeaderColumn(false, 'Orders'));
   header.push(...getHeaderColumn(false, "Sales"));
   header.push(...getHeaderColumn(false, "Units Sold"));
   header.push(...getHeaderColumn(false, "Shipped COGS"));
@@ -333,7 +321,9 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
         .format("MM/DD/YYYY")}`
     );
 
-    temp.push(current.asp !== 0 ? "$" + numberWithCommas(current.asp) : "N/A");
+    temp.push(
+      current.asp !== 0 ? "$" + numberWithCommas(current.asp) : "N/A"
+    );
     temp.push(
       previous.asp !== 0 ? "$" + numberWithCommas(previous.asp) : "N/A"
     );
@@ -345,37 +335,25 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     }
 
     temp.push(
-      current.units_per_order !== 0
-        ? numberWithCommas(current.units_per_order)
-        : "N/A"
+      current.units_per_order !== 0 ? "$" + numberWithCommas(current.units_per_order) : "N/A"
     );
     temp.push(
-      previous.units_per_order !== 0
-        ? numberWithCommas(previous.units_per_order)
-        : "N/A"
+      previous.units_per_order !== 0 ? "$" + numberWithCommas(previous.units_per_order) : "N/A"
     );
-    temp.push(change.units_per_order !== 0 ? change.units_per_order : "N/A");
-    temp.push(
-      charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A"
-    );
+    temp.push(change.units_per_order !== 0 ? "$" + change.units_per_order : "N/A");
+    temp.push(charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A");
     if (isYoY) {
-      temp.push(
-        yoy.units_per_order !== 0
-          ? numberWithCommas(yoy.units_per_order)
-          : "N/A"
-      );
-      temp.push(
-        yoyCharge.units_per_order !== 0
-          ? yoyCharge.units_per_order + "%"
-          : "N/A"
-      );
+      temp.push(yoy.units_per_order !== 0 ? numberWithCommas(yoy.units_per_order) : "N/A");
+      temp.push(yoyCharge.units_per_order !== 0 ? yoyCharge.units_per_order + "%" : "N/A");
     }
 
-    temp.push(current.orders !== 0 ? numberWithCommas(current.orders) : "N/A");
     temp.push(
-      previous.orders !== 0 ? numberWithCommas(previous.orders) : "N/A"
+      current.orders !== 0 ? "$" + numberWithCommas(current.orders) : "N/A"
     );
-    temp.push(change.orders !== 0 ? change.orders : "N/A");
+    temp.push(
+      previous.orders !== 0 ? "$" + numberWithCommas(previous.orders) : "N/A"
+    );
+    temp.push(change.orders !== 0 ? "$" + change.orders : "N/A");
     temp.push(charge.orders !== 0 ? charge.orders + "%" : "N/A");
     if (isYoY) {
       temp.push(yoy.orders !== 0 ? numberWithCommas(yoy.orders) : "N/A");
@@ -608,7 +586,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   if (isYoY) {
     total.push(
       totalOfData.asp.yoy !== 0
-        ? numberWithCommas(totalOfData.asp.yoy)
+        ? "$" + numberWithCommas(totalOfData.asp.yoy)
         : totalOfData.asp.current > 0 && totalOfData.asp.yoySKU > 0
           ? "$0.00"
           : "N/A"
@@ -624,44 +602,40 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 
   total.push(
     totalOfData.units_per_order.current
-      ? numberWithCommas(totalOfData.units_per_order.current)
+      ? "$" + numberWithCommas(totalOfData.units_per_order.current)
       : "N/A"
   );
   total.push(
     totalOfData.units_per_order.previous
-      ? numberWithCommas(totalOfData.units_per_order.previous)
+      ? "$" + numberWithCommas(totalOfData.units_per_order.previous)
       : "N/A"
   );
   total.push(
     totalOfData.units_per_order.change !== 0
-      ? numberWithCommas(totalOfData.units_per_order.change)
-      : totalOfData.units_per_order.current > 0 &&
-        totalOfData.units_per_order.previous > 0
+      ? "$" + numberWithCommas(totalOfData.units_per_order.change)
+      : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.previous > 0
         ? "$0.00"
         : "N/A"
   );
   total.push(
     totalOfData.units_per_order.charge !== 0
       ? Number(totalOfData.units_per_order.charge).toFixed(2) + "%"
-      : totalOfData.units_per_order.current > 0 &&
-        totalOfData.units_per_order.previous > 0
+      : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.previous > 0
         ? "0%"
         : "N/A"
   );
   if (isYoY) {
     total.push(
       totalOfData.units_per_order.yoy !== 0
-        ? numberWithCommas(totalOfData.units_per_order.yoy)
-        : totalOfData.units_per_order.current > 0 &&
-          totalOfData.units_per_order.yoySKU > 0
+        ? "$" + numberWithCommas(totalOfData.units_per_order.yoy)
+        : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.yoySKU > 0
           ? "$0.00"
           : "N/A"
     );
     total.push(
       totalOfData.units_per_order.yoyCharge !== 0
         ? Number(totalOfData.units_per_order.yoyCharge).toFixed(2) + "%"
-        : totalOfData.units_per_order.current > 0 &&
-          totalOfData.units_per_order.yoySKU > 0
+        : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.yoySKU > 0
           ? "0%"
           : "N/A"
     );
@@ -669,17 +643,17 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 
   total.push(
     totalOfData.orders.current
-      ? numberWithCommas(totalOfData.orders.current)
+      ? "$" + numberWithCommas(totalOfData.orders.current)
       : "N/A"
   );
   total.push(
     totalOfData.orders.previous
-      ? numberWithCommas(totalOfData.orders.previous)
+      ? "$" + numberWithCommas(totalOfData.orders.previous)
       : "N/A"
   );
   total.push(
     totalOfData.orders.change !== 0
-      ? numberWithCommas(totalOfData.orders.change)
+      ? "$" + numberWithCommas(totalOfData.orders.change)
       : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
         ? "$0.00"
         : "N/A"
@@ -694,7 +668,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   if (isYoY) {
     total.push(
       totalOfData.orders.yoy !== 0
-        ? numberWithCommas(totalOfData.orders.yoy)
+        ? "$" + numberWithCommas(totalOfData.orders.yoy)
         : totalOfData.orders.current > 0 && totalOfData.orders.yoySKU > 0
           ? "$0.00"
           : "N/A"
@@ -1226,15 +1200,11 @@ const getSummaryInTotal = (props) => {
     };
     temp.units_per_order = {
       current: temp.units_per_order.current + (current?.units_per_order || 0),
-      previous:
-        temp.units_per_order.previous + (previous?.units_per_order || 0),
+      previous: temp.units_per_order.previous + (previous?.units_per_order || 0),
       change: temp.units_per_order.change + (change?.units_per_order || 0),
-      charge:
-        Number(temp.units_per_order.charge) +
-        Number(charge?.units_per_order || 0),
+      charge: Number(temp.units_per_order.charge) + Number(charge?.units_per_order || 0),
       yoy: temp.units_per_order.yoy + (yoy?.units_per_order || 0),
-      yoyCharge:
-        temp.units_per_order.yoyCharge + (yoyCharge?.units_per_order || 0),
+      yoyCharge: temp.units_per_order.yoyCharge + (yoyCharge?.units_per_order || 0),
     };
     temp.orders = {
       current: temp.orders.current + (current?.orders || 0),
@@ -1360,19 +1330,27 @@ const getSummaryInTotal = (props) => {
     return false;
   });
 
-  const { length: _length } = props;
-  const {
-    asp: _asp,
-    units_per_order: _units_per_order,
-    orders: _orders,
-  } = temp;
+  const { length: _length } = props
+  const { asp: _asp, units_per_order: _units_per_order, orders: _orders } = temp
 
+  temp.asp.current = _asp.current / _length;
+  temp.asp.previous = _asp.previous / _length;
+  temp.asp.change = _asp.change / _length;
+  temp.asp.yoy = _asp.yoy / _length;
   temp.asp.charge = _asp.charge / _length;
   temp.asp.yoyCharge = _asp.yoyCharge / _length;
 
+  temp.units_per_order.current = _units_per_order.current / _length;
+  temp.units_per_order.previous = _units_per_order.previous / _length;
+  temp.units_per_order.change = _units_per_order.change / _length;
+  temp.units_per_order.yoy = _units_per_order.yoy / _length;
   temp.units_per_order.charge = _units_per_order.charge / _length;
   temp.units_per_order.yoyCharge = _units_per_order.yoyCharge / _length;
 
+  temp.orders.current = _orders.current / _length;
+  temp.orders.previous = _orders.previous / _length;
+  temp.orders.change = _orders.change / _length;
+  temp.orders.yoy = _orders.yoy / _length;
   temp.orders.charge = _orders.charge / _length;
   temp.orders.yoyCharge = _orders.yoyCharge / _length;
 
@@ -1530,6 +1508,7 @@ const DataDisplayItemizedTable = (props) => {
     setSortByInner(columnId);
   };
   const totalOfData = getSummaryInTotal(filterData);
+  console.log("DataDisplayItemizedTable -> totalOfData", totalOfData);
   return (
     <>
       <CSVLink
@@ -2088,48 +2067,48 @@ const DataDisplayItemizedTable = (props) => {
                       {(active === 1 ||
                         active === 2 ||
                         active === 3 ||
-                        active === 4 ||
-                        active === 5 ||
-                        active === 6 ||
-                        active === 10) &&
+                        active === 7) &&
                         isYoY && (
-                          <>
-                            <th className={s.tableHead} align="right">
-                              <div>
-                                <span>Change # YOY</span>
-                                <span onClick={() => handleSortInner(4)}>
-                                  {" "}
-                                  {sortByInner === 4 ? (
-                                    sortAscendingBy ? (
-                                      <ArrowDropUpIcon />
-                                    ) : (
-                                        <ArrowDropDownIcon />
-                                      )
+                          <th className={s.tableHead} align="right">
+                            <div>
+                              <span>Change # YOY</span>
+                              <span onClick={() => handleSortInner(4)}>
+                                {" "}
+                                {sortByInner === 4 ? (
+                                  sortAscendingBy ? (
+                                    <ArrowDropUpIcon />
                                   ) : (
-                                      <SortIcon />
-                                    )}
-                                </span>
-                              </div>
-                            </th>
-
-                            <th className={s.tableHead} align="right">
-                              <div>
-                                <span>Change % YOY</span>
-                                <span onClick={() => handleSortInner(5)}>
-                                  {" "}
-                                  {sortByInner === 5 ? (
-                                    sortAscendingBy ? (
-                                      <ArrowDropUpIcon />
-                                    ) : (
-                                        <ArrowDropDownIcon />
-                                      )
+                                      <ArrowDropDownIcon />
+                                    )
+                                ) : (
+                                    <SortIcon />
+                                  )}
+                              </span>
+                            </div>
+                          </th>
+                        )}
+                      {(active === 1 ||
+                        active === 2 ||
+                        active === 3 ||
+                        active === 7) &&
+                        isYoY && (
+                          <th className={s.tableHead} align="right">
+                            <div>
+                              <span>Change % YOY</span>
+                              <span onClick={() => handleSortInner(5)}>
+                                {" "}
+                                {sortByInner === 5 ? (
+                                  sortAscendingBy ? (
+                                    <ArrowDropUpIcon />
                                   ) : (
-                                      <SortIcon />
-                                    )}
-                                </span>
-                              </div>
-                            </th>
-                          </>
+                                      <ArrowDropDownIcon />
+                                    )
+                                ) : (
+                                    <SortIcon />
+                                  )}
+                              </span>
+                            </div>
+                          </th>
                         )}
                     </>
                   )}
@@ -2188,15 +2167,24 @@ const DataDisplayItemizedTable = (props) => {
                             ? "$" + numberWithCommas(previous.asp)
                             : "N/A"}
                         </td>
-                        <td align="right" className={isNegative(change.asp)}>
+                        <td
+                          align="right"
+                          className={isNegative(change.asp)}
+                        >
                           {change.asp !== 0 ? "$" + change.asp : "N/A"}
                         </td>
-                        <td align="right" className={isNegative(charge.asp)}>
+                        <td
+                          align="right"
+                          className={isNegative(charge.asp)}
+                        >
                           {charge.asp !== 0 ? charge.asp + "%" : "N/A"}
                         </td>
                         {isYoY && (
                           <>
-                            <td align="right" className={isNegative(yoy.asp)}>
+                            <td
+                              align="right"
+                              className={isNegative(yoy.asp)}
+                            >
                               {yoy.asp !== 0
                                 ? numberWithCommas(yoy.asp)
                                 : "N/A"}
@@ -2224,29 +2212,25 @@ const DataDisplayItemizedTable = (props) => {
                       <>
                         <td align="right">
                           {current.units_per_order !== 0
-                            ? numberWithCommas(current.units_per_order)
+                            ? "$" + numberWithCommas(current.units_per_order)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous.units_per_order !== 0
-                            ? numberWithCommas(previous.units_per_order)
+                            ? "$" + numberWithCommas(previous.units_per_order)
                             : "N/A"}
                         </td>
                         <td
                           align="right"
                           className={isNegative(change.units_per_order)}
                         >
-                          {change.units_per_order !== 0
-                            ? change.units_per_order
-                            : "N/A"}
+                          {change.units_per_order !== 0 ? "$" + change.units_per_order : "N/A"}
                         </td>
                         <td
                           align="right"
                           className={isNegative(charge.units_per_order)}
                         >
-                          {charge.units_per_order !== 0
-                            ? charge.units_per_order + "%"
-                            : "N/A"}
+                          {charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A"}
                         </td>
                         {isYoY && (
                           <>
@@ -2260,9 +2244,7 @@ const DataDisplayItemizedTable = (props) => {
                             </td>
                             <td
                               align="right"
-                              className={isNegative(
-                                yoyCharge.units_per_order
-                              )}
+                              className={isNegative(yoyCharge.units_per_order)}
                             >
                               {yoyCharge.units_per_order !== 0
                                 ? yoyCharge.units_per_order + "%"
@@ -2274,7 +2256,7 @@ const DataDisplayItemizedTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.units_per_order !== 0
-                            ? numberWithCommas(current.units_per_order)
+                            ? "$" + numberWithCommas(current.units_per_order)
                             : "N/A"}
                         </td>
                       )}
@@ -2283,19 +2265,19 @@ const DataDisplayItemizedTable = (props) => {
                       <>
                         <td align="right">
                           {current.orders !== 0
-                            ? numberWithCommas(current.orders)
+                            ? "$" + numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous.orders !== 0
-                            ? numberWithCommas(previous.orders)
+                            ? "$" + numberWithCommas(previous.orders)
                             : "N/A"}
                         </td>
                         <td
                           align="right"
                           className={isNegative(change.orders)}
                         >
-                          {change.orders !== 0 ? change.orders : "N/A"}
+                          {change.orders !== 0 ? "$" + change.orders : "N/A"}
                         </td>
                         <td
                           align="right"
@@ -2327,7 +2309,7 @@ const DataDisplayItemizedTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.orders !== 0
-                            ? numberWithCommas(current.orders)
+                            ? "$" + numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                       )}
@@ -3016,12 +2998,12 @@ const DataDisplayItemizedTable = (props) => {
                         : "N/A"}
                     </td>
                     <td align="right">
-                      {!!totalOfData.asp.change
+                      {totalOfData.asp.change
                         ? "$" + numberWithCommas(totalOfData.asp.change)
                         : "N/A"}
                     </td>
                     <td align="right">
-                      {!!totalOfData.asp.charge
+                      {totalOfData.asp.charge
                         ? numberWithCommas(totalOfData.asp.charge) + "%"
                         : "N/A"}
                     </td>
@@ -3029,13 +3011,14 @@ const DataDisplayItemizedTable = (props) => {
                       <>
                         {" "}
                         <td align="right">
-                          {!!totalOfData.asp.yoy
-                            ? numberWithCommas(totalOfData.asp.yoy)
+                          {totalOfData.asp.yoy
+                            ? "$" + numberWithCommas(totalOfData.asp.yoy)
                             : "N/A"}
                         </td>
                         <td align="right">
-                          {!!totalOfData.asp.yoyCharge
-                            ? numberWithCommas(totalOfData.asp.yoyCharge) + "%"
+                          {totalOfData.asp.yoyCharge
+                            ? "$" +
+                            numberWithCommas(totalOfData.asp.yoyCharge)
                             : "N/A"}
                         </td>
                       </>
@@ -3053,23 +3036,22 @@ const DataDisplayItemizedTable = (props) => {
                   <>
                     <td align="right">
                       {totalOfData.units_per_order.current
-                        ? numberWithCommas(totalOfData.units_per_order.current)
+                        ? "$" + numberWithCommas(totalOfData.units_per_order.current)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.units_per_order.previous
-                        ? numberWithCommas(totalOfData.units_per_order.previous)
+                        ? "$" + numberWithCommas(totalOfData.units_per_order.previous)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.units_per_order.change
-                        ? numberWithCommas(totalOfData.units_per_order.change)
+                        ? "$" + numberWithCommas(totalOfData.units_per_order.change)
                         : "N/A"}
                     </td>
                     <td align="right">
-                      {!!totalOfData.units_per_order.charge
-                        ? numberWithCommas(totalOfData.units_per_order.charge) +
-                        "%"
+                      {totalOfData.units_per_order.charge
+                        ? numberWithCommas(totalOfData.units_per_order.charge) + "%"
                         : "N/A"}
                     </td>
                     {isYoY && (
@@ -3077,14 +3059,13 @@ const DataDisplayItemizedTable = (props) => {
                         {" "}
                         <td align="right">
                           {totalOfData.units_per_order.yoy
-                            ? numberWithCommas(totalOfData.units_per_order.yoy)
+                            ? "$" + numberWithCommas(totalOfData.units_per_order.yoy)
                             : "N/A"}
                         </td>
                         <td align="right">
-                          {!!totalOfData.units_per_order.yoyCharge
-                            ? numberWithCommas(
-                              totalOfData.units_per_order.yoyCharge
-                            ) + "%"
+                          {totalOfData.units_per_order.yoyCharge
+                            ? "$" +
+                            numberWithCommas(totalOfData.units_per_order.yoyCharge)
                             : "N/A"}
                         </td>
                       </>
@@ -3093,7 +3074,7 @@ const DataDisplayItemizedTable = (props) => {
                 ) : (
                     <td align="right">
                       {totalOfData.units_per_order.current
-                        ? numberWithCommas(totalOfData.units_per_order.current)
+                        ? "$" + numberWithCommas(totalOfData.units_per_order.current)
                         : "N/A"}
                     </td>
                   )}
@@ -3102,21 +3083,21 @@ const DataDisplayItemizedTable = (props) => {
                   <>
                     <td align="right">
                       {totalOfData.orders.current
-                        ? numberWithCommas(totalOfData.orders.current)
+                        ? "$" + numberWithCommas(totalOfData.orders.current)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.orders.previous
-                        ? numberWithCommas(totalOfData.orders.previous)
+                        ? "$" + numberWithCommas(totalOfData.orders.previous)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.orders.change
-                        ? numberWithCommas(totalOfData.orders.change)
+                        ? "$" + numberWithCommas(totalOfData.orders.change)
                         : "N/A"}
                     </td>
                     <td align="right">
-                      {!!totalOfData.orders.charge
+                      {totalOfData.orders.charge
                         ? numberWithCommas(totalOfData.orders.charge) + "%"
                         : "N/A"}
                     </td>
@@ -3125,13 +3106,13 @@ const DataDisplayItemizedTable = (props) => {
                         {" "}
                         <td align="right">
                           {totalOfData.orders.yoy
-                            ? numberWithCommas(totalOfData.orders.yoy)
+                            ? "$" + numberWithCommas(totalOfData.orders.yoy)
                             : "N/A"}
                         </td>
                         <td align="right">
-                          {!!totalOfData.orders.yoyCharge
-                            ? numberWithCommas(totalOfData.orders.yoyCharge) +
-                            "%"
+                          {totalOfData.orders.yoyCharge
+                            ? "$" +
+                            numberWithCommas(totalOfData.orders.yoyCharge)
                             : "N/A"}
                         </td>
                       </>
@@ -3140,7 +3121,7 @@ const DataDisplayItemizedTable = (props) => {
                 ) : (
                     <td align="right">
                       {totalOfData.orders.current
-                        ? numberWithCommas(totalOfData.orders.current)
+                        ? "$" + numberWithCommas(totalOfData.orders.current)
                         : "N/A"}
                     </td>
                   )}

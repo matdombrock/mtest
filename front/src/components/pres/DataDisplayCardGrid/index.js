@@ -14,9 +14,9 @@ const DataDisplayCardGrid = (props) => {
       (((previousNumber - number) / previousNumber) * 100).toFixed(2)
     ) === -1
       ? "+" +
-          Math.abs(
-            (((previousNumber - number) / previousNumber) * 100).toFixed(2)
-          )
+      Math.abs(
+        (((previousNumber - number) / previousNumber) * 100).toFixed(2)
+      )
       : "-" + (((previousNumber - number) / previousNumber) * 100).toFixed(2);
   };
   const isNegative = (value) =>

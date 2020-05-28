@@ -16,18 +16,21 @@ const ChartsV2 = (report) => {
     }))
     .reverse();
 
+  const colorOrangeDark = getComputedStyle(document.body).getPropertyValue('--orange-dark');;
+  const colorTealMedium = getComputedStyle(document.body).getPropertyValue('--teal-medium');;
+
   const getAdSalesAndAdSpendData = () => {
     return {
       datasets: [
         {
           name: 'Ad Sales ($)',
           key: 'ad_sales',
-          color: 'rgba(0,176,240,1)'
+          color: colorOrangeDark
         },
         {
           name: 'Ad Spend ($)',
           key: 'ad_spend',
-          color: 'rgba(244,115,120,1)'
+          color: colorTealMedium
         }
       ]
     }
@@ -39,13 +42,13 @@ const ChartsV2 = (report) => {
         {
           name: 'Conversion Rate (%)',
           key: 'conversion_rate',
-          color: 'rgba(0,176,240,1)',
+          color: colorOrangeDark,
           position: 'left'
         },
         {
           name: 'Average CPC ($)',
           key: 'average_cpc',
-          color: 'rgba(244,115,120,1)',
+          color: colorTealMedium,
           position: 'right'
         }
       ]
