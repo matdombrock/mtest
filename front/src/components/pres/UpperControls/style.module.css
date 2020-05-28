@@ -1,0 +1,270 @@
+.select {
+  min-width: 200px;
+}
+
+.controlsContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100% !important;
+  background: #fff;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.titles {
+  margin-right: auto !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.menuOpen {
+  color: #fff;
+  width: 1em !important;
+  height: 1em !important;
+  cursor: pointer;
+  margin-right: -3px;
+}
+
+.menuOpenWith10 {
+  color: #fff !important;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.dashboardLabel {
+  padding-bottom: 10px;
+  margin: 0px !important;
+  color: #5E5E5E;
+  font-size: 20px;
+  font-weight: bolder;
+  text-shadow: 0px 0 #5e5e5e;
+}
+
+.gridItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.menu {
+  padding: 20px;
+  max-width: 900px;
+}
+
+.menu-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  marker-end: 10px;
+}
+
+.menu-container > div:first-child > div:first-child {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  margin-right: 20px;
+  cursor: pointer;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 3px;
+  padding: 0px 7px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  -webkit-box-shadow: 2px 2px 4px -2px rgba(163, 163, 163, 0.5);
+          box-shadow: 2px 2px 4px -2px rgba(163, 163, 163, 0.5);
+  height: auto;
+  min-height: 30px;
+  display: inline-block;
+}
+
+.menu-container > div:first-child > div > p {
+  margin: 0;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.menu-container > div .MuiSelect-outlined.MuiSelect-outlined {
+  padding: 8px !important;
+}
+
+.custom-date-container {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #ffff;
+  padding: 9px;
+  z-index: 10;
+  min-width: 160px;
+  border: medium none;
+  border-radius: 3px;
+  border: 1px solid #dedede;
+  -webkit-box-shadow: 2px 2px 4px -2px rgba(163, 163, 163, 0.5);
+          box-shadow: 2px 2px 4px -2px rgba(163, 163, 163, 0.5);
+  font-size: 12px;
+  list-style: none outside none;
+  text-shadow: none;
+  z-index: 1000;
+}
+
+.custom-date-container::after {
+  content: "";
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid #fff;
+  position: absolute;
+  top: -7px;
+  right: 12px;
+}
+
+.custom-date-container > div:not(.item) {
+  font-size: 13px;
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5;
+  border-radius: 4px;
+  padding: 3px 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.custom-date-container > div:not(.item):hover {
+  background-color: #003b49;
+  border: 1px solid #003b49;
+  color: #fff;
+}
+
+.custom-date-container .item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.custom-date-container .item > div {
+  margin-top: 0px;
+  width: 45%;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+}
+
+.custom-date-container .item > div > div {
+  margin-top: 0px;
+  padding: 1px 5px;
+}
+
+.custom-date-container .item > div > div > input {
+  font: inherit;
+  /* color: aliceblue; */
+  width: 100%;
+  border: 0;
+  height: 1.1875em;
+  margin: 0;
+  display: block;
+  padding: 6px 0 7px;
+  min-width: 0;
+  background: none;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  -webkit-animation-name: MuiInputBase-keyframes-auto-fill-cancel;
+          animation-name: MuiInputBase-keyframes-auto-fill-cancel;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 11px;
+}
+
+.custom-date-container .item > div > div > div > button {
+  padding: 0 !important;
+}
+
+.custom-date-container .item > div > div > div > button svg {
+  width: 12px !important;
+}
+
+.custom-date-container .item label {
+  display: none;
+}
+
+.active-item {
+  background-color: #003b49 !important;
+  border: 1px solid #003b49 !important;
+  color: #fff;
+  border-radius: 0;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.button {
+  background-color: #0099a8 !important;
+  border-color: #0099a8 !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+}
+
+.buttonWihtout {
+  color: rgba(0, 0, 0, 0.87) !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  background-color: none !important;
+  font-size: 10px !important;
+}
+
+.comparison-input {
+  width: 100%;
+  margin: 0px;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 5px;
+}
+
+.back {
+  position: fixed;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.modaLogo {
+  max-height: 110px;
+}
+/*# sourceMappingURL=style.module.css.map */

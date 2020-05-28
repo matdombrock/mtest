@@ -1173,28 +1173,34 @@ const DataDisplayItemizedTable = (props) => {
     if (sortBy === 0) {
       tempSortBy = "date";
     } else if (sortBy === 1) {
-      tempSortBy = "sales";
+      tempSortBy = "asp";
     } else if (sortBy === 2) {
-      tempSortBy = "units_sold";
+      tempSortBy = "units_per_order";
     } else if (sortBy === 3) {
-      tempSortBy = "shipped_cogs";
+      tempSortBy = "orders";
     } else if (sortBy === 4) {
-      tempSortBy = "ad_clicks";
+      tempSortBy = "sales";
     } else if (sortBy === 5) {
-      tempSortBy = "ad_impressions";
+      tempSortBy = "units_sold";
     } else if (sortBy === 6) {
-      tempSortBy = "average_cpc";
+      tempSortBy = "shipped_cogs";
     } else if (sortBy === 7) {
-      tempSortBy = "ad_spend";
+      tempSortBy = "ad_clicks";
     } else if (sortBy === 8) {
-      tempSortBy = "ad_orders";
+      tempSortBy = "ad_impressions";
     } else if (sortBy === 9) {
-      tempSortBy = "ad_sales";
+      tempSortBy = "average_cpc";
     } else if (sortBy === 10) {
-      tempSortBy = "percent_total_sales";
+      tempSortBy = "ad_spend";
     } else if (sortBy === 11) {
-      tempSortBy = "conversion_rate";
+      tempSortBy = "ad_orders";
     } else if (sortBy === 12) {
+      tempSortBy = "ad_sales";
+    } else if (sortBy === 13) {
+      tempSortBy = "percent_total_sales";
+    } else if (sortBy === 14) {
+      tempSortBy = "conversion_rate";
+    } else if (sortBy === 15) {
       tempSortBy = "acos";
     }
     let tempFirst =

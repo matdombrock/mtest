@@ -5,10 +5,10 @@
 .controlsContainer {
   display: flex;
   align-items: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
   width: 100% !important;
-  background: #3cc3c1;
+  background: #fff;
+  padding-top: 2px;
+  padding-bottom:2px;
 }
 
 .titles {
@@ -22,11 +22,11 @@
 }
 
 .menuOpen {
-  color: #676a6c;
-  width: 0.7em !important;
-  height: 0.7em !important;
+  color: #fff;
+  width: 1em !important;
+  height: 1em !important;
   cursor: pointer;
-  margin-right: 5px;
+  margin-right: -3px;
 }
 
 .menuOpenWith10 {
@@ -36,16 +36,18 @@
 }
 
 .dashboardLabel {
-  padding: 0px;
+  padding-bottom: 10px;
   margin: 0px !important;
-
-  color: #fff;
+  color: #5E5E5E;
+  font-size: 20px;
+  font-weight: bolder;
+  text-shadow: 0px 0 #5e5e5e
 }
 
 .gridItem {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .menu {
@@ -76,9 +78,9 @@
 }
 .menu-container > div:first-child > div > p {
   margin: 0;
-  color: #676a6c;
-  font-size: 11px;
-  margin: 0;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
 }
 .menu-container > div .MuiSelect-outlined.MuiSelect-outlined {
   padding: 8px !important;
@@ -170,6 +172,7 @@
   background-color: #003b49 !important;
   border: 1px solid #003b49 !important;
   color: #fff;
+  border-radius: 0;
 }
 .position-relative {
   position: relative;
@@ -180,6 +183,7 @@
   color: #ffffff !important;
   font-size: 10px !important;
 }
+
 .buttonWihtout {
   color: rgba(0, 0, 0, 0.87) !important;
   box-shadow: none !important;
@@ -202,4 +206,8 @@
   height: 100vh;
   top: 0;
   left: 0;
+}
+
+.modaLogo {
+  max-height: 110px;
 }

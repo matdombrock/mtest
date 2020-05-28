@@ -84,7 +84,7 @@ class ImportProducts extends React.Component {
                       type="file"
                       onChange={this._handleChangeFile}
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                      // style={{ display: "none" }}
+                    // style={{ display: "none" }}
                     />
                   </Button>
                 </div>
