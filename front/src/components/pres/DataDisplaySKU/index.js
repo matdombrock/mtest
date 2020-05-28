@@ -1795,6 +1795,7 @@ const DataDisplaySKUTable = (props) => {
               <th
                 className={s.tableHead}
                 colSpan={active === 4 && (isYoY ? "6" : "4")}
+                align="right"
               >
                 <div>
                   <span onClick={() => headerClick(4)}>
@@ -1822,6 +1823,7 @@ const DataDisplaySKUTable = (props) => {
               <th
                 className={s.tableHead}
                 colSpan={active === 5 && (isYoY ? "6" : "4")}
+                align="right"
               >
                 <div>
                   <span onClick={() => headerClick(5)}>

@@ -1574,6 +1574,7 @@ const DataDisplayItemizedTable = (props) => {
               <th
                 className={s.tableHead}
                 colSpan={isComparisons && active === 2 && (isYoY ? "6" : "4")}
+                align="right"
               >
                 <div>
                   <span onClick={() => headerClick(2)}>
@@ -1601,6 +1602,7 @@ const DataDisplayItemizedTable = (props) => {
               <th
                 className={s.tableHead}
                 colSpan={isComparisons && active === 3 && (isYoY ? "6" : "4")}
+                align="right"
               >
                 <div>
                   <span onClick={() => headerClick(3)}>
