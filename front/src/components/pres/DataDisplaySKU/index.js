@@ -14,6 +14,7 @@ import SortIcon from "@material-ui/icons/Sort";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
+import moment from 'moment'
 
 const getCSVVersion = (data, isYoY, totalOfData) => {
   const finalData = [];
@@ -1697,6 +1698,11 @@ const DataDisplaySKUTable = (props) => {
   console.log("DataDisplaySKUTable -> totalOfData", totalOfData);
   return (
     <>
+      <h3 style={{ width: '100%', marginLeft: '450px' }}>
+        Current Period Summary:{" "}
+        {moment(props.data.periods[0].period.start).utc().format("MM/DD/YYYY")} -{" "}
+        {moment(props.data.periods[0].period.end).utc().format("MM/DD/YYYY")}
+      </h3>
       <CSVLink
         data={getCSVVersion(filterSKUData, isYoY, totalOfData)}
         filename={"sku.csv"}
