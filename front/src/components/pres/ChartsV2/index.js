@@ -9,7 +9,10 @@ import DonutChart from './DonutChart'
 const ChartsV2 = (report) => {
 
   let periods = report.report.periods;
-  periods = periods.slice(0, periods.length - 1);
+  if(periods.length > 2){
+    periods = periods.slice(0, periods.length - 1);
+  }
+
   const summaries = periods
     .map((d) => ({
       ...d.summary
