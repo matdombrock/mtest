@@ -9,7 +9,7 @@ const DonutChart = (props) => {
 
     const getAdSales = () => {
         if (!chartDataValues.length) return 0
-        const { ad_sales } = chartDataValues[1] || 0
+        const ad_sales = chartDataValues[1]?.ad_sales || 0
         if (!ad_sales) return 0
         return ad_sales.toFixed(2)
     }
@@ -17,7 +17,8 @@ const DonutChart = (props) => {
     const getTotalSales = () => {
         if (!chartDataValues.length) return 0
 
-        const { ad_sales, sales } = chartDataValues[1] || 0
+        const ad_sales = chartDataValues[1]?.ad_sales || 0
+        const sales = chartDataValues[1]?.sales || 0
         if (!ad_sales || !sales) return 0
 
         const totalSales = sales && sales - ad_sales
