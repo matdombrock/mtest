@@ -1333,24 +1333,24 @@ const getSummaryInTotal = (props) => {
   const { length: _length } = props
   const { asp: _asp, units_per_order: _units_per_order, orders: _orders } = temp
 
-  temp.asp.current = _asp.current / _length;
-  temp.asp.previous = _asp.previous / _length;
-  temp.asp.change = _asp.change / _length;
-  temp.asp.yoy = _asp.yoy / _length;
+  // temp.asp.current = _asp.current / _length;
+  // temp.asp.previous = _asp.previous / _length;
+  // temp.asp.change = _asp.change / _length;
+  // temp.asp.yoy = _asp.yoy / _length;
   temp.asp.charge = _asp.charge / _length;
   temp.asp.yoyCharge = _asp.yoyCharge / _length;
 
-  temp.units_per_order.current = _units_per_order.current / _length;
-  temp.units_per_order.previous = _units_per_order.previous / _length;
-  temp.units_per_order.change = _units_per_order.change / _length;
-  temp.units_per_order.yoy = _units_per_order.yoy / _length;
+  // temp.units_per_order.current = _units_per_order.current / _length;
+  // temp.units_per_order.previous = _units_per_order.previous / _length;
+  // temp.units_per_order.change = _units_per_order.change / _length;
+  // temp.units_per_order.yoy = _units_per_order.yoy / _length;
   temp.units_per_order.charge = _units_per_order.charge / _length;
   temp.units_per_order.yoyCharge = _units_per_order.yoyCharge / _length;
 
-  temp.orders.current = _orders.current / _length;
-  temp.orders.previous = _orders.previous / _length;
-  temp.orders.change = _orders.change / _length;
-  temp.orders.yoy = _orders.yoy / _length;
+  // temp.orders.current = _orders.current / _length;
+  // temp.orders.previous = _orders.previous / _length;
+  // temp.orders.change = _orders.change / _length;
+  // temp.orders.yoy = _orders.yoy / _length;
   temp.orders.charge = _orders.charge / _length;
   temp.orders.yoyCharge = _orders.yoyCharge / _length;
 
