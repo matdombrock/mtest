@@ -4,7 +4,7 @@
     justify-content: flex-end;
     align-items: center;
     padding-left: 1em;
-    padding-right: 1em;
+    padding-right: 10px;
 }
 
 .logo{
@@ -23,5 +23,6 @@
 }
 
 .userName{
-    color: #3cc3c1 !important
+    color: #fff !important;
+    cursor: pointer
 }

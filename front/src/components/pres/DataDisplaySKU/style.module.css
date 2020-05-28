@@ -1,0 +1,54 @@
+.tableHead {
+  font-weight: bold !important;
+  color: #676a6c;
+}
+
+.noBoxShadow {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  overflow-x: scroll;
+  height: 60vh !important;
+  width: 92% !important;
+  margin-top: 10px;
+}
+
+.noBoxShadow table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 130%;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  width: 2150px !important;
+}
+
+.noBoxShadow th {
+  font-weight: bold;
+  text-align: center;
+}
+
+.noBoxShadow th svg {
+  width: 17px !important;
+  height: auto !important;
+}
+
+.noBoxShadow th,
+.noBoxShadow td {
+  text-align: left;
+  font-size: 12px;
+  padding: 8px;
+  color: #676a6c;
+  border: 1px solid #dddddd;
+}
+
+.red {
+  color: red !important;
+}
+
+.green {
+  color: green !important;
+}
+
+.MuiTableCell-root {
+  padding: 3px;
+}
+/*# sourceMappingURL=style.module.css.map */

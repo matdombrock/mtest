@@ -27,6 +27,7 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import moment from "moment";
+import capitalize from 'capitalize'
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
@@ -199,17 +200,17 @@ class UpperControls extends Component {
       selectedDateRange === "lastMonth"
         ? "last-month"
         : selectedDateRange === "last7Days"
-        ? "7-days"
-        : selectedDateRange === "last14Days"
-        ? "14-days"
-        : selectedDateRange === "this30Days"
-        ? "30-days"
-        : selectedDateRange === "lastWeek"
-        ? "last-week"
-        : selectedDateRange === "currentMonth"
-        ? "current-month"
-        : "yesterday";
-    if (activeTab === 1) {
+          ? "7-days"
+          : selectedDateRange === "last14Days"
+            ? "14-days"
+            : selectedDateRange === "this30Days"
+              ? "30-days"
+              : selectedDateRange === "lastWeek"
+                ? "last-week"
+                : selectedDateRange === "currentMonth"
+                  ? "current-month"
+                  : "yesterday";
+    if (activeTab === 2) {
       brand &&
         fetchSalesDataBySKU(data)
           .then((data) => {
@@ -658,28 +659,33 @@ class UpperControls extends Component {
       isCustomStartDateVisible,
       compareType,
     } = this.state;
+
+
     const isCustomVisible = this.props.sales.isComparison;
     const activeSelectedDateRange = selectedDateRange || displayDateRange;
     return (
       <>
         <div className={s.controlsContainer}>
-          <Grid container>
-            <Grid item xs={4} className={s.gridItem}>
+          <Grid container style={{ paddingLeft: '30px', paddingRight: '30px' }}>
+            <Grid item xs={1}>
+              <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
+            </Grid>
+            <Grid item xs={5} className={s.gridItem} style={{ paddingLeft: '100px' }}>
               <p className={s.dashboardLabel}>
                 {" "}
                 {this.props.activeTab === 0 ? (
                   <>
-                    <b>Brand Overview Dashboard:</b> {this.state.selectedBrand}
+                    Brand Overview Dashboard: {capitalize.words(this.state.selectedBrand ? this.state.selectedBrand.toLowerCase() : '')}
                   </>
                 ) : (
-                  <>
-                    <b>SKU Overview:</b> {this.state.selectedBrand}
-                  </>
-                )}
+                    <>
+                      SKU Overview: {capitalize.words(this.state.selectedBrand ? this.state.selectedBrand.toLowerCase() : '')}
+                    </>
+                  )}
               </p>
             </Grid>
-            <Grid item xs={8} className={[s.gridItem, s["menu-container"]]}>
-              <div className={s["position-relative"]}>
+            <Grid item xs={6} className={[s.gridItem, s["menu-container"]]} >
+              <div className={s["position-relative"]} >
                 <div
                   onClick={() =>
                     this.handleUpdateState("showDropDown", !showDropDown)
@@ -687,61 +693,61 @@ class UpperControls extends Component {
                   className={s["position-relative"]}
                 >
                   {" "}
-                  <EventNoteIcon className={s.menuOpen} />{" "}
+                  {/* <EventNoteIcon className={s.menuOpen} />{" "} */}
                   <p style={{ textTransform: "capitalize" }}>
                     {displayDateRange === "custom"
                       ? isCustomVisible
                         ? `${moment(startDate).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(endDate).format(
-                            "MMM DD, YYYY"
-                          )} VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : `${moment(startDate).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(endDate).format("MMM DD, YYYY")}`
-                      : displayDateRange === "lastMonth"
-                      ? isCustomVisible
-                        ? `Last Month VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last Month"
-                      : displayDateRange === "last7Days"
-                      ? isCustomVisible
-                        ? `last 7 Days VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "last 7 Days"
-                      : displayDateRange === "last14Days"
-                      ? isCustomVisible
-                        ? `last 14 Days VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last 14 Days"
-                      : displayDateRange === "this30Days"
-                      ? isCustomVisible
-                        ? `last 30 Days VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last 30 Days"
-                      : displayDateRange === "lastWeek"
-                      ? isCustomVisible
-                        ? `Last Week VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Last Week"
-                      : displayDateRange === "currentMonth"
-                      ? isCustomVisible
-                        ? `Current Month VS ${moment(customDateStart).format(
-                            "MMM DD, YYYY"
-                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                        : "Current Month"
-                      : isCustomVisible
-                      ? `yesterday VS ${moment(customDateStart).format(
+                          "MMM DD, YYYY"
+                        )} - ${moment(endDate).format(
+                          "MMM DD, YYYY"
+                        )} VS ${moment(customDateStart).format(
                           "MMM DD, YYYY"
                         )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
-                      : "yesterday"}
+                        : `${moment(startDate).format(
+                          "MMM DD, YYYY"
+                        )} - ${moment(endDate).format("MMM DD, YYYY")}`
+                      : displayDateRange === "lastMonth"
+                        ? isCustomVisible
+                          ? `LAST MONTH VS ${moment(customDateStart).format(
+                            "MMM DD, YYYY"
+                          )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                          : "LAST MONTH"
+                        : displayDateRange === "last7Days"
+                          ? isCustomVisible
+                            ? `LAST 7 DAYS VS ${moment(customDateStart).format(
+                              "MMM DD, YYYY"
+                            )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                            : "LAST 7 DAYS"
+                          : displayDateRange === "last14Days"
+                            ? isCustomVisible
+                              ? `LAST 14 DAYS VS ${moment(customDateStart).format(
+                                "MMM DD, YYYY"
+                              )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                              : "LAST 14 DAYS"
+                            : displayDateRange === "this30Days"
+                              ? isCustomVisible
+                                ? `LAST 30 DAYS VS ${moment(customDateStart).format(
+                                  "MMM DD, YYYY"
+                                )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                : "LAST 30 DAYS"
+                              : displayDateRange === "lastWeek"
+                                ? isCustomVisible
+                                  ? `LAST WEEK VS ${moment(customDateStart).format(
+                                    "MMM DD, YYYY"
+                                  )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                  : "LAST WEEK"
+                                : displayDateRange === "currentMonth"
+                                  ? isCustomVisible
+                                    ? `CURRENT MONTH VS ${moment(customDateStart).format(
+                                      "MMM DD, YYYY"
+                                    )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                    : "CURRENT MONTH"
+                                  : isCustomVisible
+                                    ? `YESTERDAY VS ${moment(customDateStart).format(
+                                      "MMM DD, YYYY"
+                                    )} - ${moment(customDateEnd).format("MMM DD, YYYY")}`
+                                    : "YESTERDAY"}
                   </p>
                   <ExpandMoreIcon className={s.menuOpen} />
                 </div>
@@ -764,7 +770,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleYesterday}
                       >
-                        Yesterday
+                        YESTERDAY
                       </div>
                       <div
                         className={
@@ -773,7 +779,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLastWeek}
                       >
-                        Last Week
+                        LAST WEEK
                       </div>
                       <div
                         className={
@@ -782,7 +788,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLast7Days}
                       >
-                        Last 7 Days
+                        LAST 7 DAYS
                       </div>
                       <div
                         className={
@@ -791,7 +797,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLast14}
                       >
-                        Last 14 Days
+                        LAST 14 DAYS
                       </div>
                       <div
                         className={
@@ -800,7 +806,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleThis30Days}
                       >
-                        Last 30 Days
+                        LAST 30 DAYS
                       </div>
                       <div
                         className={
@@ -809,7 +815,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleLastMonth}
                       >
-                        Last Month
+                        LAST MONTH
                       </div>
                       <div
                         className={
@@ -818,7 +824,7 @@ class UpperControls extends Component {
                         }
                         onClick={this.handleCurrentMonth}
                       >
-                        Current Month
+                        CURRENT MONTH
                       </div>
                       {/* {this.props.activeTab !== 1 && ( */}
                       <div
@@ -830,7 +836,7 @@ class UpperControls extends Component {
                           this.handleChangeCustomDateRange("custom");
                         }}
                       >
-                        Custom Range
+                        CUSTOM RANGE
                       </div>
                       {/* )} */}
                       {activeSelectedDateRange === "custom" && (
@@ -903,7 +909,7 @@ class UpperControls extends Component {
                                 });
                                 this.props.setComparison(
                                   !!e.target.checked &&
-                                    compareType === "custom-range"
+                                  compareType === "custom-range"
                                 );
                               }}
                               value="true"
@@ -911,7 +917,7 @@ class UpperControls extends Component {
                                 "aria-label": "primary checkbox",
                               }}
                             />
-                            <span>Custom Compare</span>
+                            <span>CUSTOM COMPARE</span>
                           </label>
                         </p>
                       </div>
@@ -945,10 +951,10 @@ class UpperControls extends Component {
                             style={{ width: "100%" }}
                           >
                             <MenuItem value={"previous-range"}>
-                              Previous Period + YOY
+                              PREVIOUS PERIOD + YOY
                             </MenuItem>
                             <MenuItem value={"custom-range"}>
-                              Custom Range
+                              CUSTOM RANGE
                             </MenuItem>
                           </MuiSelect>
                           {/* )} */}
@@ -1094,25 +1100,25 @@ class UpperControls extends Component {
                 <MuiSelect
                   variant="outlined"
                   onChange={(e) =>
-                    e.target.value !== "Select Periods" &&
+                    e.target.value !== "SELECT PERIODS" &&
                     this.setPeriods(e.target.value)
                   }
                   value={
                     this.state.periodsCount
                       ? this.state.periodsCount
-                      : "Select Periods"
+                      : "SELECT PERIODS"
                   }
                   classes={s["colo-grey"]}
-                  style={{ marginRight: 10 }}
+                  style={btnStyleOutlined}
                 >
-                  <MenuItem key={1} value={"Select Periods"}>
-                    Select Periods Count
+                  <MenuItem key={1} value={"SELECT PERIODS"}>
+                    SELECT PERIODS
                   </MenuItem>
                   {[...Array(25)].map(
                     (d, i) =>
                       i > 1 && (
                         <MenuItem key={i} value={i}>
-                          {i} Periods
+                          {i} PERIODS
                         </MenuItem>
                       )
                   )}
@@ -1122,33 +1128,35 @@ class UpperControls extends Component {
                 <MuiSelect
                   variant="outlined"
                   onChange={(e) =>
-                    e.target.value !== "Select Brand" &&
+                    e.target.value !== "SELECT BRAND" &&
                     this.setBrand(e.target.value)
                   }
                   value={
                     this.state.selectedBrand
                       ? this.state.selectedBrand
-                      : "Select Brand"
+                      : "SELECT BRAND"
                   }
                   classes={s["colo-grey"]}
-                  style={{ marginRight: 10 }}
+                  // style={{ marginRight: 10 }}
+                  style={btnStyleOutlined}
                 >
-                  <MenuItem key={1} value={"Select Brand"}>
-                    Select Brand
+                  <MenuItem key={1} value={"SELECT BRAND"}>
+                    SELECT BRAND
                   </MenuItem>
                   {this.props.brands.length !== 0
                     ? this.props.brands.map((brand) => (
-                        <MenuItem key={brand.id} value={brand.brand_name}>
-                          {brand.brand_name}
-                        </MenuItem>
-                      ))
+                      <MenuItem key={brand.id} value={brand.brand_name.toUpperCase()}>
+                        {brand.brand_name.toUpperCase()}
+                      </MenuItem>
+                    ))
                     : ""}
                 </MuiSelect>
               )}
               <Button
                 onClick={this.fetchData}
                 variant="contained"
-                className={s.button}
+                // className={s.button}
+                style={btnStyleContained}
               >
                 Submit
               </Button>
@@ -1216,10 +1224,10 @@ class UpperControls extends Component {
                   </MenuItem>
                   {this.props.brands.length !== 0
                     ? this.props.brands.map((brand) => (
-                        <MenuItem key={brand.id} value={brand.brand_name}>
-                          {brand.brand_name}
-                        </MenuItem>
-                      ))
+                      <MenuItem key={brand.id} value={brand.brand_name}>
+                        {brand.brand_name}
+                      </MenuItem>
+                    ))
                     : ""}
                 </MuiSelect>
               </Grid>
@@ -1264,8 +1272,8 @@ class UpperControls extends Component {
                     onChange={(e) => this.changeSelectedSku(e)}
                   />
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </Grid>
               <Grid item xs={6}>
                 <p style={{ width: "100%", margin: "0px" }}>
@@ -1312,8 +1320,8 @@ class UpperControls extends Component {
                     />
                   </MuiPickersUtilsProvider>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </Grid>
               <Grid item xs={12}>
                 <Button
@@ -1347,3 +1355,18 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpperControls);
+
+const btnStyleOutlined = {
+  borderRadius: 0,
+  border: '2px solid var(--teal-dark)',
+  marginLeft: '15px'
+}
+
+const btnStyleContained = {
+  borderRadius: 0,
+  marginLeft: '15px',
+  boxShadow: 'none',
+  backgroundColor: 'var(--teal-dark)',
+  color: '#fff',
+  paddingLeft: '10px',
+}

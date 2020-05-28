@@ -68,8 +68,8 @@ class SKUCharts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
               >
@@ -96,8 +96,8 @@ class SKUCharts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
               >
@@ -129,8 +129,8 @@ class SKUCharts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
                 margin={{ left: 20, top: 20, right: 5 }}
@@ -172,8 +172,8 @@ class SKUCharts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
               >
@@ -200,8 +200,8 @@ class SKUCharts extends React.Component {
                 data={
                   this.props.data.itemized
                     ? this.props.data.itemized.sort(
-                        (a, b) => new Date(a.date) - new Date(b.date)
-                      )
+                      (a, b) => new Date(a.date) - new Date(b.date)
+                    )
                     : null
                 }
               >

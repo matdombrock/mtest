@@ -111,3 +111,18 @@ export const getAsins = (data) => {
     .then((response) => response.json())
     .then((response) => response);
 };
+
+
+export const getMissingProductCount = (data) => {
+  let url = config.remoteIP + "/api/countMissing";
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": sessionStorage.getItem("moda_token"),
+    },
+    body: data,
+  })
+    .then((response) => response.json())
+    .then((response) => response);
+};
