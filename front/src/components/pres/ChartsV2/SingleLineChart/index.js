@@ -38,7 +38,7 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues }) => {
         {
           ticks: {
             callback: function (value, index, values) {
-              return '$ ' + value
+              return '$' + value
             }
           }
         }
