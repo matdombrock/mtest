@@ -35,7 +35,7 @@ class Navbar extends React.Component {
           count: String(response.csv).split("\n").length - 1,
         });
     } catch (error) {
-      console.log("ImportProducts -> handleSubmit -> error", error);
+      console.log("ImportProducts -> handleGetAsins -> error", error);
     }
   };
   handleClick = (event) => {
