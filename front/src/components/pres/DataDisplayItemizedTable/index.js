@@ -2267,19 +2267,19 @@ const DataDisplayItemizedTable = (props) => {
                       <>
                         <td align="right">
                           {current.orders !== 0
-                            ? "$" + numberWithCommas(current.orders)
+                            ? numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous.orders !== 0
-                            ? "$" + numberWithCommas(previous.orders)
+                            ? numberWithCommas(previous.orders)
                             : "N/A"}
                         </td>
                         <td
                           align="right"
                           className={isNegative(change.orders)}
                         >
-                          {change.orders !== 0 ? "$" + change.orders : "N/A"}
+                          {change.orders !== 0 ? change.orders : "N/A"}
                         </td>
                         <td
                           align="right"
@@ -2311,7 +2311,7 @@ const DataDisplayItemizedTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.orders !== 0
-                            ? "$" + numberWithCommas(current.orders)
+                            ? numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                       )}
@@ -3085,17 +3085,17 @@ const DataDisplayItemizedTable = (props) => {
                   <>
                     <td align="right">
                       {totalOfData.orders.current
-                        ? "$" + numberWithCommas(totalOfData.orders.current)
+                        ? numberWithCommas(totalOfData.orders.current)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.orders.previous
-                        ? "$" + numberWithCommas(totalOfData.orders.previous)
+                        ? numberWithCommas(totalOfData.orders.previous)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.orders.change
-                        ? "$" + numberWithCommas(totalOfData.orders.change)
+                        ? numberWithCommas(totalOfData.orders.change)
                         : "N/A"}
                     </td>
                     <td align="right">
@@ -3108,13 +3108,12 @@ const DataDisplayItemizedTable = (props) => {
                         {" "}
                         <td align="right">
                           {totalOfData.orders.yoy
-                            ? "$" + numberWithCommas(totalOfData.orders.yoy)
+                            ? numberWithCommas(totalOfData.orders.yoy)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {totalOfData.orders.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.orders.yoyCharge)
+                            ? numberWithCommas(totalOfData.orders.yoyCharge)
                             : "N/A"}
                         </td>
                       </>
@@ -3123,7 +3122,7 @@ const DataDisplayItemizedTable = (props) => {
                 ) : (
                     <td align="right">
                       {totalOfData.orders.current
-                        ? "$" + numberWithCommas(totalOfData.orders.current)
+                        ? numberWithCommas(totalOfData.orders.current)
                         : "N/A"}
                     </td>
                   )}
