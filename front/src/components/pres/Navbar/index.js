@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import { getAsins } from "../../../services/api"
+import { getMissingProductCount } from "../../../services/api"
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -29,13 +29,13 @@ class Navbar extends React.Component {
 
   handleGetAsins = async () => {
     try {
-      const response = await getAsins();
+      const response = await getMissingProductCount();
       if (response.csv)
         this.setState({
           count: String(response.csv).split("\n").length - 1,
         });
     } catch (error) {
-      console.log("ImportProducts -> handleSubmit -> error", error);
+      console.log("ImportProducts -> handleGetAsins -> error", error);
     }
   };
   handleClick = (event) => {

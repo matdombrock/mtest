@@ -10,7 +10,7 @@ import { actions as usersActions } from "../../../modules/users";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import { getAsins } from "../../../services/api";
+import { getAsins, getMissingProductCount } from "../../../services/api";
 import { CSVLink } from "react-csv";
 
 class ImportProducts extends React.Component {
@@ -31,6 +31,7 @@ class ImportProducts extends React.Component {
 
   componentDidMount() {
     this.handleGetAsins();
+    this.handleGetMissingProductsCount();
   }
 
   handleSubmit = async () => {
@@ -53,13 +54,24 @@ class ImportProducts extends React.Component {
       const response = await getAsins();
       if (response.csv)
         this.setState({
-          csv: response.csv,
-          count: String(response.csv).split("\n").length - 1,
+          csv: response.csv
         });
     } catch (error) {
-      console.log("ImportProducts -> handleSubmit -> error", error);
+      console.log("ImportProducts -> handleGetAsins -> error", error);
     }
   };
+
+  handleGetMissingProductsCount = async () =>{
+    try {
+      let missingCount = await getMissingProductCount();
+      this.setState({
+        count: missingCount
+      });
+    } catch (error) {
+      console.log("ImportProducts -> handleGetMissingProductsCount -> error", error);
+    }
+  }
+
   _handleChangeFile = (e) => this.setState({ file: e.currentTarget.files });
   _handleAlert = (toggle, message = "", type = "success") =>
     this.setState((pre) => ({
