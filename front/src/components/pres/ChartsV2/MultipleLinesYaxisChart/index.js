@@ -47,7 +47,7 @@ const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
         max: chartDatasetProp.ticksMax ?? Math.max(...summariesData),
         min: 0,
         callback: function (value, index, values) {
-          return chartDatasetProp.position === 'right' ? '$ ' + value : value + ' %'
+          return chartDatasetProp.position === 'right' ? '$' + value : value + '%'
         }
       }
     };
