@@ -1330,41 +1330,26 @@ const getSummaryInTotal = (props) => {
     return false;
   });
 
-  const { length: _length } = props
-  const { asp: _asp, units_per_order: _units_per_order, orders: _orders } = temp
+  temp.asp.charge = getDifferenceInPercentage(temp.asp.current, temp.asp.previous);
+  temp.asp.yoyCharge = temp.asp.yoyCharge / props.length;
+  
+  temp.units_per_order.charge = getDifferenceInPercentage(temp.units_per_order.current, temp.units_per_order.previous);
+  temp.units_per_order.yoyCharge = temp.units_per_order.yoyCharge / props.length;
+  
+  temp.orders.charge = getDifferenceInPercentage(temp.orders.current, temp.orders.previous);
+  temp.orders.yoyCharge = temp.orders.yoyCharge / props.length;
 
-  // temp.asp.current = _asp.current / _length;
-  // temp.asp.previous = _asp.previous / _length;
-  // temp.asp.change = _asp.change / _length;
-  // temp.asp.yoy = _asp.yoy / _length;
-  temp.asp.charge = _asp.charge / _length;
-  temp.asp.yoyCharge = _asp.yoyCharge / _length;
-
-  // temp.units_per_order.current = _units_per_order.current / _length;
-  // temp.units_per_order.previous = _units_per_order.previous / _length;
-  // temp.units_per_order.change = _units_per_order.change / _length;
-  // temp.units_per_order.yoy = _units_per_order.yoy / _length;
-  temp.units_per_order.charge = _units_per_order.charge / _length;
-  temp.units_per_order.yoyCharge = _units_per_order.yoyCharge / _length;
-
-  // temp.orders.current = _orders.current / _length;
-  // temp.orders.previous = _orders.previous / _length;
-  // temp.orders.change = _orders.change / _length;
-  // temp.orders.yoy = _orders.yoy / _length;
-  temp.orders.charge = _orders.charge / _length;
-  temp.orders.yoyCharge = _orders.yoyCharge / _length;
-
-  temp.ad_spend.charge = temp.ad_spend.charge / props.length;
+  temp.ad_spend.charge = getDifferenceInPercentage(temp.ad_spend.current, temp.ad_spend.previous);
   temp.ad_spend.yoyCharge = temp.ad_spend.yoyCharge / props.length;
 
-  temp.ad_orders.charge = temp.ad_orders.charge / props.length;
+  temp.ad_orders.charge = getDifferenceInPercentage(temp.ad_orders.current, temp.ad_orders.previous);
   temp.ad_orders.yoyCharge = temp.ad_orders.yoyCharge / props.length;
 
   temp.conversion_rate.current = temp.conversion_rate.current / props.length;
   temp.conversion_rate.previous = temp.conversion_rate.previous / props.length;
   temp.conversion_rate.change = temp.conversion_rate.change / props.length;
   temp.conversion_rate.yoy = temp.conversion_rate.yoy / props.length;
-  temp.conversion_rate.charge = temp.conversion_rate.charge / props.length;
+  temp.conversion_rate.charge = getDifferenceInPercentage(temp.conversion_rate.current, temp.conversion_rate.previous);
   temp.conversion_rate.yoyCharge =
     temp.conversion_rate.yoyCharge / props.length;
 
@@ -1372,32 +1357,32 @@ const getSummaryInTotal = (props) => {
   temp.acos.previous = temp.acos.previous / props.length;
   temp.acos.change = temp.acos.change / props.length;
   temp.acos.yoy = temp.acos.yoy / props.length;
-  temp.acos.charge = temp.acos.charge / props.length;
+  temp.acos.charge = getDifferenceInPercentage(temp.acos.current, temp.acos.previous);
   temp.acos.yoyCharge = temp.acos.yoyCharge / props.length;
 
-  temp.ad_sales.charge = temp.ad_sales.charge / props.length;
+  temp.ad_sales.charge = getDifferenceInPercentage(temp.ad_sales.current, temp.ad_sales.previous);
   temp.ad_sales.yoyCharge = temp.ad_sales.yoyCharge / props.length;
 
-  temp.sales.charge = temp.sales.charge / props.length;
+  temp.sales.charge = getDifferenceInPercentage(temp.sales.current, temp.sales.previous);
   temp.sales.yoyCharge = temp.sales.yoyCharge / props.length;
 
-  temp.units_sold.charge = temp.units_sold.charge / props.length;
+  temp.units_sold.charge = getDifferenceInPercentage(temp.units_sold.current, temp.units_sold.previous);
   temp.units_sold.yoyCharge = temp.units_sold.yoyCharge / props.length;
 
-  temp.shipped_cogs.charge = temp.shipped_cogs.charge / props.length;
+  temp.shipped_cogs.charge = getDifferenceInPercentage(temp.shipped_cogs.current, temp.shipped_cogs.previous);
   temp.shipped_cogs.yoyCharge = temp.shipped_cogs.yoyCharge / props.length;
 
-  temp.ad_clicks.charge = temp.ad_clicks.charge / props.length;
+  temp.ad_clicks.charge = getDifferenceInPercentage(temp.ad_clicks.current, temp.ad_clicks.previous);
   temp.ad_clicks.yoyCharge = temp.ad_clicks.yoyCharge / props.length;
 
-  temp.ad_impressions.charge = temp.ad_impressions.charge / props.length;
+  temp.ad_impressions.charge = getDifferenceInPercentage(temp.ad_impressions.current, temp.ad_impressions.previous);
   temp.ad_impressions.yoyCharge = temp.ad_impressions.yoyCharge / props.length;
 
   temp.average_cpc.current = temp.average_cpc.current / props.length;
   temp.average_cpc.previous = temp.average_cpc.previous / props.length;
   temp.average_cpc.change = temp.average_cpc.change / props.length;
   temp.average_cpc.yoy = temp.average_cpc.yoy / props.length;
-  temp.average_cpc.charge = temp.average_cpc.charge / props.length;
+  temp.average_cpc.charge = getDifferenceInPercentage(temp.average_cpc.current, temp.average_cpc.previous);
   temp.average_cpc.yoyCharge = temp.average_cpc.yoyCharge / props.length;
 
   temp.percent_total_sales.current =
@@ -1407,8 +1392,7 @@ const getSummaryInTotal = (props) => {
   temp.percent_total_sales.change =
     temp.percent_total_sales.change / props.length;
   temp.percent_total_sales.yoy = temp.percent_total_sales.yoy / props.length;
-  temp.percent_total_sales.charge =
-    temp.percent_total_sales.charge / props.length;
+  temp.percent_total_sales.charge = getDifferenceInPercentage(temp.percent_total_sales.current, temp.percent_total_sales.previous);
   temp.percent_total_sales.yoyCharge =
     temp.percent_total_sales.yoyCharge / props.length;
 
