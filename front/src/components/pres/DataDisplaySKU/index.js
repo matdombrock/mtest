@@ -146,11 +146,11 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       );
     }
 
-    temp.push(current.orders ? "$" + numberWithCommas(current.orders) : "N/A");
-    temp.push(previous.orders ? "$" + numberWithCommas(previous.orders) : "N/A");
+    temp.push(current.orders ? numberWithCommas(current.orders) : "N/A");
+    temp.push(previous.orders ? numberWithCommas(previous.orders) : "N/A");
     temp.push(
       change.orders !== 0
-        ? "$" + numberWithCommas(change.orders)
+        ? numberWithCommas(change.orders)
         : current.orders > 0 && previous.orders > 0
           ? "$0.00"
           : "N/A"
@@ -165,7 +165,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     if (isYoY) {
       temp.push(
         yoy.orders !== 0
-          ? "$" + numberWithCommas(yoy.orders)
+          ? numberWithCommas(yoy.orders)
           : current.orders > 0 && yoySKU.orders > 0
             ? "$0.00"
             : "N/A"
@@ -570,7 +570,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   )
   total.push(
     totalOfData.orders.change !== 0
-      ? '$' + numberWithCommas(totalOfData.orders.change)
+      ? numberWithCommas(totalOfData.orders.change)
       : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
         ? '$0.00'
         : 'N/A'
@@ -2483,12 +2483,12 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {current.orders
-                            ? "$" + numberWithCommas(current.orders)
+                            ? numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous.orders
-                            ? "$" + numberWithCommas(previous.orders)
+                            ? numberWithCommas(previous.orders)
                             : "N/A"}
                         </td>
                         <td
@@ -2496,7 +2496,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.orders)}
                         >
                           {change.orders !== 0
-                            ? "$" + numberWithCommas(change.orders)
+                            ? numberWithCommas(change.orders)
                             : current.orders > 0 && previous.orders > 0
                               ? "$0.00"
                               : "N/A"}
@@ -2519,7 +2519,7 @@ const DataDisplaySKUTable = (props) => {
                               className={isNegative(yoy.orders)}
                             >
                               {yoy.orders !== 0
-                                ? "$" + numberWithCommas(yoy.orders)
+                                ? numberWithCommas(yoy.orders)
                                 : current.orders > 0 && yoySKU.orders > 0
                                   ? "$0.00"
                                   : "N/A"}
@@ -2540,7 +2540,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.orders
-                            ? "$" + numberWithCommas(current.orders)
+                            ? numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                       )}
@@ -3268,17 +3268,17 @@ const DataDisplaySKUTable = (props) => {
                   <>
                     <td align="right">
                       {totalOfData.orders.current
-                        ? "$" + numberWithCommas(totalOfData.orders.current)
+                        ? numberWithCommas(totalOfData.orders.current)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.orders.previous
-                        ? "$" + numberWithCommas(totalOfData.orders.previous)
+                        ? numberWithCommas(totalOfData.orders.previous)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.orders.change
-                        ? "$" + numberWithCommas(totalOfData.orders.change)
+                        ? numberWithCommas(totalOfData.orders.change)
                         : "N/A"}
                     </td>
                     <td align="right">
@@ -3291,7 +3291,7 @@ const DataDisplaySKUTable = (props) => {
                         {" "}
                         <td align="right">
                           {totalOfData.orders.yoy
-                            ? "$" + numberWithCommas(totalOfData.orders.yoy)
+                            ? numberWithCommas(totalOfData.orders.yoy)
                             : "N/A"}
                         </td>
                         <td align="right">
@@ -3306,7 +3306,7 @@ const DataDisplaySKUTable = (props) => {
                 ) : (
                     <td align="right">
                       {totalOfData.orders.current
-                        ? "$" + numberWithCommas(totalOfData.orders.current)
+                        ? numberWithCommas(totalOfData.orders.current)
                         : "N/A"}
                     </td>
                   )}
