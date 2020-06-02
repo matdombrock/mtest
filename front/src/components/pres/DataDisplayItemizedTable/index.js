@@ -278,14 +278,14 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   };
   const header = [];
   header.push("Date Range");
-  header.push(...getHeaderColumn(false, 'ASP'));
-  header.push(...getHeaderColumn(false, 'Units Per Order'));
-  header.push(...getHeaderColumn(false, 'Orders'));
   header.push(...getHeaderColumn(false, "Sales"));
-  header.push(...getHeaderColumn(false, "Units Sold"));
   header.push(...getHeaderColumn(false, "Shipped COGS"));
-  header.push(...getHeaderColumn(true, "Ad Clicks"));
+  header.push(...getHeaderColumn(false, 'Orders'));
+  header.push(...getHeaderColumn(false, "Units Sold"));
+  header.push(...getHeaderColumn(false, 'Units Per Order'));
+  header.push(...getHeaderColumn(false, 'ASP'));
   header.push(...getHeaderColumn(true, "Ad Impressions"));
+  header.push(...getHeaderColumn(true, "Ad Clicks"));
   header.push(...getHeaderColumn(true, "Avg CPC"));
   header.push(...getHeaderColumn(false, "Ad Spend"));
   header.push(...getHeaderColumn(true, "Ad Orders"));
@@ -1415,21 +1415,21 @@ const DataDisplayItemizedTable = (props) => {
     if (sortBy === 0) {
       tempSortBy = "date";
     } else if (sortBy === 1) {
-      tempSortBy = "asp";
+      tempSortBy = "sales";
     } else if (sortBy === 2) {
-      tempSortBy = "units_per_order";
+      tempSortBy = "shipped_cogs";
     } else if (sortBy === 3) {
       tempSortBy = "orders";
     } else if (sortBy === 4) {
-      tempSortBy = "sales";
-    } else if (sortBy === 5) {
       tempSortBy = "units_sold";
+    } else if (sortBy === 5) {
+      tempSortBy = "units_per_order";
     } else if (sortBy === 6) {
-      tempSortBy = "shipped_cogs";
+      tempSortBy = "asp";
     } else if (sortBy === 7) {
-      tempSortBy = "ad_clicks";
-    } else if (sortBy === 8) {
       tempSortBy = "ad_impressions";
+    } else if (sortBy === 8) {
+      tempSortBy = "ad_clicks";
     } else if (sortBy === 9) {
       tempSortBy = "average_cpc";
     } else if (sortBy === 10) {
@@ -1445,6 +1445,7 @@ const DataDisplayItemizedTable = (props) => {
     } else if (sortBy === 15) {
       tempSortBy = "acos";
     }
+
     let tempFirst =
       sortByInner === 0
         ? "current"
@@ -1538,7 +1539,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 1 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>ASP</span>
+                    <span>Sales</span>
                     <span onClick={() => handleSort(1)}>
                       {active !== 1 &&
                         (sortBy === 1 ? (
@@ -1566,7 +1567,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 2 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>Units Per Order</span>
+                    <span>Shipped COGS </span>
                     <span onClick={() => handleSort(2)}>
                       {active !== 2 &&
                         (sortBy === 2 ? (
@@ -1614,6 +1615,7 @@ const DataDisplayItemizedTable = (props) => {
               <th
                 className={s.tableHead}
                 colSpan={isComparisons && active === 4 && (isYoY ? "6" : "4")}
+                align="right"
               >
                 <div>
                   <span onClick={() => headerClick(4)}>
@@ -1621,7 +1623,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 4 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>Sales</span>
+                    <span>Units Sold </span>
                     <span onClick={() => handleSort(4)}>
                       {active !== 4 &&
                         (sortBy === 4 ? (
@@ -1649,7 +1651,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 5 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>Units Sold </span>
+                    <span>Units Per Order</span>
                     <span onClick={() => handleSort(5)}>
                       {active !== 5 &&
                         (sortBy === 5 ? (
@@ -1665,11 +1667,11 @@ const DataDisplayItemizedTable = (props) => {
                   </span>
                   <span />
                 </div>
+
               </th>
               <th
                 className={s.tableHead}
                 colSpan={isComparisons && active === 6 && (isYoY ? "6" : "4")}
-                align="right"
               >
                 <div>
                   <span onClick={() => headerClick(6)}>
@@ -1677,7 +1679,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 6 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>Shipped COGS </span>
+                    <span>ASP</span>
                     <span onClick={() => handleSort(6)}>
                       {active !== 6 &&
                         (sortBy === 6 ? (
@@ -1705,7 +1707,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 7 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>Ad Clicks </span>
+                    <span>Ad Impressions </span>
                     <span onClick={() => handleSort(7)}>
                       {active !== 7 &&
                         (sortBy === 7 ? (
@@ -1733,7 +1735,7 @@ const DataDisplayItemizedTable = (props) => {
                       (active === 8 ? <RemoveIcon /> : <AddIcon />)}
                   </span>
                   <span>
-                    <span>Ad Impressions </span>
+                    <span>Ad Clicks </span>
                     <span onClick={() => handleSort(8)}>
                       {active !== 8 &&
                         (sortBy === 8 ? (
@@ -2140,167 +2142,8 @@ const DataDisplayItemizedTable = (props) => {
                           </b>
                         </td>
                       )}
-
+                    {/* sales */}
                     {isComparisons && active === 1 ? (
-                      <>
-                        <td align="right">
-                          {current.asp !== 0
-                            ? "$" + numberWithCommas(current.asp)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.asp !== 0
-                            ? "$" + numberWithCommas(previous.asp)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.asp)}
-                        >
-                          {change.asp !== 0 ? "$" + change.asp : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.asp)}
-                        >
-                          {charge.asp !== 0 ? charge.asp + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.asp)}
-                            >
-                              {yoy.asp !== 0
-                                ? numberWithCommas(yoy.asp)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.asp)}
-                            >
-                              {yoyCharge.asp !== 0
-                                ? yoyCharge.asp + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.asp !== 0
-                            ? "$" + numberWithCommas(current.asp)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 2 ? (
-                      <>
-                        <td align="right">
-                          {current.units_per_order !== 0
-                            ? numberWithCommas(current.units_per_order)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.units_per_order !== 0
-                            ? numberWithCommas(previous.units_per_order)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.units_per_order)}
-                        >
-                          {change.units_per_order !== 0 ? change.units_per_order : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.units_per_order)}
-                        >
-                          {charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.units_per_order)}
-                            >
-                              {yoy.units_per_order !== 0
-                                ? numberWithCommas(yoy.units_per_order)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.units_per_order)}
-                            >
-                              {yoyCharge.units_per_order !== 0
-                                ? yoyCharge.units_per_order + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.units_per_order !== 0
-                            ? numberWithCommas(current.units_per_order)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 3 ? (
-                      <>
-                        <td align="right">
-                          {current.orders !== 0
-                            ? numberWithCommas(current.orders)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.orders !== 0
-                            ? numberWithCommas(previous.orders)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.orders)}
-                        >
-                          {change.orders !== 0 ? change.orders : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.orders)}
-                        >
-                          {charge.orders !== 0 ? charge.orders + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.orders)}
-                            >
-                              {yoy.orders !== 0
-                                ? numberWithCommas(yoy.orders)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.orders)}
-                            >
-                              {yoyCharge.orders !== 0
-                                ? yoyCharge.orders + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.orders !== 0
-                            ? numberWithCommas(current.orders)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 4 ? (
                       <>
                         <td align="right">
                           {current.sales !== 0
@@ -2352,65 +2195,8 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-
-                    {isComparisons && active === 5 ? (
-                      <>
-                        <td align="right">
-                          {current.units_sold !== 0
-                            ? numberWithCommas(current.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.units_sold !== 0
-                            ? numberWithCommas(previous.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.units_sold)}
-                        >
-                          {change.units_sold !== 0
-                            ? numberWithCommas(change.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.units_sold)}
-                        >
-                          {charge.units_sold !== 0
-                            ? charge.units_sold + "%"
-                            : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.units_sold)}
-                            >
-                              {yoy.units_sold !== 0
-                                ? numberWithCommas(yoy.units_sold)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.units_sold)}
-                            >
-                              {yoyCharge.units_sold !== 0
-                                ? yoyCharge.units_sold + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.units_sold !== 0
-                            ? numberWithCommas(current.units_sold)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 6 ? (
+                    {/* shiped cogs */}
+                    {isComparisons && active === 2 ? (
                       <>
                         <td align="right">
                           {current.shipped_cogs !== 0
@@ -2467,8 +2253,261 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-
+                    {/* orders */}
+                    {isComparisons && active === 3 ? (
+                      <>
+                        <td align="right">
+                          {current.orders !== 0
+                            ? numberWithCommas(current.orders)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.orders !== 0
+                            ? numberWithCommas(previous.orders)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.orders)}
+                        >
+                          {change.orders !== 0 ? change.orders : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.orders)}
+                        >
+                          {charge.orders !== 0 ? charge.orders + "%" : "N/A"}
+                        </td>
+                        {isYoY && (
+                          <>
+                            <td
+                              align="right"
+                              className={isNegative(yoy.orders)}
+                            >
+                              {yoy.orders !== 0
+                                ? numberWithCommas(yoy.orders)
+                                : "N/A"}
+                            </td>
+                            <td
+                              align="right"
+                              className={isNegative(yoyCharge.orders)}
+                            >
+                              {yoyCharge.orders !== 0
+                                ? yoyCharge.orders + "%"
+                                : "N/A"}
+                            </td>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                        <td align="right">
+                          {current.orders !== 0
+                            ? numberWithCommas(current.orders)
+                            : "N/A"}
+                        </td>
+                      )}
+                    {/* units sold */}
+                    {isComparisons && active === 4 ? (
+                      <>
+                        <td align="right">
+                          {current.units_sold !== 0
+                            ? numberWithCommas(current.units_sold)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.units_sold !== 0
+                            ? numberWithCommas(previous.units_sold)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.units_sold)}
+                        >
+                          {change.units_sold !== 0
+                            ? numberWithCommas(change.units_sold)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.units_sold)}
+                        >
+                          {charge.units_sold !== 0
+                            ? charge.units_sold + "%"
+                            : "N/A"}
+                        </td>
+                        {isYoY && (
+                          <>
+                            <td
+                              align="right"
+                              className={isNegative(yoy.units_sold)}
+                            >
+                              {yoy.units_sold !== 0
+                                ? numberWithCommas(yoy.units_sold)
+                                : "N/A"}
+                            </td>
+                            <td
+                              align="right"
+                              className={isNegative(yoyCharge.units_sold)}
+                            >
+                              {yoyCharge.units_sold !== 0
+                                ? yoyCharge.units_sold + "%"
+                                : "N/A"}
+                            </td>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                        <td align="right">
+                          {current.units_sold !== 0
+                            ? numberWithCommas(current.units_sold)
+                            : "N/A"}
+                        </td>
+                      )}
+                    {/* units per order */}
+                    {isComparisons && active === 5 ? (
+                      <>
+                        <td align="right">
+                          {current.units_per_order !== 0
+                            ? numberWithCommas(current.units_per_order)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.units_per_order !== 0
+                            ? numberWithCommas(previous.units_per_order)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.units_per_order)}
+                        >
+                          {change.units_per_order !== 0 ? change.units_per_order : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.units_per_order)}
+                        >
+                          {charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A"}
+                        </td>
+                        {isYoY && (
+                          <>
+                            <td
+                              align="right"
+                              className={isNegative(yoy.units_per_order)}
+                            >
+                              {yoy.units_per_order !== 0
+                                ? numberWithCommas(yoy.units_per_order)
+                                : "N/A"}
+                            </td>
+                            <td
+                              align="right"
+                              className={isNegative(yoyCharge.units_per_order)}
+                            >
+                              {yoyCharge.units_per_order !== 0
+                                ? yoyCharge.units_per_order + "%"
+                                : "N/A"}
+                            </td>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                        <td align="right">
+                          {current.units_per_order !== 0
+                            ? numberWithCommas(current.units_per_order)
+                            : "N/A"}
+                        </td>
+                      )}
+                    {/* asp */}
+                    {isComparisons && active === 6 ? (
+                      <>
+                        <td align="right">
+                          {current.asp !== 0
+                            ? "$" + numberWithCommas(current.asp)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.asp !== 0
+                            ? "$" + numberWithCommas(previous.asp)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.asp)}
+                        >
+                          {change.asp !== 0 ? "$" + change.asp : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.asp)}
+                        >
+                          {charge.asp !== 0 ? charge.asp + "%" : "N/A"}
+                        </td>
+                        {isYoY && (
+                          <>
+                            <td
+                              align="right"
+                              className={isNegative(yoy.asp)}
+                            >
+                              {yoy.asp !== 0
+                                ? numberWithCommas(yoy.asp)
+                                : "N/A"}
+                            </td>
+                            <td
+                              align="right"
+                              className={isNegative(yoyCharge.asp)}
+                            >
+                              {yoyCharge.asp !== 0
+                                ? yoyCharge.asp + "%"
+                                : "N/A"}
+                            </td>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                        <td align="right">
+                          {current.asp !== 0
+                            ? "$" + numberWithCommas(current.asp)
+                            : "N/A"}
+                        </td>
+                      )}
+                    {/* ad impressions */}
                     {isComparisons && active === 7 ? (
+                      <>
+                        <td align="right">
+                          {current.ad_impressions !== 0
+                            ? numberWithCommas(current.ad_impressions)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {previous.ad_impressions !== 0
+                            ? numberWithCommas(previous.ad_impressions)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(change.ad_impressions)}
+                        >
+                          {change.ad_impressions !== 0
+                            ? numberWithCommas(change.ad_impressions)
+                            : "N/A"}
+                        </td>
+                        <td
+                          align="right"
+                          className={isNegative(charge.ad_impressions)}
+                        >
+                          {charge.ad_impressions !== 0
+                            ? charge.ad_impressions + "%"
+                            : "N/A"}
+                        </td>
+                      </>
+                    ) : (
+                        <td align="right">
+                          {current.ad_impressions
+                            ? numberWithCommas(current.ad_impressions)
+                            : "N/A"}
+                        </td>
+                      )}
+                    {/* ad clicks */}
+                    {isComparisons && active === 8 ? (
                       <>
                         <td align="right">
                           {current.ad_clicks !== 0
@@ -2506,44 +2545,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-
-                    {isComparisons && active === 8 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_impressions !== 0
-                            ? numberWithCommas(current.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.ad_impressions !== 0
-                            ? numberWithCommas(previous.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_impressions)}
-                        >
-                          {change.ad_impressions !== 0
-                            ? numberWithCommas(change.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_impressions)}
-                        >
-                          {charge.ad_impressions !== 0
-                            ? charge.ad_impressions + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.ad_impressions
-                            ? numberWithCommas(current.ad_impressions)
-                            : "N/A"}
-                        </td>
-                      )}
-
+                    {/* average cpc */}
                     {isComparisons && active === 9 ? (
                       <>
                         <td align="right">
@@ -2973,147 +2975,8 @@ const DataDisplayItemizedTable = (props) => {
                   <b>Total</b>
                 </td>
 
+                {/* sales */}
                 {isComparisons && active === 1 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.asp.current
-                        ? "$" + numberWithCommas(totalOfData.asp.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.asp.previous
-                        ? "$" + numberWithCommas(totalOfData.asp.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.asp.change
-                        ? "$" + numberWithCommas(totalOfData.asp.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.asp.charge
-                        ? numberWithCommas(totalOfData.asp.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.asp.yoy
-                            ? "$" + numberWithCommas(totalOfData.asp.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.asp.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.asp.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.asp.current
-                        ? "$" + numberWithCommas(totalOfData.asp.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 2 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.units_per_order.current
-                        ? numberWithCommas(totalOfData.units_per_order.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_per_order.previous
-                        ? numberWithCommas(totalOfData.units_per_order.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_per_order.change
-                        ? numberWithCommas(totalOfData.units_per_order.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_per_order.charge
-                        ? numberWithCommas(totalOfData.units_per_order.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.units_per_order.yoy
-                            ? numberWithCommas(totalOfData.units_per_order.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.units_per_order.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.units_per_order.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.units_per_order.current
-                        ? numberWithCommas(totalOfData.units_per_order.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 3 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.orders.current
-                        ? numberWithCommas(totalOfData.orders.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.orders.previous
-                        ? numberWithCommas(totalOfData.orders.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.orders.change
-                        ? numberWithCommas(totalOfData.orders.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.orders.charge
-                        ? numberWithCommas(totalOfData.orders.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.orders.yoy
-                            ? numberWithCommas(totalOfData.orders.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.orders.yoyCharge
-                            ? numberWithCommas(totalOfData.orders.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.orders.current
-                        ? numberWithCommas(totalOfData.orders.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 4 ? (
                   <>
                     <td align="right">
                       {totalOfData.sales.current
@@ -3160,53 +3023,8 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {isComparisons && active === 5 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.units_sold.current
-                        ? numberWithCommas(totalOfData.units_sold.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_sold.previous
-                        ? numberWithCommas(totalOfData.units_sold.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_sold.change
-                        ? numberWithCommas(totalOfData.units_sold.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_sold.charge
-                        ? numberWithCommas(totalOfData.units_sold.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.units_sold.yoy
-                            ? numberWithCommas(totalOfData.units_sold.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.units_sold.yoyCharge
-                            ? numberWithCommas(totalOfData.units_sold.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.units_sold.current
-                        ? numberWithCommas(totalOfData.units_sold.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 6 ? (
+                {/* shipped cogs */}
+                {isComparisons && active === 2 ? (
                   <>
                     <td align="right">
                       {totalOfData.shipped_cogs.current
@@ -3265,7 +3083,231 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
+                {/* orders */}
+                {isComparisons && active === 3 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.orders.current
+                        ? numberWithCommas(totalOfData.orders.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.orders.previous
+                        ? numberWithCommas(totalOfData.orders.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.orders.change
+                        ? numberWithCommas(totalOfData.orders.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.orders.charge
+                        ? numberWithCommas(totalOfData.orders.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {totalOfData.orders.yoy
+                            ? numberWithCommas(totalOfData.orders.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.orders.yoyCharge
+                            ? numberWithCommas(totalOfData.orders.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
+                    <td align="right">
+                      {totalOfData.orders.current
+                        ? numberWithCommas(totalOfData.orders.current)
+                        : "N/A"}
+                    </td>
+                  )}
+
+                {/* units sold */}
+                {isComparisons && active === 4 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.units_sold.current
+                        ? numberWithCommas(totalOfData.units_sold.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_sold.previous
+                        ? numberWithCommas(totalOfData.units_sold.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_sold.change
+                        ? numberWithCommas(totalOfData.units_sold.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_sold.charge
+                        ? numberWithCommas(totalOfData.units_sold.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {totalOfData.units_sold.yoy
+                            ? numberWithCommas(totalOfData.units_sold.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.units_sold.yoyCharge
+                            ? numberWithCommas(totalOfData.units_sold.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
+                    <td align="right">
+                      {totalOfData.units_sold.current
+                        ? numberWithCommas(totalOfData.units_sold.current)
+                        : "N/A"}
+                    </td>
+                  )}
+
+                {/* units per order */}
+                {isComparisons && active === 5 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.units_per_order.current
+                        ? numberWithCommas(totalOfData.units_per_order.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_per_order.previous
+                        ? numberWithCommas(totalOfData.units_per_order.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_per_order.change
+                        ? numberWithCommas(totalOfData.units_per_order.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.units_per_order.charge
+                        ? numberWithCommas(totalOfData.units_per_order.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {totalOfData.units_per_order.yoy
+                            ? numberWithCommas(totalOfData.units_per_order.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.units_per_order.yoyCharge
+                            ? "$" +
+                            numberWithCommas(totalOfData.units_per_order.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
+                    <td align="right">
+                      {totalOfData.units_per_order.current
+                        ? numberWithCommas(totalOfData.units_per_order.current)
+                        : "N/A"}
+                    </td>
+                  )}
+
+                {/* asp */}
+                {isComparisons && active === 6 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.asp.current
+                        ? "$" + numberWithCommas(totalOfData.asp.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.asp.previous
+                        ? "$" + numberWithCommas(totalOfData.asp.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.asp.change
+                        ? "$" + numberWithCommas(totalOfData.asp.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.asp.charge
+                        ? numberWithCommas(totalOfData.asp.charge) + "%"
+                        : "N/A"}
+                    </td>
+                    {isYoY && (
+                      <>
+                        {" "}
+                        <td align="right">
+                          {totalOfData.asp.yoy
+                            ? "$" + numberWithCommas(totalOfData.asp.yoy)
+                            : "N/A"}
+                        </td>
+                        <td align="right">
+                          {totalOfData.asp.yoyCharge
+                            ? "$" +
+                            numberWithCommas(totalOfData.asp.yoyCharge)
+                            : "N/A"}
+                        </td>
+                      </>
+                    )}
+                  </>
+                ) : (
+                    <td align="right">
+                      {totalOfData.asp.current
+                        ? "$" + numberWithCommas(totalOfData.asp.current)
+                        : "N/A"}
+                    </td>
+                  )}
+
+                {/* ad impressions */}
                 {isComparisons && active === 7 ? (
+                  <>
+                    <td align="right">
+                      {totalOfData.ad_impressions.current
+                        ? numberWithCommas(totalOfData.ad_impressions.current)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_impressions.previous
+                        ? numberWithCommas(totalOfData.ad_impressions.previous)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_impressions.change
+                        ? numberWithCommas(totalOfData.ad_impressions.change)
+                        : "N/A"}
+                    </td>
+                    <td align="right">
+                      {totalOfData.ad_impressions.charge
+                        ? numberWithCommas(totalOfData.ad_impressions.charge) +
+                        "%"
+                        : "N/A"}
+                    </td>
+                  </>
+                ) : (
+                    <td align="right">
+                      {totalOfData.ad_impressions.current
+                        ? numberWithCommas(totalOfData.ad_impressions.current)
+                        : "N/A"}
+                    </td>
+                  )}
+
+                {/* ad clicks */}
+                {isComparisons && active === 8 ? (
                   <>
                     <td align="right">
                       {totalOfData.ad_clicks.current
@@ -3298,38 +3340,7 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {isComparisons && active === 8 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.ad_impressions.current
-                        ? numberWithCommas(totalOfData.ad_impressions.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_impressions.previous
-                        ? numberWithCommas(totalOfData.ad_impressions.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_impressions.change
-                        ? numberWithCommas(totalOfData.ad_impressions.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_impressions.charge
-                        ? numberWithCommas(totalOfData.ad_impressions.charge) +
-                        "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.ad_impressions.current
-                        ? numberWithCommas(totalOfData.ad_impressions.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
+                {/* average cpc */}
                 {isComparisons && active === 9 ? (
                   <>
                     <td align="right">
@@ -3363,6 +3374,7 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
+                {/* ad spend */}
                 {isComparisons && active === 10 ? (
                   <>
                     <td align="right">
