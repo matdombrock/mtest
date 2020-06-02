@@ -335,12 +335,12 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     }
 
     temp.push(
-      current.units_per_order !== 0 ? "$" + numberWithCommas(current.units_per_order) : "N/A"
+      current.units_per_order !== 0 ? numberWithCommas(current.units_per_order) : "N/A"
     );
     temp.push(
-      previous.units_per_order !== 0 ? "$" + numberWithCommas(previous.units_per_order) : "N/A"
+      previous.units_per_order !== 0 ? numberWithCommas(previous.units_per_order) : "N/A"
     );
-    temp.push(change.units_per_order !== 0 ? "$" + change.units_per_order : "N/A");
+    temp.push(change.units_per_order !== 0 ? change.units_per_order : "N/A");
     temp.push(charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A");
     if (isYoY) {
       temp.push(yoy.units_per_order !== 0 ? numberWithCommas(yoy.units_per_order) : "N/A");
@@ -348,12 +348,12 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     }
 
     temp.push(
-      current.orders !== 0 ? "$" + numberWithCommas(current.orders) : "N/A"
+      current.orders !== 0 ? numberWithCommas(current.orders) : "N/A"
     );
     temp.push(
-      previous.orders !== 0 ? "$" + numberWithCommas(previous.orders) : "N/A"
+      previous.orders !== 0 ? numberWithCommas(previous.orders) : "N/A"
     );
-    temp.push(change.orders !== 0 ? "$" + change.orders : "N/A");
+    temp.push(change.orders !== 0 ? change.orders : "N/A");
     temp.push(charge.orders !== 0 ? charge.orders + "%" : "N/A");
     if (isYoY) {
       temp.push(yoy.orders !== 0 ? numberWithCommas(yoy.orders) : "N/A");
@@ -602,17 +602,17 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 
   total.push(
     totalOfData.units_per_order.current
-      ? "$" + numberWithCommas(totalOfData.units_per_order.current)
+      ? numberWithCommas(totalOfData.units_per_order.current)
       : "N/A"
   );
   total.push(
     totalOfData.units_per_order.previous
-      ? "$" + numberWithCommas(totalOfData.units_per_order.previous)
+      ? numberWithCommas(totalOfData.units_per_order.previous)
       : "N/A"
   );
   total.push(
     totalOfData.units_per_order.change !== 0
-      ? "$" + numberWithCommas(totalOfData.units_per_order.change)
+      ? numberWithCommas(totalOfData.units_per_order.change)
       : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.previous > 0
         ? "$0.00"
         : "N/A"
@@ -627,7 +627,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   if (isYoY) {
     total.push(
       totalOfData.units_per_order.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.units_per_order.yoy)
+        ? numberWithCommas(totalOfData.units_per_order.yoy)
         : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.yoySKU > 0
           ? "$0.00"
           : "N/A"
@@ -643,17 +643,17 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 
   total.push(
     totalOfData.orders.current
-      ? "$" + numberWithCommas(totalOfData.orders.current)
+      ? numberWithCommas(totalOfData.orders.current)
       : "N/A"
   );
   total.push(
     totalOfData.orders.previous
-      ? "$" + numberWithCommas(totalOfData.orders.previous)
+      ? numberWithCommas(totalOfData.orders.previous)
       : "N/A"
   );
   total.push(
     totalOfData.orders.change !== 0
-      ? "$" + numberWithCommas(totalOfData.orders.change)
+      ? numberWithCommas(totalOfData.orders.change)
       : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
         ? "$0.00"
         : "N/A"
@@ -668,7 +668,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   if (isYoY) {
     total.push(
       totalOfData.orders.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.orders.yoy)
+        ? numberWithCommas(totalOfData.orders.yoy)
         : totalOfData.orders.current > 0 && totalOfData.orders.yoySKU > 0
           ? "$0.00"
           : "N/A"
@@ -1332,10 +1332,10 @@ const getSummaryInTotal = (props) => {
 
   temp.asp.charge = getDifferenceInPercentage(temp.asp.current, temp.asp.previous);
   temp.asp.yoyCharge = temp.asp.yoyCharge / props.length;
-  
+
   temp.units_per_order.charge = getDifferenceInPercentage(temp.units_per_order.current, temp.units_per_order.previous);
   temp.units_per_order.yoyCharge = temp.units_per_order.yoyCharge / props.length;
-  
+
   temp.orders.charge = getDifferenceInPercentage(temp.orders.current, temp.orders.previous);
   temp.orders.yoyCharge = temp.orders.yoyCharge / props.length;
 
@@ -2198,19 +2198,19 @@ const DataDisplayItemizedTable = (props) => {
                       <>
                         <td align="right">
                           {current.units_per_order !== 0
-                            ? "$" + numberWithCommas(current.units_per_order)
+                            ? numberWithCommas(current.units_per_order)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous.units_per_order !== 0
-                            ? "$" + numberWithCommas(previous.units_per_order)
+                            ? numberWithCommas(previous.units_per_order)
                             : "N/A"}
                         </td>
                         <td
                           align="right"
                           className={isNegative(change.units_per_order)}
                         >
-                          {change.units_per_order !== 0 ? "$" + change.units_per_order : "N/A"}
+                          {change.units_per_order !== 0 ? change.units_per_order : "N/A"}
                         </td>
                         <td
                           align="right"
@@ -2242,7 +2242,7 @@ const DataDisplayItemizedTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.units_per_order !== 0
-                            ? "$" + numberWithCommas(current.units_per_order)
+                            ? numberWithCommas(current.units_per_order)
                             : "N/A"}
                         </td>
                       )}
@@ -2731,7 +2731,9 @@ const DataDisplayItemizedTable = (props) => {
                           className={isNegative(change.percent_total_sales)}
                         >
                           {change.percent_total_sales !== 0
-                            ? change.percent_total_sales
+                            ? Number(previous.percent_total_sales).toFixed(
+                              2
+                            ) + "%"
                             : "N/A"}
                         </td>
                         <td
@@ -3022,17 +3024,17 @@ const DataDisplayItemizedTable = (props) => {
                   <>
                     <td align="right">
                       {totalOfData.units_per_order.current
-                        ? "$" + numberWithCommas(totalOfData.units_per_order.current)
+                        ? numberWithCommas(totalOfData.units_per_order.current)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.units_per_order.previous
-                        ? "$" + numberWithCommas(totalOfData.units_per_order.previous)
+                        ? numberWithCommas(totalOfData.units_per_order.previous)
                         : "N/A"}
                     </td>
                     <td align="right">
                       {totalOfData.units_per_order.change
-                        ? "$" + numberWithCommas(totalOfData.units_per_order.change)
+                        ? numberWithCommas(totalOfData.units_per_order.change)
                         : "N/A"}
                     </td>
                     <td align="right">
@@ -3045,7 +3047,7 @@ const DataDisplayItemizedTable = (props) => {
                         {" "}
                         <td align="right">
                           {totalOfData.units_per_order.yoy
-                            ? "$" + numberWithCommas(totalOfData.units_per_order.yoy)
+                            ? numberWithCommas(totalOfData.units_per_order.yoy)
                             : "N/A"}
                         </td>
                         <td align="right">
@@ -3060,7 +3062,7 @@ const DataDisplayItemizedTable = (props) => {
                 ) : (
                     <td align="right">
                       {totalOfData.units_per_order.current
-                        ? "$" + numberWithCommas(totalOfData.units_per_order.current)
+                        ? numberWithCommas(totalOfData.units_per_order.current)
                         : "N/A"}
                     </td>
                   )}
