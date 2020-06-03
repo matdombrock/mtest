@@ -2142,7 +2142,7 @@ const DataDisplayItemizedTable = (props) => {
                           </b>
                         </td>
                       )}
-                    {/* sales */}
+
                     {isComparisons && active === 1 ? (
                       <>
                         <td align="right">
@@ -2195,7 +2195,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* shiped cogs */}
+
                     {isComparisons && active === 2 ? (
                       <>
                         <td align="right">
@@ -2253,7 +2253,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* orders */}
+
                     {isComparisons && active === 3 ? (
                       <>
                         <td align="right">
@@ -2306,7 +2306,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* units sold */}
+
                     {isComparisons && active === 4 ? (
                       <>
                         <td align="right">
@@ -2363,7 +2363,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* units per order */}
+
                     {isComparisons && active === 5 ? (
                       <>
                         <td align="right">
@@ -2416,7 +2416,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* asp */}
+
                     {isComparisons && active === 6 ? (
                       <>
                         <td align="right">
@@ -2469,7 +2469,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* ad impressions */}
+
                     {isComparisons && active === 7 ? (
                       <>
                         <td align="right">
@@ -2506,7 +2506,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* ad clicks */}
+
                     {isComparisons && active === 8 ? (
                       <>
                         <td align="right">
@@ -2545,7 +2545,7 @@ const DataDisplayItemizedTable = (props) => {
                             : "N/A"}
                         </td>
                       )}
-                    {/* average cpc */}
+
                     {isComparisons && active === 9 ? (
                       <>
                         <td align="right">
@@ -2975,7 +2975,6 @@ const DataDisplayItemizedTable = (props) => {
                   <b>Total</b>
                 </td>
 
-                {/* sales */}
                 {isComparisons && active === 1 ? (
                   <>
                     <td align="right">
@@ -3023,7 +3022,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* shipped cogs */}
                 {isComparisons && active === 2 ? (
                   <>
                     <td align="right">
@@ -3083,7 +3081,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* orders */}
                 {isComparisons && active === 3 ? (
                   <>
                     <td align="right">
@@ -3130,7 +3127,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* units sold */}
                 {isComparisons && active === 4 ? (
                   <>
                     <td align="right">
@@ -3177,7 +3173,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* units per order */}
                 {isComparisons && active === 5 ? (
                   <>
                     <td align="right">
@@ -3225,7 +3220,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* asp */}
                 {isComparisons && active === 6 ? (
                   <>
                     <td align="right">
@@ -3273,7 +3267,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* ad impressions */}
                 {isComparisons && active === 7 ? (
                   <>
                     <td align="right">
@@ -3306,7 +3299,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* ad clicks */}
                 {isComparisons && active === 8 ? (
                   <>
                     <td align="right">
@@ -3340,7 +3332,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* average cpc */}
                 {isComparisons && active === 9 ? (
                   <>
                     <td align="right">
@@ -3374,7 +3365,6 @@ const DataDisplayItemizedTable = (props) => {
                     </td>
                   )}
 
-                {/* ad spend */}
                 {isComparisons && active === 10 ? (
                   <>
                     <td align="right">

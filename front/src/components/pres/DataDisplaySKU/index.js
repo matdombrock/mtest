@@ -1733,7 +1733,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* ASIN */}
               <th className={s.tableHead} align="right">
                 <div>
                   <span>
@@ -1754,7 +1753,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* Short Product Title */}
               <th className={s.tableHead} align="right">
                 <div>
                   <span>
@@ -1775,7 +1773,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* Sales */}
               <th
                 className={s.tableHead}
                 colSpan={active === 3 && (isYoY ? "6" : "4")}
@@ -1804,7 +1801,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* Shipped COGS */}
               <th
                 className={s.tableHead}
                 colSpan={active === 4 && (isYoY ? "6" : "4")}
@@ -1834,7 +1830,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* Orders */}
               <th
                 className={s.tableHead}
                 colSpan={active === 5 && (isYoY ? "6" : "4")}
@@ -1864,7 +1859,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* Units Sold */}
               <th
                 className={s.tableHead}
                 colSpan={active === 6 && (isYoY ? "6" : "4")}
@@ -1894,7 +1888,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* Units Per Order */}
               <th
                 className={s.tableHead}
                 colSpan={active === 7 && (isYoY ? "6" : "4")}
@@ -1924,7 +1917,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/* ASP */}
               <th
                 className={s.tableHead}
                 colSpan={active === 8 && (isYoY ? "6" : "4")}
@@ -1953,7 +1945,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/*  Ad Impressions */}
               <th
                 className={s.tableHead}
                 colSpan={active === 9 && "4"}
@@ -1983,7 +1974,6 @@ const DataDisplaySKUTable = (props) => {
                 </div>
               </th>
 
-              {/*  Ad Clicks */}
               <th
                 className={s.tableHead}
                 colSpan={active === 10 && "4"}
@@ -2368,7 +2358,6 @@ const DataDisplaySKUTable = (props) => {
 
                     <td align="right">{current.short_product_title || "N/A"}</td>
 
-                    {/* sales */}
                     {isComparisons && active === 3 ? (
                       <>
                         <td align="right">
@@ -2435,7 +2424,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* shipped_cogs */}
                     {isComparisons && active === 4 ? (
                       <>
                         <td align="right">
@@ -2507,7 +2495,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* orders */}
                     {isComparisons && active === 5 ? (
                       <>
                         <td align="right">
@@ -2574,7 +2561,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* units sold */}
                     {isComparisons && active === 6 ? (
                       <>
                         <td align="right">
@@ -2645,7 +2631,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* Units per order */}
                     {isComparisons && active === 7 ? (
                       <>
                         <td align="right">
@@ -2712,7 +2697,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* ASP */}
                     {isComparisons && active === 8 ? (
                       <>
                         <td align="right">
@@ -2779,7 +2763,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* ad impressions */}
                     {isComparisons && active === 9 ? (
                       <>
                         <td align="right">
@@ -2823,7 +2806,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* ad clicks */}
                     {isComparisons && active === 10 ? (
                       <>
                         <td align="right">
@@ -2867,7 +2849,6 @@ const DataDisplaySKUTable = (props) => {
                         </td>
                       )}
 
-                    {/* average cpc */}
                     {isComparisons && active === 11 ? (
                       <>
                         <td align="right">
@@ -3200,7 +3181,6 @@ const DataDisplaySKUTable = (props) => {
                 <td align="right"></td>
                 <td align="right"></td>
 
-                {/* sales */}
                 {isComparisons && active === 3 ? (
                   <>
                     <td align="right">
@@ -3248,7 +3228,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* shipped cogs */}
                 {isComparisons && active === 4 ? (
                   <>
                     <td align="right">
@@ -3308,7 +3287,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* orders */}
                 {isComparisons && active === 5 ? (
                   <>
                     <td align="right">
@@ -3356,7 +3334,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* units sold */}
                 {isComparisons && active === 6 ? (
                   <>
                     <td align="right">
@@ -3403,7 +3380,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* units per order */}
                 {isComparisons && active === 7 ? (
                   <>
                     <td align="right">
@@ -3450,7 +3426,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* asp */}
                 {isComparisons && active === 8 ? (
                   <>
                     <td align="right">
@@ -3498,7 +3473,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* ad impressions */}
                 {isComparisons && active === 9 ? (
                   <>
                     <td align="right">
@@ -3531,7 +3505,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* ad clicks */}
                 {isComparisons && active === 10 ? (
                   <>
                     <td align="right">
@@ -3565,7 +3538,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* average cpc         */}
                 {isComparisons && active === 11 ? (
                   <>
                     <td align="right">
@@ -3599,7 +3571,6 @@ const DataDisplaySKUTable = (props) => {
                     </td>
                   )}
 
-                {/* ad spend */}
                 {isComparisons && active === 12 ? (
                   <>
                     <td align="right">
