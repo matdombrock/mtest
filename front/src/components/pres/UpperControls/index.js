@@ -233,10 +233,7 @@ class UpperControls extends Component {
                     : 0,
                   average_selling_price: d.summary.units_sold
                     ? d.summary.ad_sales / d.summary.units_sold
-                    : 0,
-                  percent_total_sales: d.summary.ad_spend
-                    ? (d.summary.sales / d.summary.ad_spend) * 100
-                    : 0,
+                    : 0
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
@@ -244,11 +241,7 @@ class UpperControls extends Component {
                   average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
                   average_selling_price: o.units_sold
                     ? o.ad_sales / o.units_sold
-                    : 0,
-
-                  percent_total_sales: o.ad_spend
-                    ? (o.sales / o.ad_spend) * 100
-                    : 0,
+                    : 0
                 })),
               }));
               payload.yoy = data?.yoy?.map((d) => ({
@@ -263,10 +256,7 @@ class UpperControls extends Component {
                     : 0,
                   average_selling_price: d.summary.units_sold
                     ? d.summary.ad_sales / d.summary.units_sold
-                    : 0,
-                  percent_total_sales: d.summary.ad_spend
-                    ? (d.summary.sales / d.summary.ad_spend) * 100
-                    : 0,
+                    : 0
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
@@ -274,11 +264,7 @@ class UpperControls extends Component {
                   average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
                   average_selling_price: o.units_sold
                     ? o.ad_sales / o.units_sold
-                    : 0,
-
-                  percent_total_sales: o.ad_spend
-                    ? (o.sales / o.ad_spend) * 100
-                    : 0,
+                    : 0
                 })),
               }));
 
@@ -316,10 +302,7 @@ class UpperControls extends Component {
                     : 0,
                   average_selling_price: d.summary.units_sold
                     ? d.summary.ad_sales / d.summary.units_sold
-                    : 0,
-                  percent_total_sales: d.summary.ad_spend
-                    ? (d.summary.sales / d.summary.ad_spend) * 100
-                    : 0,
+                    : 0
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
@@ -327,11 +310,7 @@ class UpperControls extends Component {
                   average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
                   average_selling_price: o.units_sold
                     ? o.ad_sales / o.units_sold
-                    : 0,
-
-                  percent_total_sales: o.ad_spend
-                    ? (o.sales / o.ad_spend) * 100
-                    : 0,
+                    : 0
                 })),
               }));
               payload.yoy = data.data?.yoy?.map((d) => ({
@@ -346,10 +325,7 @@ class UpperControls extends Component {
                     : 0,
                   average_selling_price: d.summary.units_sold
                     ? d.summary.ad_sales / d.summary.units_sold
-                    : 0,
-                  percent_total_sales: d.summary.ad_spend
-                    ? (d.summary.sales / d.summary.ad_spend) * 100
-                    : 0,
+                    : 0
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
@@ -357,11 +333,7 @@ class UpperControls extends Component {
                   average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
                   average_selling_price: o.units_sold
                     ? o.ad_sales / o.units_sold
-                    : 0,
-
-                  percent_total_sales: o.ad_spend
-                    ? (o.sales / o.ad_spend) * 100
-                    : 0,
+                    : 0
                 })),
               }));
               if (!isYOY) payload.yoy = [];
