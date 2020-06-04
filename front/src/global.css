@@ -191,3 +191,8 @@ div[class*='style_menu-container'] > div:first-child > div:first-child{
 .MuiTab-wrapper{
   font-size: 18px
 }
+
+/**/
+.link-download {
+  text-decoration: none !important;
+}

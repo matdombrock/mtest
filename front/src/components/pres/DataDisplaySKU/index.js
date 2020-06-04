@@ -11,10 +11,12 @@ import s from "./style.module.scss";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
+import Button from '@material-ui/core/Button'
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
 import moment from 'moment'
+import DownloadCSVButton from './../../common/downloadCSVButton'
 
 const getCSVVersion = (data, isYoY, totalOfData) => {
   const finalData = [];
@@ -1703,11 +1705,12 @@ const DataDisplaySKUTable = (props) => {
         {moment(props.data.periods[0].period.end).utc().format("MM/DD/YYYY")}
       </h3>
       <CSVLink
+        className='link-download'
         data={getCSVVersion(filterSKUData, isYoY, totalOfData)}
         filename={"sku.csv"}
       >
-        Download me
-      </CSVLink>{" "}
+        <DownloadCSVButton />
+      </CSVLink>
       <div className={s.noBoxShadow + " fixed-header-table table-scroll"}>
         <table aria-label="simple table main-table">
           <thead>

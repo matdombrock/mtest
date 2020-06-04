@@ -11,9 +11,11 @@ import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
+import Button from '@material-ui/core/Button'
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
+import DownloadCSVButton from './../../common/downloadCSVButton'
 
 const currentDataFormate = ({ periods, yoy }) => {
   let payload = [];
@@ -1498,11 +1500,12 @@ const DataDisplayItemizedTable = (props) => {
   return (
     <>
       <CSVLink
+        className='link-download'
         data={getCSVVersion(filterData, isYoY, totalOfData)}
         filename={"brand.csv"}
       >
-        Download me
-      </CSVLink>{" "}
+        <DownloadCSVButton />
+      </CSVLink>
       <div className={s.noBoxShadow + " fixed-header-table"}>
         <table aria-label="simple table">
           <thead>
