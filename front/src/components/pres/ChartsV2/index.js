@@ -9,7 +9,7 @@ import DonutChart from './DonutChart'
 const ChartsV2 = (report) => {
 
   let periods = report.report.periods;
-  if(periods.length > 2){
+  if (periods.length > 2) {
     periods = periods.slice(0, periods.length - 1);
   }
 
@@ -62,7 +62,7 @@ const ChartsV2 = (report) => {
     <div className={s.canvas}>
       <Grid container>
         <Grid item xs={4}>
-          <SingleLineChart name='Total Sales ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.sales.toFixed(2))} />
+          <SingleLineChart sign='$' name='Total Sales ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.sales.toFixed(2))} />
         </Grid>
         <Grid item xs={4}>
           <MultipleLinesChart summaries={summaries} chartDataProp={getAdSalesAndAdSpendData()} />
@@ -73,10 +73,10 @@ const ChartsV2 = (report) => {
       </Grid>
       <Grid container>
         <Grid item xs={4}>
-          <SingleLineChart name='Average Selling Price ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.average_selling_price.toFixed(2))} />
+          <SingleLineChart sign='$' name='Average Selling Price ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.average_selling_price.toFixed(2))} />
         </Grid>
         <Grid item xs={4}>
-          <SingleLineChart name='ACOS ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.acos.toFixed(2))} />
+          <SingleLineChart sign='%' name='ACOS (%)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.acos.toFixed(2))} />
         </Grid>
         <Grid item xs={4}>
           <DonutChart chartDataValues={summaries} />
