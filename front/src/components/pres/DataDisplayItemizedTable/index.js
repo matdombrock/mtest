@@ -2738,7 +2738,7 @@ const DataDisplayItemizedTable = (props) => {
                           className={isNegative(change.percent_total_sales)}
                         >
                           {change.percent_total_sales !== 0
-                            ? Number(previous.percent_total_sales).toFixed(
+                            ? Number(change.percent_total_sales).toFixed(
                               2
                             ) + "%"
                             : "N/A"}
