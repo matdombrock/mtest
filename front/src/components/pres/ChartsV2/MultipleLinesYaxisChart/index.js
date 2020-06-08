@@ -2,6 +2,8 @@ import React from "react";
 import { Line } from 'react-chartjs-2';
 
 const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
+  console.log('--MultipleLinesYaxisChart', summaries)
+
   const chartData = {
     labels: summaries.map((x, i) => i),
     datasets: []
@@ -47,7 +49,7 @@ const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
         max: chartDatasetProp.ticksMax ?? Math.max(...summariesData),
         min: 0,
         callback: function (value, index, values) {
-          return chartDatasetProp.position === 'right' ? '$' + value : value + '%'
+          return chartDatasetProp.position === 'right' ? '$' + value.toFixed(2) : value + '%'
         }
       }
     };
