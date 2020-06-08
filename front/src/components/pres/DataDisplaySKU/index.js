@@ -1443,7 +1443,7 @@ const getSummaryInTotal = (props) => {
     temp.sales = {
       current: temp.sales.current + (current?.sales || 0),
       previous: temp.sales.previous + (previous?.sales || 0),
-      change: temp.sales.change + (change?.sales || 0),
+      change: (temp.sales.change + (change?.sales || 0) / props.length),
       charge: Number(temp.sales.charge) + Number(charge?.sales || 0),
       yoy: temp.sales.yoy + (yoy?.sales || 0),
       yoyCharge: temp.sales.yoyCharge + (yoyCharge?.sales || 0),
