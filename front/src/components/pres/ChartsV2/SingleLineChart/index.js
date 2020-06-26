@@ -2,7 +2,6 @@ import React from "react";
 import { Line } from 'react-chartjs-2';
 
 const SingleLineChart = ({ name, chartLabels, chartDataValues, sign }) => {
-
   const colorOrangeDark = getComputedStyle(document.body).getPropertyValue('--orange-dark');
 
   const chartData = {
@@ -38,7 +37,7 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues, sign }) => {
         {
           ticks: {
             callback: function (value, index, values) {
-              return sign === '$' ? '$' + value : value + '%'
+              return sign === '$' ? '$' + value.toFixed(2) : value + '%'
             }
           }
         }
