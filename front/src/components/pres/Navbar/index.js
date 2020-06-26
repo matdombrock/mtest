@@ -29,11 +29,8 @@ class Navbar extends React.Component {
 
   handleGetAsins = async () => {
     try {
-      const response = await getMissingProductCount();
-      if (response.csv)
-        this.setState({
-          count: String(response.csv).split("\n").length - 1,
-        });
+      const missingCount = await getMissingProductCount();
+      this.setState({ count: missingCount });
     } catch (error) {
       console.log("ImportProducts -> handleGetAsins -> error", error);
     }
