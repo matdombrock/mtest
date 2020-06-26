@@ -63,11 +63,12 @@ class UpperControls extends Component {
   }
 
   componentDidMount() {
+
     fetchBrands().then((data) => {
       let sortedBrands = data.sort(this.brandsSortingComparer);
-      console.log(sortedBrands);
       this.props.brandSetData(sortedBrands);
     });
+    
     this.fetchData();
   }
 
