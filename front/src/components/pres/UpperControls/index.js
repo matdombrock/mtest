@@ -63,7 +63,12 @@ class UpperControls extends Component {
   }
 
   componentDidMount() {
-    fetchBrands().then((data) => this.props.brandSetData(data));
+
+    fetchBrands().then((data) => {
+      let sortedBrands = data.sort(this.brandsSortingComparer);
+      this.props.brandSetData(sortedBrands);
+    });
+    
     this.fetchData();
   }
 
@@ -80,6 +85,17 @@ class UpperControls extends Component {
       );
     }
   }
+
+  brandsSortingComparer( a, b ) {
+    if ( a.brand_name.toLowerCase() < b.brand_name.toLowerCase() ){
+      return -1;
+    }
+    if ( a.brand_name.toLowerCase() > b.brand_name.toLowerCase() ){
+      return 1;
+    }
+    return 0;
+  }
+
   download() {
     const filename = "report.pdf";
     html2canvas(document.getElementById("#report")).then((canvas) => {
