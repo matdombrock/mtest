@@ -14,6 +14,16 @@ import importProducts from "./components/page/importProducts"
 const history = createHistory();
 
 class App extends Component {
+  state = {
+    isAuthenticated: false
+  };
+
+  componentWillMount() {
+    checkToken(sessionStorage.getItem("moda_token")).then((res) => {
+      this.setState({ isAuthenticated: res.authenticated })
+    });
+  }
+
   componentDidMount() {
     if (window.location.pathname !== "/login") {
       checkToken(sessionStorage.getItem("moda_token")).then((res) => {
@@ -30,7 +40,10 @@ class App extends Component {
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/manage-users"} component={ManageUsers} />
             <Route exact path={"/import"} component={importProducts} />
-            <Route exact path={"/"} component={Dashboard} />
+            {
+              this.state.isAuthenticated &&
+              <Route exact path={"/"} component={Dashboard} />
+            }
           </React.Fragment>
         </Router>
       </Provider>
