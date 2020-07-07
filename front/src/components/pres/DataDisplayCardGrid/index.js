@@ -1,62 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import s from "./style.module.scss";
 import Grid from "@material-ui/core/Grid";
 import numberWithCommas from "../../../services/numberWithCommas";
 import moment from "moment";
 
 const DataDisplayCardGrid = (props) => {
-  let currentPeriodData, periodOverPeriodData, previousPeriodData;
-  const periods = props.data.periods;
-  //an abstraction method to do the math for relative percentage between two #s
-  const determineRelativePercentage = (number, previousNumber) => {
-    if (previousNumber === 0) return 0;
-    return Math.sign(
-      (((previousNumber - number) / previousNumber) * 100).toFixed(2)
-    ) === -1
-      ? "+" +
-      Math.abs(
-        (((previousNumber - number) / previousNumber) * 100).toFixed(2)
-      )
-      : "-" + (((previousNumber - number) / previousNumber) * 100).toFixed(2);
-  };
+  const [currentPeriodData, setCurrentPeriodData] = useState({})
+  const [previousPeriodData, setPreviousPeriodData] = useState({})
+  const [periodOverPeriodData, setPeriodOverPeriodData] = useState({})
+
+  const { periods, comparisons } = props.data.data
+
   const isNegative = (value) =>
     Number(value) !== 0 && (Number(value) <= 0 ? s.negative : s.positive);
 
-  //this is for figuring out hte period over period data
-  if (periods[0].itemized) {
-    currentPeriodData = periods[0].summary;
-    previousPeriodData = periods[1].summary;
+  useEffect(() => {
+    if (periods[0].itemized) {
+      setCurrentPeriodData(periods[0].summary)
+      setPreviousPeriodData(periods[1].summary)
 
-    if (currentPeriodData && previousPeriodData) {
-      periodOverPeriodData = {
-        sales: determineRelativePercentage(
-          currentPeriodData.sales,
-          previousPeriodData.sales
-        ),
-        units_sold: determineRelativePercentage(
-          currentPeriodData.units_sold,
-          previousPeriodData.units_sold
-        ),
-        shipped_cogs: determineRelativePercentage(
-          currentPeriodData.shipped_cogs,
-          previousPeriodData.shipped_cogs
-        ),
-        ad_spend: determineRelativePercentage(
-          currentPeriodData.ad_spend,
-          previousPeriodData.ad_spend
-        ),
-        ad_sales: determineRelativePercentage(
-          currentPeriodData.ad_sales,
-          previousPeriodData.ad_sales
-        ),
-        acos: determineRelativePercentage(
-          currentPeriodData.acos,
-          previousPeriodData.acos
-        ),
-      };
+      const { sales, units_sold, shipped_cogs, ad_spend, ad_sales, acos } = comparisons.pop[0]
+
+      if (currentPeriodData && previousPeriodData) {
+        const pop = {
+          sales: sales.percentage,
+          units_sold: units_sold.percentage,
+          shipped_cogs: shipped_cogs.percentage,
+          ad_spend: ad_spend.percentage,
+          ad_sales: ad_sales.percentage,
+          acos: acos.percentage
+        }
+        setPeriodOverPeriodData(pop)
+      }
     }
-  }
-  if (!currentPeriodData) return <p>No Data Found</p>;
+  }, [periods.length && comparisons.length])
+
+  if (!currentPeriodData) return <p>No Data Found</p>
+
   return (
     <div className={s.gridContainer}>
       <h3>
@@ -69,39 +49,37 @@ const DataDisplayCardGrid = (props) => {
           <div className={s.gridInner}>
             <p className={s.title}>Sales</p>
             <p className={s.data + " " + isNegative(currentPeriodData.sales)}>
-              {currentPeriodData
-                ? "$" + numberWithCommas(currentPeriodData.sales)
-                : "N/A"}
+              {
+                currentPeriodData
+                  ? "$" + numberWithCommas(currentPeriodData.sales)
+                  : "N/A"
+              }
             </p>
-            <p
-              className={s.data + " " + isNegative(periodOverPeriodData.sales)}
-            >
-              {periodOverPeriodData && periodOverPeriodData.sales !== 0
-                ? numberWithCommas(periodOverPeriodData.sales) + "%"
-                : "N/A"}
+            <p className={s.data + " " + isNegative(periodOverPeriodData.sales)} >
+              {
+                periodOverPeriodData && periodOverPeriodData.sales !== 0
+                  ? numberWithCommas(periodOverPeriodData.sales) + "%"
+                  : "N/A"
+              }
             </p>
           </div>
         </Grid>
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Units Sold</p>
-            <p
-              className={
-                s.data + " " + isNegative(currentPeriodData.units_sold)
+            <p className={s.data + " " + isNegative(currentPeriodData.units_sold)}>
+              {
+                periods[0].itemized && currentPeriodData.units_sold !== 0
+                  ? numberWithCommas(currentPeriodData.units_sold)
+                  : "0"
               }
-            >
-              {periods[0].itemized && currentPeriodData.units_sold !== 0
-                ? numberWithCommas(currentPeriodData.units_sold)
-                : "0"}
             </p>
-            <p
-              className={
-                s.data + " " + isNegative(periodOverPeriodData.units_sold)
+            <p className={s.data + " " + isNegative(periodOverPeriodData.units_sold)}>
+              {
+                periodOverPeriodData && periodOverPeriodData.units_sold !== 0
+                  ? numberWithCommas(periodOverPeriodData.units_sold) + "%"
+                  : "N/A"
               }
-            >
-              {periodOverPeriodData && periodOverPeriodData.units_sold !== 0
-                ? numberWithCommas(periodOverPeriodData.units_sold) + "%"
-                : "N/A"}
             </p>
           </div>
         </Grid>

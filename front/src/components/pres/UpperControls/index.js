@@ -68,7 +68,7 @@ class UpperControls extends Component {
       let sortedBrands = data.sort(this.brandsSortingComparer);
       this.props.brandSetData(sortedBrands);
     });
-    
+
     this.fetchData();
   }
 
@@ -86,11 +86,11 @@ class UpperControls extends Component {
     }
   }
 
-  brandsSortingComparer( a, b ) {
-    if ( a.brand_name.toLowerCase() < b.brand_name.toLowerCase() ){
+  brandsSortingComparer(a, b) {
+    if (a.brand_name.toLowerCase() < b.brand_name.toLowerCase()) {
       return -1;
     }
-    if ( a.brand_name.toLowerCase() > b.brand_name.toLowerCase() ){
+    if (a.brand_name.toLowerCase() > b.brand_name.toLowerCase()) {
       return 1;
     }
     return 0;
@@ -303,7 +303,8 @@ class UpperControls extends Component {
             if (data.status !== 200) {
               this.props.saleSetData();
               this.props.setError(data.message);
-            } else {
+            }
+            else {
               this.props.setError(false);
               const payload = data;
               payload.periods = data.data?.periods?.map((d) => ({
