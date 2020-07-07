@@ -1,26 +1,21 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import s from "./style.module.scss";
-import SingleLineChart from "./SingleLineChart";
-import MultipleLinesChart from "./MultipleLinesChart";
-import MultipleLinesYaxisChart from "./MultipleLinesYaxisChart";
+import React from 'react'
+import Grid from '@material-ui/core/Grid'
+import s from './style.module.scss'
+import SingleLineChart from './SingleLineChart'
+import MultipleLinesChart from './MultipleLinesChart'
+import MultipleLinesYaxisChart from './MultipleLinesYaxisChart'
 import DonutChart from './DonutChart'
 
 const ChartsV2 = (report) => {
-
-  let periods = report.report.periods;
-  if (periods.length > 2) {
-    periods = periods.slice(0, periods.length - 1);
+  let _periods = report.report.data.periods
+  if (_periods.length > 2) {
+    _periods = _periods.slice(0, _periods.length - 1)
   }
 
-  const summaries = periods
-    .map((d) => ({
-      ...d.summary
-    }))
-    .reverse();
+  const summaries = _periods.map(d => ({ ...d.summary })).reverse()
 
-  const colorOrangeDark = getComputedStyle(document.body).getPropertyValue('--orange-dark');;
-  const colorTealMedium = getComputedStyle(document.body).getPropertyValue('--teal-medium');;
+  const colorOrangeDark = getComputedStyle(document.body).getPropertyValue('--orange-dark')
+  const colorTealMedium = getComputedStyle(document.body).getPropertyValue('--teal-medium')
 
   const getAdSalesAndAdSpendData = () => {
     return {
@@ -73,7 +68,7 @@ const ChartsV2 = (report) => {
       </Grid>
       <Grid container>
         <Grid item xs={4}>
-          <SingleLineChart sign='$' name='Average Selling Price ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.average_selling_price.toFixed(2))} />
+          {/* <SingleLineChart sign='$' name='Average Selling Price ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.average_selling_price.toFixed(2))} /> */}
         </Grid>
         <Grid item xs={4}>
           <SingleLineChart sign='%' name='ACOS (%)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.acos.toFixed(2))} />
@@ -83,8 +78,8 @@ const ChartsV2 = (report) => {
         </Grid>
       </Grid>
     </div>
-  );
+  )
 
 }
 
-export default ChartsV2;
+export default ChartsV2

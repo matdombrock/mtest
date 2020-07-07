@@ -17,7 +17,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
 import DownloadCSVButton from './../../common/downloadCSVButton'
 
-const currentDataFormate = ({ periods, yoy }) => {
+const currentDataFormat = ({ periods, yoy }) => {
   let payload = [];
   periods.map((d, i, arr) => {
     if (i === arr.length - 1) return false;
@@ -1410,7 +1410,7 @@ const DataDisplayItemizedTable = (props) => {
   const [sortAscendingBy, setSortAscendingBy] = useState(false);
   let currentData = props.data;
   let isYoY = !!currentData.yoy.length;
-  const data = currentDataFormate(currentData);
+  const data = currentDataFormat(currentData);
   if (!currentData) return null;
 
   const filterData = data.sort((a, b) => {
