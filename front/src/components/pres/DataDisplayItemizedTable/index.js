@@ -82,7 +82,7 @@ const currentDataFormat = ({ periods }, yoy, pop) => {
       ad_sales: _pop.ad_sales.number,
       ad_spend: _pop.ad_spend.number,
       asin: "N/A",
-      // average_cpc: _pop.average_cpc.number, //TODO
+      average_cpc: _pop.avg_cpc.number,
       conversion_rate: _pop.conversion_rate.number,
       item_number: "N/A",
       percent_total_sales: _pop.percent_total_sales.number,
@@ -102,7 +102,7 @@ const currentDataFormat = ({ periods }, yoy, pop) => {
       ad_sales: _pop.ad_sales.percentage,
       ad_spend: _pop.ad_spend.percentage,
       asin: "N/A",
-      // average_cpc: _pop.average_cpc.percentage, //TODO
+      average_cpc: _pop.avg_cpc.percentage,
       conversion_rate: _pop.conversion_rate.percentage,
       item_number: "N/A",
       percent_total_sales: _pop.percent_total_sales.percentage,
