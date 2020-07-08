@@ -1601,6 +1601,7 @@ const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplaySKUTable = (props) => {
+  console.log('-------------DataDisplaySKUTable', props)
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
   const [sortByInner, setSortByInner] = useState(false);

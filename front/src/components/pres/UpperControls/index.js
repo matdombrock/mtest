@@ -228,7 +228,7 @@ class UpperControls extends Component {
                   : "yesterday";
     if (activeTab === 2) {
       brand &&
-        fetchSalesDataBySKU(data)
+        fetchSalesData(data)
           .then((data) => {
             if (!data) throw Object.assign(new Error("Error"), { code: 402 });
             if (data.status !== 200) {
