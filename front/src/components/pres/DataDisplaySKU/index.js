@@ -987,7 +987,7 @@ const currentDataFormat = (current = [], previous = [], yoy = [], firstPop) => {
         shipped_cogs: firstPop.shipped_cogs.number,
         ad_clicks: firstPop.ad_clicks.number,
         ad_impressions: firstPop.ad_impressions.number,
-        average_cpc: firstPop.average_cpc.number,
+        average_cpc: firstPop.avg_cpc.number,
         percent_total_sales: firstPop.percent_total_sales.number,
       };
       let charge = {
@@ -1004,7 +1004,7 @@ const currentDataFormat = (current = [], previous = [], yoy = [], firstPop) => {
         shipped_cogs: firstPop.shipped_cogs.percentage,
         ad_clicks: firstPop.ad_clicks.percentage,
         ad_impressions: firstPop.ad_impressions.percentage,
-        average_cpc: firstPop.average_cpc.percentage,
+        average_cpc: firstPop.avg_cpc.percentage,
         percent_total_sales: firstPop.percent_total_sales.percentage,
       };
       let tempYoy = {
