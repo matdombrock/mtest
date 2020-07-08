@@ -1607,14 +1607,14 @@ const DataDisplaySKUTable = (props) => {
   const [sortByInner, setSortByInner] = useState(false);
   const [sortAscendingBy, setSortAscendingBy] = useState(false);
   const isComparisons = true;
-  let currentData = props.data.periods[0];
-  let previousData = props.data.periods[1];
+  let currentData = props.data.data.periods[0];
+  let previousData = props.data.data.periods[1];
   if (!currentData) return null;
-  let isYoY = !!props.data.yoy.length;
+  let isYoY = !!props.data.data.comparisons.yoy.length;
   const allSKUData = currentDataFormate(
     currentData.itemized,
     previousData.itemized,
-    !!props.data.yoy.length ? props.data.yoy[0].itemized : []
+    !!props.data.data.comparisons.yoy.length ? props.data.data.comparisons.yoy[0].itemized : []
   );
   const filterSKUData = allSKUData.sort((a, b) => {
     let tempSortBy = "asin";
@@ -1702,8 +1702,8 @@ const DataDisplaySKUTable = (props) => {
     <>
       <h3 style={{ width: '100%', marginLeft: '450px' }}>
         Current Period Summary:{" "}
-        {moment(props.data.periods[0].period.start).utc().format("MM/DD/YYYY")} -{" "}
-        {moment(props.data.periods[0].period.end).utc().format("MM/DD/YYYY")}
+        {moment(props.data.data.periods[0].period.start).utc().format("MM/DD/YYYY")} -{" "}
+        {moment(props.data.data.periods[0].period.end).utc().format("MM/DD/YYYY")}
       </h3>
       <CSVLink
         className='link-download'

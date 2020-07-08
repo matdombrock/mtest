@@ -92,16 +92,18 @@ class Dashboard extends Component {
                         <p>No Record Found</p>
                       : <>
                         {
-                          skuActive.periods &&
-                            skuActive.periods.length &&
-                            skuActive.periods[0] &&
-                            skuActive.periods[1] &&
-                            ((skuActive.periods[0].itemized &&
-                              skuActive.periods[0].itemized.length) ||
-                              (skuActive.periods[1].itemized &&
-                                skuActive.periods[1].itemized.length)) ?
-                            <>
-                              {/* <DataDisplayCardGridSKU
+                          !skuActive.data ?
+                            <p>No Record Found in SKU1</p> :
+                            skuActive.data.periods &&
+                              skuActive.data.periods.length &&
+                              skuActive.data.periods[0] &&
+                              skuActive.data.periods[1] &&
+                              ((skuActive.data.periods[0].itemized &&
+                                skuActive.data.periods[0].itemized.length) ||
+                                (skuActive.data.periods[1].itemized &&
+                                  skuActive.data.periods[1].itemized.length)) ?
+                              <>
+                                {/* <DataDisplayCardGridSKU
                                   data={skuActive}
                                   comparisons={skuComparisons}
                                   startDate={startDate}
@@ -110,13 +112,13 @@ class Dashboard extends Component {
                                   comparisonEndDate={comparisonEndDate}
                                 />
                                 <SKUCharts data={skuActive} /> */}
-                              <DataDisplaySKUTable
-                                data={skuActive}
-                              // comparisons={skuComparisons}
-                              />
-                            </>
-                            :
-                            <p>No Record Found in SKU</p>
+                                <DataDisplaySKUTable
+                                  data={skuActive}
+                                // comparisons={skuComparisons}
+                                />
+                              </>
+                              :
+                              <p>No Record Found in SKU2</p>
                         }
                       </>
                   }

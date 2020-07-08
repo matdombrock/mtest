@@ -68,7 +68,7 @@ class UpperControls extends Component {
       let sortedBrands = data.sort(this.brandsSortingComparer);
       this.props.brandSetData(sortedBrands);
     });
-    
+
     this.fetchData();
   }
 
@@ -86,11 +86,11 @@ class UpperControls extends Component {
     }
   }
 
-  brandsSortingComparer( a, b ) {
-    if ( a.brand_name.toLowerCase() < b.brand_name.toLowerCase() ){
+  brandsSortingComparer(a, b) {
+    if (a.brand_name.toLowerCase() < b.brand_name.toLowerCase()) {
       return -1;
     }
-    if ( a.brand_name.toLowerCase() > b.brand_name.toLowerCase() ){
+    if (a.brand_name.toLowerCase() > b.brand_name.toLowerCase()) {
       return 1;
     }
     return 0;
