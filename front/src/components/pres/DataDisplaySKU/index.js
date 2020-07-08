@@ -940,14 +940,11 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 };
 
 const currentDataFormat = (current = [], previous = [], yoy = [], firstPop) => {
-  console.log('DataDisplaySKU > currentDateFormat > current', current)
-  console.log('DataDisplaySKU > currentDateFormat > previous', previous)
-  console.log('DataDisplaySKU > currentDateFormat > yoy', yoy)
   let allSKU = [];
   current.map((d) => allSKU.push(d.sku));
-  console.log('DataDisplaySKU > currentDateFormat > current > allSKU', allSKU)
+
   previous.map((d) => allSKU.push(d.sku));
-  console.log('DataDisplaySKU > currentDateFormat > previous > allSKU', allSKU)
+
   allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
   return allSKU
     .map((sku) => {
@@ -1429,7 +1426,7 @@ const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
 const DataDisplaySKUTable = (props) => {
-  console.log('-------------DataDisplaySKUTable', props)
+
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
   const [sortByInner, setSortByInner] = useState(false);
@@ -1438,21 +1435,20 @@ const DataDisplaySKUTable = (props) => {
   let currentData = props.data.data.periods[0];
   let previousData = props.data.data.periods[1];
 
-  console.log('-------------DataDisplaySKUTable > previousData', currentData)
   if (!currentData) return null;
 
   const { comparisons } = props.data.data
   const { pop } = comparisons
   let isYoY = !!comparisons.yoy.length;
 
-  console.log('-------------DataDisplaySKUTable > isYoY', isYoY)
+
   const allSKUData = currentDataFormat(
     currentData.itemized,
     previousData.itemized,
     !!comparisons.yoy.length ? comparisons.yoy[0].itemized : [],
     pop[0]
   );
-  console.log('-------------DataDisplaySKUTable > allSKUData', allSKUData)
+
   const filterSKUData = allSKUData.sort((a, b) => {
     let tempSortBy = "asin";
     if (sortBy === 0) {
@@ -1534,7 +1530,7 @@ const DataDisplaySKUTable = (props) => {
     setSortByInner(columnId);
   };
   const totalOfData = getSummaryInTotal(filterSKUData);
-  console.log("DataDisplaySKUTable -> totalOfData", totalOfData);
+
   return (
     <>
       <h3 style={{ width: '100%', marginLeft: '450px' }}>
