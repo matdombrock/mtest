@@ -93,7 +93,7 @@ class Dashboard extends Component {
                       : <>
                         {
                           !skuActive.data ?
-                            <p>No Record Found in SKU1</p> :
+                            <p>No Record Found in SKU</p> :
                             skuActive.data.periods &&
                               skuActive.data.periods.length &&
                               skuActive.data.periods[0] &&
@@ -118,7 +118,7 @@ class Dashboard extends Component {
                                 />
                               </>
                               :
-                              <p>No Record Found in SKU2</p>
+                              <p>No Record Found in SKU</p>
                         }
                       </>
                   }
