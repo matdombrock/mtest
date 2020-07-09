@@ -939,15 +939,16 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   return finalData;
 };
 
-const currentDataFormat = (current = [], previous = [], yoy = [], firstPop) => {
+const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], firstPop, firstYoy) => {
+
   let allSKU = [];
   current.map((d) => allSKU.push(d.sku));
-
   previous.map((d) => allSKU.push(d.sku));
 
   allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
   return allSKU
-    .map((sku) => {
+    .map((sku) => 
+    {
       let temp = {
         asp: 0,
         units_per_order: 0,
@@ -966,112 +967,93 @@ const currentDataFormat = (current = [], previous = [], yoy = [], firstPop) => {
         wow_sales: 0,
         percent_total_sales: 0,
       };
+
       let currentSKU = current.find((d) => d.sku === sku);
       if (!currentSKU) return false;
+      
       let previousSKU = previous.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
       let yoySKU = yoy.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+
       let change = {
-        asp: firstPop.asp.number,
-        units_per_order: firstPop.units_per_order.number,
-        orders: firstPop.orders.number,
-        ad_spend: firstPop.ad_spend.number,
-        ad_orders: firstPop.ad_orders.number,
-        conversion_rate: firstPop.conversion_rate.number,
-        acos: firstPop.acos.number,
-        ad_sales: firstPop.ad_sales.number,
-        sales: firstPop.sales.number,
-        units_sold: firstPop.units_sold.number,
-        shipped_cogs: firstPop.shipped_cogs.number,
-        ad_clicks: firstPop.ad_clicks.number,
-        ad_impressions: firstPop.ad_impressions.number,
-        average_cpc: firstPop.avg_cpc.number,
-        percent_total_sales: firstPop.percent_total_sales.number,
+        asp: firstPop.asp.number?.toFixed(2),
+        units_per_order: firstPop.units_per_order.number?.toFixed(2),
+        orders: firstPop.orders.number?.toFixed(2),
+        ad_spend: firstPop.ad_spend.number?.toFixed(2),
+        ad_orders: firstPop.ad_orders.number?.toFixed(2),
+        conversion_rate: firstPop.conversion_rate.number?.toFixed(2),
+        acos: firstPop.acos.number?.toFixed(2),
+        ad_sales: firstPop.ad_sales.number?.toFixed(2),
+        sales: firstPop.sales.number?.toFixed(2),
+        units_sold: firstPop.units_sold.number?.toFixed(2),
+        shipped_cogs: firstPop.shipped_cogs.number?.toFixed(2),
+        ad_clicks: firstPop.ad_clicks.number?.toFixed(2),
+        ad_impressions: firstPop.ad_impressions.number?.toFixed(2),
+        average_cpc: firstPop.avg_cpc.number?.toFixed(2),
+        percent_total_sales: firstPop.percent_total_sales.number?.toFixed(2),
       };
       let charge = {
-        orders: firstPop.orders.percentage,
-        units_per_order: firstPop.units_per_order.percentage,
-        asp: firstPop.asp.percentage,
-        ad_spend: firstPop.ad_spend.percentage,
-        ad_orders: firstPop.ad_orders.percentage,
-        conversion_rate: firstPop.conversion_rate.percentage,
-        acos: firstPop.acos.percentage,
-        ad_sales: firstPop.ad_sales.percentage,
-        sales: firstPop.sales.percentage,
-        units_sold: firstPop.units_sold.percentage,
-        shipped_cogs: firstPop.shipped_cogs.percentage,
-        ad_clicks: firstPop.ad_clicks.percentage,
-        ad_impressions: firstPop.ad_impressions.percentage,
-        average_cpc: firstPop.avg_cpc.percentage,
-        percent_total_sales: firstPop.percent_total_sales.percentage,
+        orders: firstPop.orders.percentage?.toFixed(2),
+        units_per_order: firstPop.units_per_order.percentage?.toFixed(2),
+        asp: firstPop.asp.percentage?.toFixed(2),
+        ad_spend: firstPop.ad_spend.percentage?.toFixed(2),
+        ad_orders: firstPop.ad_orders.percentage?.toFixed(2),
+        conversion_rate: firstPop.conversion_rate.percentage?.toFixed(2),
+        acos: firstPop.acos.percentage?.toFixed(2),
+        ad_sales: firstPop.ad_sales.percentage?.toFixed(2),
+        sales: firstPop.sales.percentage?.toFixed(2),
+        units_sold: firstPop.units_sold.percentage?.toFixed(2),
+        shipped_cogs: firstPop.shipped_cogs.percentage?.toFixed(2),
+        ad_clicks: firstPop.ad_clicks.percentage?.toFixed(2),
+        ad_impressions: firstPop.ad_impressions.percentage?.toFixed(2),
+        average_cpc: firstPop.avg_cpc.percentage?.toFixed(2),
+        percent_total_sales: firstPop.percent_total_sales.percentage?.toFixed(2),
       };
-      let tempYoy = {
-        orders: getDifferenceInNumber(currentSKU.orders, yoySKU.orders),
-        units_per_order: getDifferenceInNumber(currentSKU.units_per_order, yoySKU.units_per_order),
-        asp: getDifferenceInNumber(currentSKU.asp, yoySKU.asp),
-        ad_spend: getDifferenceInNumber(currentSKU.ad_spend, yoySKU.ad_spend),
-        ad_orders: getDifferenceInNumber(currentSKU.ad_orders, yoySKU.ad_orders),
-        conversion_rate: getDifferenceInNumber(currentSKU.conversion_rate, yoySKU.conversion_rate),
-        acos: getDifferenceInNumber(currentSKU.acos, yoySKU.acos),
-        ad_sales: getDifferenceInNumber(currentSKU.ad_sales, yoySKU.ad_sales),
-        sales: getDifferenceInNumber(currentSKU.sales, yoySKU.sales),
-        units_sold: getDifferenceInNumber(currentSKU.units_sold, yoySKU.units_sold),
-        shipped_cogs: getDifferenceInNumber(currentSKU.shipped_cogs, yoySKU.shipped_cogs),
-        ad_clicks: getDifferenceInNumber(currentSKU.ad_clicks, yoySKU.ad_clicks),
-        ad_impressions: getDifferenceInNumber(currentSKU.ad_impressions, yoySKU.ad_impressions),
-        average_cpc: getDifferenceInNumber(currentSKU.average_cpc, yoySKU.average_cpc),
-        percent_total_sales: getDifferenceInNumber(currentSKU.percent_total_sales, yoySKU.percent_total_sales),
+
+      let yoyChange = {
+        orders: firstYoy?.orders?.number,
+        units_per_order: firstYoy?.units_per_order?.number,
+        asp: firstYoy?.asp?.number,
+        ad_spend: firstYoy?.ad_spend?.number,
+        ad_orders: firstYoy?.ad_orders?.number,
+        conversion_rate: firstYoy?.conversion_rate?.number,
+        acos: firstYoy?.acos?.number,
+        ad_sales: firstYoy?.ad_sales?.number,
+        sales: firstYoy?.sales?.number,
+        units_sold: firstYoy?.units_sold?.number,
+        shipped_cogs: firstYoy?.shipped_cogs?.number,
+        ad_clicks: firstYoy?.ad_clicks?.number,
+        ad_impressions: firstYoy?.ad_impressions?.number,
+        average_cpc: firstYoy?.avg_cpc?.number,
+        percent_total_sales:firstYoy?.percent_total_sales?.number,
       };
       let yoyCharge = {
-        orders: getDifferenceInPercentage(currentSKU.orders, yoySKU.orders),
-        units_per_order: getDifferenceInPercentage(currentSKU.units_per_order, yoySKU.units_per_order),
-        asp: getDifferenceInPercentage(currentSKU.asp, yoySKU.asp),
-        ad_spend: getDifferenceInPercentage(currentSKU.ad_spend, yoySKU.ad_spend),
-        ad_orders: getDifferenceInPercentage(currentSKU.ad_orders, yoySKU.ad_orders),
-        conversion_rate: getDifferenceInPercentage(currentSKU.conversion_rate, yoySKU.conversion_rate),
-        acos: getDifferenceInPercentage(currentSKU.acos, yoySKU.acos),
-        ad_sales: getDifferenceInPercentage(currentSKU.ad_sales, yoySKU.ad_sales),
-        sales: getDifferenceInPercentage(currentSKU.sales, yoySKU.sales),
-        units_sold: getDifferenceInPercentage(currentSKU.units_sold, yoySKU.units_sold),
-        shipped_cogs: getDifferenceInPercentage(currentSKU.shipped_cogs, yoySKU.shipped_cogs),
-        ad_clicks: getDifferenceInPercentage(currentSKU.ad_clicks, yoySKU.ad_clicks),
-        ad_impressions: getDifferenceInPercentage(currentSKU.ad_impressions, yoySKU.ad_impressions),
-        average_cpc: getDifferenceInPercentage(currentSKU.average_cpc, yoySKU.average_cpc),
-        percent_total_sales: getDifferenceInPercentage(currentSKU.percent_total_sales, yoySKU.percent_total_sales),
+        orders: firstYoy?.orders?.percentage,
+        units_per_order: firstYoy?.units_per_order?.percentage,
+        asp: firstYoy?.asp?.percentage,
+        ad_spend: firstYoy?.ad_spend?.percentage,
+        ad_orders: firstYoy?.ad_orders?.percentage,
+        conversion_rate: firstYoy?.conversion_rate?.percentage,
+        acos: firstYoy?.acos?.percentage,
+        ad_sales: firstYoy?.ad_sales?.percentage,
+        sales: firstYoy?.sales?.percentage,
+        units_sold: firstYoy?.units_sold?.percentage,
+        shipped_cogs: firstYoy?.shipped_cogs?.percentage,
+        ad_clicks: firstYoy?.ad_clicks?.percentage,
+        ad_impressions: firstYoy?.ad_impressions?.percentage,
+        average_cpc: firstYoy?.average_cpc?.percentage,
+        percent_total_sales: firstYoy?.percent_total_sales?.percentage,
       };
       return {
         current: currentSKU,
         previous: previousSKU,
         change,
         charge,
-        yoy: tempYoy,
+        yoy: yoyChange,
         yoyCharge,
         yoySKU,
       };
     })
     .filter((d) => d);
-
-  // data.map(row => {
-  //   temp.sales += Math.round(Number(row.sales));
-  //   temp.units_sold += Math.round(Number(row.units_sold));
-  //   temp.shipped_cogs += Math.round(Number(row.shipped_cogs));
-  //   temp.ad_clicks += Math.round(Number(row.ad_clicks));
-  //   temp.ad_impressions += Math.round(Number(row.ad_impressions));
-  //   temp.average_cpc += Number(row.average_cpc);
-  //   temp.ad_spend += Math.round(Number(row.ad_spend));
-  //   temp.ad_orders += Math.round(Number(row.ad_orders));
-  //   temp.ad_sales += Math.round(Number(row.ad_sales));
-  //   temp.conversion_rate += Math.round(Number(row.conversion_rate));
-  //   temp.acos += Math.round(Number(row.acos));
-  //   temp.wow_sales += Math.round(
-  //     Number(isNaN(row.wow_sales) ? 0 : row.wow_sales)
-  //   );
-  //   temp.percent_total_sales += Math.round(
-  //     Number(isNaN(row.percent_total_sales) ? 0 : row.percent_total_sales)
-  //   );
-  //   return false;
-  // });
-  // temp.average_cpc = temp.average_cpc / data.length;
-  // return [temp];
 };
 
 const getSummaryInTotal = (props) => {
@@ -1442,11 +1424,12 @@ const DataDisplaySKUTable = (props) => {
   let isYoY = !!comparisons.yoy.length;
 
 
-  const allSKUData = currentDataFormat(
+  const allSKUData = convertToFrontendReadyFormat(
     currentData.itemized,
     previousData.itemized,
     !!comparisons.yoy.length ? comparisons.yoy[0].itemized : [],
-    pop[0]
+    pop[0],
+    comparisons.yoy[0] ? comparisons.yoy[0].summary : null
   );
 
   const filterSKUData = allSKUData.sort((a, b) => {
