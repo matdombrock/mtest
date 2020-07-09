@@ -354,7 +354,6 @@ class UpperControls extends Component {
                 })),
               }));
               if (!isYOY) payload.yoy = [];
-              console.log("UpperControls -> fetchData -> payload", payload);
               this.props.saleSetData(payload);
             }
             this.props.setLoadingData(false);

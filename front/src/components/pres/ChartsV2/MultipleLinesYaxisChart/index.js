@@ -2,7 +2,6 @@ import React from "react";
 import { Line } from 'react-chartjs-2';
 
 const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
-  console.log('--MultipleLinesYaxisChart', summaries)
 
   const chartData = {
     labels: summaries.map((x, i) => i),
