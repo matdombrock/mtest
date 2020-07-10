@@ -1056,7 +1056,7 @@ const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], fir
     .filter((d) => d);
 };
 
-const getSummaryInTotal = (props) => {
+const getFrontendFormattedTotal = (props) => {
   const temp = {
     orders: {
       current: 0,
@@ -1186,40 +1186,40 @@ const getSummaryInTotal = (props) => {
     temp.orders = {
       current: temp.orders.current + (current?.orders || 0),
       previous: temp.orders.previous + (previous?.orders || 0),
-      change: temp.orders.change + (change?.orders || 0),
-      charge: Number(temp.orders.charge) + Number(charge?.orders || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.orders.yoy + (yoy?.orders || 0),
       yoyCharge: temp.orders.yoyCharge + (yoyCharge?.orders || 0),
     };
     temp.units_per_order = {
       current: temp.units_per_order.current + (current?.units_per_order || 0),
       previous: temp.units_per_order.previous + (previous?.units_per_order || 0),
-      change: temp.units_per_order.change + (change?.units_per_order || 0),
-      charge: Number(temp.units_per_order.charge) + Number(charge?.units_per_order || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.units_per_order.yoy + (yoy?.units_per_order || 0),
       yoyCharge: temp.units_per_order.yoyCharge + (yoyCharge?.units_per_order || 0),
     };
     temp.asp = {
       current: temp.asp.current + (current?.asp || 0),
       previous: temp.asp.previous + (previous?.asp || 0),
-      change: temp.asp.change + (change?.asp || 0),
-      charge: Number(temp.asp.charge) + Number(charge?.asp || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.asp.yoy + (yoy?.asp || 0),
       yoyCharge: temp.asp.yoyCharge + (yoyCharge?.asp || 0),
     };
     temp.ad_spend = {
       current: temp.ad_spend.current + (current?.ad_spend || 0),
       previous: temp.ad_spend.previous + (previous?.ad_spend || 0),
-      change: temp.ad_spend.change + (change?.ad_spend || 0),
-      charge: Number(temp.ad_spend.charge) + Number(charge?.ad_spend || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.ad_spend.yoy + (yoy?.ad_spend || 0),
       yoyCharge: temp.ad_spend.yoyCharge + (yoyCharge?.ad_spend || 0),
     };
     temp.ad_orders = {
       current: temp.ad_orders.current + (current?.ad_orders || 0),
       previous: temp.ad_orders.previous + (previous?.ad_orders || 0),
-      change: temp.ad_orders.change + (change?.ad_orders || 0),
-      charge: Number(temp.ad_orders.charge) + Number(charge?.ad_orders || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.ad_orders.yoy + (yoy?.ad_orders || 0),
       yoyCharge: temp.ad_orders.yoyCharge + (yoyCharge?.ad_orders || 0),
     };
@@ -1227,10 +1227,8 @@ const getSummaryInTotal = (props) => {
       current: temp.conversion_rate.current + (current?.conversion_rate || 0),
       previous:
         temp.conversion_rate.previous + (previous?.conversion_rate || 0),
-      change: temp.conversion_rate.change + (change?.conversion_rate || 0),
-      charge:
-        Number(temp.conversion_rate.charge) +
-        Number(charge?.conversion_rate || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.conversion_rate.yoy + (yoy?.conversion_rate || 0),
       yoyCharge:
         temp.conversion_rate.yoyCharge + (yoyCharge?.conversion_rate || 0),
@@ -1238,59 +1236,56 @@ const getSummaryInTotal = (props) => {
     temp.acos = {
       current: temp.acos.current + (current?.acos || 0),
       previous: temp.acos.previous + (previous?.acos || 0),
-      change: temp.acos.change + (change?.acos || 0),
-      charge: Number(temp.acos.charge) + Number(charge?.acos || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.acos.yoy + (yoy?.acos || 0),
       yoyCharge: temp.acos.yoyCharge + (yoyCharge?.acos || 0),
     };
     temp.ad_sales = {
       current: temp.ad_sales.current + (current?.ad_sales || 0),
       previous: temp.ad_sales.previous + (previous?.ad_sales || 0),
-      change: temp.ad_sales.change + (change?.ad_sales || 0),
-      charge: Number(temp.ad_sales.charge) + Number(charge?.ad_sales || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.ad_sales.yoy + (yoy?.ad_sales || 0),
       yoyCharge: temp.ad_sales.yoyCharge + (yoyCharge?.ad_sales || 0),
     };
     temp.sales = {
       current: temp.sales.current + (current?.sales || 0),
       previous: temp.sales.previous + (previous?.sales || 0),
-      change: temp.sales.change + (change?.sales || 0),
-      charge: Number(temp.sales.charge) + Number(charge?.sales || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.sales.yoy + (yoy?.sales || 0),
       yoyCharge: temp.sales.yoyCharge + (yoyCharge?.sales || 0),
     };
     temp.units_sold = {
       current: temp.units_sold.current + (current?.units_sold || 0),
       previous: temp.units_sold.previous + (previous?.units_sold || 0),
-      change: temp.units_sold.change + (change?.units_sold || 0),
-      charge: Number(temp.units_sold.charge) + Number(charge?.units_sold || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.units_sold.yoy + (yoy?.units_sold || 0),
       yoyCharge: temp.units_sold.yoyCharge + (yoyCharge?.units_sold || 0),
     };
     temp.shipped_cogs = {
       current: temp.shipped_cogs.current + (current?.shipped_cogs || 0),
       previous: temp.shipped_cogs.previous + (previous?.shipped_cogs || 0),
-      change: temp.shipped_cogs.change + (change?.shipped_cogs || 0),
-      charge:
-        Number(temp.shipped_cogs.charge) + Number(charge?.shipped_cogs || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.shipped_cogs.yoy + (yoy?.shipped_cogs || 0),
       yoyCharge: temp.shipped_cogs.yoyCharge + (yoyCharge?.shipped_cogs || 0),
     };
     temp.ad_clicks = {
       current: temp.ad_clicks.current + (current?.ad_clicks || 0),
       previous: temp.ad_clicks.previous + (previous?.ad_clicks || 0),
-      change: temp.ad_clicks.change + (change?.ad_clicks || 0),
-      charge: Number(temp.ad_clicks.charge) + Number(charge?.ad_clicks || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.ad_clicks.yoy + (yoy?.ad_clicks || 0),
       yoyCharge: temp.ad_clicks.yoyCharge + (yoyCharge?.ad_clicks || 0),
     };
     temp.ad_impressions = {
       current: temp.ad_impressions.current + (current?.ad_impressions || 0),
       previous: temp.ad_impressions.previous + (previous?.ad_impressions || 0),
-      change: temp.ad_impressions.change + (change?.ad_impressions || 0),
-      charge:
-        Number(temp.ad_impressions.charge) +
-        Number(charge?.ad_impressions || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.ad_impressions.yoy + (yoy?.ad_impressions || 0),
       yoyCharge:
         temp.ad_impressions.yoyCharge + (yoyCharge?.ad_impressions || 0),
@@ -1298,9 +1293,8 @@ const getSummaryInTotal = (props) => {
     temp.average_cpc = {
       current: temp.average_cpc.current + (current?.average_cpc || 0),
       previous: temp.average_cpc.previous + (previous?.average_cpc || 0),
-      change: temp.average_cpc.change + (change?.average_cpc || 0),
-      charge:
-        Number(temp.average_cpc.charge) + Number(charge?.average_cpc || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.average_cpc.yoy + (yoy?.average_cpc || 0),
       yoyCharge: temp.average_cpc.yoyCharge + (yoyCharge?.average_cpc || 0),
     };
@@ -1310,11 +1304,8 @@ const getSummaryInTotal = (props) => {
       previous:
         temp.percent_total_sales.previous +
         (previous?.percent_total_sales || 0),
-      change:
-        temp.percent_total_sales.change + (change?.percent_total_sales || 0),
-      charge:
-        Number(temp.percent_total_sales.charge) +
-        Number(charge?.percent_total_sales || 0),
+      change: 0,
+      charge: 0,
       yoy: temp.percent_total_sales.yoy + (yoy?.percent_total_sales || 0),
       yoyCharge:
         temp.percent_total_sales.yoyCharge +
@@ -1512,7 +1503,7 @@ const DataDisplaySKUTable = (props) => {
     setSortBy(sortBy || active);
     setSortByInner(columnId);
   };
-  const totalOfData = getSummaryInTotal(filterSKUData);
+  const totalOfData = getFrontendFormattedTotal(filterSKUData);
 
   return (
     <>

@@ -830,45 +830,45 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
   return finalData;
 };
 
-const getFrontendFormattedTotal = (props, comparisonTotal, currentTotal) => {
+const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
   const temp = {
     asp: {
       current: currentTotal.asp,
       previous: 0,
-      change: comparisonTotal.asp.number,
-      charge: comparisonTotal.asp.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     units_per_order: {
       current: currentTotal.units_per_order,
       previous: 0,
-      change: comparisonTotal.units_per_order.number,
-      charge: comparisonTotal.units_per_order.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     orders: {
       current: currentTotal.orders,
       previous: 0,
-      change: comparisonTotal.orders.number,
-      charge: comparisonTotal.orders.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     sales: {
       current: currentTotal.sales,
       previous: 0,
-      change: comparisonTotal.sales.number,
-      charge: comparisonTotal.sales.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     units_sold: {
       current: currentTotal.units_sold,
       previous: 0,
-      change: comparisonTotal.units_sold.number,
-      charge: comparisonTotal.units_sold.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
@@ -876,81 +876,81 @@ const getFrontendFormattedTotal = (props, comparisonTotal, currentTotal) => {
     shipped_cogs: {
       current: currentTotal.shipped_cogs,
       previous: 0,
-      change: comparisonTotal.shipped_cogs.number,
-      charge: comparisonTotal.shipped_cogs.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
 
     average_cpc: {
-      current: currentTotal.average_cpc,
+      current: currentTotal.avg_cpc,
       previous: 0,
-      change: comparisonTotal.avg_cpc.number,
-      charge: comparisonTotal.avg_cpc.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     ad_impressions: {
       current: currentTotal.ad_impressions,
       previous: 0,
-      change: comparisonTotal.ad_impressions.number,
-      charge: comparisonTotal.ad_impressions.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     ad_clicks: {
       current: currentTotal.ad_clicks,
       previous: 0,
-      change: comparisonTotal.ad_clicks.number,
-      charge: comparisonTotal.ad_clicks.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     ad_spend: {
       current: currentTotal.ad_spend,
       previous: 0,
-      change: comparisonTotal.ad_spend.number,
-      charge: comparisonTotal.ad_spend.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     ad_orders: {
       current: currentTotal.ad_orders,
       previous: 0,
-      change: comparisonTotal.ad_orders.number,
-      charge: comparisonTotal.ad_orders.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     ad_sales: {
       current: currentTotal.ad_sales,
       previous: 0,
-      change: comparisonTotal.ad_sales.number,
-      charge: comparisonTotal.ad_sales.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     percent_total_sales: {
       current: currentTotal.percent_total_sales,
       previous: 0,
-      change: comparisonTotal.percent_total_sales.number,
-      charge: comparisonTotal.percent_total_sales.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     conversion_rate: {
       current: currentTotal.conversion_rate,
       previous: 0,
-      change: comparisonTotal.conversion_rate.number,
-      charge: comparisonTotal.conversion_rate.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
     acos: {
       current: currentTotal.acos,
       previous: 0,
-      change: comparisonTotal.acos.number,
-      charge: comparisonTotal.acos.percentage,
+      change: 0,
+      charge: 0,
       yoy: 0,
       yoyCharge: 0,
     },
@@ -1074,9 +1074,9 @@ const DataDisplayItemizedTable = (props) => {
     setSortByInner(columnId);
   };
 
-  const comparisonTotal = currentData.comparisons.totals[0];
+  const yoyTotal = currentData.comparisons.totals[0];
   const currentTotal = currentData.totals.periods;
-  const totalOfData = getFrontendFormattedTotal(filterData, comparisonTotal, currentTotal);
+  const totalOfData = getFrontendFormattedTotal(filterData, yoyTotal, currentTotal);
   
   return (
     <>
