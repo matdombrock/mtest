@@ -1075,7 +1075,7 @@ const DataDisplayItemizedTable = (props) => {
   const yoyTotal = currentData.comparisons.totals[0];
   const currentTotal = currentData.totals.periods;
   const totalOfData = getFrontendFormattedTotal(filterData, yoyTotal, currentTotal);
-
+  
   return (
     <>
       <CSVLink
