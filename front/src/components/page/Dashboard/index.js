@@ -45,7 +45,7 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, isLoading },
     } = this.props;
-    
+
     const { activeTab, isError, startDate, endDate } = this.state;
     return (
       <>
@@ -95,13 +95,7 @@ class Dashboard extends Component {
                           !skuActive.data ?
                             <p>No Record Found in SKU</p> :
                             skuActive.data.periods &&
-                              skuActive.data.periods.length &&
-                              skuActive.data.periods[0] &&
-                              skuActive.data.periods[1] &&
-                              ((skuActive.data.periods[0].itemized &&
-                                skuActive.data.periods[0].itemized.length) ||
-                                (skuActive.data.periods[1].itemized &&
-                                  skuActive.data.periods[1].itemized.length)) ?
+                              skuActive.data.periods.length ?
                               <>
                                 {/* <DataDisplayCardGridSKU
                                   data={skuActive}
