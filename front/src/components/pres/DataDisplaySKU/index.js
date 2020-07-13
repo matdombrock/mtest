@@ -976,73 +976,73 @@ const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], fir
       let yoySKU = yoy.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
 
       let change = {
-        asp: firstPop.asp.number?.toFixed(2),
-        units_per_order: firstPop.units_per_order.number?.toFixed(2),
-        orders: firstPop.orders.number?.toFixed(2),
-        ad_spend: firstPop.ad_spend.number?.toFixed(2),
-        ad_orders: firstPop.ad_orders.number?.toFixed(2),
-        conversion_rate: firstPop.conversion_rate.number?.toFixed(2),
-        acos: firstPop.acos.number?.toFixed(2),
-        ad_sales: firstPop.ad_sales.number?.toFixed(2),
-        sales: firstPop.sales.number?.toFixed(2),
-        units_sold: firstPop.units_sold.number?.toFixed(2),
-        shipped_cogs: firstPop.shipped_cogs.number?.toFixed(2),
-        ad_clicks: firstPop.ad_clicks.number?.toFixed(2),
-        ad_impressions: firstPop.ad_impressions.number?.toFixed(2),
-        average_cpc: firstPop.avg_cpc.number?.toFixed(2),
-        percent_total_sales: firstPop.percent_total_sales.number?.toFixed(2),
+        asp: firstPop.asp.number?.toFixed(2) ?? 0,
+        units_per_order: firstPop.units_per_order.number?.toFixed(2) ?? 0,
+        orders: firstPop.orders.number?.toFixed(2) ?? 0,
+        ad_spend: firstPop.ad_spend.number?.toFixed(2) ?? 0,
+        ad_orders: firstPop.ad_orders.number?.toFixed(2) ?? 0,
+        conversion_rate: firstPop.conversion_rate.number?.toFixed(2) ?? 0,
+        acos: firstPop.acos.number?.toFixed(2) ?? 0,
+        ad_sales: firstPop.ad_sales.number?.toFixed(2) ?? 0,
+        sales: firstPop.sales.number?.toFixed(2) ?? 0,
+        units_sold: firstPop.units_sold.number?.toFixed(2) ?? 0,
+        shipped_cogs: firstPop.shipped_cogs.number?.toFixed(2) ?? 0,
+        ad_clicks: firstPop.ad_clicks.number?.toFixed(2) ?? 0,
+        ad_impressions: firstPop.ad_impressions.number?.toFixed(2) ?? 0,
+        average_cpc: firstPop.avg_cpc.number?.toFixed(2) ?? 0,
+        percent_total_sales: firstPop.percent_total_sales.number?.toFixed(2) ?? 0,
       };
       let charge = {
-        orders: firstPop.orders.percentage?.toFixed(2),
-        units_per_order: firstPop.units_per_order.percentage?.toFixed(2),
-        asp: firstPop.asp.percentage?.toFixed(2),
-        ad_spend: firstPop.ad_spend.percentage?.toFixed(2),
-        ad_orders: firstPop.ad_orders.percentage?.toFixed(2),
-        conversion_rate: firstPop.conversion_rate.percentage?.toFixed(2),
-        acos: firstPop.acos.percentage?.toFixed(2),
-        ad_sales: firstPop.ad_sales.percentage?.toFixed(2),
-        sales: firstPop.sales.percentage?.toFixed(2),
-        units_sold: firstPop.units_sold.percentage?.toFixed(2),
-        shipped_cogs: firstPop.shipped_cogs.percentage?.toFixed(2),
-        ad_clicks: firstPop.ad_clicks.percentage?.toFixed(2),
-        ad_impressions: firstPop.ad_impressions.percentage?.toFixed(2),
-        average_cpc: firstPop.avg_cpc.percentage?.toFixed(2),
-        percent_total_sales: firstPop.percent_total_sales.percentage?.toFixed(2),
+        orders: firstPop.orders.percentage?.toFixed(2) ?? 0,
+        units_per_order: firstPop.units_per_order.percentage?.toFixed(2) ?? 0,
+        asp: firstPop.asp.percentage?.toFixed(2) ?? 0,
+        ad_spend: firstPop.ad_spend.percentage?.toFixed(2) ?? 0,
+        ad_orders: firstPop.ad_orders.percentage?.toFixed(2) ?? 0,
+        conversion_rate: firstPop.conversion_rate.percentage?.toFixed(2) ?? 0,
+        acos: firstPop.acos.percentage?.toFixed(2) ?? 0,
+        ad_sales: firstPop.ad_sales.percentage?.toFixed(2) ?? 0,
+        sales: firstPop.sales.percentage?.toFixed(2) ?? 0,
+        units_sold: firstPop.units_sold.percentage?.toFixed(2) ?? 0,
+        shipped_cogs: firstPop.shipped_cogs.percentage?.toFixed(2) ?? 0,
+        ad_clicks: firstPop.ad_clicks.percentage?.toFixed(2) ?? 0,
+        ad_impressions: firstPop.ad_impressions.percentage?.toFixed(2) ?? 0,
+        average_cpc: firstPop.avg_cpc.percentage?.toFixed(2) ?? 0,
+        percent_total_sales: firstPop.percent_total_sales.percentage?.toFixed(2) ?? 0,
       };
 
       let yoyChange = {
-        orders: firstYoy?.orders?.number,
-        units_per_order: firstYoy?.units_per_order?.number,
-        asp: firstYoy?.asp?.number,
-        ad_spend: firstYoy?.ad_spend?.number,
-        ad_orders: firstYoy?.ad_orders?.number,
-        conversion_rate: firstYoy?.conversion_rate?.number,
-        acos: firstYoy?.acos?.number,
-        ad_sales: firstYoy?.ad_sales?.number,
-        sales: firstYoy?.sales?.number,
-        units_sold: firstYoy?.units_sold?.number,
-        shipped_cogs: firstYoy?.shipped_cogs?.number,
-        ad_clicks: firstYoy?.ad_clicks?.number,
-        ad_impressions: firstYoy?.ad_impressions?.number,
-        average_cpc: firstYoy?.avg_cpc?.number,
-        percent_total_sales:firstYoy?.percent_total_sales?.number,
+        orders: firstYoy?.orders?.number?.toFixed(2) ?? 0,
+        units_per_order: firstYoy?.units_per_order?.number?.toFixed(2) ?? 0,
+        asp: firstYoy?.asp?.number?.toFixed(2) ?? 0,
+        ad_spend: firstYoy?.ad_spend?.number?.toFixed(2) ?? 0,
+        ad_orders: firstYoy?.ad_orders?.number?.toFixed(2) ?? 0,
+        conversion_rate: firstYoy?.conversion_rate?.number?.toFixed(2) ?? 0,
+        acos: firstYoy?.acos?.number?.toFixed(2) ?? 0,
+        ad_sales: firstYoy?.ad_sales?.number?.toFixed(2) ?? 0,
+        sales: firstYoy?.sales?.number?.toFixed(2) ?? 0,
+        units_sold: firstYoy?.units_sold?.number?.toFixed(2) ?? 0,
+        shipped_cogs: firstYoy?.shipped_cogs?.number?.toFixed(2) ?? 0,
+        ad_clicks: firstYoy?.ad_clicks?.number?.toFixed(2) ?? 0,
+        ad_impressions: firstYoy?.ad_impressions?.number?.toFixed(2) ?? 0,
+        average_cpc: firstYoy?.avg_cpc?.number?.toFixed(2) ?? 0,
+        percent_total_sales:firstYoy?.percent_total_sales?.number?.toFixed(2) ?? 0,
       };
       let yoyCharge = {
-        orders: firstYoy?.orders?.percentage,
-        units_per_order: firstYoy?.units_per_order?.percentage,
-        asp: firstYoy?.asp?.percentage,
-        ad_spend: firstYoy?.ad_spend?.percentage,
-        ad_orders: firstYoy?.ad_orders?.percentage,
-        conversion_rate: firstYoy?.conversion_rate?.percentage,
-        acos: firstYoy?.acos?.percentage,
-        ad_sales: firstYoy?.ad_sales?.percentage,
-        sales: firstYoy?.sales?.percentage,
-        units_sold: firstYoy?.units_sold?.percentage,
-        shipped_cogs: firstYoy?.shipped_cogs?.percentage,
-        ad_clicks: firstYoy?.ad_clicks?.percentage,
-        ad_impressions: firstYoy?.ad_impressions?.percentage,
-        average_cpc: firstYoy?.average_cpc?.percentage,
-        percent_total_sales: firstYoy?.percent_total_sales?.percentage,
+        orders: firstYoy?.orders?.percentage?.toFixed(2) ?? 0,
+        units_per_order: firstYoy?.units_per_order?.percentage?.toFixed(2) ?? 0,
+        asp: firstYoy?.asp?.percentage?.toFixed(2) ?? 0,
+        ad_spend: firstYoy?.ad_spend?.percentage?.toFixed(2) ?? 0,
+        ad_orders: firstYoy?.ad_orders?.percentage?.toFixed(2) ?? 0,
+        conversion_rate: firstYoy?.conversion_rate?.percentage?.toFixed(2) ?? 0,
+        acos: firstYoy?.acos?.percentage?.toFixed(2) ?? 0,
+        ad_sales: firstYoy?.ad_sales?.percentage?.toFixed(2) ?? 0,
+        sales: firstYoy?.sales?.percentage?.toFixed(2) ?? 0,
+        units_sold: firstYoy?.units_sold?.percentage?.toFixed(2) ?? 0,
+        shipped_cogs: firstYoy?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
+        ad_clicks: firstYoy?.ad_clicks?.percentage?.toFixed(2) ?? 0,
+        ad_impressions: firstYoy?.ad_impressions?.percentage?.toFixed(2) ?? 0,
+        average_cpc: firstYoy?.average_cpc?.percentage?.toFixed(2) ?? 0,
+        percent_total_sales: firstYoy?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
       };
       return {
         current: currentSKU,
@@ -1187,22 +1187,6 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
   return temp;
 };
 
-const getDifferenceInNumber = (current, previous) => {
-  let payload = Number(current - previous).toFixed(2);
-  return isNaN(payload) ? 0 : Number(payload);
-};
-
-const getDifferenceInPercentage = (current, previous) => {
-  const totalDifference = getDifferenceInNumber(current, previous);
-  if (previous === 0 && current === 0) return 0;
-  if (previous === 0) return 100;
-  const payload =
-    totalDifference === 0
-      ? 0
-      : Number((totalDifference / Number(previous)) * 100).toFixed(2);
-  return isNaN(payload) ? 0 : payload;
-};
-
 const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
 
@@ -1228,7 +1212,7 @@ const DataDisplaySKUTable = (props) => {
     previousData.itemized,
     !!comparisons.yoy.length ? comparisons.yoy[0].itemized : [],
     pop[0],
-    comparisons.yoy[0] ? comparisons.yoy[0].summary : null
+    comparisons.yoy[0] ? comparisons.yoy[0] : null
   );
 
   const filterSKUData = allSKUData.sort((a, b) => {
