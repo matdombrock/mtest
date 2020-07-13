@@ -226,9 +226,15 @@ class UpperControls extends Component {
                 : selectedDateRange === "currentMonth"
                   ? "current-month"
                   : "yesterday";
+
+    const setPeriodDataForSKU = () => {
+      data.period_count = 1
+      return data
+    }
+
     if (activeTab === 2) {
       brand &&
-        fetchSalesData(data)
+        fetchSalesData(setPeriodDataForSKU())
           .then((data) => {
             if (!data) throw Object.assign(new Error("Error"), { code: 402 });
             if (data.status !== 200) {
@@ -237,50 +243,34 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
-              payload.periods = data?.periods?.map((d) => ({
+              payload.periods = data?.data?.periods?.map((d) => ({
                 ...d,
                 summary: {
-                  ...d.summary,
-                  acos: d.summary.ad_sales
-                    ? (d.summary.ad_spend / d.summary.ad_sales) * 100
-                    : 0,
-                  average_cpc: d.summary.ad_clicks
-                    ? d.summary.ad_spend / d.summary.ad_clicks
-                    : 0,
-                  average_selling_price: d.summary.units_sold
-                    ? d.summary.ad_sales / d.summary.units_sold
-                    : 0
+                  ...d?.summary,
+                  acos: d?.summary?.acos,
+                  average_cpc: d?.summary?.averageg_cpc,
+                  average_selling_price: d?.summary?.average_selling_price
                 },
                 itemized: d.itemized.map((o) => ({
                   ...o,
-                  acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
-                  average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
-                  average_selling_price: o.units_sold
-                    ? o.ad_sales / o.units_sold
-                    : 0
+                  acos: o?.acos,
+                  average_cpc: o?.average_cpc,
+                  average_selling_price: o?.average_selling_price
                 })),
               }));
-              payload.yoy = data?.yoy?.map((d) => ({
+              payload.yoy = data?.data?.yoy?.map((d) => ({
                 ...d,
                 summary: {
-                  ...d.summary,
-                  acos: d.summary.ad_sales
-                    ? (d.summary.ad_spend / d.summary.ad_sales) * 100
-                    : 0,
-                  average_cpc: d.summary.ad_clicks
-                    ? d.summary.ad_spend / d.summary.ad_clicks
-                    : 0,
-                  average_selling_price: d.summary.units_sold
-                    ? d.summary.ad_sales / d.summary.units_sold
-                    : 0
+                  ...d?.summary,
+                  acos: d?.summary?.acos,
+                  average_cpc: d?.summary?.average_cpc,
+                  average_selling_price: d?.summary?.average_selling_price
                 },
-                itemized: d.itemized.map((o) => ({
+                itemized: d?.itemized?.map((o) => ({
                   ...o,
-                  acos: o.ad_sales ? (o.ad_spend / o.ad_sales) * 100 : 0,
-                  average_cpc: o.ad_clicks ? o.ad_spend / o.ad_clicks : 0,
-                  average_selling_price: o.units_sold
-                    ? o.ad_sales / o.units_sold
-                    : 0
+                  acos: o?.acos,
+                  average_cpc: o?.averageg_cpc,
+                  average_selling_price: o?.average_selling_price
                 })),
               }));
 
