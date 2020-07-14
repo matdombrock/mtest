@@ -645,7 +645,7 @@ class UpperControls extends Component {
       <>
         <div className={s.controlsContainer}>
           <Grid container style={{ paddingLeft: '30px', paddingRight: '30px' }}>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <a href='/'>
                 <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
               </a>
@@ -664,7 +664,7 @@ class UpperControls extends Component {
                   )}
               </p>
             </Grid>
-            <Grid item xs={6} className={[s.gridItem, s["menu-container"]]} >
+            <Grid item xs={5} className={[s.gridItem, s["menu-container"]]} >
               <div className={s["position-relative"]} >
                 <div
                   onClick={() =>
