@@ -953,27 +953,7 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
       yoyCharge: yoyTotal.acos.percentage,
     },
   };
-
-  props.map(({ current, previous, change, charge, yoy, yoyCharge, yoySKU }) => {
-    temp.asp.previous = temp.asp.previous + (previous?.asp || 0);
-    temp.units_per_order.previous = temp.units_per_order.previous + (previous?.units_per_order || 0);
-    temp.orders.previous = temp.orders.previous + (previous?.orders || 0);
-    temp.ad_spend.previous = temp.ad_spend.previous + (previous?.ad_spend || 0);
-    temp.ad_orders.previous = temp.ad_orders.previous + (previous?.ad_orders || 0);
-    temp.conversion_rate.previous = temp.conversion_rate.previous + (previous?.conversion_rate || 0);
-    temp.acos.previous = temp.acos.previous + (previous?.acos || 0);
-    temp.ad_sales.previous = temp.ad_sales.previous + (previous?.ad_sales || 0);
-    temp.sales.previous = temp.sales.previous + (previous?.sales || 0);
-    temp.units_sold.previous = temp.units_sold.previous + (previous?.units_sold || 0);
-    temp.shipped_cogs.previous = temp.shipped_cogs.previous + (previous?.shipped_cogs || 0);
-    temp.ad_clicks.previous = temp.ad_clicks.previous + (previous?.ad_clicks || 0);
-    temp.ad_impressions.previous = temp.ad_impressions.previous + (previous?.ad_impressions || 0);
-    temp.average_cpc.previous = temp.average_cpc.previous + (previous?.average_cpc || 0);
-    temp.percent_total_sales.previous = temp.percent_total_sales.previous + (previous?.percent_total_sales || 0);
-
-    return false;
-  });
-
+  
   return temp;
 };
 
