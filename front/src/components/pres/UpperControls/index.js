@@ -650,7 +650,7 @@ class UpperControls extends Component {
                 <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
               </a>
             </Grid>
-            <Grid item xs={5} className={s.gridItem} style={{ paddingLeft: '100px' }}>
+            <Grid item xs={5} className={s.gridItem}>
               <p className={s.dashboardLabel}>
                 {" "}
                 {this.props.activeTab === 0 ? (
