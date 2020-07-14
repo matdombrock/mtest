@@ -1067,7 +1067,7 @@ const DataDisplayItemizedTable = (props) => {
       >
         <DownloadCSVButton />
       </CSVLink>
-      <div className={s.noBoxShadow + " fixed-header-table"}>
+      <div className={s.noBoxShadow + " fixed-header-table table-scroll"}>
         <table aria-label="simple table">
           <thead>
             <tr>

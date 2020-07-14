@@ -646,7 +646,9 @@ class UpperControls extends Component {
         <div className={s.controlsContainer}>
           <Grid container style={{ paddingLeft: '30px', paddingRight: '30px' }}>
             <Grid item xs={1}>
-              <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
+              <a href='/'>
+                <img className={s.modaLogo} src='/img/logo.png' alt='moda logo' />
+              </a>
             </Grid>
             <Grid item xs={5} className={s.gridItem} style={{ paddingLeft: '100px' }}>
               <p className={s.dashboardLabel}>
