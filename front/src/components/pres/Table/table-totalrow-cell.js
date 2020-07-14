@@ -14,15 +14,15 @@ const TableTotalRowCell = ({cellData, isComparisons, isActive, isYoY}) => {
         </td>
 
         <td align="right">
-            { previous ? "$" + numberWithCommas(previous) : "N/A" }
+            { previous ? "$" + numberWithCommas(previous) : "" }
         </td>
 
         <td align="right">
-            {change ? "$" + numberWithCommas(change) : "N/A"}
+            {change ? "$" + numberWithCommas(change) : ""}
         </td>
 
         <td align="right">
-            { charge ? numberWithCommas(charge) + "%" : "N/A"}
+            { charge ? numberWithCommas(charge) + "%" : ""}
         </td>
 
         {isYoY && (

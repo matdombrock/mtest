@@ -17,6 +17,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
 import moment from 'moment'
 import DownloadCSVButton from './../../common/downloadCSVButton'
+import TableTotalRowCell from './../Table/table-totalrow-cell';
 
 const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
   const finalData = [];
@@ -1055,343 +1056,134 @@ const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], fir
     .filter((d) => d);
 };
 
-const getFrontendFormattedTotal = (props) => {
+const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
+  
   const temp = {
     orders: {
-      current: 0,
+      current: currentTotal.orders,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.orders.number,
+      yoyCharge: yoyTotal.orders.percentage,
     },
     units_per_order: {
-      current: 0,
+      current: currentTotal.units_per_order,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.units_per_order.number,
+      yoyCharge: yoyTotal.units_per_order.percentage,
     },
     asp: {
-      current: 0,
+      current: currentTotal.asp,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.asp.number,
+      yoyCharge: yoyTotal.asp.percentage,
     },
     sales: {
-      current: 0,
+      current: currentTotal.sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.sales.number,
+      yoyCharge: yoyTotal.sales.percentage,
     },
     units_sold: {
-      current: 0,
+      current: currentTotal.units_sold,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.units_sold.number,
+      yoyCharge: yoyTotal.units_sold.percentage,
     },
 
     shipped_cogs: {
-      current: 0,
+      current: currentTotal.shipped_cogs,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.shipped_cogs.number,
+      yoyCharge: yoyTotal.shipped_cogs.percentage,
     },
 
     average_cpc: {
-      current: 0,
+      current: currentTotal.avg_cpc,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.avg_cpc.number,
+      yoyCharge: yoyTotal.avg_cpc.percentage,
     },
     ad_impressions: {
-      current: 0,
+      current: currentTotal.ad_impressions,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.ad_impressions.number,
+      yoyCharge: yoyTotal.ad_impressions.percentage,
     },
     ad_clicks: {
-      current: 0,
+      current: currentTotal.ad_clicks,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.ad_clicks.number,
+      yoyCharge: yoyTotal.ad_clicks.percentage,
     },
     ad_spend: {
-      current: 0,
+      current: currentTotal.ad_spend,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.ad_spend.number,
+      yoyCharge: yoyTotal.ad_spend.percentage,
     },
     ad_orders: {
-      current: 0,
+      current: currentTotal.ad_orders,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.ad_orders.number,
+      yoyCharge: yoyTotal.ad_orders.percentage,
     },
     ad_sales: {
-      current: 0,
+      current: currentTotal.ad_sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.ad_sales.number,
+      yoyCharge: yoyTotal.ad_sales.percentage,
     },
     percent_total_sales: {
-      current: 0,
+      current: currentTotal.percent_total_sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.percent_total_sales.number,
+      yoyCharge: yoyTotal.percent_total_sales.percentage,
     },
     conversion_rate: {
-      current: 0,
+      current: currentTotal.conversion_rate,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.conversion_rate.number,
+      yoyCharge: yoyTotal.conversion_rate.percentage,
     },
     acos: {
-      current: 0,
+      current: currentTotal.acos,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
+      yoy: yoyTotal.acos.number,
+      yoyCharge: yoyTotal.acos.percentage,
     },
   };
 
-  props.map(({ current, previous, change, charge, yoy, yoyCharge, yoySKU }) => {
-    temp.orders = {
-      current: temp.orders.current + (current?.orders || 0),
-      previous: temp.orders.previous + (previous?.orders || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.orders.yoy + (yoy?.orders || 0),
-      yoyCharge: temp.orders.yoyCharge + (yoyCharge?.orders || 0),
-    };
-    temp.units_per_order = {
-      current: temp.units_per_order.current + (current?.units_per_order || 0),
-      previous: temp.units_per_order.previous + (previous?.units_per_order || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.units_per_order.yoy + (yoy?.units_per_order || 0),
-      yoyCharge: temp.units_per_order.yoyCharge + (yoyCharge?.units_per_order || 0),
-    };
-    temp.asp = {
-      current: temp.asp.current + (current?.asp || 0),
-      previous: temp.asp.previous + (previous?.asp || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.asp.yoy + (yoy?.asp || 0),
-      yoyCharge: temp.asp.yoyCharge + (yoyCharge?.asp || 0),
-    };
-    temp.ad_spend = {
-      current: temp.ad_spend.current + (current?.ad_spend || 0),
-      previous: temp.ad_spend.previous + (previous?.ad_spend || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.ad_spend.yoy + (yoy?.ad_spend || 0),
-      yoyCharge: temp.ad_spend.yoyCharge + (yoyCharge?.ad_spend || 0),
-    };
-    temp.ad_orders = {
-      current: temp.ad_orders.current + (current?.ad_orders || 0),
-      previous: temp.ad_orders.previous + (previous?.ad_orders || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.ad_orders.yoy + (yoy?.ad_orders || 0),
-      yoyCharge: temp.ad_orders.yoyCharge + (yoyCharge?.ad_orders || 0),
-    };
-    temp.conversion_rate = {
-      current: temp.conversion_rate.current + (current?.conversion_rate || 0),
-      previous:
-        temp.conversion_rate.previous + (previous?.conversion_rate || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.conversion_rate.yoy + (yoy?.conversion_rate || 0),
-      yoyCharge:
-        temp.conversion_rate.yoyCharge + (yoyCharge?.conversion_rate || 0),
-    };
-    temp.acos = {
-      current: temp.acos.current + (current?.acos || 0),
-      previous: temp.acos.previous + (previous?.acos || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.acos.yoy + (yoy?.acos || 0),
-      yoyCharge: temp.acos.yoyCharge + (yoyCharge?.acos || 0),
-    };
-    temp.ad_sales = {
-      current: temp.ad_sales.current + (current?.ad_sales || 0),
-      previous: temp.ad_sales.previous + (previous?.ad_sales || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.ad_sales.yoy + (yoy?.ad_sales || 0),
-      yoyCharge: temp.ad_sales.yoyCharge + (yoyCharge?.ad_sales || 0),
-    };
-    temp.sales = {
-      current: temp.sales.current + (current?.sales || 0),
-      previous: temp.sales.previous + (previous?.sales || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.sales.yoy + (yoy?.sales || 0),
-      yoyCharge: temp.sales.yoyCharge + (yoyCharge?.sales || 0),
-    };
-    temp.units_sold = {
-      current: temp.units_sold.current + (current?.units_sold || 0),
-      previous: temp.units_sold.previous + (previous?.units_sold || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.units_sold.yoy + (yoy?.units_sold || 0),
-      yoyCharge: temp.units_sold.yoyCharge + (yoyCharge?.units_sold || 0),
-    };
-    temp.shipped_cogs = {
-      current: temp.shipped_cogs.current + (current?.shipped_cogs || 0),
-      previous: temp.shipped_cogs.previous + (previous?.shipped_cogs || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.shipped_cogs.yoy + (yoy?.shipped_cogs || 0),
-      yoyCharge: temp.shipped_cogs.yoyCharge + (yoyCharge?.shipped_cogs || 0),
-    };
-    temp.ad_clicks = {
-      current: temp.ad_clicks.current + (current?.ad_clicks || 0),
-      previous: temp.ad_clicks.previous + (previous?.ad_clicks || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.ad_clicks.yoy + (yoy?.ad_clicks || 0),
-      yoyCharge: temp.ad_clicks.yoyCharge + (yoyCharge?.ad_clicks || 0),
-    };
-    temp.ad_impressions = {
-      current: temp.ad_impressions.current + (current?.ad_impressions || 0),
-      previous: temp.ad_impressions.previous + (previous?.ad_impressions || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.ad_impressions.yoy + (yoy?.ad_impressions || 0),
-      yoyCharge:
-        temp.ad_impressions.yoyCharge + (yoyCharge?.ad_impressions || 0),
-    };
-    temp.average_cpc = {
-      current: temp.average_cpc.current + (current?.average_cpc || 0),
-      previous: temp.average_cpc.previous + (previous?.average_cpc || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.average_cpc.yoy + (yoy?.average_cpc || 0),
-      yoyCharge: temp.average_cpc.yoyCharge + (yoyCharge?.average_cpc || 0),
-    };
-    temp.percent_total_sales = {
-      current:
-        temp.percent_total_sales.current + (current?.percent_total_sales || 0),
-      previous:
-        temp.percent_total_sales.previous +
-        (previous?.percent_total_sales || 0),
-      change: 0,
-      charge: 0,
-      yoy: temp.percent_total_sales.yoy + (yoy?.percent_total_sales || 0),
-      yoyCharge:
-        temp.percent_total_sales.yoyCharge +
-        (yoyCharge?.percent_total_sales || 0),
-    };
-    return false;
-  });
-
-  temp.asp.charge = getDifferenceInPercentage(temp.asp.current, temp.asp.previous);
-  temp.asp.yoyCharge = temp.asp.yoyCharge / props.length;
-
-  temp.units_per_order.charge = getDifferenceInPercentage(temp.units_per_order.current, temp.units_per_order.previous);
-  temp.units_per_order.yoyCharge = temp.units_per_order.yoyCharge / props.length;
-
-  temp.orders.charge = getDifferenceInPercentage(temp.orders.current, temp.orders.previous);
-  temp.orders.yoyCharge = temp.orders.yoyCharge / props.length;
-
-  temp.ad_spend.charge = getDifferenceInPercentage(temp.ad_spend.current, temp.ad_spend.previous);
-  temp.ad_spend.yoyCharge = temp.ad_spend.yoyCharge / props.length;
-
-  temp.ad_orders.charge = getDifferenceInPercentage(temp.ad_orders.current, temp.ad_orders.previous);
-  temp.ad_orders.yoyCharge = temp.ad_orders.yoyCharge / props.length;
-
-  temp.conversion_rate.current = temp.conversion_rate.current / props.length;
-  temp.conversion_rate.previous = temp.conversion_rate.previous / props.length;
-  temp.conversion_rate.change = temp.conversion_rate.change / props.length;
-  temp.conversion_rate.yoy = temp.conversion_rate.yoy / props.length;
-  temp.conversion_rate.charge = getDifferenceInPercentage(temp.conversion_rate.current, temp.conversion_rate.previous);
-  temp.conversion_rate.yoyCharge =
-    temp.conversion_rate.yoyCharge / props.length;
-
-  temp.acos.current = temp.acos.current / props.length;
-  temp.acos.previous = temp.acos.previous / props.length;
-  temp.acos.change = temp.acos.change / props.length;
-  temp.acos.yoy = temp.acos.yoy / props.length;
-  temp.acos.charge = getDifferenceInPercentage(temp.acos.current, temp.acos.previous);
-  temp.acos.yoyCharge = temp.acos.yoyCharge / props.length;
-
-  temp.ad_sales.charge = getDifferenceInPercentage(temp.ad_sales.current, temp.ad_sales.previous);
-  temp.ad_sales.yoyCharge = temp.ad_sales.yoyCharge / props.length;
-
-  temp.sales.charge = getDifferenceInPercentage(temp.sales.current, temp.sales.previous);
-  temp.sales.yoyCharge = temp.sales.yoyCharge / props.length;
-
-  temp.units_sold.charge = getDifferenceInPercentage(temp.units_sold.current, temp.units_sold.previous);
-  temp.units_sold.yoyCharge = temp.units_sold.yoyCharge / props.length;
-
-  temp.shipped_cogs.charge = getDifferenceInPercentage(temp.shipped_cogs.current, temp.shipped_cogs.previous);
-  temp.shipped_cogs.yoyCharge = temp.shipped_cogs.yoyCharge / props.length;
-
-  temp.ad_clicks.charge = getDifferenceInPercentage(temp.ad_clicks.current, temp.ad_clicks.previous);
-  temp.ad_clicks.yoyCharge = temp.ad_clicks.yoyCharge / props.length;
-
-  temp.ad_impressions.charge = getDifferenceInPercentage(temp.ad_impressions.current, temp.ad_impressions.previous);
-  temp.ad_impressions.yoyCharge = temp.ad_impressions.yoyCharge / props.length;
-
-  temp.average_cpc.current = temp.average_cpc.current / props.length;
-  temp.average_cpc.previous = temp.average_cpc.previous / props.length;
-  temp.average_cpc.change = temp.average_cpc.change / props.length;
-  temp.average_cpc.yoy = temp.average_cpc.yoy / props.length;
-  temp.average_cpc.charge = getDifferenceInPercentage(temp.average_cpc.current, temp.average_cpc.previous);
-  temp.average_cpc.yoyCharge = temp.average_cpc.yoyCharge / props.length;
-
-  temp.percent_total_sales.current = temp.percent_total_sales.current / props.length;
-  temp.percent_total_sales.previous = temp.percent_total_sales.previous / props.length;
-  temp.percent_total_sales.change = temp.percent_total_sales.change / props.length;
-  temp.percent_total_sales.yoy = temp.percent_total_sales.yoy / props.length;
-  temp.percent_total_sales.charge = getDifferenceInPercentage(temp.percent_total_sales.current, temp.percent_total_sales.previous);
-  temp.percent_total_sales.yoyCharge = temp.percent_total_sales.yoyCharge / props.length;
-
   return temp;
-};
-
-const getDifferenceInNumber = (current, previous) => {
-  let payload = Number(current - previous).toFixed(2);
-  return isNaN(payload) ? 0 : Number(payload);
-};
-
-const getDifferenceInPercentage = (current, previous) => {
-  const totalDifference = getDifferenceInNumber(current, previous);
-  if (previous === 0 && current === 0) return 0;
-  if (previous === 0) return 100;
-  const payload =
-    totalDifference === 0
-      ? 0
-      : Number((totalDifference / Number(previous)) * 100).toFixed(2);
-  return isNaN(payload) ? 0 : payload;
 };
 
 const isNegative = (value) =>
@@ -1417,7 +1209,7 @@ const DataDisplaySKUTable = (props) => {
     previousData?.itemized,
     !!comparisons.yoy.length ? comparisons.yoy[0].itemized : [],
     pop[0],
-    comparisons.yoy[0] ? comparisons.yoy[0].summary : null
+    comparisons.yoy[0] ? comparisons.yoy[0] : null
   );
 
   const filterSKUData = allSKUData.sort((a, b) => {
@@ -1500,7 +1292,10 @@ const DataDisplaySKUTable = (props) => {
     setSortBy(sortBy || active);
     setSortByInner(columnId);
   };
-  const totalOfData = getFrontendFormattedTotal(filterSKUData);
+
+  const yoyTotal = comparisons.totals[0];
+  const currentTotal = props.data.data.totals.periods;
+  const totalOfData = getFrontendFormattedTotal(filterSKUData, yoyTotal, currentTotal);
 
   return (
     <>
