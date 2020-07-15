@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { actions as salesActions } from "../../../modules/sales";
+import { actions as dashboardActions } from "../../../modules/dashboardReducer";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import UpperControls from "../../pres/UpperControls";
 import DataDisplayCardGrid from "../../pres/DataDisplayCardGrid";
 import DataDisplayItemizedTable from "../../pres/DataDisplayItemizedTable";
 import DashboardNavigator from "../../pres/DashboardNavigator";
-import TopBanner from './../../pres/TopBanner/topBanner';
 import Grid from "@material-ui/core/Grid";
 import Charts from "../../pres/Charts";
 import ChartsV2 from "../../pres/ChartsV2";
@@ -27,7 +26,12 @@ class Dashboard extends Component {
     comparisonStartDate: null,
     comparisonEndDate: null,
   };
-  handleTabChange = (activeTab) => this.setState({ activeTab });
+
+  handleTabChange = (activeTab) => {
+    this.setState({ activeTab });
+    this.props.setDashboardTab({activeTab:activeTab});
+  };
+
   setError = (isError) => this.setState({ isError });
   setDates = (
     startDate,
@@ -42,6 +46,7 @@ class Dashboard extends Component {
       comparisonStartDate,
     });
   render() {
+    
     const {
       sales: { active, comparisons, skuActive, isLoading },
     } = this.props;
@@ -49,14 +54,8 @@ class Dashboard extends Component {
     const { activeTab, isError, startDate, endDate } = this.state;
     return (
       <>
-        <TopBanner />
         <div className={s.container}>
-
-          <UpperControls
-            activeTab={activeTab}
-            setError={this.setError}
-            setDates={this.setDates}
-          />
+          
           <Grid container className={s.gridContainer}>
             <Grid item className={s.item} xs={12}>
               <DashboardNavigator
@@ -70,10 +69,6 @@ class Dashboard extends Component {
               </Grid>
             ) : (
                 <Grid item xs={12} id="#report" className={s.inner}>
-                  {
-                    isError &&
-                    <Alert severity="warning">{isError}</Alert>
-                  }
                   {
                     activeTab === 0 ?
                       active && !!active.periods && !!active.periods.length ?
@@ -133,6 +128,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       ...salesActions,
+      ...dashboardActions
     },
     dispatch
   );
