@@ -10,6 +10,8 @@ import store from "./store";
 import "./colors.css";
 import "./global.css";
 import importProducts from "./components/page/importProducts"
+import TopBanner from './components/pres/TopBanner/topBanner';
+import UpperControls from "./components/pres/UpperControls";
 
 const history = createHistory();
 
@@ -37,13 +39,17 @@ class App extends Component {
       <Provider store={store}>
         <Router history={history} basename={"/"}>
           <React.Fragment>
-            <Route exact path={"/login"} component={Login} />
-            <Route exact path={"/manage-users"} component={ManageUsers} />
-            <Route exact path={"/import"} component={importProducts} />
-            {
-              this.state.isAuthenticated &&
+          <Route exact path={"/login"} component={Login} />
+          {
+            this.state.isAuthenticated &&
+            <>
+              <TopBanner />
+              <UpperControls/>
+              <Route exact path={"/manage-users"} component={ManageUsers} />
+              <Route exact path={"/import"} component={importProducts} />
               <Route exact path={"/"} component={Dashboard} />
-            }
+            </>
+          }
           </React.Fragment>
         </Router>
       </Provider>
