@@ -23,12 +23,12 @@ const DataDisplayCardGrid = (props) => {
 
       if (currentPeriodData && previousPeriodData) {
         const pop = {
-          sales: sales.percentage,
-          units_sold: units_sold.percentage,
-          shipped_cogs: shipped_cogs.percentage,
-          ad_spend: ad_spend.percentage,
-          ad_sales: ad_sales.percentage,
-          acos: acos.percentage
+          sales: sales?.percentage,
+          units_sold: units_sold?.percentage,
+          shipped_cogs: shipped_cogs?.percentage,
+          ad_spend: ad_spend?.percentage,
+          ad_sales: ad_sales?.percentage,
+          acos: acos?.percentage
         }
         setPeriodOverPeriodData(pop)
       }

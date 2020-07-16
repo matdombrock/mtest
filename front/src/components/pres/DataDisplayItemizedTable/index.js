@@ -53,45 +53,45 @@ const convertToFrontendReadyFormat = ({ periods }, yoy, pop) => {
         };
 
     const change = {
-      asp: _pop?.asp.number?.toFixed(2) ?? 0,
-      units_per_order: _pop?.units_per_order.number?.toFixed(2) ?? 0,
-      orders: _pop?.orders.number?.toFixed(2) ?? 0,
-      acos: _pop?.acos.number?.toFixed(2) ?? 0,
-      ad_clicks: _pop?.ad_clicks.number?.toFixed(2) ?? 0,
-      ad_impressions: _pop?.ad_impressions.number?.toFixed(2) ?? 0,
-      ad_orders: _pop?.ad_orders.number?.toFixed(2) ?? 0,
-      ad_sales: _pop?.ad_sales.number?.toFixed(2) ?? 0,
-      ad_spend: _pop?.ad_spend.number?.toFixed(2) ?? 0,
+      asp: _pop?.asp?.number?.toFixed(2) ?? 0,
+      units_per_order: _pop?.units_per_order?.number?.toFixed(2) ?? 0,
+      orders: _pop?.orders?.number?.toFixed(2) ?? 0,
+      acos: _pop?.acos?.number?.toFixed(2) ?? 0,
+      ad_clicks: _pop?.ad_clicks?.number?.toFixed(2) ?? 0,
+      ad_impressions: _pop?.ad_impressions?.number?.toFixed(2) ?? 0,
+      ad_orders: _pop?.ad_orders?.number?.toFixed(2) ?? 0,
+      ad_sales: _pop?.ad_sales?.number?.toFixed(2) ?? 0,
+      ad_spend: _pop?.ad_spend?.number?.toFixed(2) ?? 0,
       asin: "N/A",
-      average_cpc: _pop?.avg_cpc.number?.toFixed(2) ?? 0,
-      conversion_rate: _pop?.conversion_rate.number?.toFixed(2) ?? 0,
+      average_cpc: _pop?.avg_cpc?.number?.toFixed(2) ?? 0,
+      conversion_rate: _pop?.conversion_rate?.number?.toFixed(2) ?? 0,
       item_number: "N/A",
-      percent_total_sales: _pop?.percent_total_sales.number?.toFixed(2) ?? 0,
-      sales: _pop?.sales.number?.toFixed(2) ?? 0,
-      shipped_cogs: _pop?.shipped_cogs.number?.toFixed(2) ?? 0,
+      percent_total_sales: _pop?.percent_total_sales?.number?.toFixed(2) ?? 0,
+      sales: _pop?.sales?.number?.toFixed(2) ?? 0,
+      shipped_cogs: _pop?.shipped_cogs?.number?.toFixed(2) ?? 0,
       sku: "N/A",
-      units_sold: _pop?.units_sold.number?.toFixed(2) ?? 0,
+      units_sold: _pop?.units_sold?.number?.toFixed(2) ?? 0,
     };
 
     const charge = {
-      asp: _pop?.asp.percentage?.toFixed(2) ?? 0,
-      units_per_order: _pop?.units_per_order.percentage?.toFixed(2) ?? 0,
-      orders: _pop?.orders.percentage?.toFixed(2) ?? 0,
-      acos: _pop?.acos.percentage?.toFixed(2) ?? 0,
-      ad_clicks: _pop?.ad_clicks.percentage?.toFixed(2) ?? 0,
-      ad_impressions: _pop?.ad_impressions.percentage?.toFixed(2) ?? 0,
-      ad_orders: _pop?.ad_orders.percentage?.toFixed(2) ?? 0,
-      ad_sales: _pop?.ad_sales.percentage?.toFixed(2) ?? 0,
-      ad_spend: _pop?.ad_spend.percentage?.toFixed(2) ?? 0,
+      asp: _pop?.asp?.percentage?.toFixed(2) ?? 0,
+      units_per_order: _pop?.units_per_order?.percentage?.toFixed(2) ?? 0,
+      orders: _pop?.orders?.percentage?.toFixed(2) ?? 0,
+      acos: _pop?.acos?.percentage?.toFixed(2) ?? 0,
+      ad_clicks: _pop?.ad_clicks?.percentage?.toFixed(2) ?? 0,
+      ad_impressions: _pop?.ad_impressions?.percentage?.toFixed(2) ?? 0,
+      ad_orders: _pop?.ad_orders?.percentage?.toFixed(2) ?? 0,
+      ad_sales: _pop?.ad_sales?.percentage?.toFixed(2) ?? 0,
+      ad_spend: _pop?.ad_spend?.percentage?.toFixed(2) ?? 0,
       asin: "N/A",
-      average_cpc: _pop?.avg_cpc.percentage?.toFixed(2) ?? 0,
-      conversion_rate: _pop?.conversion_rate.percentage?.toFixed(2) ?? 0,
+      average_cpc: _pop?.avg_cpc?.percentage?.toFixed(2) ?? 0,
+      conversion_rate: _pop?.conversion_rate?.percentage?.toFixed(2) ?? 0,
       item_number: "N/A",
-      percent_total_sales: _pop?.percent_total_sales.percentage?.toFixed(2) ?? 0,
-      sales: _pop?.sales.percentage?.toFixed(2) ?? 0,
-      shipped_cogs: _pop?.shipped_cogs.percentage?.toFixed(2) ?? 0,
+      percent_total_sales: _pop?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
+      sales: _pop?.sales?.percentage?.toFixed(2) ?? 0,
+      shipped_cogs: _pop?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
       sku: "N/A",
-      units_sold: _pop?.units_sold.percentage?.toFixed(2) ?? 0,
+      units_sold: _pop?.units_sold?.percentage?.toFixed(2) ?? 0,
     };
 
     const yoyChange = {
@@ -955,7 +955,7 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
       yoyCharge: yoyTotal.acos.percentage,
     },
   };
-  
+
   return temp;
 };
 
@@ -1696,97 +1696,97 @@ const DataDisplayItemizedTable = (props) => {
                           </b>
                         </td>
                       )}
-                      
-                  <TableCell current={current.sales} previous={previous.sales} change={change.sales} charge={charge.sales} 
-                    yoy={yoy.sales} yoyCharge={yoyCharge.sales} 
-                    isComparisons={isComparisons} isActive={active===1} isYoY={isYoY}>
-                  </TableCell>
-                  <TableCell current={current.shipped_cogs} previous={previous.shipped_cogs} change={change.shipped_cogs} charge={charge.shipped_cogs} 
-                    yoy={yoy.shipped_cogs} yoyCharge={yoyCharge.shipped_cogs} 
-                    isComparisons={isComparisons} isActive={active===2} isYoY={isYoY}>
-                  </TableCell>
-                  <TableCell current={current.orders} previous={previous.orders} change={change.orders} charge={charge.orders} 
-                    yoy={yoy.orders} yoyCharge={yoyCharge.orders} 
-                    isComparisons={isComparisons} isActive={active===3} isYoY={isYoY}>
-                  </TableCell>
-                  <TableCell current={current.units_sold} previous={previous.units_sold} change={change.units_sold} charge={charge.units_sold} 
-                    yoy={yoy.units_sold} yoyCharge={yoyCharge.units_sold} 
-                    isComparisons={isComparisons} isActive={active===4} isYoY={false}>
-                  </TableCell>     
-                  <TableCell current={current.units_per_order} previous={previous.units_per_order} change={change.units_per_order} charge={charge.units_per_order} 
-                    yoy={yoy.units_per_order} yoyCharge={yoyCharge.units_per_order} 
-                    isComparisons={isComparisons} isActive={active===5} isYoY={false}>
-                  </TableCell>  
-                  <TableCell current={current.asp} previous={previous.asp} change={change.asp} charge={charge.asp} 
-                    yoy={yoy.asp} yoyCharge={yoyCharge.asp} 
-                    isComparisons={isComparisons} isActive={active===6} isYoY={false}>
-                  </TableCell> 
-                  <TableCell current={current.ad_impressions} previous={previous.ad_impressions} change={change.ad_impressions} charge={charge.ad_impressions} 
-                    yoy={yoy.ad_impressions} yoyCharge={yoyCharge.ad_impressions} 
-                    isComparisons={isComparisons} isActive={active===7} isYoY={isYoY}>
-                  </TableCell>
-                  <TableCell current={current.ad_clicks} previous={previous.ad_clicks} change={change.ad_clicks} charge={charge.ad_clicks} 
-                    yoy={yoy.ad_clicks} yoyCharge={yoyCharge.ad_clicks} 
-                    isComparisons={isComparisons} isActive={active===8} isYoY={false}>
-                  </TableCell> 
-                  <TableCell current={current.average_cpc} previous={previous.average_cpc} change={change.average_cpc} charge={charge.average_cpc} 
-                    yoy={yoy.average_cpc} yoyCharge={yoyCharge.average_cpc} 
-                    isComparisons={isComparisons} isActive={active===9} isYoY={false}>
-                  </TableCell> 
-                  <TableCell current={current.ad_spend} previous={previous.ad_spend} change={change.ad_spend} charge={charge.ad_spend} 
-                    yoy={yoy.ad_spend} yoyCharge={yoyCharge.ad_spend} 
-                    isComparisons={isComparisons} isActive={active===10} isYoY={false}>
-                  </TableCell> 
-                  <TableCell current={current.ad_orders} previous={previous.ad_orders} change={change.ad_orders} charge={charge.ad_orders} 
-                    yoy={yoy.ad_orders} yoyCharge={yoyCharge.ad_orders} 
-                    isComparisons={isComparisons} isActive={active===11} isYoY={false}>
-                  </TableCell>
-                  <TableCell current={current.ad_sales} previous={previous.ad_sales} change={change.ad_sales} charge={charge.ad_sales} 
-                    yoy={yoy.ad_sales} yoyCharge={yoyCharge.ad_sales} 
-                    isComparisons={isComparisons} isActive={active===12} isYoY={false}>
-                  </TableCell>
-                  <TableCell current={current.percent_total_sales} previous={previous.percent_total_sales} change={change.percent_total_sales} charge={charge.percent_total_sales} 
-                    yoy={yoy.percent_total_sales} yoyCharge={yoyCharge.percent_total_sales} 
-                    isComparisons={isComparisons} isActive={active===13} isYoY={false}>
-                  </TableCell>
-                  <TableCell current={current.conversion_rate} previous={previous.conversion_rate} change={change.conversion_rate} charge={charge.conversion_rate} 
-                    yoy={yoy.conversion_rate} yoyCharge={yoyCharge.conversion_rate} 
-                    isComparisons={isComparisons} isActive={active===14} isYoY={false}>
-                  </TableCell>
-                  <TableCell current={current.acos} previous={previous.acos} change={change.acos} charge={charge.acos} 
-                    yoy={yoy.acos} yoyCharge={yoyCharge.acos} 
-                    isComparisons={isComparisons} isActive={active===15} isYoY={false}>
-                  </TableCell>
+
+                    <TableCell current={current.sales} previous={previous.sales} change={change.sales} charge={charge.sales}
+                      yoy={yoy.sales} yoyCharge={yoyCharge.sales}
+                      isComparisons={isComparisons} isActive={active === 1} isYoY={isYoY}>
+                    </TableCell>
+                    <TableCell current={current.shipped_cogs} previous={previous.shipped_cogs} change={change.shipped_cogs} charge={charge.shipped_cogs}
+                      yoy={yoy.shipped_cogs} yoyCharge={yoyCharge.shipped_cogs}
+                      isComparisons={isComparisons} isActive={active === 2} isYoY={isYoY}>
+                    </TableCell>
+                    <TableCell current={current.orders} previous={previous.orders} change={change.orders} charge={charge.orders}
+                      yoy={yoy.orders} yoyCharge={yoyCharge.orders}
+                      isComparisons={isComparisons} isActive={active === 3} isYoY={isYoY}>
+                    </TableCell>
+                    <TableCell current={current.units_sold} previous={previous.units_sold} change={change.units_sold} charge={charge.units_sold}
+                      yoy={yoy.units_sold} yoyCharge={yoyCharge.units_sold}
+                      isComparisons={isComparisons} isActive={active === 4} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.units_per_order} previous={previous.units_per_order} change={change.units_per_order} charge={charge.units_per_order}
+                      yoy={yoy.units_per_order} yoyCharge={yoyCharge.units_per_order}
+                      isComparisons={isComparisons} isActive={active === 5} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.asp} previous={previous.asp} change={change.asp} charge={charge.asp}
+                      yoy={yoy.asp} yoyCharge={yoyCharge.asp}
+                      isComparisons={isComparisons} isActive={active === 6} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.ad_impressions} previous={previous.ad_impressions} change={change.ad_impressions} charge={charge.ad_impressions}
+                      yoy={yoy.ad_impressions} yoyCharge={yoyCharge.ad_impressions}
+                      isComparisons={isComparisons} isActive={active === 7} isYoY={isYoY}>
+                    </TableCell>
+                    <TableCell current={current.ad_clicks} previous={previous.ad_clicks} change={change.ad_clicks} charge={charge.ad_clicks}
+                      yoy={yoy.ad_clicks} yoyCharge={yoyCharge.ad_clicks}
+                      isComparisons={isComparisons} isActive={active === 8} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.average_cpc} previous={previous.average_cpc} change={change.average_cpc} charge={charge.average_cpc}
+                      yoy={yoy.average_cpc} yoyCharge={yoyCharge.average_cpc}
+                      isComparisons={isComparisons} isActive={active === 9} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.ad_spend} previous={previous.ad_spend} change={change.ad_spend} charge={charge.ad_spend}
+                      yoy={yoy.ad_spend} yoyCharge={yoyCharge.ad_spend}
+                      isComparisons={isComparisons} isActive={active === 10} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.ad_orders} previous={previous.ad_orders} change={change.ad_orders} charge={charge.ad_orders}
+                      yoy={yoy.ad_orders} yoyCharge={yoyCharge.ad_orders}
+                      isComparisons={isComparisons} isActive={active === 11} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.ad_sales} previous={previous.ad_sales} change={change.ad_sales} charge={charge.ad_sales}
+                      yoy={yoy.ad_sales} yoyCharge={yoyCharge.ad_sales}
+                      isComparisons={isComparisons} isActive={active === 12} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.percent_total_sales} previous={previous.percent_total_sales} change={change.percent_total_sales} charge={charge.percent_total_sales}
+                      yoy={yoy.percent_total_sales} yoyCharge={yoyCharge.percent_total_sales}
+                      isComparisons={isComparisons} isActive={active === 13} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.conversion_rate} previous={previous.conversion_rate} change={change.conversion_rate} charge={charge.conversion_rate}
+                      yoy={yoy.conversion_rate} yoyCharge={yoyCharge.conversion_rate}
+                      isComparisons={isComparisons} isActive={active === 14} isYoY={false}>
+                    </TableCell>
+                    <TableCell current={current.acos} previous={previous.acos} change={change.acos} charge={charge.acos}
+                      yoy={yoy.acos} yoyCharge={yoyCharge.acos}
+                      isComparisons={isComparisons} isActive={active === 15} isYoY={false}>
+                    </TableCell>
                   </tr>
                 );
               })
               : ""}
           </tbody>
 
-            <tfoot>
-              <tr>
-                <td component="th">
-                  <b>Total</b>
-                </td>
+          <tfoot>
+            <tr>
+              <td component="th">
+                <b>Total</b>
+              </td>
 
-                <TableTotalRowCell cellData={totalOfData.sales} isComparisons={isComparisons} isActive={active===1} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.shipped_cogs} isComparisons={isComparisons} isActive={active===2} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.orders} isComparisons={isComparisons} isActive={active===3} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.units_sold} isComparisons={isComparisons} isActive={active===4} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.units_per_order} isComparisons={isComparisons} isActive={active===5} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.asp} isComparisons={isComparisons} isActive={active===6} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_impressions} isComparisons={isComparisons} isActive={active===7} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_clicks} isComparisons={isComparisons} isActive={active===8} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.average_cpc} isComparisons={isComparisons} isActive={active===9} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_spend} isComparisons={isComparisons} isActive={active===10} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_orders} isComparisons={isComparisons} isActive={active===11} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_sales} isComparisons={isComparisons} isActive={active===12} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.percent_total_sales} isComparisons={isComparisons} isActive={active===13} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.conversion_rate} isComparisons={isComparisons} isActive={active===14} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.acos} isComparisons={isComparisons} isActive={active===15} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.sales} isComparisons={isComparisons} isActive={active === 1} isYoY={isYoY}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.shipped_cogs} isComparisons={isComparisons} isActive={active === 2} isYoY={isYoY}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.orders} isComparisons={isComparisons} isActive={active === 3} isYoY={isYoY}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.units_sold} isComparisons={isComparisons} isActive={active === 4} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.units_per_order} isComparisons={isComparisons} isActive={active === 5} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.asp} isComparisons={isComparisons} isActive={active === 6} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.ad_impressions} isComparisons={isComparisons} isActive={active === 7} isYoY={isYoY}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.ad_clicks} isComparisons={isComparisons} isActive={active === 8} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.average_cpc} isComparisons={isComparisons} isActive={active === 9} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.ad_spend} isComparisons={isComparisons} isActive={active === 10} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.ad_orders} isComparisons={isComparisons} isActive={active === 11} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.ad_sales} isComparisons={isComparisons} isActive={active === 12} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.percent_total_sales} isComparisons={isComparisons} isActive={active === 13} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.conversion_rate} isComparisons={isComparisons} isActive={active === 14} isYoY={false}></TableTotalRowCell>
+              <TableTotalRowCell cellData={totalOfData.acos} isComparisons={isComparisons} isActive={active === 15} isYoY={false}></TableTotalRowCell>
 
-              </tr>
-            </tfoot>
+            </tr>
+          </tfoot>
 
         </table>
       </div>
