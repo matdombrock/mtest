@@ -941,14 +941,13 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
 };
 
 const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], firstPop, firstYoy) => {
-
   let allSKU = [];
   current.map((d) => allSKU.push(d.sku));
   previous.map((d) => allSKU.push(d.sku));
 
   allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
   return allSKU
-    .map((sku) => {
+    .map((sku, i) => {
       let temp = {
         asp: 0,
         units_per_order: 0,
@@ -972,80 +971,80 @@ const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], fir
       if (!currentSKU) return false;
 
       let previousSKU = previous.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
-      let yoySKU = yoy.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+      let yoySKU = yoy[0]
 
       let change = {
-        asp: firstPop?.asp?.number?.toFixed(2),
-        units_per_order: firstPop?.units_per_order?.number?.toFixed(2),
-        orders: firstPop?.orders?.number?.toFixed(2),
-        ad_spend: firstPop?.ad_spend?.number?.toFixed(2),
-        ad_orders: firstPop?.ad_orders?.number?.toFixed(2),
-        conversion_rate: firstPop?.conversion_rate?.number?.toFixed(2),
-        acos: firstPop?.acos?.number?.toFixed(2),
-        ad_sales: firstPop?.ad_sales?.number?.toFixed(2),
-        sales: firstPop?.sales?.number?.toFixed(2),
-        units_sold: firstPop?.units_sold?.number?.toFixed(2),
-        shipped_cogs: firstPop?.shipped_cogs?.number?.toFixed(2),
-        ad_clicks: firstPop?.ad_clicks?.number?.toFixed(2),
-        ad_impressions: firstPop?.ad_impressions?.number?.toFixed(2),
-        average_cpc: firstPop?.avg_cpc?.number?.toFixed(2),
-        percent_total_sales: firstPop?.percent_total_sales?.number?.toFixed(2),
+        asp: firstPop?.itemized[i]?.asp?.number?.toFixed(2),
+        units_per_order: firstPop?.itemized[i]?.units_per_order?.number?.toFixed(2),
+        orders: firstPop?.itemized[i]?.orders?.number?.toFixed(2),
+        ad_spend: firstPop?.itemized[i]?.ad_spend?.number?.toFixed(2),
+        ad_orders: firstPop?.itemized[i]?.ad_orders?.number?.toFixed(2),
+        conversion_rate: firstPop?.itemized[i]?.conversion_rate?.number?.toFixed(2),
+        acos: firstPop?.itemized[i]?.acos?.number?.toFixed(2),
+        ad_sales: firstPop?.itemized[i]?.ad_sales?.number?.toFixed(2),
+        sales: firstPop?.itemized[i]?.sales?.number?.toFixed(2),
+        units_sold: firstPop?.itemized[i]?.units_sold?.number?.toFixed(2),
+        shipped_cogs: firstPop?.itemized[i]?.shipped_cogs?.number?.toFixed(2),
+        ad_clicks: firstPop?.itemized[i]?.ad_clicks?.number?.toFixed(2),
+        ad_impressions: firstPop?.itemized[i]?.ad_impressions?.number?.toFixed(2),
+        average_cpc: firstPop?.itemized[i]?.average_cpc?.number?.toFixed(2),
+        percent_total_sales: firstPop?.itemized[i]?.percent_total_sales?.number?.toFixed(2),
       };
       let charge = {
-        orders: firstPop?.orders?.percentage?.toFixed(2),
-        units_per_order: firstPop?.units_per_order?.percentage?.toFixed(2),
-        asp: firstPop?.asp?.percentage?.toFixed(2),
-        ad_spend: firstPop?.ad_spend?.percentage?.toFixed(2),
-        ad_orders: firstPop?.ad_orders?.percentage?.toFixed(2),
-        conversion_rate: firstPop?.conversion_rate?.percentage?.toFixed(2),
-        acos: firstPop?.acos?.percentage?.toFixed(2),
-        ad_sales: firstPop?.ad_sales?.percentage?.toFixed(2),
-        sales: firstPop?.sales?.percentage?.toFixed(2),
-        units_sold: firstPop?.units_sold?.percentage?.toFixed(2),
-        shipped_cogs: firstPop?.shipped_cogs?.percentage?.toFixed(2),
-        ad_clicks: firstPop?.ad_clicks?.percentage?.toFixed(2),
-        ad_impressions: firstPop?.ad_impressions?.percentage?.toFixed(2),
-        average_cpc: firstPop?.avg_cpc?.percentage?.toFixed(2),
-        percent_total_sales: firstPop?.percent_total_sales?.percentage?.toFixed(2),
+        orders: firstPop?.itemized[i]?.orders?.percentage?.toFixed(2),
+        units_per_order: firstPop?.itemized[i]?.units_per_order?.percentage?.toFixed(2),
+        asp: firstPop?.itemized[i]?.asp?.percentage?.toFixed(2),
+        ad_spend: firstPop?.itemized[i]?.ad_spend?.percentage?.toFixed(2),
+        ad_orders: firstPop?.itemized[i]?.ad_orders?.percentage?.toFixed(2),
+        conversion_rate: firstPop?.itemized[i]?.conversion_rate?.percentage?.toFixed(2),
+        acos: firstPop?.itemized[i]?.acos?.percentage?.toFixed(2),
+        ad_sales: firstPop?.itemized[i]?.ad_sales?.percentage?.toFixed(2),
+        sales: firstPop?.itemized[i]?.sales?.percentage?.toFixed(2),
+        units_sold: firstPop?.itemized[i]?.units_sold?.percentage?.toFixed(2),
+        shipped_cogs: firstPop?.itemized[i]?.shipped_cogs?.percentage?.toFixed(2),
+        ad_clicks: firstPop?.itemized[i]?.ad_clicks?.percentage?.toFixed(2),
+        ad_impressions: firstPop?.itemized[i]?.ad_impressions?.percentage?.toFixed(2),
+        average_cpc: firstPop?.itemized[i]?.average_cpc?.percentage?.toFixed(2),
+        percent_total_sales: firstPop?.itemized[i]?.percent_total_sales?.percentage?.toFixed(2),
       };
 
       let yoyChange = {
-        orders: firstYoy?.orders?.number,
-        units_per_order: firstYoy?.units_per_order?.number,
-        asp: firstYoy?.asp?.number,
-        ad_spend: firstYoy?.ad_spend?.number,
-        ad_orders: firstYoy?.ad_orders?.number,
-        conversion_rate: firstYoy?.conversion_rate?.number,
-        acos: firstYoy?.acos?.number,
-        ad_sales: firstYoy?.ad_sales?.number,
-        sales: firstYoy?.sales?.number,
-        units_sold: firstYoy?.units_sold?.number,
-        shipped_cogs: firstYoy?.shipped_cogs?.number,
-        ad_clicks: firstYoy?.ad_clicks?.number,
-        ad_impressions: firstYoy?.ad_impressions?.number,
-        average_cpc: firstYoy?.avg_cpc?.number,
-        percent_total_sales: firstYoy?.percent_total_sales?.number,
+        orders: firstYoy?.itemized[i]?.orders?.number.toFixed(2),
+        units_per_order: firstYoy?.itemized[i]?.units_per_order?.number.toFixed(2),
+        asp: firstYoy?.itemized[i]?.asp?.number.toFixed(2),
+        ad_spend: firstYoy?.itemized[i]?.ad_spend?.number.toFixed(2),
+        ad_orders: firstYoy?.itemized[i]?.ad_orders?.number.toFixed(2),
+        conversion_rate: firstYoy?.itemized[i]?.conversion_rate?.number.toFixed(2),
+        acos: firstYoy?.itemized[i]?.acos?.number.toFixed(2),
+        ad_sales: firstYoy?.itemized[i]?.ad_sales?.number.toFixed(2),
+        sales: firstYoy?.itemized[i]?.sales?.number.toFixed(2),
+        units_sold: firstYoy?.itemized[i]?.units_sold?.number.toFixed(2),
+        shipped_cogs: firstYoy?.itemized[i]?.shipped_cogs?.number.toFixed(2),
+        ad_clicks: firstYoy?.itemized[i]?.ad_clicks?.number.toFixed(2),
+        ad_impressions: firstYoy?.itemized[i]?.ad_impressions?.number.toFixed(2),
+        average_cpc: firstYoy?.itemized[i]?.average_cpc?.number.toFixed(2),
+        percent_total_sales: firstYoy?.itemized[i]?.percent_total_sales?.number.toFixed(2),
       };
       let yoyCharge = {
-        orders: firstYoy?.orders?.percentage,
-        units_per_order: firstYoy?.units_per_order?.percentage,
-        asp: firstYoy?.asp?.percentage,
-        ad_spend: firstYoy?.ad_spend?.percentage,
-        ad_orders: firstYoy?.ad_orders?.percentage,
-        conversion_rate: firstYoy?.conversion_rate?.percentage,
-        acos: firstYoy?.acos?.percentage,
-        ad_sales: firstYoy?.ad_sales?.percentage,
-        sales: firstYoy?.sales?.percentage,
-        units_sold: firstYoy?.units_sold?.percentage,
-        shipped_cogs: firstYoy?.shipped_cogs?.percentage,
-        ad_clicks: firstYoy?.ad_clicks?.percentage,
-        ad_impressions: firstYoy?.ad_impressions?.percentage,
-        average_cpc: firstYoy?.average_cpc?.percentage,
-        percent_total_sales: firstYoy?.percent_total_sales?.percentage,
+        orders: firstYoy?.itemized[i]?.orders?.percentage.toFixed(2),
+        units_per_order: firstYoy?.itemized[i]?.units_per_order?.percentage.toFixed(2),
+        asp: firstYoy?.itemized[i]?.asp?.percentage.toFixed(2),
+        ad_spend: firstYoy?.itemized[i]?.ad_spend?.percentage.toFixed(2),
+        ad_orders: firstYoy?.itemized[i]?.ad_orders?.percentage.toFixed(2),
+        conversion_rate: firstYoy?.itemized[i]?.conversion_rate?.percentage.toFixed(2),
+        acos: firstYoy?.itemized[i]?.acos?.percentage.toFixed(2),
+        ad_sales: firstYoy?.itemized[i]?.ad_sales?.percentage.toFixed(2),
+        sales: firstYoy?.itemized[i]?.sales?.percentage.toFixed(2),
+        units_sold: firstYoy?.itemized[i]?.units_sold?.percentage.toFixed(2),
+        shipped_cogs: firstYoy?.itemized[i]?.shipped_cogs?.percentage.toFixed(2),
+        ad_clicks: firstYoy?.itemized[i]?.ad_clicks?.percentage.toFixed(2),
+        ad_impressions: firstYoy?.itemized[i]?.ad_impressions?.percentage.toFixed(2),
+        average_cpc: firstYoy?.itemized[i]?.average_cpc?.percentage.toFixed(2),
+        percent_total_sales: firstYoy?.itemized[i]?.percent_total_sales?.percentage.toFixed(2),
       };
       return {
         current: currentSKU,
-        previous: null,
+        previous: previousSKU,
         change,
         charge,
         yoy: yoyChange,
@@ -1057,7 +1056,7 @@ const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], fir
 };
 
 const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
-  
+
   const temp = {
     orders: {
       current: currentTotal.orders,
@@ -1110,12 +1109,12 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
     },
 
     average_cpc: {
-      current: currentTotal.avg_cpc,
+      current: currentTotal.average_cpc,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.avg_cpc.number,
-      yoyCharge: yoyTotal.avg_cpc.percentage,
+      yoy: yoyTotal.average_cpc.number,
+      yoyCharge: yoyTotal.average_cpc.percentage,
     },
     ad_impressions: {
       current: currentTotal.ad_impressions,
@@ -1201,7 +1200,8 @@ const DataDisplaySKUTable = (props) => {
   if (!currentData) return null;
 
   const { comparisons } = props.data.data
-  const { pop } = comparisons
+  const { pop, yoy } = comparisons
+
   let isYoY = !!comparisons.yoy.length;
 
   const allSKUData = convertToFrontendReadyFormat(
@@ -1209,7 +1209,7 @@ const DataDisplaySKUTable = (props) => {
     previousData?.itemized,
     !!comparisons.yoy.length ? comparisons.yoy[0].itemized : [],
     pop[0],
-    comparisons.yoy[0] ? comparisons.yoy[0] : null
+    yoy[0]
   );
 
   const filterSKUData = allSKUData.sort((a, b) => {
@@ -2783,21 +2783,21 @@ const DataDisplaySKUTable = (props) => {
 
                 <td align="right"></td>
                 <td align="right"></td>
-                <TableTotalRowCell cellData={totalOfData.sales} isComparisons={isComparisons} isActive={active===3} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.shipped_cogs} isComparisons={isComparisons} isActive={active===4} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.orders} isComparisons={isComparisons} isActive={active===5} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.units_sold} isComparisons={isComparisons} isActive={active===6} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.units_per_order} isComparisons={isComparisons} isActive={active===7} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.asp} isComparisons={isComparisons} isActive={active===8} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_impressions} isComparisons={isComparisons} isActive={active===9} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_clicks} isComparisons={isComparisons} isActive={active===10} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.average_cpc} isComparisons={isComparisons} isActive={active===11} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_spend} isComparisons={isComparisons} isActive={active===12} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_orders} isComparisons={isComparisons} isActive={active===13} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_sales} isComparisons={isComparisons} isActive={active===14} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.percent_total_sales} isComparisons={isComparisons} isActive={active===15} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.conversion_rate} isComparisons={isComparisons} isActive={active===16} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.acos} isComparisons={isComparisons} isActive={active===17} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.sales} isComparisons={isComparisons} isActive={active === 3} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.shipped_cogs} isComparisons={isComparisons} isActive={active === 4} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.orders} isComparisons={isComparisons} isActive={active === 5} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.units_sold} isComparisons={isComparisons} isActive={active === 6} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.units_per_order} isComparisons={isComparisons} isActive={active === 7} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.asp} isComparisons={isComparisons} isActive={active === 8} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.ad_impressions} isComparisons={isComparisons} isActive={active === 9} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.ad_clicks} isComparisons={isComparisons} isActive={active === 10} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.average_cpc} isComparisons={isComparisons} isActive={active === 11} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.ad_spend} isComparisons={isComparisons} isActive={active === 12} isYoY={isYoY}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.ad_orders} isComparisons={isComparisons} isActive={active === 13} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.ad_sales} isComparisons={isComparisons} isActive={active === 14} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.percent_total_sales} isComparisons={isComparisons} isActive={active === 15} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.conversion_rate} isComparisons={isComparisons} isActive={active === 16} isYoY={false}></TableTotalRowCell>
+                <TableTotalRowCell cellData={totalOfData.acos} isComparisons={isComparisons} isActive={active === 17} isYoY={false}></TableTotalRowCell>
 
               </tr>
             </tfoot>

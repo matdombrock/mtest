@@ -227,14 +227,9 @@ class UpperControls extends Component {
                   ? "current-month"
                   : "yesterday";
 
-    const setPeriodDataForSKU = () => {
-      data.period_count = 1
-      return data
-    }
-
     if (activeTab === 2) {
       brand &&
-        fetchSalesData(setPeriodDataForSKU())
+        fetchSalesData(data)
           .then((data) => {
             if (!data) throw Object.assign(new Error("Error"), { code: 402 });
             if (data.status !== 200) {
