@@ -1055,128 +1055,126 @@ const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], fir
     .filter((d) => d);
 };
 
-const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
+const getFrontendFormattedTotal = (props, yoyTotal, currentTotal, previousData, firstPopSummary) => {
 
   const temp = {
     orders: {
       current: currentTotal.orders,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.orders, 0),
+      change: firstPopSummary.orders.number,
+      charge: firstPopSummary.orders.percentage,
       yoy: yoyTotal.orders.number,
       yoyCharge: yoyTotal.orders.percentage,
     },
     units_per_order: {
       current: currentTotal.units_per_order,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.units_per_order, 0),
+      change: firstPopSummary.units_per_order.number,
+      charge: firstPopSummary.units_per_order.percentage,
       yoy: yoyTotal.units_per_order.number,
       yoyCharge: yoyTotal.units_per_order.percentage,
     },
     asp: {
       current: currentTotal.asp,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.asp, 0),
+      change: firstPopSummary.asp.number,
+      charge: firstPopSummary.asp.percentage,
       yoy: yoyTotal.asp.number,
       yoyCharge: yoyTotal.asp.percentage,
     },
     sales: {
       current: currentTotal.sales,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.sales, 0),
+      change: firstPopSummary.sales.number,
+      charge: firstPopSummary.sales.percentage,
       yoy: yoyTotal.sales.number,
       yoyCharge: yoyTotal.sales.percentage,
     },
     units_sold: {
       current: currentTotal.units_sold,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.units_sold, 0),
+      change: firstPopSummary.units_sold.number,
+      charge: firstPopSummary.units_sold.percentage,
       yoy: yoyTotal.units_sold.number,
       yoyCharge: yoyTotal.units_sold.percentage,
     },
-
     shipped_cogs: {
       current: currentTotal.shipped_cogs,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.shipped_cogs, 0),
+      change: firstPopSummary.shipped_cogs.number,
+      charge: firstPopSummary.shipped_cogs.percentage,
       yoy: yoyTotal.shipped_cogs.number,
       yoyCharge: yoyTotal.shipped_cogs.percentage,
     },
-
     average_cpc: {
       current: currentTotal.average_cpc,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.average_cpc, 0),
+      change: firstPopSummary.average_cpc.number,
+      charge: firstPopSummary.average_cpc.percentage,
       yoy: yoyTotal.average_cpc.number,
       yoyCharge: yoyTotal.average_cpc.percentage,
     },
     ad_impressions: {
       current: currentTotal.ad_impressions,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.ad_impressions, 0),
+      change: firstPopSummary.ad_impressions.number,
+      charge: firstPopSummary.ad_impressions.percentage,
       yoy: yoyTotal.ad_impressions.number,
       yoyCharge: yoyTotal.ad_impressions.percentage,
     },
     ad_clicks: {
       current: currentTotal.ad_clicks,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.ad_clicks, 0),
+      change: firstPopSummary.ad_clicks.number,
+      charge: firstPopSummary.ad_clicks.percentage,
       yoy: yoyTotal.ad_clicks.number,
       yoyCharge: yoyTotal.ad_clicks.percentage,
     },
     ad_spend: {
       current: currentTotal.ad_spend,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.ad_spend, 0),
+      change: firstPopSummary.ad_spend.number,
+      charge: firstPopSummary.ad_spend.percentage,
       yoy: yoyTotal.ad_spend.number,
       yoyCharge: yoyTotal.ad_spend.percentage,
     },
     ad_orders: {
       current: currentTotal.ad_orders,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.ad_orders, 0),
+      change: firstPopSummary.ad_orders.number,
+      charge: firstPopSummary.ad_orders.percentage,
       yoy: yoyTotal.ad_orders.number,
       yoyCharge: yoyTotal.ad_orders.percentage,
     },
     ad_sales: {
       current: currentTotal.ad_sales,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.ad_sales, 0),
+      change: firstPopSummary.ad_sales.number,
+      charge: firstPopSummary.ad_sales.percentage,
       yoy: yoyTotal.ad_sales.number,
       yoyCharge: yoyTotal.ad_sales.percentage,
     },
     percent_total_sales: {
       current: currentTotal.percent_total_sales,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.percent_total_sales, 0),
+      change: firstPopSummary.percent_total_sales.number,
+      charge: firstPopSummary.percent_total_sales.percentage,
       yoy: yoyTotal.percent_total_sales.number,
       yoyCharge: yoyTotal.percent_total_sales.percentage,
     },
     conversion_rate: {
       current: currentTotal.conversion_rate,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.conversion_rate, 0),
+      change: firstPopSummary.conversion_rate.number,
+      charge: firstPopSummary.conversion_rate.percentage,
       yoy: yoyTotal.conversion_rate.number,
       yoyCharge: yoyTotal.conversion_rate.percentage,
     },
     acos: {
       current: currentTotal.acos,
-      previous: 0,
-      change: 0,
-      charge: 0,
+      previous: previousData.itemized.reduce((a, b) => a + b.acos, 0),
+      change: firstPopSummary.acos.number,
+      charge: firstPopSummary.acos.percentage,
       yoy: yoyTotal.acos.number,
       yoyCharge: yoyTotal.acos.percentage,
     },
@@ -1294,8 +1292,12 @@ const DataDisplaySKUTable = (props) => {
   };
 
   const yoyTotal = comparisons.totals[0];
-  const currentTotal = props.data.data.totals.periods;
-  const totalOfData = getFrontendFormattedTotal(filterSKUData, yoyTotal, currentTotal);
+  const { totals } = props.data.data
+
+  const currentTotal = totals.periods;
+  const firstPopSummary = comparisons.pop[0].summary
+
+  const totalOfData = getFrontendFormattedTotal(filterSKUData, yoyTotal, currentTotal, previousData, firstPopSummary);
 
   return (
     <>
