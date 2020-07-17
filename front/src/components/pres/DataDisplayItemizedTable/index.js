@@ -22,6 +22,7 @@ import TableCell from './../Table/table-cell';
 const convertToFrontendReadyFormat = ({ periods }, yoy, pop) => {
 
   let payload = [];
+
   periods.map((d, i, arr) => {
     const _pop = pop[i];
     const _yoy = yoy[i];;
@@ -53,87 +54,87 @@ const convertToFrontendReadyFormat = ({ periods }, yoy, pop) => {
         };
 
     const change = {
-      asp: _pop?.asp?.number?.toFixed(2) ?? 0,
-      units_per_order: _pop?.units_per_order?.number?.toFixed(2) ?? 0,
-      orders: _pop?.orders?.number?.toFixed(2) ?? 0,
-      acos: _pop?.acos?.number?.toFixed(2) ?? 0,
-      ad_clicks: _pop?.ad_clicks?.number?.toFixed(2) ?? 0,
-      ad_impressions: _pop?.ad_impressions?.number?.toFixed(2) ?? 0,
-      ad_orders: _pop?.ad_orders?.number?.toFixed(2) ?? 0,
-      ad_sales: _pop?.ad_sales?.number?.toFixed(2) ?? 0,
-      ad_spend: _pop?.ad_spend?.number?.toFixed(2) ?? 0,
+      asp: _pop?.summary?.asp?.number?.toFixed(2) ?? 0,
+      units_per_order: _pop?.summary?.units_per_order?.number?.toFixed(2) ?? 0,
+      orders: _pop?.summary?.orders?.number?.toFixed(2) ?? 0,
+      acos: _pop?.summary?.acos?.number?.toFixed(2) ?? 0,
+      ad_clicks: _pop?.summary?.ad_clicks?.number?.toFixed(2) ?? 0,
+      ad_impressions: _pop?.summary?.ad_impressions?.number?.toFixed(2) ?? 0,
+      ad_orders: _pop?.summary?.ad_orders?.number?.toFixed(2) ?? 0,
+      ad_sales: _pop?.summary?.ad_sales?.number?.toFixed(2) ?? 0,
+      ad_spend: _pop?.summary?.ad_spend?.number?.toFixed(2) ?? 0,
       asin: "N/A",
-      average_cpc: _pop?.avg_cpc?.number?.toFixed(2) ?? 0,
-      conversion_rate: _pop?.conversion_rate?.number?.toFixed(2) ?? 0,
+      average_cpc: _pop?.summary?.average_cpc?.number?.toFixed(2) ?? 0,
+      conversion_rate: _pop?.summary?.conversion_rate?.number?.toFixed(2) ?? 0,
       item_number: "N/A",
-      percent_total_sales: _pop?.percent_total_sales?.number?.toFixed(2) ?? 0,
-      sales: _pop?.sales?.number?.toFixed(2) ?? 0,
-      shipped_cogs: _pop?.shipped_cogs?.number?.toFixed(2) ?? 0,
+      percent_total_sales: _pop?.summary?.percent_total_sales?.number?.toFixed(2) ?? 0,
+      sales: _pop?.summary?.sales?.number?.toFixed(2) ?? 0,
+      shipped_cogs: _pop?.summary?.shipped_cogs?.number?.toFixed(2) ?? 0,
       sku: "N/A",
-      units_sold: _pop?.units_sold?.number?.toFixed(2) ?? 0,
+      units_sold: _pop?.summary?.units_sold?.number?.toFixed(2) ?? 0,
     };
 
     const charge = {
-      asp: _pop?.asp?.percentage?.toFixed(2) ?? 0,
-      units_per_order: _pop?.units_per_order?.percentage?.toFixed(2) ?? 0,
-      orders: _pop?.orders?.percentage?.toFixed(2) ?? 0,
-      acos: _pop?.acos?.percentage?.toFixed(2) ?? 0,
-      ad_clicks: _pop?.ad_clicks?.percentage?.toFixed(2) ?? 0,
-      ad_impressions: _pop?.ad_impressions?.percentage?.toFixed(2) ?? 0,
-      ad_orders: _pop?.ad_orders?.percentage?.toFixed(2) ?? 0,
-      ad_sales: _pop?.ad_sales?.percentage?.toFixed(2) ?? 0,
-      ad_spend: _pop?.ad_spend?.percentage?.toFixed(2) ?? 0,
+      asp: _pop?.summary?.asp?.percentage?.toFixed(2) ?? 0,
+      units_per_order: _pop?.summary?.units_per_order?.percentage?.toFixed(2) ?? 0,
+      orders: _pop?.summary?.orders?.percentage?.toFixed(2) ?? 0,
+      acos: _pop?.summary?.acos?.percentage?.toFixed(2) ?? 0,
+      ad_clicks: _pop?.summary?.ad_clicks?.percentage?.toFixed(2) ?? 0,
+      ad_impressions: _pop?.summary?.ad_impressions?.percentage?.toFixed(2) ?? 0,
+      ad_orders: _pop?.summary?.ad_orders?.percentage?.toFixed(2) ?? 0,
+      ad_sales: _pop?.summary?.ad_sales?.percentage?.toFixed(2) ?? 0,
+      ad_spend: _pop?.summary?.ad_spend?.percentage?.toFixed(2) ?? 0,
       asin: "N/A",
-      average_cpc: _pop?.avg_cpc?.percentage?.toFixed(2) ?? 0,
-      conversion_rate: _pop?.conversion_rate?.percentage?.toFixed(2) ?? 0,
+      average_cpc: _pop?.summary?.average_cpc?.percentage?.toFixed(2) ?? 0,
+      conversion_rate: _pop?.summary?.conversion_rate?.percentage?.toFixed(2) ?? 0,
       item_number: "N/A",
-      percent_total_sales: _pop?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
-      sales: _pop?.sales?.percentage?.toFixed(2) ?? 0,
-      shipped_cogs: _pop?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
+      percent_total_sales: _pop?.summary?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
+      sales: _pop?.summary?.sales?.percentage?.toFixed(2) ?? 0,
+      shipped_cogs: _pop?.summary?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
       sku: "N/A",
-      units_sold: _pop?.units_sold?.percentage?.toFixed(2) ?? 0,
+      units_sold: _pop?.summary?.units_sold?.percentage?.toFixed(2) ?? 0,
     };
 
     const yoyChange = {
-      asp: _yoy?.asp?.number?.toFixed(2) ?? 0,
-      units_per_order: _yoy?.units_per_order?.number?.toFixed(2) ?? 0,
-      orders: _yoy?.orders?.number?.toFixed(2) ?? 0,
-      acos: _yoy?.acos?.number?.toFixed(2) ?? 0,
-      ad_clicks: _yoy?.ad_clicks?.number?.toFixed(2) ?? 0,
-      ad_impressions: _yoy?.ad_impressions?.number?.toFixed(2) ?? 0,
-      ad_orders: _yoy?.ad_orders?.number?.toFixed(2) ?? 0,
-      ad_sales: _yoy?.ad_sales?.number?.toFixed(2) ?? 0,
-      ad_spend: _yoy?.ad_spend?.number?.toFixed(2) ?? 0,
+      asp: _yoy?.summary?.asp?.number?.toFixed(2) ?? 0,
+      units_per_order: _yoy?.summary?.units_per_order?.number?.toFixed(2) ?? 0,
+      orders: _yoy?.summary?.orders?.number?.toFixed(2) ?? 0,
+      acos: _yoy?.summary?.acos?.number?.toFixed(2) ?? 0,
+      ad_clicks: _yoy?.summary?.ad_clicks?.number?.toFixed(2) ?? 0,
+      ad_impressions: _yoy?.summary?.ad_impressions?.number?.toFixed(2) ?? 0,
+      ad_orders: _yoy?.summary?.ad_orders?.number?.toFixed(2) ?? 0,
+      ad_sales: _yoy?.summary?.ad_sales?.number?.toFixed(2) ?? 0,
+      ad_spend: _yoy?.summary?.ad_spend?.number?.toFixed(2) ?? 0,
       asin: "N/A",
-      average_cpc: _yoy?.average_cpc?.number?.toFixed(2) ?? 0,
-      conversion_rate: _yoy?.conversion_rate?.number?.toFixed(2) ?? 0,
+      average_cpc: _yoy?.summary?.average_cpc?.number?.toFixed(2) ?? 0,
+      conversion_rate: _yoy?.summary?.conversion_rate?.number?.toFixed(2) ?? 0,
       item_number: "N/A",
-      percent_total_sales: _yoy?.percent_total_sales?.number?.toFixed(2) ?? 0,
-      sales: _yoy?.sales?.number?.toFixed(2) ?? 0,
-      shipped_cogs: _yoy?.shipped_cogs?.number?.toFixed(2) ?? 0,
+      percent_total_sales: _yoy?.summary?.percent_total_sales?.number?.toFixed(2) ?? 0,
+      sales: _yoy?.summary?.sales?.number?.toFixed(2) ?? 0,
+      shipped_cogs: _yoy?.summary?.shipped_cogs?.number?.toFixed(2) ?? 0,
       sku: "N/A",
-      units_sold: _yoy?.units_sold?.number?.toFixed(2) ?? 0,
+      units_sold: _yoy?.summary?.units_sold?.number?.toFixed(2) ?? 0,
     };
 
     const yoyCharge = {
-      asp: _yoy?.asp?.percentage?.toFixed(2) ?? 0,
-      units_per_order: _yoy?.units_per_order?.percentage?.toFixed(2) ?? 0,
-      orders: _yoy?.orders?.percentage?.toFixed(2) ?? 0,
-      acos: _yoy?.acos?.percentage?.toFixed(2) ?? 0,
-      ad_clicks: _yoy?.ad_clicks?.percentage?.toFixed(2) ?? 0,
-      ad_impressions: _yoy?.ad_impressions?.percentage?.toFixed(2) ?? 0,
-      ad_orders: _yoy?.ad_orders?.percentage?.toFixed(2) ?? 0,
-      ad_sales: _yoy?.ad_sales?.percentage?.toFixed(2) ?? 0,
-      ad_spend: _yoy?.ad_spend?.percentage?.toFixed(2) ?? 0,
+      asp: _yoy?.summary?.asp?.percentage?.toFixed(2) ?? 0,
+      units_per_order: _yoy?.summary?.units_per_order?.percentage?.toFixed(2) ?? 0,
+      orders: _yoy?.summary?.orders?.percentage?.toFixed(2) ?? 0,
+      acos: _yoy?.summary?.acos?.percentage?.toFixed(2) ?? 0,
+      ad_clicks: _yoy?.summary?.ad_clicks?.percentage?.toFixed(2) ?? 0,
+      ad_impressions: _yoy?.summary?.ad_impressions?.percentage?.toFixed(2) ?? 0,
+      ad_orders: _yoy?.summary?.ad_orders?.percentage?.toFixed(2) ?? 0,
+      ad_sales: _yoy?.summary?.ad_sales?.percentage?.toFixed(2) ?? 0,
+      ad_spend: _yoy?.summary?.ad_spend?.percentage?.toFixed(2) ?? 0,
       asin: "N/A",
-      average_cpc: _yoy?.average_cpc?.percentage?.toFixed(2) ?? 0,
-      conversion_rate: _yoy?.conversion_rate?.percentage?.toFixed(2) ?? 0,
+      average_cpc: _yoy?.summary?.average_cpc?.percentage?.toFixed(2) ?? 0,
+      conversion_rate: _yoy?.summary?.conversion_rate?.percentage?.toFixed(2) ?? 0,
       item_number: "N/A",
-      percent_total_sales: _yoy?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
-      sales: _yoy?.sales?.percentage?.toFixed(2) ?? 0,
-      shipped_cogs: _yoy?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
+      percent_total_sales: _yoy?.summary?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
+      sales: _yoy?.summary?.sales?.percentage?.toFixed(2) ?? 0,
+      shipped_cogs: _yoy?.summary?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
       sku: "N/A",
-      units_sold: _yoy?.units_sold?.percentage?.toFixed(2) ?? 0,
+      units_sold: _yoy?.summary?.units_sold?.percentage?.toFixed(2) ?? 0,
     };
     payload.push({
       current,
@@ -837,122 +838,122 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.asp.number,
-      yoyCharge: yoyTotal.asp.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     units_per_order: {
-      current: currentTotal.units_per_order,
+      current: currentTotal?.units_per_order,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.units_per_order.number,
-      yoyCharge: yoyTotal.units_per_order.percentage,
+      yoy: yoyTotal?.units_per_order?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.units_per_order?.percentage?.toFixed(2) ?? 0,
     },
     orders: {
-      current: currentTotal.orders,
+      current: currentTotal?.orders,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.orders.number,
-      yoyCharge: yoyTotal.orders.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     sales: {
-      current: currentTotal.sales,
+      current: currentTotal?.sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.sales.number,
-      yoyCharge: yoyTotal.sales.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     units_sold: {
-      current: currentTotal.units_sold,
+      current: currentTotal?.units_sold,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.units_sold.number,
-      yoyCharge: yoyTotal.units_sold.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
 
     shipped_cogs: {
-      current: currentTotal.shipped_cogs,
+      current: currentTotal?.shipped_cogs,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.shipped_cogs.number,
-      yoyCharge: yoyTotal.shipped_cogs.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
 
     average_cpc: {
-      current: currentTotal.avg_cpc,
+      current: currentTotal?.average_cpc,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.avg_cpc.number,
-      yoyCharge: yoyTotal.avg_cpc.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     ad_impressions: {
-      current: currentTotal.ad_impressions,
+      current: currentTotal?.ad_impressions,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.ad_impressions.number,
-      yoyCharge: yoyTotal.ad_impressions.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     ad_clicks: {
-      current: currentTotal.ad_clicks,
+      current: currentTotal?.ad_clicks,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.ad_clicks.number,
-      yoyCharge: yoyTotal.ad_clicks.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     ad_spend: {
-      current: currentTotal.ad_spend,
+      current: currentTotal?.ad_spend,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.ad_spend.number,
-      yoyCharge: yoyTotal.ad_spend.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     ad_orders: {
-      current: currentTotal.ad_orders,
+      current: currentTotal?.ad_orders,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.ad_orders.number,
-      yoyCharge: yoyTotal.ad_orders.percentage,
+      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
     },
     ad_sales: {
-      current: currentTotal.ad_sales,
+      current: currentTotal?.ad_sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.ad_sales.number,
-      yoyCharge: yoyTotal.ad_sales.percentage,
+      yoy: yoyTotal?.ad_sales?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.ad_sales?.percentage?.toFixed(2) ?? 0,
     },
     percent_total_sales: {
-      current: currentTotal.percent_total_sales,
+      current: currentTotal?.percent_total_sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.percent_total_sales.number,
-      yoyCharge: yoyTotal.percent_total_sales.percentage,
+      yoy: yoyTotal?.percent_total_sales?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.percent_total_sales?.percentage?.toFixed(2) ?? 0,
     },
     conversion_rate: {
-      current: currentTotal.conversion_rate,
+      current: currentTotal?.conversion_rate,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.conversion_rate.number,
-      yoyCharge: yoyTotal.conversion_rate.percentage,
+      yoy: yoyTotal?.conversion_rate?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.conversion_rate?.percentage?.toFixed(2) ?? 0,
     },
     acos: {
-      current: currentTotal.acos,
+      current: currentTotal?.acos,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal.acos.number,
-      yoyCharge: yoyTotal.acos.percentage,
+      yoy: yoyTotal?.acos?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.acos?.percentage?.toFixed(2) ?? 0,
     },
   };
 
@@ -960,14 +961,16 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
 };
 
 const DataDisplayItemizedTable = (props) => {
+  console.log('DataDisplayItemizedTable', props)
   const isComparisons = true;
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
   const [sortByInner, setSortByInner] = useState(false);
   const [sortAscendingBy, setSortAscendingBy] = useState(false);
-  let currentData = props.data.data;
+  let currentData = props.data?.data;
   let isYoY = !!currentData.comparisons.yoy.length;
   const { comparisons: { yoy, pop } } = currentData
+
   const frontendReadyFormat = convertToFrontendReadyFormat(currentData, yoy, pop);
   if (!currentData) return null;
 
@@ -1054,7 +1057,8 @@ const DataDisplayItemizedTable = (props) => {
     setSortByInner(columnId);
   };
 
-  const yoyTotal = currentData.comparisons.totals[0];
+
+  const yoyTotal = currentData.comparisons.totals[0]
   const currentTotal = currentData.totals.periods;
   const totalOfData = getFrontendFormattedTotal(filterData, yoyTotal, currentTotal);
 
@@ -1669,14 +1673,7 @@ const DataDisplayItemizedTable = (props) => {
             )}
             {filterData
               ? filterData.map((row, i, array) => {
-                const {
-                  current,
-                  previous,
-                  change,
-                  charge,
-                  yoy,
-                  yoyCharge,
-                } = row;
+                const { current, previous, change, charge, yoy, yoyCharge } = row;
                 return (
                   <tr key={i}>
                     {active === 0 ? (
