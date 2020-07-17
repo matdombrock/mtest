@@ -68,7 +68,7 @@ const ChartsV2 = (report) => {
       </Grid>
       <Grid container>
         <Grid item xs={4}>
-          <SingleLineChart sign='$' name='Average Selling Price ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x?.average_selling_price?.toFixed(2))} />
+          <SingleLineChart sign='$' name='Average Selling Price ($)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x?.asp?.toFixed(2))} />
         </Grid>
         <Grid item xs={4}>
           <SingleLineChart sign='%' name='ACOS (%)' chartLabels={summaries.map((x, i) => i)} chartDataValues={summaries.map(x => x.acos.toFixed(2))} />
