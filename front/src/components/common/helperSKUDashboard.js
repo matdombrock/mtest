@@ -116,11 +116,11 @@ const convertToFrontendReadyFormat = (
       };
       return {
         current: currentSKU,
-        previous: null,
-        change,
-        charge,
-        yoy: yoyChange,
-        yoyCharge,
+        previous: temp, // replace fake with valid obj
+        change: temp, // replace fake with valid obj
+        charge: temp, // replace fake with valid obj
+        yoy: temp, // replace fake with valid obj
+        yoyCharge: temp, // replace fake with valid obj
         yoySKU,
       };
     })
