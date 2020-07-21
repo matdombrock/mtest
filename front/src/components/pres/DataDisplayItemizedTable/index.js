@@ -64,7 +64,7 @@ const DataDisplayItemizedTable = (props) => {
     setSortByInner(columnId);
   };
 
-  const yoyTotal = currentData.comparisons.totals[0];
+  const yoyTotal = currentData.comparisons.totals;
   const currentTotal = currentData.totals.periods;
   const totalOfData = getFrontendFormattedTotal(filterData, yoyTotal, currentTotal);
 

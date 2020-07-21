@@ -1,138 +1,168 @@
 import numberWithCommas from "../../services/numberWithCommas";
 
-const convertToFrontendReadyFormat = (
-  current = [],
-  previous = [],
-  yoy = [],
-  firstPop,
-  firstYoy
-) => {
+const convertToFrontendReadyFormat = (current, previous, yoy, pop) => {
   let allSKU = [];
-  current.map((d) => allSKU.push(d.sku));
-  previous.map((d) => allSKU.push(d.sku));
+  Object.keys(current).map((d) => allSKU.push(d));
 
-  allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
   return allSKU
     .map((sku) => {
       let temp = {
-        asp: 0,
-        units_per_order: 0,
-        orders: 0,
-        ad_spend: 0,
-        ad_orders: 0,
-        conversion_rate: 0,
-        acos: 0,
-        ad_sales: 0,
-        sales: 0,
-        units_sold: 0,
-        shipped_cogs: 0,
-        ad_clicks: 0,
-        ad_impressions: 0,
-        average_cpc: 0,
-        wow_sales: 0,
-        percent_total_sales: 0,
+        sales: { number: 0, percentage: 0 },
+        shipped_cogs: { number: 0, percentage: 0 },
+        orders:{ number: 0, percentage: 0 },
+        units_sold:{ number: 0, percentage: 0 },
+        asp:{ number: 0, percentage: 0 },
+        ad_impressions:{ number: 0, percentage: 0 },
+        ad_clicks: { number: 0, percentage: 0 },
+        ad_spend:{ number: 0, percentage: 0 },
+        ad_orders:{ number: 0, percentage: 0 },
+        ad_sales:{ number: 0, percentage: 0 },
+        percent_total_sales:{ number: 0, percentage: 0 },
+        conversion_rate:{ number: 0, percentage: 0 },
+        acos:{ number: 0, percentage: 0 },
+        average_cpc:{ number: 0, percentage: 0 },
+        units_per_order: { number: 0, percentage: 0 },
       };
 
-      let currentSKU = current.find((d) => d.sku === sku);
+      let currentSKU = current[sku];
       if (!currentSKU) return false;
 
-      let previousSKU =
-        previous.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
-      let yoySKU =
-        yoy.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
+      let previousSKU = previous[sku] || JSON.parse(JSON.stringify(temp));
 
+      let currentYoy = yoy[sku] || JSON.parse(JSON.stringify(temp));
+      let currentPop = pop[sku] || JSON.parse(JSON.stringify(temp));
       let change = {
-        asp: firstPop?.asp?.number?.toFixed(2),
-        units_per_order: firstPop?.units_per_order?.number?.toFixed(2),
-        orders: firstPop?.orders?.number?.toFixed(2),
-        ad_spend: firstPop?.ad_spend?.number?.toFixed(2),
-        ad_orders: firstPop?.ad_orders?.number?.toFixed(2),
-        conversion_rate: firstPop?.conversion_rate?.number?.toFixed(2),
-        acos: firstPop?.acos?.number?.toFixed(2),
-        ad_sales: firstPop?.ad_sales?.number?.toFixed(2),
-        sales: firstPop?.sales?.number?.toFixed(2),
-        units_sold: firstPop?.units_sold?.number?.toFixed(2),
-        shipped_cogs: firstPop?.shipped_cogs?.number?.toFixed(2),
-        ad_clicks: firstPop?.ad_clicks?.number?.toFixed(2),
-        ad_impressions: firstPop?.ad_impressions?.number?.toFixed(2),
-        average_cpc: firstPop?.average_cpc?.number?.toFixed(2),
-        percent_total_sales: firstPop?.percent_total_sales?.number?.toFixed(2),
+        asp: currentPop?.asp?.number?.toFixed(2),
+        units_per_order: currentPop?.units_per_order?.number?.toFixed(2),
+        orders: currentPop?.orders?.number?.toFixed(2),
+        ad_spend: currentPop?.ad_spend?.number?.toFixed(2),
+        ad_orders: currentPop?.ad_orders?.number?.toFixed(2),
+        conversion_rate: currentPop?.conversion_rate?.number?.toFixed(2),
+        acos: currentPop?.acos?.number?.toFixed(2),
+        ad_sales: currentPop?.ad_sales?.number?.toFixed(2),
+        sales: currentPop?.sales?.number?.toFixed(2),
+        units_sold: currentPop?.units_sold?.number?.toFixed(2),
+        shipped_cogs: currentPop?.shipped_cogs?.number?.toFixed(2),
+        ad_clicks: currentPop?.ad_clicks?.number?.toFixed(2),
+        ad_impressions: currentPop?.ad_impressions?.number?.toFixed(2),
+        average_cpc: currentPop?.average_cpc?.number?.toFixed(2),
+        percent_total_sales: currentPop?.percent_total_sales?.number?.toFixed(
+          2
+        ),
       };
       let charge = {
-        orders: firstPop?.orders?.percentage?.toFixed(2),
-        units_per_order: firstPop?.units_per_order?.percentage?.toFixed(2),
-        asp: firstPop?.asp?.percentage?.toFixed(2),
-        ad_spend: firstPop?.ad_spend?.percentage?.toFixed(2),
-        ad_orders: firstPop?.ad_orders?.percentage?.toFixed(2),
-        conversion_rate: firstPop?.conversion_rate?.percentage?.toFixed(2),
-        acos: firstPop?.acos?.percentage?.toFixed(2),
-        ad_sales: firstPop?.ad_sales?.percentage?.toFixed(2),
-        sales: firstPop?.sales?.percentage?.toFixed(2),
-        units_sold: firstPop?.units_sold?.percentage?.toFixed(2),
-        shipped_cogs: firstPop?.shipped_cogs?.percentage?.toFixed(2),
-        ad_clicks: firstPop?.ad_clicks?.percentage?.toFixed(2),
-        ad_impressions: firstPop?.ad_impressions?.percentage?.toFixed(2),
-        average_cpc: firstPop?.average_cpc?.percentage?.toFixed(2),
-        percent_total_sales: firstPop?.percent_total_sales?.percentage?.toFixed(
+        orders: currentPop?.orders?.percentage?.toFixed(2),
+        units_per_order: currentPop?.units_per_order?.percentage?.toFixed(2),
+        asp: currentPop?.asp?.percentage?.toFixed(2),
+        ad_spend: currentPop?.ad_spend?.percentage?.toFixed(2),
+        ad_orders: currentPop?.ad_orders?.percentage?.toFixed(2),
+        conversion_rate: currentPop?.conversion_rate?.percentage?.toFixed(2),
+        acos: currentPop?.acos?.percentage?.toFixed(2),
+        ad_sales: currentPop?.ad_sales?.percentage?.toFixed(2),
+        sales: currentPop?.sales?.percentage?.toFixed(2),
+        units_sold: currentPop?.units_sold?.percentage?.toFixed(2),
+        shipped_cogs: currentPop?.shipped_cogs?.percentage?.toFixed(2),
+        ad_clicks: currentPop?.ad_clicks?.percentage?.toFixed(2),
+        ad_impressions: currentPop?.ad_impressions?.percentage?.toFixed(2),
+        average_cpc: currentPop?.average_cpc?.percentage?.toFixed(2),
+        percent_total_sales: currentPop?.percent_total_sales?.percentage?.toFixed(
           2
         ),
       };
 
       let yoyChange = {
-        orders: firstYoy?.orders?.number?.toFixed(2),
-        units_per_order: firstYoy?.units_per_order?.number?.toFixed(2),
-        asp: firstYoy?.asp?.number?.toFixed(2),
-        ad_spend: firstYoy?.ad_spend?.number?.toFixed(2),
-        ad_orders: firstYoy?.ad_orders?.number?.toFixed(2),
-        conversion_rate: firstYoy?.conversion_rate?.number?.toFixed(2),
-        acos: firstYoy?.acos?.number?.toFixed(2),
-        ad_sales: firstYoy?.ad_sales?.number?.toFixed(2),
-        sales: firstYoy?.sales?.number?.toFixed(2),
-        units_sold: firstYoy?.units_sold?.number?.toFixed(2),
-        shipped_cogs: firstYoy?.shipped_cogs?.number?.toFixed(2),
-        ad_clicks: firstYoy?.ad_clicks?.number?.toFixed(2),
-        ad_impressions: firstYoy?.ad_impressions?.number?.toFixed(2),
-        average_cpc: firstYoy?.average_cpc?.number?.toFixed(2),
-        percent_total_sales: firstYoy?.percent_total_sales?.number?.toFixed(2),
+        orders: currentYoy?.orders?.number?.toFixed(2),
+        units_per_order: currentYoy?.units_per_order?.number?.toFixed(2),
+        asp: currentYoy?.asp?.number?.toFixed(2),
+        ad_spend: currentYoy?.ad_spend?.number?.toFixed(2),
+        ad_orders: currentYoy?.ad_orders?.number?.toFixed(2),
+        conversion_rate: currentYoy?.conversion_rate?.number?.toFixed(2),
+        acos: currentYoy?.acos?.number?.toFixed(2),
+        ad_sales: currentYoy?.ad_sales?.number?.toFixed(2),
+        sales: currentYoy?.sales?.number?.toFixed(2),
+        units_sold: currentYoy?.units_sold?.number?.toFixed(2),
+        shipped_cogs: currentYoy?.shipped_cogs?.number?.toFixed(2),
+        ad_clicks: currentYoy?.ad_clicks?.number?.toFixed(2),
+        ad_impressions: currentYoy?.ad_impressions?.number?.toFixed(2),
+        average_cpc: currentYoy?.average_cpc?.number?.toFixed(2),
+        percent_total_sales: currentYoy?.percent_total_sales?.number?.toFixed(
+          2
+        ),
       };
       let yoyCharge = {
-        orders: firstYoy?.orders?.percentage?.toFixed(2),
-        units_per_order: firstYoy?.units_per_order?.percentage?.toFixed(2),
-        asp: firstYoy?.asp?.percentage?.toFixed(2),
-        ad_spend: firstYoy?.ad_spend?.percentage?.toFixed(2),
-        ad_orders: firstYoy?.ad_orders?.percentage?.toFixed(2),
-        conversion_rate: firstYoy?.conversion_rate?.percentage?.toFixed(2),
-        acos: firstYoy?.acos?.percentage?.toFixed(2),
-        ad_sales: firstYoy?.ad_sales?.percentage?.toFixed(2),
-        sales: firstYoy?.sales?.percentage?.toFixed(2),
-        units_sold: firstYoy?.units_sold?.percentage?.toFixed(2),
-        shipped_cogs: firstYoy?.shipped_cogs?.percentage?.toFixed(2),
-        ad_clicks: firstYoy?.ad_clicks?.percentage?.toFixed(2),
-        ad_impressions: firstYoy?.ad_impressions?.percentage?.toFixed(2),
-        average_cpc: firstYoy?.average_cpc?.percentage?.toFixed(2),
-        percent_total_sales: firstYoy?.percent_total_sales?.percentage?.toFixed(
+        orders: currentYoy?.orders?.percentage?.toFixed(2),
+        units_per_order: currentYoy?.units_per_order?.percentage?.toFixed(2),
+        asp: currentYoy?.asp?.percentage?.toFixed(2),
+        ad_spend: currentYoy?.ad_spend?.percentage?.toFixed(2),
+        ad_orders: currentYoy?.ad_orders?.percentage?.toFixed(2),
+        conversion_rate: currentYoy?.conversion_rate?.percentage?.toFixed(2),
+        acos: currentYoy?.acos?.percentage?.toFixed(2),
+        ad_sales: currentYoy?.ad_sales?.percentage?.toFixed(2),
+        sales: currentYoy?.sales?.percentage?.toFixed(2),
+        units_sold: currentYoy?.units_sold?.percentage?.toFixed(2),
+        shipped_cogs: currentYoy?.shipped_cogs?.percentage?.toFixed(2),
+        ad_clicks: currentYoy?.ad_clicks?.percentage?.toFixed(2),
+        ad_impressions: currentYoy?.ad_impressions?.percentage?.toFixed(2),
+        average_cpc: currentYoy?.average_cpc?.percentage?.toFixed(2),
+        percent_total_sales: currentYoy?.percent_total_sales?.percentage?.toFixed(
           2
         ),
       };
       return {
         current: currentSKU,
-        previous: temp, // replace fake with valid obj
-        change: temp, // replace fake with valid obj
-        charge: temp, // replace fake with valid obj
-        yoy: temp, // replace fake with valid obj
-        yoyCharge: temp, // replace fake with valid obj
-        yoySKU,
+        previous: previousSKU,
+        change,
+        charge,
+        yoy: yoyChange,
+        yoyCharge,
+        yoySKU: currentYoy,
       };
     })
     .filter((d) => d);
 };
 
+const getSingleColumForCSV = (current,previous,change,charge,yoy,yoyCharge,isYoY,)=>{
+  const temp =[]
+  temp.push(current ? "$" + numberWithCommas(current) : "N/A");
+  temp.push(
+    previous ? "$" + numberWithCommas(previous) : "N/A"
+  );
+  temp.push(
+    change !== 0
+      ? "$" + numberWithCommas(change)
+      : current > 0 && previous > 0
+      ? "$0.00"
+      : "N/A"
+  );
+  temp.push(
+    charge !== 0
+      ? charge + "%"
+      : current > 0 && previous > 0
+      ? "0%"
+      : "N/A"
+  );
+
+  if (isYoY) {
+    temp.push(
+      yoy !== 0
+        ? "$" + numberWithCommas(yoy)
+        : "N/A"
+    );
+    temp.push(
+      yoyCharge !== 0
+        ? yoyCharge + "%"
+        : "N/A"
+    );
+  }
+  return temp
+}
+
 const filerDataAndConvertToFrontendReadyFormat = (
-  current = [],
-  previous = [],
-  yoy = [],
+  current,
+  previous,
+  yoy,
   firstPop,
-  firstYoy,
+  // firstYoy,
   sortBy,
   sortByInner,
   sortAscendingBy
@@ -141,8 +171,8 @@ const filerDataAndConvertToFrontendReadyFormat = (
     current,
     previous,
     yoy,
-    firstPop,
-    firstYoy
+    firstPop
+    // firstYoy
   );
   return allSKUData.sort((a, b) => {
     let tempSortBy = "asin";
@@ -223,38 +253,38 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
   header.push("Short Product Title");
   header.push(...getHeaderColumn(false, "Sales"));
   header.push(...getHeaderColumn(false, "Shipped COGS"));
-  header.push(...getHeaderColumn(true, "Orders"));
+  header.push(...getHeaderColumn(false, "Orders"));
   header.push(...getHeaderColumn(false, "Units Sold"));
-  header.push(...getHeaderColumn(true, "Units Per Order"));
-  header.push(...getHeaderColumn(true, "ASP"));
-  header.push(...getHeaderColumn(true, "Ad Impressions"));
-  header.push(...getHeaderColumn(true, "Ad Clicks"));
-  header.push(...getHeaderColumn(true, "Avg CPC"));
+  header.push(...getHeaderColumn(false, "Units Per Order"));
+  header.push(...getHeaderColumn(false, "ASP"));
+  header.push(...getHeaderColumn(false, "Ad Impressions"));
+  header.push(...getHeaderColumn(false, "Ad Clicks"));
+  header.push(...getHeaderColumn(false, "Avg CPC"));
   header.push(...getHeaderColumn(false, "Ad Spend"));
-  header.push(...getHeaderColumn(true, "Ad Orders"));
-  header.push(...getHeaderColumn(true, "Ad Sales"));
-  header.push(...getHeaderColumn(true, "% of Total Sales"));
-  header.push(...getHeaderColumn(true, "Conv Rate"));
-  header.push(...getHeaderColumn(true, "ACoS"));
+  header.push(...getHeaderColumn(false, "Ad Orders"));
+  header.push(...getHeaderColumn(false, "Ad Sales"));
+  header.push(...getHeaderColumn(false, "% of Total Sales"));
+  header.push(...getHeaderColumn(false, "Conv Rate"));
+  header.push(...getHeaderColumn(false, "ACoS"));
 
   headerOfComparison.push("");
   headerOfComparison.push("");
   headerOfComparison.push("");
   headerOfComparison.push(...getHeaderColumn(false));
   headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn());
   headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
   headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
+  headerOfComparison.push(...getHeaderColumn(false));
 
   finalData.push(header);
   finalData.push(headerOfComparison);
@@ -265,447 +295,170 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(current.item_number || "N/A");
       temp.push(current.asin || "N/A");
       temp.push(current.short_product_title || "N/A");
-      temp.push(current.sales ? "$" + numberWithCommas(current.sales) : "N/A");
-      temp.push(
-        previous?.sales ? "$" + numberWithCommas(previous?.sales) : "N/A"
+
+      //
+      const sales = getSingleColumForCSV(
+        current.sales,
+        previous.sales,
+        change.sales,
+        charge.sales,
+        yoy.sales,
+        yoyCharge.sales,
+        isYoY
       );
-      temp.push(
-        change.sales !== 0
-          ? "$" + numberWithCommas(change.sales)
-          : current.sales > 0 && previous?.sales > 0
-          ? "$0.00"
-          : "N/A"
+      const shipped_cogs = getSingleColumForCSV(
+        current.shipped_cogs,
+        previous.shipped_cogs,
+        change.shipped_cogs,
+        charge.shipped_cogs,
+        yoy.shipped_cogs,
+        yoyCharge.shipped_cogs,
+        isYoY
       );
-      temp.push(
-        charge.sales !== 0
-          ? charge.sales + "%"
-          : current.sales > 0 && previous?.sales > 0
-          ? "0%"
-          : "N/A"
+      const orders = getSingleColumForCSV(
+        current.orders,
+        previous.orders,
+        change.orders,
+        charge.orders,
+        yoy.orders,
+        yoyCharge.orders,
+        isYoY
+      );
+      const units_sold = getSingleColumForCSV(
+        current.units_sold,
+        previous.units_sold,
+        change.units_sold,
+        charge.units_sold,
+        yoy.units_sold,
+        yoyCharge.units_sold,
+        isYoY
       );
 
-      if (isYoY) {
-        temp.push(
-          yoy.sales !== 0
-            ? "$" + numberWithCommas(yoy.sales)
-            : current.sales > 0 && yoySKU.sales > 0
-            ? "$0.00"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.sales !== 0
-            ? yoyCharge.sales + "%"
-            : current.sales > 0 && yoySKU.sales > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      temp.push(
-        current.shipped_cogs
-          ? "$" + numberWithCommas(current.shipped_cogs)
-          : "N/A"
-      );
-      temp.push(
-        previous?.shipped_cogs
-          ? "$" + numberWithCommas(previous?.shipped_cogs)
-          : "N/A"
-      );
-      temp.push(
-        change.shipped_cogs !== 0
-          ? "$" + numberWithCommas(change.shipped_cogs)
-          : current.shipped_cogs > 0 && previous?.shipped_cogs > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.shipped_cogs
-          ? charge.shipped_cogs + "%"
-          : current.shipped_cogs > 0 && previous?.shipped_cogs > 0
-          ? "0%"
-          : "N/A"
+      const units_per_order = getSingleColumForCSV(
+        current.units_per_order,
+        previous.units_per_order,
+        change.units_per_order,
+        charge.units_per_order,
+        yoy.units_per_order,
+        yoyCharge.units_per_order,
+        isYoY
       );
 
-      if (isYoY) {
-        temp.push(
-          yoy.shipped_cogs !== 0
-            ? "$" + numberWithCommas(yoy.shipped_cogs)
-            : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
-            ? "0"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.shipped_cogs
-            ? yoyCharge.shipped_cogs + "%"
-            : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      temp.push(current.orders ? numberWithCommas(current.orders) : "N/A");
-      temp.push(previous?.orders ? numberWithCommas(previous?.orders) : "N/A");
-      temp.push(
-        change.orders !== 0
-          ? numberWithCommas(change.orders)
-          : current.orders > 0 && previous?.orders > 0
-          ? "$0.00"
-          : "N/A"
-      );
-      temp.push(
-        charge.orders !== 0
-          ? charge.orders + "%"
-          : current.orders > 0 && previous?.orders > 0
-          ? "0%"
-          : "N/A"
-      );
-      if (isYoY) {
-        temp.push(
-          yoy.orders !== 0
-            ? numberWithCommas(yoy.orders)
-            : current.orders > 0 && yoySKU.orders > 0
-            ? "$0.00"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.orders !== 0
-            ? yoyCharge.orders + "%"
-            : current.orders > 0 && yoySKU.orders > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      // units_sold
-      temp.push(
-        current.units_sold ? numberWithCommas(current.units_sold) : "N/A"
-      );
-      temp.push(
-        previous?.units_sold ? numberWithCommas(previous?.units_sold) : "N/A"
-      );
-      temp.push(
-        change.units_sold !== 0
-          ? numberWithCommas(change.units_sold)
-          : current.units_sold > 0 && previous?.units_sold > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.units_sold !== 0
-          ? charge.units_sold + "%"
-          : current.units_sold > 0 && previous?.units_sold > 0
-          ? "0%"
-          : "N/A"
+      const asp = getSingleColumForCSV(
+        current.asp,
+        previous.asp,
+        change.asp,
+        charge.asp,
+        yoy.asp,
+        yoyCharge.asp,
+        isYoY
       );
 
-      if (isYoY) {
-        temp.push(
-          yoy.units_sold !== 0
-            ? numberWithCommas(yoy.units_sold)
-            : current.units_sold > 0 && yoySKU.units_sold > 0
-            ? "0"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.units_sold !== 0
-            ? yoyCharge.units_sold + "%"
-            : current.units_sold > 0 && yoySKU.units_sold > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      temp.push(
-        current.units_per_order
-          ? numberWithCommas(current.units_per_order)
-          : "N/A"
-      );
-      temp.push(
-        previous?.units_per_order
-          ? numberWithCommas(previous?.units_per_order)
-          : "N/A"
-      );
-      temp.push(
-        change.units_per_order !== 0
-          ? numberWithCommas(change.units_per_order)
-          : current.units_per_order > 0 && previous?.units_per_order > 0
-          ? "$0.00"
-          : "N/A"
-      );
-      temp.push(
-        charge.units_per_order !== 0
-          ? charge.units_per_order + "%"
-          : current.units_per_order > 0 && previous?.units_per_order > 0
-          ? "0%"
-          : "N/A"
-      );
-      if (isYoY) {
-        temp.push(
-          yoy.units_per_order !== 0
-            ? numberWithCommas(yoy.units_per_order)
-            : current.units_per_order > 0 && yoySKU.units_per_order > 0
-            ? "$0.00"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.units_per_order !== 0
-            ? yoyCharge.units_per_order + "%"
-            : current.units_per_order > 0 && yoySKU.units_per_order > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      temp.push(current.asp ? "$" + numberWithCommas(current.asp) : "N/A");
-      temp.push(previous?.asp ? "$" + numberWithCommas(previous?.asp) : "N/A");
-      temp.push(
-        change.asp !== 0
-          ? "$" + numberWithCommas(change.asp)
-          : current.asp > 0 && previous?.asp > 0
-          ? "$0.00"
-          : "N/A"
-      );
-      temp.push(
-        charge.asp !== 0
-          ? charge.asp + "%"
-          : current.asp > 0 && previous?.asp > 0
-          ? "0%"
-          : "N/A"
-      );
-      if (isYoY) {
-        temp.push(
-          yoy.asp !== 0
-            ? "$" + numberWithCommas(yoy.asp)
-            : current.asp > 0 && yoySKU.asp > 0
-            ? "$0.00"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.asp !== 0
-            ? yoyCharge.asp + "%"
-            : current.asp > 0 && yoySKU.asp > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      temp.push(
-        current.ad_impressions
-          ? numberWithCommas(current.ad_impressions)
-          : "N/A"
-      );
-      temp.push(
-        previous?.ad_impressions
-          ? numberWithCommas(previous?.ad_impressions)
-          : "N/A"
-      );
-      temp.push(
-        change.ad_impressions !== 0
-          ? numberWithCommas(change.ad_impressions)
-          : current.ad_impressions > 0 && previous?.ad_impressions > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.ad_impressions
-          ? charge.ad_impressions + "%"
-          : current.ad_impressions > 0 && previous?.ad_impressions > 0
-          ? "0%"
-          : "N/A"
+      const ad_impressions = getSingleColumForCSV(
+        current.ad_impressions,
+        previous.ad_impressions,
+        change.ad_impressions,
+        charge.ad_impressions,
+        yoy.ad_impressions,
+        yoyCharge.ad_impressions,
+        isYoY
       );
 
-      temp.push(
-        current.ad_clicks ? numberWithCommas(current.ad_clicks) : "N/A"
-      );
-      temp.push(
-        previous?.ad_clicks ? numberWithCommas(previous?.ad_clicks) : "N/A"
-      );
-      temp.push(
-        change.ad_clicks !== 0
-          ? numberWithCommas(change.ad_clicks)
-          : current.ad_clicks > 0 && previous?.ad_clicks > 0
-          ? "0.00"
-          : "N/A"
-      );
-      temp.push(
-        current.ad_clicks !== 0
-          ? charge.ad_clicks + "%"
-          : current.ad_clicks > 0 && previous?.ad_clicks > 0
-          ? "0%"
-          : "N/A"
+      const ad_clicks = getSingleColumForCSV(
+        current.ad_clicks,
+        previous.ad_clicks,
+        change.ad_clicks,
+        charge.ad_clicks,
+        yoy.ad_clicks,
+        yoyCharge.ad_clicks,
+        isYoY
       );
 
-      temp.push(
-        current.average_cpc
-          ? "$" + numberWithCommas(current.average_cpc)
-          : "N/A"
-      );
-      temp.push(
-        previous?.average_cpc
-          ? "$" + numberWithCommas(previous?.average_cpc)
-          : "N/A"
-      );
-      temp.push(
-        change.average_cpc !== 0
-          ? "$" + numberWithCommas(change.average_cpc)
-          : current.average_cpc > 0 && previous?.average_cpc > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.average_cpc !== 0
-          ? charge.average_cpc + "%"
-          : current.average_cpc > 0 && previous?.average_cpc > 0
-          ? "0%"
-          : "N/A"
+      const average_cpc = getSingleColumForCSV(
+        current.average_cpc,
+        previous.average_cpc,
+        change.average_cpc,
+        charge.average_cpc,
+        yoy.average_cpc,
+        yoyCharge.average_cpc,
+        isYoY
       );
 
-      temp.push(
-        current.ad_spend ? "$" + numberWithCommas(current.ad_spend) : "N/A"
-      );
-      temp.push(
-        previous?.ad_spend ? "$" + numberWithCommas(previous?.ad_spend) : "N/A"
-      );
-      temp.push(
-        change.ad_spend !== 0
-          ? "$" + numberWithCommas(change.ad_spend)
-          : current.ad_spend > 0 && previous?.ad_spend > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.ad_spend !== 0
-          ? charge.ad_spend + "%"
-          : current.ad_spend > 0 && previous?.ad_spend > 0
-          ? "0%"
-          : "N/A"
+      const ad_spend = getSingleColumForCSV(
+        current.ad_spend,
+        previous.ad_spend,
+        change.ad_spend,
+        charge.ad_spend,
+        yoy.ad_spend,
+        yoyCharge.ad_spend,
+        isYoY
       );
 
-      if (isYoY) {
-        temp.push(
-          yoy.ad_spend !== 0
-            ? "$" + numberWithCommas(yoy.ad_spend)
-            : current.ad_spend > 0 && yoySKU.ad_spend > 0
-            ? "0"
-            : "N/A"
-        );
-        temp.push(
-          yoyCharge.ad_spend !== 0
-            ? yoyCharge.ad_spend + "%"
-            : current.ad_spend > 0 && yoySKU.ad_spend > 0
-            ? "0%"
-            : "N/A"
-        );
-      }
-
-      temp.push(
-        !!current.ad_orders ? numberWithCommas(current.ad_orders) : "N/A"
-      );
-      temp.push(
-        !!previous?.ad_orders ? numberWithCommas(previous?.ad_orders) : "N/A"
-      );
-      temp.push(
-        change.ad_orders !== 0
-          ? numberWithCommas(change.ad_orders)
-          : current.ad_orders > 0 && previous?.ad_orders > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.ad_orders !== 0
-          ? charge.ad_orders + "%"
-          : current.ad_orders > 0 && previous?.ad_orders > 0
-          ? "0%"
-          : "N/A"
+      const ad_orders = getSingleColumForCSV(
+        current.ad_orders,
+        previous.ad_orders,
+        change.ad_orders,
+        charge.ad_orders,
+        yoy.ad_orders,
+        yoyCharge.ad_orders,
+        isYoY
       );
 
-      temp.push(
-        current.ad_sales ? "$" + numberWithCommas(current.ad_sales) : "N/A"
-      );
-      temp.push(
-        previous?.ad_sales ? "$" + numberWithCommas(previous?.ad_sales) : "N/A"
-      );
-      temp.push(
-        change.ad_sales !== 0
-          ? "$" + numberWithCommas(change.ad_sales)
-          : current.ad_sales > 0 && previous?.ad_sales > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.ad_sales !== 0
-          ? charge.ad_sales + "%"
-          : current.ad_sales > 0 && previous?.ad_sales > 0
-          ? "0%"
-          : "N/A"
+      const ad_sales = getSingleColumForCSV(
+        current.ad_sales,
+        previous.ad_sales,
+        change.ad_sales,
+        charge.ad_sales,
+        yoy.ad_sales,
+        yoyCharge.ad_sales,
+        isYoY
       );
 
-      temp.push(
-        !!current.percent_total_sales
-          ? Number(current.percent_total_sales).toFixed(2) + "%"
-          : "N/A"
-      );
-      temp.push(
-        !!previous?.percent_total_sales
-          ? Number(previous?.percent_total_sales).toFixed(2) + "%"
-          : "N/A"
-      );
-      temp.push(
-        change.percent_total_sales !== 0
-          ? change.percent_total_sales + "%"
-          : current.percent_total_sales > 0 && previous?.percent_total_sales > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        !!charge.percent_total_sales
-          ? charge.percent_total_sales + "%"
-          : current.percent_total_sales > 0 && previous?.percent_total_sales > 0
-          ? "0%"
-          : "N/A"
-      );
-      temp.push(
-        current.conversion_rate !== 0
-          ? Number(current.conversion_rate).toFixed(2) + "%"
-          : "N/A"
-      );
-      temp.push(
-        previous?.conversion_rate !== 0
-          ? Number(previous?.conversion_rate).toFixed(2) + "%"
-          : "N/A"
-      );
-      temp.push(
-        change.conversion_rate !== 0
-          ? change.conversion_rate + "%"
-          : current.conversion_rate > 0 && previous?.conversion_rate > 0
-          ? "0"
-          : "N/A"
-      );
-      temp.push(
-        charge.conversion_rate !== 0
-          ? charge.conversion_rate + "%"
-          : current.conversion_rate > 0 && previous?.conversion_rate > 0
-          ? "0%"
-          : "N/A"
+      const percent_total_sales = getSingleColumForCSV(
+        current.percent_total_sales,
+        previous.percent_total_sales,
+        change.percent_total_sales,
+        charge.percent_total_sales,
+        yoy.percent_total_sales,
+        yoyCharge.percent_total_sales,
+        isYoY
       );
 
-      temp.push(current.acos ? current.acos.toFixed(2) + "%" : "N/A");
-      temp.push(previous?.acos ? previous?.acos.toFixed(2) + "%" : "N/A");
-      temp.push(
-        change.acos !== 0
-          ? change.acos + "%"
-          : current.acos > 0 && previous?.acos > 0
-          ? "0"
-          : "N/A"
+      const conversion_rate = getSingleColumForCSV(
+        current.conversion_rate,
+        previous.conversion_rate,
+        change.conversion_rate,
+        charge.conversion_rate,
+        yoy.conversion_rate,
+        yoyCharge.conversion_rate,
+        isYoY
+      );
+      const acos = getSingleColumForCSV(
+        current.acos,
+        previous.acos,
+        change.acos,
+        charge.acos,
+        yoy.acos,
+        yoyCharge.acos,
+        isYoY
       );
       temp.push(
-        charge.acos !== 0
-          ? charge.acos + "%"
-          : current.acos > 0 && previous?.acos > 0
-          ? "0%"
-          : "N/A"
+        ...sales,
+        ...shipped_cogs,
+        ...orders,
+        ...units_sold,
+        ...units_per_order,
+        ...asp,
+        ...ad_impressions,
+        ...ad_clicks,
+        ...average_cpc,
+        ...ad_spend,
+        ...ad_orders,
+        ...ad_sales,
+        ...percent_total_sales,
+        ...conversion_rate,
+        ...acos,
       );
-
       finalData.push(temp);
 
       return false;
