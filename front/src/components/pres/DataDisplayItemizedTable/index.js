@@ -834,7 +834,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
 const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
   const temp = {
     asp: {
-      current: currentTotal.asp,
+      current: currentTotal?.asp,
       previous: 0,
       change: 0,
       charge: 0,
@@ -854,24 +854,24 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.orders?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.orders?.percentage?.toFixed(2) ?? 0,
     },
     sales: {
       current: currentTotal?.sales,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.sales?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.sales?.percentage?.toFixed(2) ?? 0,
     },
     units_sold: {
       current: currentTotal?.units_sold,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.units_sold?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.units_sold?.percentage?.toFixed(2) ?? 0,
     },
 
     shipped_cogs: {
@@ -879,8 +879,8 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.shipped_cogs?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
     },
 
     average_cpc: {
@@ -888,40 +888,40 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.average_cpc?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.average_cpc?.percentage?.toFixed(2) ?? 0,
     },
     ad_impressions: {
       current: currentTotal?.ad_impressions,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.ad_impressions?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.ad_impressions?.percentage?.toFixed(2) ?? 0,
     },
     ad_clicks: {
       current: currentTotal?.ad_clicks,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.ad_clicks?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.ad_clicks?.percentage?.toFixed(2) ?? 0,
     },
     ad_spend: {
       current: currentTotal?.ad_spend,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.ad_spend?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.ad_spend?.percentage?.toFixed(2) ?? 0,
     },
     ad_orders: {
       current: currentTotal?.ad_orders,
       previous: 0,
       change: 0,
       charge: 0,
-      yoy: yoyTotal?.asp?.number?.toFixed(2) ?? 0,
-      yoyCharge: yoyTotal?.asp?.percentage?.toFixed(2) ?? 0,
+      yoy: yoyTotal?.ad_orders?.number?.toFixed(2) ?? 0,
+      yoyCharge: yoyTotal?.ad_orders?.percentage?.toFixed(2) ?? 0,
     },
     ad_sales: {
       current: currentTotal?.ad_sales,
@@ -961,7 +961,7 @@ const getFrontendFormattedTotal = (props, yoyTotal, currentTotal) => {
 };
 
 const DataDisplayItemizedTable = (props) => {
-  console.log('DataDisplayItemizedTable', props)
+  
   const isComparisons = true;
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
@@ -1057,8 +1057,7 @@ const DataDisplayItemizedTable = (props) => {
     setSortByInner(columnId);
   };
 
-
-  const yoyTotal = currentData.comparisons.totals[0]
+  const yoyTotal = currentData.comparisons.totals;
   const currentTotal = currentData.totals.periods;
   const totalOfData = getFrontendFormattedTotal(filterData, yoyTotal, currentTotal);
 
