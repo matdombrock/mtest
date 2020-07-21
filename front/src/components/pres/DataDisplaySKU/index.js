@@ -102,14 +102,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.sales !== 0
           ? "$" + numberWithCommas(yoy.sales)
-          : current.sales > 0 && yoySKU.sales > 0
+          : current.sales > 0 && yoySKU?.sales > 0
             ? "$0.00"
             : "N/A"
       );
       temp.push(
         yoyCharge.sales !== 0
           ? yoyCharge.sales + "%"
-          : current.sales > 0 && yoySKU.sales > 0
+          : current.sales > 0 && yoySKU?.sales > 0
             ? "0%"
             : "N/A"
       );
@@ -136,14 +136,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.shipped_cogs !== 0
           ? "$" + numberWithCommas(yoy.shipped_cogs)
-          : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
+          : current.shipped_cogs > 0 && yoySKU?.shipped_cogs > 0
             ? "0"
             : "N/A"
       );
       temp.push(
         yoyCharge.shipped_cogs
           ? yoyCharge.shipped_cogs + "%"
-          : current.shipped_cogs > 0 && yoySKU.shipped_cogs > 0
+          : current.shipped_cogs > 0 && yoySKU?.shipped_cogs > 0
             ? "0%"
             : "N/A"
       );
@@ -169,14 +169,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.orders !== 0
           ? numberWithCommas(yoy.orders)
-          : current.orders > 0 && yoySKU.orders > 0
+          : current.orders > 0 && yoySKU?.orders > 0
             ? "$0.00"
             : "N/A"
       );
       temp.push(
         yoyCharge.orders !== 0
           ? yoyCharge.orders + "%"
-          : current.orders > 0 && yoySKU.orders > 0
+          : current.orders > 0 && yoySKU?.orders > 0
             ? "0%"
             : "N/A"
       );
@@ -204,14 +204,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.units_sold !== 0
           ? numberWithCommas(yoy.units_sold)
-          : current.units_sold > 0 && yoySKU.units_sold > 0
+          : current.units_sold > 0 && yoySKU?.units_sold > 0
             ? "0"
             : "N/A"
       );
       temp.push(
         yoyCharge.units_sold !== 0
           ? yoyCharge.units_sold + "%"
-          : current.units_sold > 0 && yoySKU.units_sold > 0
+          : current.units_sold > 0 && yoySKU?.units_sold > 0
             ? "0%"
             : "N/A"
       );
@@ -237,14 +237,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.units_per_order !== 0
           ? numberWithCommas(yoy.units_per_order)
-          : current.units_per_order > 0 && yoySKU.units_per_order > 0
+          : current.units_per_order > 0 && yoySKU?.units_per_order > 0
             ? "$0.00"
             : "N/A"
       );
       temp.push(
         yoyCharge.units_per_order !== 0
           ? yoyCharge.units_per_order + "%"
-          : current.units_per_order > 0 && yoySKU.units_per_order > 0
+          : current.units_per_order > 0 && yoySKU?.units_per_order > 0
             ? "0%"
             : "N/A"
       );
@@ -270,14 +270,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.asp !== 0
           ? "$" + numberWithCommas(yoy.asp)
-          : current.asp > 0 && yoySKU.asp > 0
+          : current.asp > 0 && yoySKU?.asp > 0
             ? "$0.00"
             : "N/A"
       );
       temp.push(
         yoyCharge.asp !== 0
           ? yoyCharge.asp + "%"
-          : current.asp > 0 && yoySKU.asp > 0
+          : current.asp > 0 && yoySKU?.asp > 0
             ? "0%"
             : "N/A"
       );
@@ -359,14 +359,14 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
       temp.push(
         yoy.ad_spend !== 0
           ? "$" + numberWithCommas(yoy.ad_spend)
-          : current.ad_spend > 0 && yoySKU.ad_spend > 0
+          : current.ad_spend > 0 && yoySKU?.ad_spend > 0
             ? "0"
             : "N/A"
       );
       temp.push(
         yoyCharge.ad_spend !== 0
           ? yoyCharge.ad_spend + "%"
-          : current.ad_spend > 0 && yoySKU.ad_spend > 0
+          : current.ad_spend > 0 && yoySKU?.ad_spend > 0
             ? "0%"
             : "N/A"
       );
@@ -940,241 +940,222 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
   return finalData;
 };
 
-const convertToFrontendReadyFormat = (current = [], previous = [], yoy = [], firstPop, firstYoy) => {
-  let allSKU = [];
-  current.map((d) => allSKU.push(d.sku));
-  previous.map((d) => allSKU.push(d.sku));
+const convertToFrontendReadyFormat = (currentDataItemizedArray, previousDataItemized, pops, yoys) => {
+  
+  let itemPops = pops[0].itemized;
+  let itemYoys = yoys.length > 0 ? yoys.reduce(x => x.itemized) : {};
 
-  allSKU = allSKU.filter((value, index, self) => self.indexOf(value) === index);
-  return allSKU
-    .map((sku, i) => {
-      let temp = {
-        asp: 0,
-        units_per_order: 0,
-        orders: 0,
-        ad_spend: 0,
-        ad_orders: 0,
-        conversion_rate: 0,
-        acos: 0,
-        ad_sales: 0,
-        sales: 0,
-        units_sold: 0,
-        shipped_cogs: 0,
-        ad_clicks: 0,
-        ad_impressions: 0,
-        average_cpc: 0,
-        wow_sales: 0,
-        percent_total_sales: 0,
-      };
-
-      let currentSKU = current.find((d) => d.sku === sku);
-      if (!currentSKU) return false;
-
-      let previousSKU = previous.find((d) => d.sku === sku) || JSON.parse(JSON.stringify(temp));
-      let yoySKU = yoy[0]
+  return currentDataItemizedArray
+    .map((item, i) => {
+      
+      let itemPop = itemPops[item.asin];
+      let itemYoy = itemYoys[item.asin];
 
       let change = {
-        asp: firstPop?.itemized[i]?.asp?.number?.toFixed(2),
-        units_per_order: firstPop?.itemized[i]?.units_per_order?.number?.toFixed(2),
-        orders: firstPop?.itemized[i]?.orders?.number?.toFixed(2),
-        ad_spend: firstPop?.itemized[i]?.ad_spend?.number?.toFixed(2),
-        ad_orders: firstPop?.itemized[i]?.ad_orders?.number?.toFixed(2),
-        conversion_rate: firstPop?.itemized[i]?.conversion_rate?.number?.toFixed(2),
-        acos: firstPop?.itemized[i]?.acos?.number?.toFixed(2),
-        ad_sales: firstPop?.itemized[i]?.ad_sales?.number?.toFixed(2),
-        sales: firstPop?.itemized[i]?.sales?.number?.toFixed(2),
-        units_sold: firstPop?.itemized[i]?.units_sold?.number?.toFixed(2),
-        shipped_cogs: firstPop?.itemized[i]?.shipped_cogs?.number?.toFixed(2),
-        ad_clicks: firstPop?.itemized[i]?.ad_clicks?.number?.toFixed(2),
-        ad_impressions: firstPop?.itemized[i]?.ad_impressions?.number?.toFixed(2),
-        average_cpc: firstPop?.itemized[i]?.average_cpc?.number?.toFixed(2),
-        percent_total_sales: firstPop?.itemized[i]?.percent_total_sales?.number?.toFixed(2),
+        asp: itemPop?.asp?.number?.toFixed(2) ?? 0,
+        units_per_order: itemPop?.units_per_order?.number?.toFixed(2) ?? 0,
+        orders: itemPop?.orders?.number?.toFixed(2) ?? 0,
+        ad_spend: itemPop?.ad_spend?.number?.toFixed(2) ?? 0,
+        ad_orders: itemPop?.ad_orders?.number?.toFixed(2) ?? 0,
+        conversion_rate: itemPop?.conversion_rate?.number?.toFixed(2) ?? 0,
+        acos: itemPop?.acos?.number?.toFixed(2) ?? 0,
+        ad_sales: itemPop?.ad_sales?.number?.toFixed(2) ?? 0,
+        sales: itemPop?.sales?.number?.toFixed(2) ?? 0,
+        units_sold: itemPop?.units_sold?.number?.toFixed(2) ?? 0,
+        shipped_cogs: itemPop?.shipped_cogs?.number?.toFixed(2) ?? 0,
+        ad_clicks: itemPop?.ad_clicks?.number?.toFixed(2) ?? 0,
+        ad_impressions: itemPop?.ad_impressions?.number?.toFixed(2) ?? 0,
+        average_cpc: itemPop?.average_cpc?.number?.toFixed(2) ?? 0,
+        percent_total_sales: itemPop?.percent_total_sales?.number?.toFixed(2) ?? 0
       };
       let charge = {
-        orders: firstPop?.itemized[i]?.orders?.percentage?.toFixed(2),
-        units_per_order: firstPop?.itemized[i]?.units_per_order?.percentage?.toFixed(2),
-        asp: firstPop?.itemized[i]?.asp?.percentage?.toFixed(2),
-        ad_spend: firstPop?.itemized[i]?.ad_spend?.percentage?.toFixed(2),
-        ad_orders: firstPop?.itemized[i]?.ad_orders?.percentage?.toFixed(2),
-        conversion_rate: firstPop?.itemized[i]?.conversion_rate?.percentage?.toFixed(2),
-        acos: firstPop?.itemized[i]?.acos?.percentage?.toFixed(2),
-        ad_sales: firstPop?.itemized[i]?.ad_sales?.percentage?.toFixed(2),
-        sales: firstPop?.itemized[i]?.sales?.percentage?.toFixed(2),
-        units_sold: firstPop?.itemized[i]?.units_sold?.percentage?.toFixed(2),
-        shipped_cogs: firstPop?.itemized[i]?.shipped_cogs?.percentage?.toFixed(2),
-        ad_clicks: firstPop?.itemized[i]?.ad_clicks?.percentage?.toFixed(2),
-        ad_impressions: firstPop?.itemized[i]?.ad_impressions?.percentage?.toFixed(2),
-        average_cpc: firstPop?.itemized[i]?.average_cpc?.percentage?.toFixed(2),
-        percent_total_sales: firstPop?.itemized[i]?.percent_total_sales?.percentage?.toFixed(2),
+        orders: itemPop?.orders?.percentage?.toFixed(2) ?? 0,
+        units_per_order: itemPop?.units_per_order?.percentage?.toFixed(2) ?? 0,
+        asp: itemPop?.asp?.percentage?.toFixed(2) ?? 0,
+        ad_spend: itemPop?.ad_spend?.percentage?.toFixed(2) ?? 0,
+        ad_orders: itemPop?.ad_orders?.percentage?.toFixed(2) ?? 0,
+        conversion_rate: itemPop?.conversion_rate?.percentage?.toFixed(2) ?? 0,
+        acos: itemPop?.acos?.percentage?.toFixed(2) ?? 0,
+        ad_sales: itemPop?.ad_sales?.percentage?.toFixed(2) ?? 0,
+        sales: itemPop?.sales?.percentage?.toFixed(2) ?? 0,
+        units_sold: itemPop?.units_sold?.percentage?.toFixed(2) ?? 0,
+        shipped_cogs: itemPop?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
+        ad_clicks: itemPop?.ad_clicks?.percentage?.toFixed(2) ?? 0,
+        ad_impressions: itemPop?.ad_impressions?.percentage?.toFixed(2) ?? 0,
+        average_cpc: itemPop?.average_cpc?.percentage?.toFixed(2) ?? 0,
+        percent_total_sales: itemPop?.percent_total_sales?.percentage?.toFixed(2) ?? 0
       };
 
       let yoyChange = {
-        orders: firstYoy?.itemized[i]?.orders?.number.toFixed(2),
-        units_per_order: firstYoy?.itemized[i]?.units_per_order?.number.toFixed(2),
-        asp: firstYoy?.itemized[i]?.asp?.number.toFixed(2),
-        ad_spend: firstYoy?.itemized[i]?.ad_spend?.number.toFixed(2),
-        ad_orders: firstYoy?.itemized[i]?.ad_orders?.number.toFixed(2),
-        conversion_rate: firstYoy?.itemized[i]?.conversion_rate?.number.toFixed(2),
-        acos: firstYoy?.itemized[i]?.acos?.number.toFixed(2),
-        ad_sales: firstYoy?.itemized[i]?.ad_sales?.number.toFixed(2),
-        sales: firstYoy?.itemized[i]?.sales?.number.toFixed(2),
-        units_sold: firstYoy?.itemized[i]?.units_sold?.number.toFixed(2),
-        shipped_cogs: firstYoy?.itemized[i]?.shipped_cogs?.number.toFixed(2),
-        ad_clicks: firstYoy?.itemized[i]?.ad_clicks?.number.toFixed(2),
-        ad_impressions: firstYoy?.itemized[i]?.ad_impressions?.number.toFixed(2),
-        average_cpc: firstYoy?.itemized[i]?.average_cpc?.number.toFixed(2),
-        percent_total_sales: firstYoy?.itemized[i]?.percent_total_sales?.number.toFixed(2),
+        orders: itemYoy?.orders?.number?.toFixed(2) ?? 0,
+        units_per_order: itemYoy?.units_per_order?.number?.toFixed(2) ?? 0,
+        asp: itemYoy?.asp?.number?.toFixed(2) ?? 0,
+        ad_spend: itemYoy?.ad_spend?.number?.toFixed(2) ?? 0,
+        ad_orders: itemYoy?.ad_orders?.number?.toFixed(2),
+        conversion_rate: itemYoy?.conversion_rate?.number?.toFixed(2) ?? 0,
+        acos: itemYoy?.acos?.number?.toFixed(2) ?? 0,
+        ad_sales: itemYoy?.ad_sales?.number?.toFixed(2) ?? 0,
+        sales: itemYoy?.sales?.number?.toFixed(2) ?? 0,
+        units_sold: itemYoy?.units_sold?.number?.toFixed(2) ?? 0,
+        shipped_cogs: itemYoy?.shipped_cogs?.number?.toFixed(2) ?? 0,
+        ad_clicks: itemYoy?.ad_clicks?.number?.toFixed(2) ?? 0,
+        ad_impressions: itemYoy?.ad_impressions?.number?.toFixed(2) ?? 0,
+        average_cpc: itemYoy?.average_cpc?.number?.toFixed(2) ?? 0,
+        percent_total_sales: itemYoy?.percent_total_sales?.number?.toFixed(2) ?? 0
       };
       let yoyCharge = {
-        orders: firstYoy?.itemized[i]?.orders?.percentage.toFixed(2),
-        units_per_order: firstYoy?.itemized[i]?.units_per_order?.percentage.toFixed(2),
-        asp: firstYoy?.itemized[i]?.asp?.percentage.toFixed(2),
-        ad_spend: firstYoy?.itemized[i]?.ad_spend?.percentage.toFixed(2),
-        ad_orders: firstYoy?.itemized[i]?.ad_orders?.percentage.toFixed(2),
-        conversion_rate: firstYoy?.itemized[i]?.conversion_rate?.percentage.toFixed(2),
-        acos: firstYoy?.itemized[i]?.acos?.percentage.toFixed(2),
-        ad_sales: firstYoy?.itemized[i]?.ad_sales?.percentage.toFixed(2),
-        sales: firstYoy?.itemized[i]?.sales?.percentage.toFixed(2),
-        units_sold: firstYoy?.itemized[i]?.units_sold?.percentage.toFixed(2),
-        shipped_cogs: firstYoy?.itemized[i]?.shipped_cogs?.percentage.toFixed(2),
-        ad_clicks: firstYoy?.itemized[i]?.ad_clicks?.percentage.toFixed(2),
-        ad_impressions: firstYoy?.itemized[i]?.ad_impressions?.percentage.toFixed(2),
-        average_cpc: firstYoy?.itemized[i]?.average_cpc?.percentage.toFixed(2),
-        percent_total_sales: firstYoy?.itemized[i]?.percent_total_sales?.percentage.toFixed(2),
+        orders: itemYoy?.orders?.percentage?.toFixed(2) ?? 0,
+        units_per_order: itemYoy?.units_per_order?.percentage?.toFixed(2) ?? 0,
+        asp: itemYoy?.asp?.percentage?.toFixed(2) ?? 0,
+        ad_spend: itemYoy?.ad_spend?.percentage?.toFixed(2) ?? 0,
+        ad_orders: itemYoy?.ad_orders?.percentage?.toFixed(2) ?? 0,
+        conversion_rate: itemYoy?.conversion_rate?.percentage?.toFixed(2) ?? 0,
+        acos: itemYoy?.acos?.percentage?.toFixed(2) ?? 0,
+        ad_sales: itemYoy?.ad_sales?.percentage?.toFixed(2) ?? 0,
+        sales: itemYoy?.sales?.percentage?.toFixed(2) ?? 0,
+        units_sold: itemYoy?.units_sold?.percentage?.toFixed(2) ?? 0,
+        shipped_cogs: itemYoy?.shipped_cogs?.percentage?.toFixed(2) ?? 0,
+        ad_clicks: itemYoy?.ad_clicks?.percentage?.toFixed(2) ?? 0,
+        ad_impressions: itemYoy?.ad_impressions?.percentage?.toFixed(2) ?? 0,
+        average_cpc: itemYoy?.average_cpc?.percentage?.toFixed(2) ?? 0,
+        percent_total_sales: itemYoy?.percent_total_sales?.percentage?.toFixed(2) ?? 0
       };
+
+      let previous = previousDataItemized[item.asin];
+
       return {
-        current: currentSKU,
-        previous: previousSKU,
+        current: item,
+        previous,
         change,
         charge,
         yoy: yoyChange,
         yoyCharge,
-        yoySKU,
+        yoySKU: null,
       };
     })
     .filter((d) => d);
 };
 
-const getFrontendFormattedTotal = (props, yoyTotal, currentTotal, previousData, firstPopSummary) => {
+const getFrontendFormattedTotal = (yoyTotal, currentTotal) => {
 
   const temp = {
     orders: {
       current: currentTotal.orders,
-      previous: previousData.itemized.reduce((a, b) => a + b.orders, 0),
-      change: firstPopSummary.orders.number,
-      charge: firstPopSummary.orders.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.orders.number,
       yoyCharge: yoyTotal.orders.percentage,
     },
     units_per_order: {
       current: currentTotal.units_per_order,
-      previous: previousData.itemized.reduce((a, b) => a + b.units_per_order, 0),
-      change: firstPopSummary.units_per_order.number,
-      charge: firstPopSummary.units_per_order.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.units_per_order.number,
       yoyCharge: yoyTotal.units_per_order.percentage,
     },
     asp: {
       current: currentTotal.asp,
-      previous: previousData.itemized.reduce((a, b) => a + b.asp, 0),
-      change: firstPopSummary.asp.number,
-      charge: firstPopSummary.asp.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.asp.number,
       yoyCharge: yoyTotal.asp.percentage,
     },
     sales: {
       current: currentTotal.sales,
-      previous: previousData.itemized.reduce((a, b) => a + b.sales, 0),
-      change: firstPopSummary.sales.number,
-      charge: firstPopSummary.sales.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.sales.number,
       yoyCharge: yoyTotal.sales.percentage,
     },
     units_sold: {
       current: currentTotal.units_sold,
-      previous: previousData.itemized.reduce((a, b) => a + b.units_sold, 0),
-      change: firstPopSummary.units_sold.number,
-      charge: firstPopSummary.units_sold.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.units_sold.number,
       yoyCharge: yoyTotal.units_sold.percentage,
     },
     shipped_cogs: {
       current: currentTotal.shipped_cogs,
-      previous: previousData.itemized.reduce((a, b) => a + b.shipped_cogs, 0),
-      change: firstPopSummary.shipped_cogs.number,
-      charge: firstPopSummary.shipped_cogs.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.shipped_cogs.number,
       yoyCharge: yoyTotal.shipped_cogs.percentage,
     },
     average_cpc: {
       current: currentTotal.average_cpc,
-      previous: previousData.itemized.reduce((a, b) => a + b.average_cpc, 0),
-      change: firstPopSummary.average_cpc.number,
-      charge: firstPopSummary.average_cpc.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.average_cpc.number,
       yoyCharge: yoyTotal.average_cpc.percentage,
     },
     ad_impressions: {
       current: currentTotal.ad_impressions,
-      previous: previousData.itemized.reduce((a, b) => a + b.ad_impressions, 0),
-      change: firstPopSummary.ad_impressions.number,
-      charge: firstPopSummary.ad_impressions.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.ad_impressions.number,
       yoyCharge: yoyTotal.ad_impressions.percentage,
     },
     ad_clicks: {
       current: currentTotal.ad_clicks,
-      previous: previousData.itemized.reduce((a, b) => a + b.ad_clicks, 0),
-      change: firstPopSummary.ad_clicks.number,
-      charge: firstPopSummary.ad_clicks.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.ad_clicks.number,
       yoyCharge: yoyTotal.ad_clicks.percentage,
     },
     ad_spend: {
       current: currentTotal.ad_spend,
-      previous: previousData.itemized.reduce((a, b) => a + b.ad_spend, 0),
-      change: firstPopSummary.ad_spend.number,
-      charge: firstPopSummary.ad_spend.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.ad_spend.number,
       yoyCharge: yoyTotal.ad_spend.percentage,
     },
     ad_orders: {
       current: currentTotal.ad_orders,
-      previous: previousData.itemized.reduce((a, b) => a + b.ad_orders, 0),
-      change: firstPopSummary.ad_orders.number,
-      charge: firstPopSummary.ad_orders.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.ad_orders.number,
       yoyCharge: yoyTotal.ad_orders.percentage,
     },
     ad_sales: {
       current: currentTotal.ad_sales,
-      previous: previousData.itemized.reduce((a, b) => a + b.ad_sales, 0),
-      change: firstPopSummary.ad_sales.number,
-      charge: firstPopSummary.ad_sales.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.ad_sales.number,
       yoyCharge: yoyTotal.ad_sales.percentage,
     },
     percent_total_sales: {
       current: currentTotal.percent_total_sales,
-      previous: previousData.itemized.reduce((a, b) => a + b.percent_total_sales, 0),
-      change: firstPopSummary.percent_total_sales.number,
-      charge: firstPopSummary.percent_total_sales.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.percent_total_sales.number,
       yoyCharge: yoyTotal.percent_total_sales.percentage,
     },
     conversion_rate: {
       current: currentTotal.conversion_rate,
-      previous: previousData.itemized.reduce((a, b) => a + b.conversion_rate, 0),
-      change: firstPopSummary.conversion_rate.number,
-      charge: firstPopSummary.conversion_rate.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.conversion_rate.number,
       yoyCharge: yoyTotal.conversion_rate.percentage,
     },
     acos: {
       current: currentTotal.acos,
-      previous: previousData.itemized.reduce((a, b) => a + b.acos, 0),
-      change: firstPopSummary.acos.number,
-      charge: firstPopSummary.acos.percentage,
+      previous: 0,
+      change: 0,
+      charge: 0,
       yoy: yoyTotal.acos.number,
       yoyCharge: yoyTotal.acos.percentage,
     },
@@ -1202,12 +1183,14 @@ const DataDisplaySKUTable = (props) => {
 
   let isYoY = !!comparisons.yoy.length;
 
+  let currentDataItemizedArray = currentData?.itemized ? Object.values(currentData?.itemized) : [];
+  let previousDataItemized = previousData?.itemized ? previousData?.itemized : [];
+  
   const allSKUData = convertToFrontendReadyFormat(
-    currentData?.itemized,
-    previousData?.itemized,
-    !!comparisons.yoy.length ? comparisons.yoy[0].itemized : [],
-    pop[0],
-    yoy[0]
+    currentDataItemizedArray,
+    previousDataItemized,
+    pop,
+    yoy
   );
 
   const filterSKUData = allSKUData.sort((a, b) => {
@@ -1291,13 +1274,11 @@ const DataDisplaySKUTable = (props) => {
     setSortByInner(columnId);
   };
 
-  const yoyTotal = comparisons.totals[0];
-  const { totals } = props.data.data
-
+  const yoyTotal = comparisons.totals;
+  const { totals } = props.data.data;
   const currentTotal = totals.periods;
-  const firstPopSummary = comparisons.pop[0].summary
 
-  const totalOfData = getFrontendFormattedTotal(filterSKUData, yoyTotal, currentTotal, previousData, firstPopSummary);
+  const totalOfData = getFrontendFormattedTotal(yoyTotal, currentTotal);
 
   return (
     <>
@@ -2004,7 +1985,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoy.sales !== 0
                                 ? "$" + numberWithCommas(yoy.sales)
-                                : current.sales > 0 && yoySKU.sales > 0
+                                : current.sales > 0 && yoySKU?.sales > 0
                                   ? "$0.00"
                                   : "N/A"}
                             </td>
@@ -2014,7 +1995,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoyCharge.sales !== 0
                                 ? yoyCharge.sales + "%"
-                                : current.sales > 0 && yoySKU.sales > 0
+                                : current.sales > 0 && yoySKU?.sales > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2074,7 +2055,7 @@ const DataDisplaySKUTable = (props) => {
                               {yoy.shipped_cogs !== 0
                                 ? "$" + numberWithCommas(yoy.shipped_cogs)
                                 : current.shipped_cogs > 0 &&
-                                  yoySKU.shipped_cogs > 0
+                                  yoySKU?.shipped_cogs > 0
                                   ? "0"
                                   : "N/A"}
                             </td>
@@ -2085,7 +2066,7 @@ const DataDisplaySKUTable = (props) => {
                               {yoyCharge.shipped_cogs
                                 ? yoyCharge.shipped_cogs + "%"
                                 : current.shipped_cogs > 0 &&
-                                  yoySKU.shipped_cogs > 0
+                                  yoySKU?.shipped_cogs > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2104,12 +2085,12 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {current.orders
-                            ? numberWithCommas(current.orders)
+                            ? "$" + numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous?.orders
-                            ? numberWithCommas(previous?.orders)
+                            ? "$" + numberWithCommas(previous?.orders)
                             : "N/A"}
                         </td>
                         <td
@@ -2117,7 +2098,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.orders)}
                         >
                           {change.orders !== 0
-                            ? numberWithCommas(change.orders)
+                            ? "$" + numberWithCommas(change.orders)
                             : current.orders > 0 && previous?.orders > 0
                               ? "$0.00"
                               : "N/A"}
@@ -2141,7 +2122,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoy.orders !== 0
                                 ? numberWithCommas(yoy.orders)
-                                : current.orders > 0 && yoySKU.orders > 0
+                                : current.orders > 0 && yoySKU?.orders > 0
                                   ? "$0.00"
                                   : "N/A"}
                             </td>
@@ -2151,7 +2132,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoyCharge.orders !== 0
                                 ? yoyCharge.orders + "%"
-                                : current.orders > 0 && yoySKU.orders > 0
+                                : current.orders > 0 && yoySKU?.orders > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2161,7 +2142,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.orders
-                            ? numberWithCommas(current.orders)
+                            ? "$" + numberWithCommas(current.orders)
                             : "N/A"}
                         </td>
                       )}
@@ -2170,12 +2151,12 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {current.units_sold
-                            ? numberWithCommas(current.units_sold)
+                            ? "$" + numberWithCommas(current.units_sold)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous?.units_sold
-                            ? numberWithCommas(previous?.units_sold)
+                            ? "$" + numberWithCommas(previous?.units_sold)
                             : "N/A"}
                         </td>
                         <td
@@ -2183,7 +2164,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.units_sold)}
                         >
                           {change.units_sold !== 0
-                            ? numberWithCommas(change.units_sold)
+                            ? "$" + numberWithCommas(change.units_sold)
                             : current.units_sold > 0 &&
                               previous?.units_sold > 0
                               ? "0"
@@ -2210,7 +2191,7 @@ const DataDisplaySKUTable = (props) => {
                               {yoy.units_sold !== 0
                                 ? numberWithCommas(yoy.units_sold)
                                 : current.units_sold > 0 &&
-                                  yoySKU.units_sold > 0
+                                  yoySKU?.units_sold > 0
                                   ? "0"
                                   : "N/A"}
                             </td>
@@ -2221,7 +2202,7 @@ const DataDisplaySKUTable = (props) => {
                               {yoyCharge.units_sold !== 0
                                 ? yoyCharge.units_sold + "%"
                                 : current.units_sold > 0 &&
-                                  yoySKU.units_sold > 0
+                                  yoySKU?.units_sold > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2231,7 +2212,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.units_sold
-                            ? numberWithCommas(current.units_sold)
+                            ? "$" + numberWithCommas(current.units_sold)
                             : "N/A"}
                         </td>
                       )}
@@ -2240,12 +2221,12 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {current.units_per_order
-                            ? numberWithCommas(current.units_per_order)
+                            ? "$" + numberWithCommas(current.units_per_order)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous?.units_per_order
-                            ? numberWithCommas(previous?.units_per_order)
+                            ? "$" + numberWithCommas(previous?.units_per_order)
                             : "N/A"}
                         </td>
                         <td
@@ -2253,7 +2234,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.units_per_order)}
                         >
                           {change.units_per_order !== 0
-                            ? numberWithCommas(change.units_per_order)
+                            ? "$" + numberWithCommas(change.units_per_order)
                             : current.units_per_order > 0 && previous?.units_per_order > 0
                               ? "$0.00"
                               : "N/A"}
@@ -2277,7 +2258,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoy.units_per_order !== 0
                                 ? numberWithCommas(yoy.units_per_order)
-                                : current.units_per_order > 0 && yoySKU.units_per_order > 0
+                                : current.units_per_order > 0 && yoySKU?.units_per_order > 0
                                   ? "$0.00"
                                   : "N/A"}
                             </td>
@@ -2287,7 +2268,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoyCharge.units_per_order !== 0
                                 ? yoyCharge.units_per_order + "%"
-                                : current.units_per_order > 0 && yoySKU.units_per_order > 0
+                                : current.units_per_order > 0 && yoySKU?.units_per_order > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2297,7 +2278,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.units_per_order
-                            ? numberWithCommas(current.units_per_order)
+                            ? "$" + numberWithCommas(current.units_per_order)
                             : "N/A"}
                         </td>
                       )}
@@ -2343,7 +2324,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoy.asp !== 0
                                 ? "$" + numberWithCommas(yoy.asp)
-                                : current.asp > 0 && yoySKU.asp > 0
+                                : current.asp > 0 && yoySKU?.asp > 0
                                   ? "$0.00"
                                   : "N/A"}
                             </td>
@@ -2353,7 +2334,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoyCharge.asp !== 0
                                 ? yoyCharge.asp + "%"
-                                : current.asp > 0 && yoySKU.asp > 0
+                                : current.asp > 0 && yoySKU?.asp > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2372,12 +2353,12 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {current.ad_impressions
-                            ? numberWithCommas(current.ad_impressions)
+                            ? "$" + numberWithCommas(current.ad_impressions)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {previous?.ad_impressions
-                            ? numberWithCommas(previous?.ad_impressions)
+                            ? "$" + numberWithCommas(previous?.ad_impressions)
                             : "N/A"}
                         </td>
                         <td
@@ -2385,7 +2366,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.ad_impressions)}
                         >
                           {change.ad_impressions !== 0
-                            ? numberWithCommas(change.ad_impressions)
+                            ? "$" + numberWithCommas(change.ad_impressions)
                             : current.ad_impressions > 0 &&
                               previous?.ad_impressions > 0
                               ? "0"
@@ -2406,7 +2387,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.ad_impressions
-                            ? numberWithCommas(current.ad_impressions)
+                            ? "$" + numberWithCommas(current.ad_impressions)
                             : "N/A"}
                         </td>
                       )}
@@ -2415,13 +2396,13 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {current.ad_clicks
-                            ? numberWithCommas(current.ad_clicks)
+                            ? "$" + numberWithCommas(current.ad_clicks)
                             : "N/A"}
                         </td>
 
                         <td align="right">
                           {previous?.ad_clicks
-                            ? numberWithCommas(previous?.ad_clicks)
+                            ? "$" + numberWithCommas(previous?.ad_clicks)
                             : "N/A"}
                         </td>
                         <td
@@ -2429,7 +2410,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.ad_clicks)}
                         >
                           {change.ad_clicks !== 0
-                            ? numberWithCommas(change.ad_clicks)
+                            ? "$" + numberWithCommas(change.ad_clicks)
                             : current.ad_clicks > 0 && previous?.ad_clicks > 0
                               ? "0.00"
                               : "N/A"}
@@ -2449,7 +2430,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.ad_clicks
-                            ? numberWithCommas(current.ad_clicks)
+                            ? "$" + numberWithCommas(current.ad_clicks)
                             : "N/A"}
                         </td>
                       )}
@@ -2537,7 +2518,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoy.ad_spend !== 0
                                 ? "$" + numberWithCommas(yoy.ad_spend)
-                                : current.ad_spend > 0 && yoySKU.ad_spend > 0
+                                : current.ad_spend > 0 && yoySKU?.ad_spend > 0
                                   ? "0"
                                   : "N/A"}
                             </td>
@@ -2547,7 +2528,7 @@ const DataDisplaySKUTable = (props) => {
                             >
                               {yoyCharge.ad_spend !== 0
                                 ? yoyCharge.ad_spend + "%"
-                                : current.ad_spend > 0 && yoySKU.ad_spend > 0
+                                : current.ad_spend > 0 && yoySKU?.ad_spend > 0
                                   ? "0%"
                                   : "N/A"}
                             </td>
@@ -2566,12 +2547,12 @@ const DataDisplaySKUTable = (props) => {
                       <>
                         <td align="right">
                           {!!current.ad_orders
-                            ? numberWithCommas(current.ad_orders)
+                            ? "$" + numberWithCommas(current.ad_orders)
                             : "N/A"}
                         </td>
                         <td align="right">
                           {!!previous?.ad_orders
-                            ? numberWithCommas(previous?.ad_orders)
+                            ? "$" + numberWithCommas(previous?.ad_orders)
                             : "N/A"}
                         </td>
                         <td
@@ -2579,7 +2560,7 @@ const DataDisplaySKUTable = (props) => {
                           className={isNegative(change.ad_orders)}
                         >
                           {change.ad_orders !== 0
-                            ? numberWithCommas(change.ad_orders)
+                            ? "$" + numberWithCommas(change.ad_orders)
                             : current.ad_orders > 0 && previous?.ad_orders > 0
                               ? "0"
                               : "N/A"}
@@ -2598,7 +2579,7 @@ const DataDisplaySKUTable = (props) => {
                     ) : (
                         <td align="right">
                           {current.ad_orders !== 0
-                            ? numberWithCommas(current.ad_orders)
+                            ? "$" + numberWithCommas(current.ad_orders)
                             : "N/A"}
                         </td>
                       )}

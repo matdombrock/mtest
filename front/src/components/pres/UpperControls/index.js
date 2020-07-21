@@ -227,9 +227,15 @@ class UpperControls extends Component {
                   ? "current-month"
                   : "yesterday";
 
+    const setPeriodDataForSKU = () => {
+
+      data.period_count = 1
+      return data
+    }
+
     if (activeTab === 2) {
       brand &&
-        fetchSalesData(data)
+        fetchSalesData(setPeriodDataForSKU())
           .then((data) => {
             if (!data) throw Object.assign(new Error("Error"), { code: 402 });
             if (data.status !== 200) {
@@ -238,36 +244,8 @@ class UpperControls extends Component {
             } else {
               this.props.setError(false);
               const payload = data;
-              payload.periods = data?.data?.periods?.map((d) => ({
-                ...d,
-                summary: {
-                  ...d?.summary,
-                  acos: d?.summary?.acos,
-                  average_cpc: d?.summary?.averageg_cpc,
-                  average_selling_price: d?.summary?.average_selling_price
-                },
-                itemized: d.itemized.map((o) => ({
-                  ...o,
-                  acos: o?.acos,
-                  average_cpc: o?.average_cpc,
-                  average_selling_price: o?.average_selling_price
-                })),
-              }));
-              payload.yoy = data?.data?.yoy?.map((d) => ({
-                ...d,
-                summary: {
-                  ...d?.summary,
-                  acos: d?.summary?.acos,
-                  average_cpc: d?.summary?.average_cpc,
-                  average_selling_price: d?.summary?.average_selling_price
-                },
-                itemized: d?.itemized?.map((o) => ({
-                  ...o,
-                  acos: o?.acos,
-                  average_cpc: o?.averageg_cpc,
-                  average_selling_price: o?.average_selling_price
-                })),
-              }));
+              payload.periods = data?.data?.periods;
+              payload.yoy = data?.data?.yoy;
 
               if (!isYOY) payload.yoy = [];
               console.log("UpperControls -> fetchData -> payload", payload);
