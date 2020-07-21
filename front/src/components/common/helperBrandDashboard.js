@@ -4,6 +4,7 @@ import moment from "moment";
 const convertToFrontendReadyFormat = ({ periods }, yoy, pop) => {
   let payload = [];
   periods.map((d, i, arr) => {
+    if(i === arr.length - 1) return false
     const _pop = pop[i]?.summary;
     const _yoy = yoy[i]?.summary;
 
