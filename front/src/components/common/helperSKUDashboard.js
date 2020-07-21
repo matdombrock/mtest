@@ -1,6 +1,6 @@
 import numberWithCommas from "../../services/numberWithCommas";
 
-const convertToFrontendReadyFormat = (current, previous, yoy, pop) => {
+const convertToFrontendReadyFormat = (current, previous, yoy={}, pop={}) => {
   let allSKU = [];
   Object.keys(current).map((d) => allSKU.push(d));
 

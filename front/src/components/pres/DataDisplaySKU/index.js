@@ -678,12 +678,10 @@ const DataDisplaySKUTable = (props) => {
                           </span>
                         </div>
                       </th>{" "}
-                      {/* {(active === 3 ||
-                        active === 4 ||
-                        active === 5 ||
-                        active === 9) &&
-                        isYoY && ( */}
-                          <th className={s.tableHead} align="right">
+                      {
+                        isYoY && (
+                         <>
+                         <th className={s.tableHead} align="right">
                             <div>
                               <span>Change # YOY</span>
                               <span onClick={() => handleSortInner(4)}>
@@ -700,12 +698,6 @@ const DataDisplaySKUTable = (props) => {
                               </span>
                             </div>
                           </th>
-                        {/* )} */}
-                      {/* {(active === 3 ||
-                        active === 4 ||
-                        active === 5 ||
-                        active === 9) &&
-                        isYoY && ( */}
                           <th className={s.tableHead} align="right">
                             <div>
                               <span>Change % YOY</span>
@@ -723,7 +715,8 @@ const DataDisplaySKUTable = (props) => {
                               </span>
                             </div>
                           </th>
-                        {/* )} */}
+                         </>
+                        )}
                     </>
                   )}
                 </tr>
