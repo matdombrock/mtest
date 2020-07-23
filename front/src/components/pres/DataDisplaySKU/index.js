@@ -89,13 +89,18 @@ const DataDisplaySKUTable = (props) => {
 
   return (
     <>
-      <h3 style={{ width: '100%', marginLeft: '450px' }}>
+      <h3>
         Current Period Summary:{" "}
-        {moment(props.data.data.periods[0].period.start).utc().format("MM/DD/YYYY")} -{" "}
-        {moment(props.data.data.periods[0].period.end).utc().format("MM/DD/YYYY")}
+        {moment(props.data.data.periods[0].period.start)
+          .utc()
+          .format("MM/DD/YYYY")}{" "}
+        -{" "}
+        {moment(props.data.data.periods[0].period.end)
+          .utc()
+          .format("MM/DD/YYYY")}
       </h3>
       <CSVLink
-        className='link-download'
+        className="link-download"
         data={getCSVVersion(filterSKUData, isYoY, totalOfData)}
         filename={"sku.csv"}
       >
@@ -116,11 +121,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                 </div>
@@ -136,11 +141,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                 </div>
@@ -156,11 +161,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                 </div>
@@ -183,11 +188,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -212,11 +217,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -241,11 +246,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -270,11 +275,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -299,11 +304,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -327,11 +332,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -356,11 +361,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -385,11 +390,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -414,11 +419,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -443,11 +448,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -471,11 +476,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -499,11 +504,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -527,11 +532,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -555,11 +560,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -583,11 +588,11 @@ const DataDisplaySKUTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -619,11 +624,11 @@ const DataDisplaySKUTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -636,11 +641,11 @@ const DataDisplaySKUTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -653,11 +658,11 @@ const DataDisplaySKUTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -670,18 +675,17 @@ const DataDisplaySKUTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>{" "}
-                      {
-                        isYoY && (
-                         <>
-                         <th className={s.tableHead} align="right">
+                      {isYoY && (
+                        <>
+                          <th className={s.tableHead} align="right">
                             <div>
                               <span>Change # YOY</span>
                               <span onClick={() => handleSortInner(4)}>
@@ -690,11 +694,11 @@ const DataDisplaySKUTable = (props) => {
                                   sortAscendingBy ? (
                                     <ArrowDropUpIcon />
                                   ) : (
-                                      <ArrowDropDownIcon />
-                                    )
+                                    <ArrowDropDownIcon />
+                                  )
                                 ) : (
-                                    <SortIcon />
-                                  )}
+                                  <SortIcon />
+                                )}
                               </span>
                             </div>
                           </th>
@@ -707,16 +711,16 @@ const DataDisplaySKUTable = (props) => {
                                   sortAscendingBy ? (
                                     <ArrowDropUpIcon />
                                   ) : (
-                                      <ArrowDropDownIcon />
-                                    )
+                                    <ArrowDropDownIcon />
+                                  )
                                 ) : (
-                                    <SortIcon />
-                                  )}
+                                  <SortIcon />
+                                )}
                               </span>
                             </div>
                           </th>
-                         </>
-                        )}
+                        </>
+                      )}
                     </>
                   )}
                 </tr>
@@ -724,205 +728,220 @@ const DataDisplaySKUTable = (props) => {
             )}
             {filterSKUData
               ? filterSKUData.map((row, i, array) => {
-                const {
-                  current,
-                  previous,
-                  change,
-                  charge,
-                  yoy,
-                  yoyCharge,
-                  yoySKU,
-                } = row;
+                  const {
+                    current,
+                    previous,
+                    change,
+                    charge,
+                    yoy,
+                    yoyCharge,
+                    yoySKU,
+                  } = row;
 
-                return (
-                  <tr key={i}>
-                    <td component="th">
-                      <b>{current.item_number || "N/A"}</b>
-                    </td>
+                  return (
+                    <tr key={i}>
+                      <td component="th">
+                        <b>{current.item_number || "N/A"}</b>
+                      </td>
 
-                    <td align="right">{current.asin || "N/A"}</td>
+                      <td align="right">{current.asin || "N/A"}</td>
 
-                    <td align="right">
-                      {current.short_product_title || "N/A"}
-                    </td>
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 3}
-                      current={current.sales}
-                      previous={previous.sales}
-                      change={change.sales}
-                      charge={charge.sales}
-                      isYoY={isYoY}
-                      yoy={yoy.sales}
-                      yoyCharge={yoyCharge.sales}
-                    />
+                      <td align="right">
+                        {current.short_product_title || "N/A"}
+                      </td>
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 3}
+                        current={current.sales}
+                        previous={previous.sales}
+                        change={change.sales}
+                        charge={charge.sales}
+                        isYoY={isYoY}
+                        symbol="$"
+                        yoy={yoy.sales}
+                        yoyCharge={yoyCharge.sales}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 4}
-                      current={current.shipped_cogs}
-                      previous={previous.shipped_cogs}
-                      change={change.shipped_cogs}
-                      charge={charge.shipped_cogs}
-                      isYoY={isYoY}
-                      yoy={yoy.shipped_cogs}
-                      yoyCharge={yoyCharge.shipped_cogs}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 4}
+                        current={current.shipped_cogs}
+                        previous={previous.shipped_cogs}
+                        change={change.shipped_cogs}
+                        charge={charge.shipped_cogs}
+                        isYoY={isYoY}
+                        symbol="$"
+                        yoy={yoy.shipped_cogs}
+                        yoyCharge={yoyCharge.shipped_cogs}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 5}
-                      current={current.orders}
-                      previous={previous.orders}
-                      change={change.orders}
-                      charge={charge.orders}
-                      isYoY={isYoY}
-                      yoy={yoy.orders}
-                      yoyCharge={yoyCharge.orders}
-                    />
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 6}
-                      current={current.units_sold}
-                      previous={previous.units_sold}
-                      change={change.units_sold}
-                      charge={charge.units_sold}
-                      isYoY={isYoY}
-                      yoy={yoy.units_sold}
-                      yoyCharge={yoyCharge.units_sold}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 5}
+                        current={current.orders}
+                        previous={previous.orders}
+                        change={change.orders}
+                        charge={charge.orders}
+                        isYoY={isYoY}
+                        yoy={yoy.orders}
+                        symbol=""
+                        yoyCharge={yoyCharge.orders}
+                      />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 6}
+                        current={current.units_sold}
+                        previous={previous.units_sold}
+                        change={change.units_sold}
+                        charge={charge.units_sold}
+                        isYoY={isYoY}
+                        symbol=""
+                        yoy={yoy.units_sold}
+                        yoyCharge={yoyCharge.units_sold}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 7}
-                      current={current.units_per_order}
-                      previous={previous.units_per_order}
-                      change={change.units_per_order}
-                      charge={charge.units_per_order}
-                      isYoY={isYoY}
-                      yoy={yoy.units_per_order}
-                      yoyCharge={yoyCharge.units_per_order}
-                    />
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 8}
-                      current={current.asp}
-                      previous={previous.asp}
-                      change={change.asp}
-                      charge={charge.asp}
-                      isYoY={isYoY}
-                      yoy={yoy.asp}
-                      yoyCharge={yoyCharge.asp}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 7}
+                        current={current.units_per_order}
+                        previous={previous.units_per_order}
+                        change={change.units_per_order}
+                        charge={charge.units_per_order}
+                        isYoY={isYoY}
+                        yoy={yoy.units_per_order}
+                        symbol=""
+                        yoyCharge={yoyCharge.units_per_order}
+                      />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 8}
+                        current={current.asp}
+                        previous={previous.asp}
+                        change={change.asp}
+                        charge={charge.asp}
+                        isYoY={isYoY}
+                        symbol="$"
+                        yoy={yoy.asp}
+                        yoyCharge={yoyCharge.asp}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 9}
-                      current={current.ad_impressions}
-                      previous={previous.ad_impressions}
-                      change={change.ad_impressions}
-                      charge={charge.ad_impressions}
-                      isYoY={isYoY}
-                      yoy={yoy.ad_impressions}
-                      yoyCharge={yoyCharge.ad_impressions}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 9}
+                        current={current.ad_impressions}
+                        previous={previous.ad_impressions}
+                        change={change.ad_impressions}
+                        charge={charge.ad_impressions}
+                        isYoY={isYoY}
+                        symbol=""
+                        yoy={yoy.ad_impressions}
+                        yoyCharge={yoyCharge.ad_impressions}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 10}
-                      current={current.ad_clicks}
-                      previous={previous.ad_clicks}
-                      change={change.ad_clicks}
-                      charge={charge.ad_clicks}
-                      isYoY={isYoY}
-                      yoy={yoy.ad_clicks}
-                      yoyCharge={yoyCharge.ad_clicks}
-                    />
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 11}
-                      current={current.average_cpc}
-                      previous={previous.average_cpc}
-                      change={change.average_cpc}
-                      charge={charge.average_cpc}
-                      isYoY={isYoY}
-                      yoy={yoy.average_cpc}
-                      yoyCharge={yoyCharge.average_cpc}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 10}
+                        current={current.ad_clicks}
+                        previous={previous.ad_clicks}
+                        change={change.ad_clicks}
+                        charge={charge.ad_clicks}
+                        isYoY={isYoY}
+                        symbol=""
+                        yoy={yoy.ad_clicks}
+                        yoyCharge={yoyCharge.ad_clicks}
+                      />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 11}
+                        current={current.average_cpc}
+                        previous={previous.average_cpc}
+                        change={change.average_cpc}
+                        charge={charge.average_cpc}
+                        isYoY={isYoY}
+                        symbol="%"
+                        yoy={yoy.average_cpc}
+                        yoyCharge={yoyCharge.average_cpc}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 12}
-                      current={current.ad_spend}
-                      previous={previous.ad_spend}
-                      change={change.ad_spend}
-                      charge={charge.ad_spend}
-                      isYoY={isYoY}
-                      yoy={yoy.ad_spend}
-                      yoyCharge={yoyCharge.ad_spend}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 12}
+                        current={current.ad_spend}
+                        previous={previous.ad_spend}
+                        change={change.ad_spend}
+                        charge={charge.ad_spend}
+                        isYoY={isYoY}
+                        symbol="$"
+                        yoy={yoy.ad_spend}
+                        yoyCharge={yoyCharge.ad_spend}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 13}
-                      current={current.ad_orders}
-                      previous={previous.ad_orders}
-                      change={change.ad_orders}
-                      charge={charge.ad_orders}
-                      isYoY={isYoY}
-                      yoy={yoy.ad_orders}
-                      yoyCharge={yoyCharge.ad_orders}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 13}
+                        current={current.ad_orders}
+                        previous={previous.ad_orders}
+                        change={change.ad_orders}
+                        charge={charge.ad_orders}
+                        isYoY={isYoY}
+                        symbol=""
+                        yoy={yoy.ad_orders}
+                        yoyCharge={yoyCharge.ad_orders}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 14}
-                      current={current.ad_sales}
-                      previous={previous.ad_sales}
-                      change={change.ad_sales}
-                      charge={charge.ad_sales}
-                      isYoY={isYoY}
-                      yoy={yoy.ad_sales}
-                      yoyCharge={yoyCharge.ad_sales}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 14}
+                        current={current.ad_sales}
+                        previous={previous.ad_sales}
+                        change={change.ad_sales}
+                        charge={charge.ad_sales}
+                        isYoY={isYoY}
+                        symbol="$"
+                        yoy={yoy.ad_sales}
+                        yoyCharge={yoyCharge.ad_sales}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 15}
-                      current={current.percent_total_sales}
-                      previous={previous.percent_total_sales}
-                      change={change.percent_total_sales}
-                      charge={charge.percent_total_sales}
-                      isYoY={isYoY}
-                      yoy={yoy.percent_total_sales}
-                      yoyCharge={yoyCharge.percent_total_sales}
-                    />
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 16}
-                      current={current.conversion_rate}
-                      previous={previous.conversion_rate}
-                      change={change.conversion_rate}
-                      charge={charge.conversion_rate}
-                      isYoY={isYoY}
-                      yoy={yoy.conversion_rate}
-                      yoyCharge={yoyCharge.conversion_rate}
-                    />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 15}
+                        current={current.percent_total_sales}
+                        previous={previous.percent_total_sales}
+                        change={change.percent_total_sales}
+                        charge={charge.percent_total_sales}
+                        symbol="%"
+                        isYoY={isYoY}
+                        yoy={yoy.percent_total_sales}
+                        yoyCharge={yoyCharge.percent_total_sales}
+                      />
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 16}
+                        current={current.conversion_rate}
+                        previous={previous.conversion_rate}
+                        change={change.conversion_rate}
+                        charge={charge.conversion_rate}
+                        isYoY={isYoY}
+                        symbol="%"
+                        yoy={yoy.conversion_rate}
+                        yoyCharge={yoyCharge.conversion_rate}
+                      />
 
-                    <TableCell
-                      isComparisons={isComparisons}
-                      isActive={active === 17}
-                      current={current.acos}
-                      previous={previous.acos}
-                      change={change.acos}
-                      charge={charge.acos}
-                      isYoY={isYoY}
-                      yoy={yoy.acos}
-                      yoyCharge={yoyCharge.acos}
-                    />
-                  </tr>
-                );
-              })
+                      <TableCell
+                        isComparisons={isComparisons}
+                        isActive={active === 17}
+                        current={current.acos}
+                        previous={previous.acos}
+                        change={change.acos}
+                        charge={charge.acos}
+                        isYoY={isYoY}
+                        symbol="$"
+                        yoy={yoy.acos}
+                        yoyCharge={yoyCharge.acos}
+                      />
+                    </tr>
+                  );
+                })
               : ""}
           </tbody>
           {filterSKUData.length > 1 && (
@@ -934,22 +953,111 @@ const DataDisplaySKUTable = (props) => {
 
                 <td align="right"></td>
                 <td align="right"></td>
-                <TableTotalRowCell cellData={totalOfData.sales} isComparisons={isComparisons} isActive={active===3} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.shipped_cogs} isComparisons={isComparisons} isActive={active===4} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.orders} isComparisons={isComparisons} isActive={active===5} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.units_sold} isComparisons={isComparisons} isActive={active===6} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.units_per_order} isComparisons={isComparisons} isActive={active===7} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.asp} isComparisons={isComparisons} isActive={active===8} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_impressions} isComparisons={isComparisons} isActive={active===9} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_clicks} isComparisons={isComparisons} isActive={active===10} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.average_cpc} isComparisons={isComparisons} isActive={active===11} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_spend} isComparisons={isComparisons} isActive={active===12} isYoY={isYoY}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_orders} isComparisons={isComparisons} isActive={active===13} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.ad_sales} isComparisons={isComparisons} isActive={active===14} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.percent_total_sales} isComparisons={isComparisons} isActive={active===15} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.conversion_rate} isComparisons={isComparisons} isActive={active===16} isYoY={false}></TableTotalRowCell>
-                <TableTotalRowCell cellData={totalOfData.acos} isComparisons={isComparisons} isActive={active===17} isYoY={false}></TableTotalRowCell>
-
+                <TableTotalRowCell
+                  cellData={totalOfData.sales}
+                  isComparisons={isComparisons}
+                  isActive={active === 3}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.shipped_cogs}
+                  isComparisons={isComparisons}
+                  isActive={active === 4}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.orders}
+                  isComparisons={isComparisons}
+                  isActive={active === 5}
+                  symbol=""
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.units_sold}
+                  isComparisons={isComparisons}
+                  isActive={active === 6}
+                  symbol=""
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.units_per_order}
+                  isComparisons={isComparisons}
+                  isActive={active === 7}
+                  isYoY={isYoY}
+                  symbol=""
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.asp}
+                  isComparisons={isComparisons}
+                  isActive={active === 8}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.ad_impressions}
+                  isComparisons={isComparisons}
+                  isActive={active === 9}
+                  symbol=""
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.ad_clicks}
+                  isComparisons={isComparisons}
+                  isActive={active === 10}
+                  symbol=""
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.average_cpc}
+                  isComparisons={isComparisons}
+                  isActive={active === 11}
+                  symbol="%"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.ad_spend}
+                  isComparisons={isComparisons}
+                  isActive={active === 12}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.ad_orders}
+                  isComparisons={isComparisons}
+                  isActive={active === 13}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.ad_sales}
+                  isComparisons={isComparisons}
+                  isActive={active === 14}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.percent_total_sales}
+                  isComparisons={isComparisons}
+                  isActive={active === 15}
+                  symbol="%"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.conversion_rate}
+                  isComparisons={isComparisons}
+                  symbol="%"
+                  isActive={active === 16}
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
+                <TableTotalRowCell
+                  cellData={totalOfData.acos}
+                  isComparisons={isComparisons}
+                  isActive={active === 17}
+                  symbol="$"
+                  isYoY={isYoY}
+                ></TableTotalRowCell>
               </tr>
             </tfoot>
           )}{" "}
