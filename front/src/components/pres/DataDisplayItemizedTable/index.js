@@ -11,19 +11,20 @@ import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
-import Button from '@material-ui/core/Button'
+import Button from "@material-ui/core/Button";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
-import DownloadCSVButton from './../../common/downloadCSVButton'
-import TableTotalRowCell from './../Table/table-totalrow-cell';
-import TableCell from './../Table/table-cell';
-import {filterDataAndFormat, getFrontendFormattedTotal, getCSVVersion} from "../../common/helperBrandDashboard"
-
-
+import DownloadCSVButton from "./../../common/downloadCSVButton";
+import TableTotalRowCell from "./../Table/table-totalrow-cell";
+import TableCell from "./../Table/table-cell";
+import {
+  filterDataAndFormat,
+  getFrontendFormattedTotal,
+  getCSVVersion,
+} from "../../common/helperBrandDashboard";
 
 const DataDisplayItemizedTable = (props) => {
-
   const isComparisons = true;
 
   const [active, setActive] = useState(false);
@@ -35,12 +36,21 @@ const DataDisplayItemizedTable = (props) => {
   let currentData = props.data.data;
   let isYoY = !!currentData.comparisons.yoy.length;
 
-  const { comparisons: { yoy, pop } } = currentData
+  const {
+    comparisons: { yoy, pop },
+  } = currentData;
 
   if (!currentData) return null;
 
-  const filterData = filterDataAndFormat(currentData,yoy,pop,sortBy,sortByInner,sortAscendingBy)
-  
+  const filterData = filterDataAndFormat(
+    currentData,
+    yoy,
+    pop,
+    sortBy,
+    sortByInner,
+    sortAscendingBy
+  );
+
   const headerClick = (index) => {
     isComparisons && setActive(active === index ? false : index);
     setSortByInner(false);
@@ -66,12 +76,16 @@ const DataDisplayItemizedTable = (props) => {
 
   const yoyTotal = currentData.comparisons.totals;
   const currentTotal = currentData.totals.periods;
-  const totalOfData = getFrontendFormattedTotal(filterData, yoyTotal, currentTotal);
+  const totalOfData = getFrontendFormattedTotal(
+    filterData,
+    yoyTotal,
+    currentTotal
+  );
 
   return (
     <>
       <CSVLink
-        className='link-download'
+        className="link-download"
         data={getCSVVersion(filterData, isYoY, totalOfData)}
         filename={"brand.csv"}
       >
@@ -83,7 +97,7 @@ const DataDisplayItemizedTable = (props) => {
             <tr>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 0 && "4"}
+                colSpan={isComparisons && active === 0 && (isYoY ? "6" : "4")}
               >
                 <div>
                   <span>
@@ -95,11 +109,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                 </div>
@@ -121,11 +135,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -149,11 +163,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -177,11 +191,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -189,7 +203,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 4 && "4"}
+                colSpan={isComparisons && active === 4 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -205,11 +219,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -217,7 +231,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 5 && "4"}
+                colSpan={isComparisons && active === 5 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -233,20 +247,19 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
                 </div>
-
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 6 && "4"}
+                colSpan={isComparisons && active === 6 && (isYoY ? "6" : "4")}
               >
                 <div>
                   <span onClick={() => headerClick(6)}>
@@ -261,11 +274,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -289,11 +302,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -301,7 +314,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 8 && "4"}
+                colSpan={isComparisons && active === 8 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -317,11 +330,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -329,7 +342,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 9 && "4"}
+                colSpan={isComparisons && active === 9 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -345,11 +358,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -357,7 +370,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 10 && "4"}
+                colSpan={isComparisons && active === 10 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -374,11 +387,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -386,7 +399,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 11 && "4"}
+                colSpan={isComparisons && active === 11 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -402,11 +415,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -414,7 +427,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 12 && "4"}
+                colSpan={isComparisons && active === 12 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -430,11 +443,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -442,7 +455,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 13 && "4"}
+                colSpan={isComparisons && active === 13 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -458,11 +471,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -470,7 +483,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 14 && "4"}
+                colSpan={isComparisons && active === 14 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -486,11 +499,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -498,7 +511,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 15 && "4"}
+                colSpan={isComparisons && active === 15 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -514,34 +527,16 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
                 </div>
               </th>
-              {/* <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 13 && "4"}
-              onClick={() => headerClick(13)}
-              align="right"
-            >
-              <div>
-                <span>
-                  {isComparisons &&
-                    (active === 13 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-
-                <span>
-                  {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
-                </span>
-                <span />
-              </div>
-            </th> */}
             </tr>
           </thead>
           <tbody>
@@ -567,11 +562,11 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -584,11 +579,11 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -601,11 +596,11 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -618,60 +613,52 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
-                      {(active === 1 ||
-                        active === 2 ||
-                        active === 3 ||
-                        active === 7) &&
-                        isYoY && (
-                          <th className={s.tableHead} align="right">
-                            <div>
-                              <span>Change # YOY</span>
-                              <span onClick={() => handleSortInner(4)}>
-                                {" "}
-                                {sortByInner === 4 ? (
-                                  sortAscendingBy ? (
-                                    <ArrowDropUpIcon />
-                                  ) : (
-                                      <ArrowDropDownIcon />
-                                    )
+                      {isYoY && (
+                        <th className={s.tableHead} align="right">
+                          <div>
+                            <span>Change # YOY</span>
+                            <span onClick={() => handleSortInner(4)}>
+                              {" "}
+                              {sortByInner === 4 ? (
+                                sortAscendingBy ? (
+                                  <ArrowDropUpIcon />
                                 ) : (
-                                    <SortIcon />
-                                  )}
-                              </span>
-                            </div>
-                          </th>
-                        )}
-                      {(active === 1 ||
-                        active === 2 ||
-                        active === 3 ||
-                        active === 7) &&
-                        isYoY && (
-                          <th className={s.tableHead} align="right">
-                            <div>
-                              <span>Change % YOY</span>
-                              <span onClick={() => handleSortInner(5)}>
-                                {" "}
-                                {sortByInner === 5 ? (
-                                  sortAscendingBy ? (
-                                    <ArrowDropUpIcon />
-                                  ) : (
-                                      <ArrowDropDownIcon />
-                                    )
+                                  <ArrowDropDownIcon />
+                                )
+                              ) : (
+                                <SortIcon />
+                              )}
+                            </span>
+                          </div>
+                        </th>
+                      )}
+                      {isYoY && (
+                        <th className={s.tableHead} align="right">
+                          <div>
+                            <span>Change % YOY</span>
+                            <span onClick={() => handleSortInner(5)}>
+                              {" "}
+                              {sortByInner === 5 ? (
+                                sortAscendingBy ? (
+                                  <ArrowDropUpIcon />
                                 ) : (
-                                    <SortIcon />
-                                  )}
-                              </span>
-                            </div>
-                          </th>
-                        )}
+                                  <ArrowDropDownIcon />
+                                )
+                              ) : (
+                                <SortIcon />
+                              )}
+                            </span>
+                          </div>
+                        </th>
+                      )}
                     </>
                   )}
                 </tr>
@@ -679,23 +666,23 @@ const DataDisplayItemizedTable = (props) => {
             )}
             {filterData
               ? filterData.map((row, i, array) => {
-                const {
-                  current,
-                  previous,
-                  change,
-                  charge,
-                  yoy,
-                  yoyCharge,
-                } = row;
-                return (
-                  <tr key={i}>
-                    {active === 0 ? (
-                      <>
-                        <td component="th" className="w-date">
-                          <b>{i + 1}</b>
-                        </td>
-                      </>
-                    ) : (
+                  const {
+                    current,
+                    previous,
+                    change,
+                    charge,
+                    yoy,
+                    yoyCharge,
+                  } = row;
+                  return (
+                    <tr key={i}>
+                      {active === 0 ? (
+                        <>
+                          <td component="th" className="w-date">
+                            <b>{i + 1}</b>
+                          </td>
+                        </>
+                      ) : (
                         <td component="th" className="w-date">
                           <b>
                             {moment(row.period.start)
@@ -707,69 +694,174 @@ const DataDisplayItemizedTable = (props) => {
                         </td>
                       )}
 
-                    <TableCell current={current.sales} previous={previous.sales} change={change.sales} charge={charge.sales}
-                      yoy={yoy.sales} yoyCharge={yoyCharge.sales}
-                      isComparisons={isComparisons} isActive={active === 1} isYoY={isYoY}>
-                    </TableCell>
-                    <TableCell current={current.shipped_cogs} previous={previous.shipped_cogs} change={change.shipped_cogs} charge={charge.shipped_cogs}
-                      yoy={yoy.shipped_cogs} yoyCharge={yoyCharge.shipped_cogs}
-                      isComparisons={isComparisons} isActive={active === 2} isYoY={isYoY}>
-                    </TableCell>
-                    <TableCell current={current.orders} previous={previous.orders} change={change.orders} charge={charge.orders}
-                      yoy={yoy.orders} yoyCharge={yoyCharge.orders}
-                      isComparisons={isComparisons} isActive={active === 3} isYoY={isYoY}>
-                    </TableCell>
-                    <TableCell current={current.units_sold} previous={previous.units_sold} change={change.units_sold} charge={charge.units_sold}
-                      yoy={yoy.units_sold} yoyCharge={yoyCharge.units_sold}
-                      isComparisons={isComparisons} isActive={active === 4} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.units_per_order} previous={previous.units_per_order} change={change.units_per_order} charge={charge.units_per_order}
-                      yoy={yoy.units_per_order} yoyCharge={yoyCharge.units_per_order}
-                      isComparisons={isComparisons} isActive={active === 5} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.asp} previous={previous.asp} change={change.asp} charge={charge.asp}
-                      yoy={yoy.asp} yoyCharge={yoyCharge.asp}
-                      isComparisons={isComparisons} isActive={active === 6} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.ad_impressions} previous={previous.ad_impressions} change={change.ad_impressions} charge={charge.ad_impressions}
-                      yoy={yoy.ad_impressions} yoyCharge={yoyCharge.ad_impressions}
-                      isComparisons={isComparisons} isActive={active === 7} isYoY={isYoY}>
-                    </TableCell>
-                    <TableCell current={current.ad_clicks} previous={previous.ad_clicks} change={change.ad_clicks} charge={charge.ad_clicks}
-                      yoy={yoy.ad_clicks} yoyCharge={yoyCharge.ad_clicks}
-                      isComparisons={isComparisons} isActive={active === 8} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.average_cpc} previous={previous.average_cpc} change={change.average_cpc} charge={charge.average_cpc}
-                      yoy={yoy.average_cpc} yoyCharge={yoyCharge.average_cpc}
-                      isComparisons={isComparisons} isActive={active === 9} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.ad_spend} previous={previous.ad_spend} change={change.ad_spend} charge={charge.ad_spend}
-                      yoy={yoy.ad_spend} yoyCharge={yoyCharge.ad_spend}
-                      isComparisons={isComparisons} isActive={active === 10} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.ad_orders} previous={previous.ad_orders} change={change.ad_orders} charge={charge.ad_orders}
-                      yoy={yoy.ad_orders} yoyCharge={yoyCharge.ad_orders}
-                      isComparisons={isComparisons} isActive={active === 11} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.ad_sales} previous={previous.ad_sales} change={change.ad_sales} charge={charge.ad_sales}
-                      yoy={yoy.ad_sales} yoyCharge={yoyCharge.ad_sales}
-                      isComparisons={isComparisons} isActive={active === 12} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.percent_total_sales} previous={previous.percent_total_sales} change={change.percent_total_sales} charge={charge.percent_total_sales}
-                      yoy={yoy.percent_total_sales} yoyCharge={yoyCharge.percent_total_sales}
-                      isComparisons={isComparisons} isActive={active === 13} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.conversion_rate} previous={previous.conversion_rate} change={change.conversion_rate} charge={charge.conversion_rate}
-                      yoy={yoy.conversion_rate} yoyCharge={yoyCharge.conversion_rate}
-                      isComparisons={isComparisons} isActive={active === 14} isYoY={false}>
-                    </TableCell>
-                    <TableCell current={current.acos} previous={previous.acos} change={change.acos} charge={charge.acos}
-                      yoy={yoy.acos} yoyCharge={yoyCharge.acos}
-                      isComparisons={isComparisons} isActive={active === 15} isYoY={false}>
-                    </TableCell>
-                  </tr>
-                );
-              })
+                      <TableCell
+                        current={current.sales}
+                        previous={previous.sales}
+                        change={change.sales}
+                        charge={charge.sales}
+                        yoy={yoy.sales}
+                        yoyCharge={yoyCharge.sales}
+                        isComparisons={isComparisons}
+                        isActive={active === 1}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.shipped_cogs}
+                        previous={previous.shipped_cogs}
+                        change={change.shipped_cogs}
+                        charge={charge.shipped_cogs}
+                        yoy={yoy.shipped_cogs}
+                        yoyCharge={yoyCharge.shipped_cogs}
+                        isComparisons={isComparisons}
+                        isActive={active === 2}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.orders}
+                        previous={previous.orders}
+                        change={change.orders}
+                        charge={charge.orders}
+                        yoy={yoy.orders}
+                        yoyCharge={yoyCharge.orders}
+                        isComparisons={isComparisons}
+                        isActive={active === 3}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.units_sold}
+                        previous={previous.units_sold}
+                        change={change.units_sold}
+                        charge={charge.units_sold}
+                        yoy={yoy.units_sold}
+                        yoyCharge={yoyCharge.units_sold}
+                        isComparisons={isComparisons}
+                        isActive={active === 4}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.units_per_order}
+                        previous={previous.units_per_order}
+                        change={change.units_per_order}
+                        charge={charge.units_per_order}
+                        yoy={yoy.units_per_order}
+                        yoyCharge={yoyCharge.units_per_order}
+                        isComparisons={isComparisons}
+                        isActive={active === 5}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.asp}
+                        previous={previous.asp}
+                        change={change.asp}
+                        charge={charge.asp}
+                        yoy={yoy.asp}
+                        yoyCharge={yoyCharge.asp}
+                        isComparisons={isComparisons}
+                        isActive={active === 6}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_impressions}
+                        previous={previous.ad_impressions}
+                        change={change.ad_impressions}
+                        charge={charge.ad_impressions}
+                        yoy={yoy.ad_impressions}
+                        yoyCharge={yoyCharge.ad_impressions}
+                        isComparisons={isComparisons}
+                        isActive={active === 7}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_clicks}
+                        previous={previous.ad_clicks}
+                        change={change.ad_clicks}
+                        charge={charge.ad_clicks}
+                        yoy={yoy.ad_clicks}
+                        yoyCharge={yoyCharge.ad_clicks}
+                        isComparisons={isComparisons}
+                        isActive={active === 8}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.average_cpc}
+                        previous={previous.average_cpc}
+                        change={change.average_cpc}
+                        charge={charge.average_cpc}
+                        yoy={yoy.average_cpc}
+                        yoyCharge={yoyCharge.average_cpc}
+                        isComparisons={isComparisons}
+                        isActive={active === 9}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_spend}
+                        previous={previous.ad_spend}
+                        change={change.ad_spend}
+                        charge={charge.ad_spend}
+                        yoy={yoy.ad_spend}
+                        yoyCharge={yoyCharge.ad_spend}
+                        isComparisons={isComparisons}
+                        isActive={active === 10}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_orders}
+                        previous={previous.ad_orders}
+                        change={change.ad_orders}
+                        charge={charge.ad_orders}
+                        yoy={yoy.ad_orders}
+                        yoyCharge={yoyCharge.ad_orders}
+                        isComparisons={isComparisons}
+                        isActive={active === 11}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_sales}
+                        previous={previous.ad_sales}
+                        change={change.ad_sales}
+                        charge={charge.ad_sales}
+                        yoy={yoy.ad_sales}
+                        yoyCharge={yoyCharge.ad_sales}
+                        isComparisons={isComparisons}
+                        isActive={active === 12}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.percent_total_sales}
+                        previous={previous.percent_total_sales}
+                        change={change.percent_total_sales}
+                        charge={charge.percent_total_sales}
+                        yoy={yoy.percent_total_sales}
+                        yoyCharge={yoyCharge.percent_total_sales}
+                        isComparisons={isComparisons}
+                        isActive={active === 13}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.conversion_rate}
+                        previous={previous.conversion_rate}
+                        change={change.conversion_rate}
+                        charge={charge.conversion_rate}
+                        yoy={yoy.conversion_rate}
+                        yoyCharge={yoyCharge.conversion_rate}
+                        isComparisons={isComparisons}
+                        isActive={active === 14}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.acos}
+                        previous={previous.acos}
+                        change={change.acos}
+                        charge={charge.acos}
+                        yoy={yoy.acos}
+                        yoyCharge={yoyCharge.acos}
+                        isComparisons={isComparisons}
+                        isActive={active === 15}
+                        isYoY={isYoY}
+                      ></TableCell>
+                    </tr>
+                  );
+                })
               : ""}
           </tbody>
 
@@ -779,25 +871,98 @@ const DataDisplayItemizedTable = (props) => {
                 <b>Total</b>
               </td>
 
-              <TableTotalRowCell cellData={totalOfData.sales} isComparisons={isComparisons} isActive={active === 1} isYoY={isYoY}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.shipped_cogs} isComparisons={isComparisons} isActive={active === 2} isYoY={isYoY}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.orders} isComparisons={isComparisons} isActive={active === 3} isYoY={isYoY}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.units_sold} isComparisons={isComparisons} isActive={active === 4} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.units_per_order} isComparisons={isComparisons} isActive={active === 5} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.asp} isComparisons={isComparisons} isActive={active === 6} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.ad_impressions} isComparisons={isComparisons} isActive={active === 7} isYoY={isYoY}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.ad_clicks} isComparisons={isComparisons} isActive={active === 8} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.average_cpc} isComparisons={isComparisons} isActive={active === 9} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.ad_spend} isComparisons={isComparisons} isActive={active === 10} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.ad_orders} isComparisons={isComparisons} isActive={active === 11} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.ad_sales} isComparisons={isComparisons} isActive={active === 12} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.percent_total_sales} isComparisons={isComparisons} isActive={active === 13} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.conversion_rate} isComparisons={isComparisons} isActive={active === 14} isYoY={false}></TableTotalRowCell>
-              <TableTotalRowCell cellData={totalOfData.acos} isComparisons={isComparisons} isActive={active === 15} isYoY={false}></TableTotalRowCell>
-
+              <TableTotalRowCell
+                cellData={totalOfData.sales}
+                isComparisons={isComparisons}
+                isActive={active === 1}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.shipped_cogs}
+                isComparisons={isComparisons}
+                isActive={active === 2}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.orders}
+                isComparisons={isComparisons}
+                isActive={active === 3}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.units_sold}
+                isComparisons={isComparisons}
+                isActive={active === 4}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.units_per_order}
+                isComparisons={isComparisons}
+                isActive={active === 5}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.asp}
+                isComparisons={isComparisons}
+                isActive={active === 6}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_impressions}
+                isComparisons={isComparisons}
+                isActive={active === 7}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_clicks}
+                isComparisons={isComparisons}
+                isActive={active === 8}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.average_cpc}
+                isComparisons={isComparisons}
+                isActive={active === 9}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_spend}
+                isComparisons={isComparisons}
+                isActive={active === 10}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_orders}
+                isComparisons={isComparisons}
+                isActive={active === 11}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_sales}
+                isComparisons={isComparisons}
+                isActive={active === 12}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.percent_total_sales}
+                isComparisons={isComparisons}
+                isActive={active === 13}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.conversion_rate}
+                isComparisons={isComparisons}
+                isActive={active === 14}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.acos}
+                isComparisons={isComparisons}
+                isActive={active === 15}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
             </tr>
           </tfoot>
-
         </table>
       </div>
     </>
