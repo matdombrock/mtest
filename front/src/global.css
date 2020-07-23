@@ -87,7 +87,7 @@ body {
   z-index: 1;
   margin: auto;
   overflow: auto;
-  height: 350px;
+  /* height: 350px; */
 }
 .table-scroll table {
   width: 100%;
