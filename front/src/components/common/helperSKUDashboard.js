@@ -31,6 +31,7 @@ const convertToFrontendReadyFormat = (current, previous, yoy={}, pop={}) => {
 
       let currentYoy = yoy[sku] || JSON.parse(JSON.stringify(temp));
       let currentPop = pop[sku] || JSON.parse(JSON.stringify(temp));
+      console.log("convertToFrontendReadyFormat -> currentPop", currentPop)
       let change = {
         asp: currentPop?.asp?.number?.toFixed(2),
         units_per_order: currentPop?.units_per_order?.number?.toFixed(2),
@@ -469,459 +470,161 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
   total.push("");
   total.push("");
 
-  total.push(
-    totalOfData.sales.current
-      ? "$" + numberWithCommas(totalOfData.sales.current)
-      : "N/A"
+  const sales = getSingleColumForCSV(
+    totalOfData.sales.current,
+    totalOfData.sales.previous,
+    totalOfData.sales.change,
+    totalOfData.sales.charge,
+    totalOfData.sales.yoy,
+    totalOfData.sales.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.sales.previous
-      ? "$" + numberWithCommas(totalOfData.sales.previous)
-      : "N/A"
+  const shipped_cogs = getSingleColumForCSV(
+    totalOfData.shipped_cogs.current,
+    totalOfData.shipped_cogs.previous,
+    totalOfData.shipped_cogs.change,
+    totalOfData.shipped_cogs.charge,
+    totalOfData.shipped_cogs.yoy,
+    totalOfData.shipped_cogs.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.sales.change !== 0
-      ? "$" + numberWithCommas(totalOfData.sales.change)
-      : totalOfData.sales.current > 0 && totalOfData.sales.previous > 0
-      ? "$0.00"
-      : "N/A"
+  const orders = getSingleColumForCSV(
+    totalOfData.orders.current,
+    totalOfData.orders.previous,
+    totalOfData.orders.change,
+    totalOfData.orders.charge,
+    totalOfData.orders.yoy,
+    totalOfData.orders.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.sales.charge !== 0
-      ? Number(totalOfData.sales.charge).toFixed(2) + "%"
-      : totalOfData.sales.current > 0 && totalOfData.sales.previous > 0
-      ? "0%"
-      : "N/A"
+  const units_sold = getSingleColumForCSV(
+    totalOfData.units_sold.current,
+    totalOfData.units_sold.previous,
+    totalOfData.units_sold.change,
+    totalOfData.units_sold.charge,
+    totalOfData.units_sold.yoy,
+    totalOfData.units_sold.yoyCharge,
+    isYoY
   );
-  if (isYoY) {
-    total.push(
-      totalOfData.sales.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.sales.yoy)
-        : totalOfData.sales.current > 0 && totalOfData.sales.yoySKU > 0
-        ? "$0.00"
-        : "N/A"
-    );
-    total.push(
-      totalOfData.sales.yoyCharge !== 0
-        ? Number(totalOfData.sales.yoyCharge).toFixed(2) + "%"
-        : totalOfData.sales.current > 0 && totalOfData.sales.yoySKU > 0
-        ? "0%"
-        : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.shipped_cogs.current
-      ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.shipped_cogs.previous
-      ? "$" + numberWithCommas(totalOfData.shipped_cogs.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.shipped_cogs.change !== 0
-      ? "$" + numberWithCommas(totalOfData.shipped_cogs.change)
-      : totalOfData.shipped_cogs.current > 0 &&
-        totalOfData.shipped_cogs.previous
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.shipped_cogs.charge
-      ? Number(totalOfData.shipped_cogs.charge).toFixed(2) + "%"
-      : totalOfData.shipped_cogs.current > 0 &&
-        totalOfData.shipped_cogs.previous
-      ? "0%"
-      : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.shipped_cogs.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.shipped_cogs.yoy)
-        : totalOfData.shipped_cogs.current > 0 &&
-          totalOfData.shipped_cogs.previous
-        ? "0"
-        : "N/A"
-    );
-    total.push(
-      totalOfData.shipped_cogs.yoyCharge
-        ? Number(totalOfData.shipped_cogs.yoyCharge).toFixed(2) + "%"
-        : totalOfData.shipped_cogs.current > 0 &&
-          totalOfData.shipped_cogs.yoySKU > 0
-        ? "0%"
-        : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.orders.current
-      ? numberWithCommas(totalOfData.orders.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.orders.previous
-      ? numberWithCommas(totalOfData.orders.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.orders.change !== 0
-      ? numberWithCommas(totalOfData.orders.change)
-      : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
-      ? "$0.00"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.orders.charge !== 0
-      ? Number(totalOfData.orders.charge).toFixed(2) + "%"
-      : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
-      ? "0%"
-      : "N/A"
+  const units_per_order = getSingleColumForCSV(
+    totalOfData.units_per_order.current,
+    totalOfData.units_per_order.previous,
+    totalOfData.units_per_order.change,
+    totalOfData.units_per_order.charge,
+    totalOfData.units_per_order.yoy,
+    totalOfData.units_per_order.yoyCharge,
+    isYoY
   );
 
-  total.push(
-    totalOfData.units_sold.current
-      ? numberWithCommas(totalOfData.units_sold.current)
-      : "N/A"
+  const asp = getSingleColumForCSV(
+    totalOfData.asp.current,
+    totalOfData.asp.previous,
+    totalOfData.asp.change,
+    totalOfData.asp.charge,
+    totalOfData.asp.yoy,
+    totalOfData.asp.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.units_sold.previous
-      ? numberWithCommas(totalOfData.units_sold.previous)
-      : "N/A"
+  const ad_impressions = getSingleColumForCSV(
+    totalOfData.ad_impressions.current,
+    totalOfData.ad_impressions.previous,
+    totalOfData.ad_impressions.change,
+    totalOfData.ad_impressions.charge,
+    totalOfData.ad_impressions.yoy,
+    totalOfData.ad_impressions.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.units_sold.change !== 0
-      ? numberWithCommas(totalOfData.units_sold.change)
-      : totalOfData.units_sold.current > 0 &&
-        totalOfData.units_sold.previous > 0
-      ? "0"
-      : "N/A"
+  const ad_clicks = getSingleColumForCSV(
+    totalOfData.ad_clicks.current,
+    totalOfData.ad_clicks.previous,
+    totalOfData.ad_clicks.change,
+    totalOfData.ad_clicks.charge,
+    totalOfData.ad_clicks.yoy,
+    totalOfData.ad_clicks.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.units_sold.charge !== 0
-      ? Number(totalOfData.units_sold.charge).toFixed(2) + "%"
-      : totalOfData.units_sold.current > 0 &&
-        totalOfData.units_sold.previous > 0
-      ? "0%"
-      : "N/A"
+  const average_cpc = getSingleColumForCSV(
+    totalOfData.average_cpc.current,
+    totalOfData.average_cpc.previous,
+    totalOfData.average_cpc.change,
+    totalOfData.average_cpc.charge,
+    totalOfData.average_cpc.yoy,
+    totalOfData.average_cpc.yoyCharge,
+    isYoY
   );
-
-  if (isYoY) {
-    total.push(
-      totalOfData.units_sold.yoy !== 0
-        ? numberWithCommas(totalOfData.units_sold.yoy)
-        : totalOfData.units_sold.current > 0 &&
-          totalOfData.units_sold.yoySKU > 0
-        ? "0"
-        : "N/A"
-    );
-    total.push(
-      totalOfData.units_sold.yoyCharge !== 0
-        ? Number(totalOfData.units_sold.yoyCharge).toFixed(2) + "%"
-        : totalOfData.units_sold.current > 0 &&
-          totalOfData.units_sold.yoySKU > 0
-        ? "0%"
-        : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.units_per_order.current
-      ? numberWithCommas(totalOfData.units_per_order.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_per_order.previous
-      ? numberWithCommas(totalOfData.units_per_order.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_per_order.change !== 0
-      ? numberWithCommas(totalOfData.units_per_order.change)
-      : totalOfData.units_per_order.current > 0 &&
-        totalOfData.units_per_order.previous > 0
-      ? "$0.00"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_per_order.charge !== 0
-      ? Number(totalOfData.units_per_order.charge).toFixed(2) + "%"
-      : totalOfData.units_per_order.current > 0 &&
-        totalOfData.units_per_order.previous > 0
-      ? "0%"
-      : "N/A"
+  const ad_spend = getSingleColumForCSV(
+    totalOfData.ad_spend.current,
+    totalOfData.ad_spend.previous,
+    totalOfData.ad_spend.change,
+    totalOfData.ad_spend.charge,
+    totalOfData.ad_spend.yoy,
+    totalOfData.ad_spend.yoyCharge,
+    isYoY
   );
 
-  total.push(
-    totalOfData.asp.current ? numberWithCommas(totalOfData.asp.current) : "N/A"
+  const ad_orders = getSingleColumForCSV(
+    totalOfData.ad_orders.current,
+    totalOfData.ad_orders.previous,
+    totalOfData.ad_orders.change,
+    totalOfData.ad_orders.charge,
+    totalOfData.ad_orders.yoy,
+    totalOfData.ad_orders.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.asp.previous
-      ? numberWithCommas(totalOfData.asp.previous)
-      : "N/A"
+  const ad_sales = getSingleColumForCSV(
+    totalOfData.ad_sales.current,
+    totalOfData.ad_sales.previous,
+    totalOfData.ad_sales.change,
+    totalOfData.ad_sales.charge,
+    totalOfData.ad_sales.yoy,
+    totalOfData.ad_sales.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.asp.change !== 0
-      ? numberWithCommas(totalOfData.asp.change)
-      : totalOfData.asp.current > 0 && totalOfData.asp.previous > 0
-      ? "$0.00"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.asp.charge !== 0
-      ? Number(totalOfData.asp.charge).toFixed(2) + "%"
-      : totalOfData.asp.current > 0 && totalOfData.asp.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    totalOfData.ad_impressions.current
-      ? numberWithCommas(totalOfData.ad_impressions.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_impressions.previous
-      ? numberWithCommas(totalOfData.ad_impressions.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_impressions.change !== 0
-      ? numberWithCommas(totalOfData.ad_impressions.change)
-      : totalOfData.ad_impressions.current > 0 &&
-        totalOfData.ad_impressions.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_impressions.charge
-      ? Number(totalOfData.ad_impressions.charge).toFixed(2) + "%"
-      : totalOfData.ad_impressions.current > 0 &&
-        totalOfData.ad_impressions.previous > 0
-      ? "0%"
-      : "N/A"
+  const percent_total_sales = getSingleColumForCSV(
+    totalOfData.percent_total_sales.current,
+    totalOfData.percent_total_sales.previous,
+    totalOfData.percent_total_sales.change,
+    totalOfData.percent_total_sales.charge,
+    totalOfData.percent_total_sales.yoy,
+    totalOfData.percent_total_sales.yoyCharge,
+    isYoY
   );
 
-  total.push(
-    totalOfData.ad_clicks.current
-      ? numberWithCommas(totalOfData.ad_clicks.current)
-      : "N/A"
+  const conversion_rate = getSingleColumForCSV(
+    totalOfData.conversion_rate.current,
+    totalOfData.conversion_rate.previous,
+    totalOfData.conversion_rate.change,
+    totalOfData.conversion_rate.charge,
+    totalOfData.conversion_rate.yoy,
+    totalOfData.conversion_rate.yoyCharge,
+    isYoY
   );
-  total.push(
-    totalOfData.ad_clicks.previous
-      ? numberWithCommas(totalOfData.ad_clicks.previous)
-      : "N/A"
+  const acos = getSingleColumForCSV(
+    totalOfData.acos.current,
+    totalOfData.acos.previous,
+    totalOfData.acos.change,
+    totalOfData.acos.charge,
+    totalOfData.acos.yoy,
+    totalOfData.acos.yoyCharge,
+    isYoY
   );
+  
   total.push(
-    totalOfData.ad_clicks.change !== 0
-      ? numberWithCommas(totalOfData.ad_clicks.change)
-      : totalOfData.ad_clicks.current > 0 && totalOfData.ad_clicks.previous > 0
-      ? "0.00"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_clicks.current !== 0
-      ? Number(totalOfData.ad_clicks.charge).toFixed(2) + "%"
-      : totalOfData.ad_clicks.current > 0 && totalOfData.ad_clicks.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    totalOfData.average_cpc.current
-      ? "$" + numberWithCommas(totalOfData.average_cpc.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.average_cpc.previous
-      ? "$" + numberWithCommas(totalOfData.average_cpc.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.average_cpc.change !== 0
-      ? "$" + numberWithCommas(totalOfData.average_cpc.change)
-      : totalOfData.average_cpc.current > 0 &&
-        totalOfData.average_cpc.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.average_cpc.charge !== 0
-      ? Number(totalOfData.average_cpc.charge).toFixed(2) + "%"
-      : totalOfData.average_cpc.current > 0 &&
-        totalOfData.average_cpc.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    totalOfData.ad_spend.current
-      ? "$" + numberWithCommas(totalOfData.ad_spend.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_spend.previous
-      ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_spend.change !== 0
-      ? "$" + numberWithCommas(totalOfData.ad_spend.change)
-      : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_spend.charge !== 0
-      ? Number(totalOfData.ad_spend.charge).toFixed(2) + "%"
-      : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  if (isYoY) {
-    total.push(
-      totalOfData.ad_spend.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
-        : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.yoySKU > 0
-        ? "0"
-        : "N/A"
-    );
-    total.push(
-      totalOfData.ad_spend.yoyCharge !== 0
-        ? Number(totalOfData.ad_spend.yoyCharge).toFixed(2) + "%"
-        : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.yoySKU > 0
-        ? "0%"
-        : "N/A"
-    );
-  }
-
-  total.push(
-    !!totalOfData.ad_orders.current
-      ? numberWithCommas(totalOfData.ad_orders.current)
-      : "N/A"
-  );
-  total.push(
-    !!totalOfData.ad_orders.previous
-      ? numberWithCommas(totalOfData.ad_orders.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_orders.change !== 0
-      ? numberWithCommas(totalOfData.ad_orders.change)
-      : totalOfData.ad_orders.current > 0 && totalOfData.ad_orders.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_orders.charge !== 0
-      ? Number(totalOfData.ad_orders.charge).toFixed(2) + "%"
-      : totalOfData.ad_orders.current > 0 && totalOfData.ad_orders.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    totalOfData.ad_sales.current
-      ? "$" + numberWithCommas(totalOfData.ad_sales.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_sales.previous
-      ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_sales.change !== 0
-      ? "$" + numberWithCommas(totalOfData.ad_sales.change)
-      : totalOfData.ad_sales.current > 0 && totalOfData.ad_sales.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_sales.charge !== 0
-      ? Number(totalOfData.ad_sales.charge).toFixed(2) + "%"
-      : totalOfData.ad_sales.current > 0 && totalOfData.ad_sales.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    !!totalOfData.percent_total_sales.current
-      ? Number(totalOfData.percent_total_sales.current).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    !!totalOfData.percent_total_sales.previous
-      ? Number(totalOfData.percent_total_sales.previous).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.percent_total_sales.change !== 0
-      ? Number(totalOfData.percent_total_sales.change).toFixed(2) + "%"
-      : totalOfData.percent_total_sales.current > 0 &&
-        totalOfData.percent_total_sales.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    !!totalOfData.percent_total_sales.charge
-      ? Number(totalOfData.percent_total_sales.charge).toFixed(2) + "%"
-      : totalOfData.percent_total_sales.current > 0 &&
-        totalOfData.percent_total_sales.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    totalOfData.conversion_rate.current !== 0
-      ? Number(totalOfData.conversion_rate.current).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.conversion_rate.previous !== 0
-      ? Number(totalOfData.conversion_rate.previous).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.conversion_rate.change !== 0
-      ? Number(totalOfData.conversion_rate.change).toFixed(2) + "%"
-      : totalOfData.conversion_rate.current > 0 &&
-        totalOfData.conversion_rate.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.conversion_rate.charge !== 0
-      ? Number(totalOfData.conversion_rate.charge).toFixed(2) + "%"
-      : totalOfData.conversion_rate.current > 0 &&
-        totalOfData.conversion_rate.previous > 0
-      ? "0%"
-      : "N/A"
-  );
-
-  total.push(
-    totalOfData.acos.current ? totalOfData.acos.current.toFixed(2) + "%" : "N/A"
-  );
-  total.push(
-    totalOfData.acos.previous
-      ? totalOfData.acos.previous?.toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.acos.change !== 0
-      ? Number(totalOfData.acos.change).toFixed(2) + "%"
-      : totalOfData.acos.current > 0 && totalOfData.acos.previous > 0
-      ? "0"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.acos.charge !== 0
-      ? Number(totalOfData.acos.charge).toFixed(2) + "%"
-      : totalOfData.acos.current > 0 && totalOfData.acos.previous > 0
-      ? "0%"
-      : "N/A"
+    ...sales,
+    ...shipped_cogs,
+    ...orders,
+    ...units_sold,
+    ...units_per_order,
+    ...asp,
+    ...ad_impressions,
+    ...ad_clicks,
+    ...average_cpc,
+    ...ad_spend,
+    ...ad_orders,
+    ...ad_sales,
+    ...percent_total_sales,
+    ...conversion_rate,
+    ...acos
   );
   finalData.push(total);
 
