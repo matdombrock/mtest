@@ -8,14 +8,16 @@ const getSingleColumForCSV = (
   charge,
   yoy,
   yoyCharge,
-  isYoY
+  isYoY,
+  symbol = ""
 ) => {
+  const symbolIsRight = symbol === "%";
   const temp = [];
-  temp.push(current ? "$" + numberWithCommas(current) : "N/A");
-  temp.push(previous ? "$" + numberWithCommas(previous) : "N/A");
+  temp.push(current ? symbol + numberWithCommas(current) : "N/A");
+  temp.push(previous ? symbol + numberWithCommas(previous) : "N/A");
   temp.push(
     change !== 0
-      ? "$" + numberWithCommas(change)
+      ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(change)}`
       : current > 0 && previous > 0
       ? "$0.00"
       : "N/A"
@@ -25,7 +27,11 @@ const getSingleColumForCSV = (
   );
 
   if (isYoY) {
-    temp.push(yoy !== 0 ? "$" + numberWithCommas(yoy) : "N/A");
+    temp.push(
+      yoy !== 0
+        ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(yoy)}`
+        : "N/A"
+    );
     temp.push(yoyCharge !== 0 ? yoyCharge + "%" : "N/A");
   }
   return temp;
@@ -435,7 +441,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.sales,
       yoy.sales,
       yoyCharge.sales,
-      isYoY
+      isYoY,
+      "$"
     );
 
     const shipped_cogs = getSingleColumForCSV(
@@ -445,7 +452,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.shipped_cogs,
       yoy.shipped_cogs,
       yoyCharge.shipped_cogs,
-      isYoY
+      isYoY,
+      "$"
     );
 
     const orders = getSingleColumForCSV(
@@ -455,7 +463,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.orders,
       yoy.orders,
       yoyCharge.orders,
-      isYoY
+      isYoY,
+      ""
     );
 
     const units_sold = getSingleColumForCSV(
@@ -465,7 +474,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.units_sold,
       yoy.units_sold,
       yoyCharge.units_sold,
-      isYoY
+      isYoY,
+      ""
     );
 
     const units_per_order = getSingleColumForCSV(
@@ -475,7 +485,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.units_per_order,
       yoy.units_per_order,
       yoyCharge.units_per_order,
-      isYoY
+      isYoY,
+      ""
     );
 
     const asp = getSingleColumForCSV(
@@ -485,7 +496,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.asp,
       yoy.asp,
       yoyCharge.asp,
-      isYoY
+      isYoY,
+      "$"
     );
 
     const ad_impressions = getSingleColumForCSV(
@@ -495,7 +507,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.ad_impressions,
       yoy.ad_impressions,
       yoyCharge.ad_impressions,
-      isYoY
+      isYoY,
+      ""
     );
 
     const ad_clicks = getSingleColumForCSV(
@@ -505,7 +518,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.ad_clicks,
       yoy.ad_clicks,
       yoyCharge.ad_clicks,
-      isYoY
+      isYoY,
+      ""
     );
 
     const average_cpc = getSingleColumForCSV(
@@ -515,7 +529,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.average_cpc,
       yoy.average_cpc,
       yoyCharge.average_cpc,
-      isYoY
+      isYoY,
+      "$"
     );
 
     const ad_spend = getSingleColumForCSV(
@@ -525,7 +540,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.ad_spend,
       yoy.ad_spend,
       yoyCharge.ad_spend,
-      isYoY
+      isYoY,
+      "$"
     );
 
     const ad_orders = getSingleColumForCSV(
@@ -535,7 +551,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.ad_orders,
       yoy.ad_orders,
       yoyCharge.ad_orders,
-      isYoY
+      isYoY,
+      ""
     );
     const ad_sales = getSingleColumForCSV(
       current.ad_sales,
@@ -544,7 +561,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.ad_sales,
       yoy.ad_sales,
       yoyCharge.ad_sales,
-      isYoY
+      isYoY,
+      "$"
     );
     const percent_total_sales = getSingleColumForCSV(
       current.percent_total_sales,
@@ -553,7 +571,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.percent_total_sales,
       yoy.percent_total_sales,
       yoyCharge.percent_total_sales,
-      isYoY
+      isYoY,
+      "%"
     );
     const conversion_rate = getSingleColumForCSV(
       current.conversion_rate,
@@ -562,7 +581,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.conversion_rate,
       yoy.conversion_rate,
       yoyCharge.conversion_rate,
-      isYoY
+      isYoY,
+      "%"
     );
     const acos = getSingleColumForCSV(
       current.acos,
@@ -571,7 +591,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       charge.acos,
       yoy.acos,
       yoyCharge.acos,
-      isYoY
+      isYoY,
+      "$"
     );
 
     temp.push(
@@ -608,7 +629,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.sales.charge,
     totalOfData.sales.yoy,
     totalOfData.sales.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
   const shipped_cogs = getSingleColumForCSV(
     totalOfData.shipped_cogs.current,
@@ -617,7 +639,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.shipped_cogs.charge,
     totalOfData.shipped_cogs.yoy,
     totalOfData.shipped_cogs.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
   const orders = getSingleColumForCSV(
     totalOfData.orders.current,
@@ -626,7 +649,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.orders.charge,
     totalOfData.orders.yoy,
     totalOfData.orders.yoyCharge,
-    isYoY
+    isYoY,
+    ""
   );
   const units_sold = getSingleColumForCSV(
     totalOfData.units_sold.current,
@@ -635,7 +659,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.units_sold.charge,
     totalOfData.units_sold.yoy,
     totalOfData.units_sold.yoyCharge,
-    isYoY
+    isYoY,
+    ""
   );
   const units_per_order = getSingleColumForCSV(
     totalOfData.units_per_order.current,
@@ -644,7 +669,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.units_per_order.charge,
     totalOfData.units_per_order.yoy,
     totalOfData.units_per_order.yoyCharge,
-    isYoY
+    isYoY,
+    ""
   );
 
   const asp = getSingleColumForCSV(
@@ -654,7 +680,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.asp.charge,
     totalOfData.asp.yoy,
     totalOfData.asp.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
   const ad_impressions = getSingleColumForCSV(
     totalOfData.ad_impressions.current,
@@ -663,7 +690,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.ad_impressions.charge,
     totalOfData.ad_impressions.yoy,
     totalOfData.ad_impressions.yoyCharge,
-    isYoY
+    isYoY,
+    ""
   );
   const ad_clicks = getSingleColumForCSV(
     totalOfData.ad_clicks.current,
@@ -672,7 +700,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.ad_clicks.charge,
     totalOfData.ad_clicks.yoy,
     totalOfData.ad_clicks.yoyCharge,
-    isYoY
+    isYoY,
+    ""
   );
   const average_cpc = getSingleColumForCSV(
     totalOfData.average_cpc.current,
@@ -681,7 +710,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.average_cpc.charge,
     totalOfData.average_cpc.yoy,
     totalOfData.average_cpc.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
   const ad_spend = getSingleColumForCSV(
     totalOfData.ad_spend.current,
@@ -690,7 +720,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.ad_spend.charge,
     totalOfData.ad_spend.yoy,
     totalOfData.ad_spend.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
 
   const ad_orders = getSingleColumForCSV(
@@ -700,7 +731,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.ad_orders.charge,
     totalOfData.ad_orders.yoy,
     totalOfData.ad_orders.yoyCharge,
-    isYoY
+    isYoY,
+    ""
   );
   const ad_sales = getSingleColumForCSV(
     totalOfData.ad_sales.current,
@@ -709,7 +741,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.ad_sales.charge,
     totalOfData.ad_sales.yoy,
     totalOfData.ad_sales.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
   const percent_total_sales = getSingleColumForCSV(
     totalOfData.percent_total_sales.current,
@@ -718,7 +751,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.percent_total_sales.charge,
     totalOfData.percent_total_sales.yoy,
     totalOfData.percent_total_sales.yoyCharge,
-    isYoY
+    isYoY,
+    "%"
   );
 
   const conversion_rate = getSingleColumForCSV(
@@ -728,7 +762,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.conversion_rate.charge,
     totalOfData.conversion_rate.yoy,
     totalOfData.conversion_rate.yoyCharge,
-    isYoY
+    isYoY,
+    "%"
   );
   const acos = getSingleColumForCSV(
     totalOfData.acos.current,
@@ -737,7 +772,8 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.acos.charge,
     totalOfData.acos.yoy,
     totalOfData.acos.yoyCharge,
-    isYoY
+    isYoY,
+    "$"
   );
 
   total.push(

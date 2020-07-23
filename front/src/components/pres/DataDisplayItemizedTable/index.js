@@ -704,6 +704,7 @@ const DataDisplayItemizedTable = (props) => {
                         isComparisons={isComparisons}
                         isActive={active === 1}
                         isYoY={isYoY}
+                        symbol="$"
                       ></TableCell>
                       <TableCell
                         current={current.shipped_cogs}
@@ -715,6 +716,7 @@ const DataDisplayItemizedTable = (props) => {
                         isComparisons={isComparisons}
                         isActive={active === 2}
                         isYoY={isYoY}
+                        symbol="$"
                       ></TableCell>
                       <TableCell
                         current={current.orders}
@@ -726,6 +728,7 @@ const DataDisplayItemizedTable = (props) => {
                         isComparisons={isComparisons}
                         isActive={active === 3}
                         isYoY={isYoY}
+                        symbol=""
                       ></TableCell>
                       <TableCell
                         current={current.units_sold}
@@ -736,6 +739,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoyCharge={yoyCharge.units_sold}
                         isComparisons={isComparisons}
                         isActive={active === 4}
+                        symbol=""
                         isYoY={isYoY}
                       ></TableCell>
                       <TableCell
@@ -748,6 +752,7 @@ const DataDisplayItemizedTable = (props) => {
                         isComparisons={isComparisons}
                         isActive={active === 5}
                         isYoY={isYoY}
+                        symbol=""
                       ></TableCell>
                       <TableCell
                         current={current.asp}
@@ -759,6 +764,7 @@ const DataDisplayItemizedTable = (props) => {
                         isComparisons={isComparisons}
                         isActive={active === 6}
                         isYoY={isYoY}
+                        symbol="$"
                       ></TableCell>
                       <TableCell
                         current={current.ad_impressions}
@@ -769,6 +775,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoyCharge={yoyCharge.ad_impressions}
                         isComparisons={isComparisons}
                         isActive={active === 7}
+                        symbol=""
                         isYoY={isYoY}
                       ></TableCell>
                       <TableCell
@@ -781,6 +788,7 @@ const DataDisplayItemizedTable = (props) => {
                         isComparisons={isComparisons}
                         isActive={active === 8}
                         isYoY={isYoY}
+                        symbol=""
                       ></TableCell>
                       <TableCell
                         current={current.average_cpc}
@@ -791,6 +799,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoyCharge={yoyCharge.average_cpc}
                         isComparisons={isComparisons}
                         isActive={active === 9}
+                        symbol="$"
                         isYoY={isYoY}
                       ></TableCell>
                       <TableCell
@@ -801,6 +810,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoy={yoy.ad_spend}
                         yoyCharge={yoyCharge.ad_spend}
                         isComparisons={isComparisons}
+                        symbol="$"
                         isActive={active === 10}
                         isYoY={isYoY}
                       ></TableCell>
@@ -812,6 +822,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoy={yoy.ad_orders}
                         yoyCharge={yoyCharge.ad_orders}
                         isComparisons={isComparisons}
+                        symbol=""
                         isActive={active === 11}
                         isYoY={isYoY}
                       ></TableCell>
@@ -824,6 +835,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoyCharge={yoyCharge.ad_sales}
                         isComparisons={isComparisons}
                         isActive={active === 12}
+                        symbol="$"
                         isYoY={isYoY}
                       ></TableCell>
                       <TableCell
@@ -833,6 +845,7 @@ const DataDisplayItemizedTable = (props) => {
                         charge={charge.percent_total_sales}
                         yoy={yoy.percent_total_sales}
                         yoyCharge={yoyCharge.percent_total_sales}
+                        symbol="%"
                         isComparisons={isComparisons}
                         isActive={active === 13}
                         isYoY={isYoY}
@@ -846,6 +859,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoyCharge={yoyCharge.conversion_rate}
                         isComparisons={isComparisons}
                         isActive={active === 14}
+                        symbol="%"
                         isYoY={isYoY}
                       ></TableCell>
                       <TableCell
@@ -856,6 +870,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoy={yoy.acos}
                         yoyCharge={yoyCharge.acos}
                         isComparisons={isComparisons}
+                        symbol="$"
                         isActive={active === 15}
                         isYoY={isYoY}
                       ></TableCell>
@@ -876,16 +891,19 @@ const DataDisplayItemizedTable = (props) => {
                 isComparisons={isComparisons}
                 isActive={active === 1}
                 isYoY={isYoY}
+                symbol="$"
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.shipped_cogs}
                 isComparisons={isComparisons}
                 isActive={active === 2}
+                symbol="$"
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.orders}
                 isComparisons={isComparisons}
+                symbol=""
                 isActive={active === 3}
                 isYoY={isYoY}
               ></TableTotalRowCell>
@@ -893,59 +911,69 @@ const DataDisplayItemizedTable = (props) => {
                 cellData={totalOfData.units_sold}
                 isComparisons={isComparisons}
                 isActive={active === 4}
+                symbol=""
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.units_per_order}
                 isComparisons={isComparisons}
                 isActive={active === 5}
+                symbol=""
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.asp}
                 isComparisons={isComparisons}
                 isActive={active === 6}
+                symbol="$"
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.ad_impressions}
                 isComparisons={isComparisons}
                 isActive={active === 7}
+                symbol=""
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.ad_clicks}
                 isComparisons={isComparisons}
                 isActive={active === 8}
+                symbol=""
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.average_cpc}
                 isComparisons={isComparisons}
                 isActive={active === 9}
+                symbol="$"
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.ad_spend}
                 isComparisons={isComparisons}
                 isActive={active === 10}
+                symbol="$"
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.ad_orders}
                 isComparisons={isComparisons}
                 isActive={active === 11}
+                symbol=""
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.ad_sales}
                 isComparisons={isComparisons}
+                symbol="$"
                 isActive={active === 12}
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.percent_total_sales}
                 isComparisons={isComparisons}
+                symbol="%"
                 isActive={active === 13}
                 isYoY={isYoY}
               ></TableTotalRowCell>
@@ -953,12 +981,14 @@ const DataDisplayItemizedTable = (props) => {
                 cellData={totalOfData.conversion_rate}
                 isComparisons={isComparisons}
                 isActive={active === 14}
+                symbol="%"
                 isYoY={isYoY}
               ></TableTotalRowCell>
               <TableTotalRowCell
                 cellData={totalOfData.acos}
                 isComparisons={isComparisons}
                 isActive={active === 15}
+                symbol="$"
                 isYoY={isYoY}
               ></TableTotalRowCell>
             </tr>
