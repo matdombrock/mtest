@@ -42,7 +42,7 @@ const TableCell = ({
               : "N/A"}
           </td>
           <td align="right" className={isNegative(charge)}>
-            {charge !== 0 ? charge + "%" : "N/A"}
+            {charge  ? charge + "%" : "N/A"}
           </td>
           {isYoY && (
             <>
@@ -52,7 +52,7 @@ const TableCell = ({
                   : "N/A"}
               </td>
               <td align="right" className={isNegative(yoyCharge)}>
-                {yoyCharge !== 0 ? yoyCharge + "%" : "N/A"}
+                {(yoyCharge) ? yoyCharge + "%" : "N/A"}
               </td>
             </>
           )}

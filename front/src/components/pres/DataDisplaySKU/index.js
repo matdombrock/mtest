@@ -935,7 +935,7 @@ const DataDisplaySKUTable = (props) => {
                         change={change.acos}
                         charge={charge.acos}
                         isYoY={isYoY}
-                        symbol="$"
+                        symbol="%"
                         yoy={yoy.acos}
                         yoyCharge={yoyCharge.acos}
                       />
@@ -1055,7 +1055,7 @@ const DataDisplaySKUTable = (props) => {
                   cellData={totalOfData.acos}
                   isComparisons={isComparisons}
                   isActive={active === 17}
-                  symbol="$"
+                  symbol="%"
                   isYoY={isYoY}
                 ></TableTotalRowCell>
               </tr>

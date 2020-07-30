@@ -870,7 +870,7 @@ const DataDisplayItemizedTable = (props) => {
                         yoy={yoy.acos}
                         yoyCharge={yoyCharge.acos}
                         isComparisons={isComparisons}
-                        symbol="$"
+                        symbol="%"
                         isActive={active === 15}
                         isYoY={isYoY}
                       ></TableCell>
@@ -988,7 +988,7 @@ const DataDisplayItemizedTable = (props) => {
                 cellData={totalOfData.acos}
                 isComparisons={isComparisons}
                 isActive={active === 15}
-                symbol="$"
+                symbol="%"
                 isYoY={isYoY}
               ></TableTotalRowCell>
             </tr>

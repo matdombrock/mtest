@@ -148,9 +148,7 @@ const getSingleColumForCSV = (
       ? "$0.00"
       : "N/A"
   );
-  temp.push(
-    charge !== 0 ? charge + "%" : current > 0 && previous > 0 ? "0%" : "N/A"
-  );
+  temp.push(charge ? charge + "%" : current > 0 && previous > 0 ? "0%" : "N/A");
 
   if (isYoY) {
     temp.push(
@@ -158,7 +156,7 @@ const getSingleColumForCSV = (
         ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(yoy)}`
         : "N/A"
     );
-    temp.push(yoyCharge !== 0 ? yoyCharge + "%" : "N/A");
+    temp.push(yoyCharge ? yoyCharge + "%" : "N/A");
   }
   return temp;
 };
@@ -461,7 +459,7 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
         yoy.acos,
         yoyCharge.acos,
         isYoY,
-        "$"
+        "%"
       );
       temp.push(
         ...sales,
@@ -641,7 +639,7 @@ const getCSVVersion = (filterSKUData, isYoY, totalOfData) => {
     totalOfData.acos.yoy,
     totalOfData.acos.yoyCharge,
     isYoY,
-    "$"
+    "%"
   );
 
   total.push(

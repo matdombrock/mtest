@@ -23,7 +23,7 @@ const getSingleColumForCSV = (
       : "N/A"
   );
   temp.push(
-    charge !== 0 ? charge + "%" : current > 0 && previous > 0 ? "0%" : "N/A"
+    charge ? charge + "%" : current > 0 && previous > 0 ? "0%" : "N/A"
   );
 
   if (isYoY) {
@@ -32,7 +32,7 @@ const getSingleColumForCSV = (
         ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(yoy)}`
         : "N/A"
     );
-    temp.push(yoyCharge !== 0 ? yoyCharge + "%" : "N/A");
+    temp.push(yoyCharge ? yoyCharge + "%" : "N/A");
   }
   return temp;
 };
@@ -592,7 +592,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
       yoy.acos,
       yoyCharge.acos,
       isYoY,
-      "$"
+      "%"
     );
 
     temp.push(
@@ -773,7 +773,7 @@ const getCSVVersion = (data, isYoY, totalOfData) => {
     totalOfData.acos.yoy,
     totalOfData.acos.yoyCharge,
     isYoY,
-    "$"
+    "%"
   );
 
   total.push(

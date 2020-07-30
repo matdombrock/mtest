@@ -9,18 +9,18 @@ const isNegative = (value) =>
 
 const formatData = (pop = {}) => {
   const temp = [];
-  const singleBarCreator = (title, value,symbol="") => ({
+  const singleBarCreator = (title, value, symbol = "") => ({
     number: Number(value.number).toFixed(2),
     percentage: Number(value.percentage).toFixed(2),
     title,
-    symbol
+    symbol,
   });
-  temp.push(singleBarCreator("Sales", pop.sales,"$"));
-  temp.push(singleBarCreator("Units Sold", pop.units_sold,""));
-  temp.push(singleBarCreator("Shipped COGS", pop.shipped_cogs,"$"));
-  temp.push(singleBarCreator("Ad Spend", pop.ad_spend,"$"));
-  temp.push(singleBarCreator("Ad Sales", pop.ad_sales,"$"));
-  temp.push(singleBarCreator("ACoS", pop.acos,"$"));
+  temp.push(singleBarCreator("Sales", pop.sales, "$"));
+  temp.push(singleBarCreator("Units Sold", pop.units_sold, ""));
+  temp.push(singleBarCreator("Shipped COGS", pop.shipped_cogs, "$"));
+  temp.push(singleBarCreator("Ad Spend", pop.ad_spend, "$"));
+  temp.push(singleBarCreator("Ad Sales", pop.ad_sales, "$"));
+  temp.push(singleBarCreator("ACoS", pop.acos, "%"));
   return temp;
 };
 
@@ -45,7 +45,15 @@ const DataDisplayCardGrid = (props) => {
             <div className={s.gridInner}>
               <p className={s.title}>{d.title}</p>
               <p className={s.data + " " + isNegative(d.number)}>
-                {d.number ? d.symbol + numberWithCommas(d.number) : "N/A"}
+                {d.number ? (
+                  <>
+                    {d.symbol !== "%" && d.symbol}
+                    {numberWithCommas(d.number)}
+                  </>
+                ) : (
+                  "N/A"
+                )}
+                {d.symbol === "%" && d.symbol}
               </p>
               <p className={s.data + " " + isNegative(d.percentage)}>
                 {d.percentage && d.percentage !== 0
