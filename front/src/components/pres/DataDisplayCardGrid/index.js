@@ -7,20 +7,29 @@ import moment from "moment";
 const isNegative = (value) =>
   Number(value) !== 0 && (Number(value) <= 0 ? s.negative : s.positive);
 
-const formatData = (pop = {}) => {
+const formatData = (periods = {}, pop = {}) => {
   const temp = [];
-  const singleBarCreator = (title, value, symbol = "") => ({
-    number: Number(value.number).toFixed(2),
-    percentage: Number(value.percentage).toFixed(2),
+  const singleBarCreator = (title, periodValue, popValue, symbol = "") => ({
+    number: Number(periodValue).toFixed(2),
+    percentage: Number(popValue.percentage).toFixed(2),
     title,
     symbol,
   });
-  temp.push(singleBarCreator("Sales", pop.sales, "$"));
-  temp.push(singleBarCreator("Units Sold", pop.units_sold, ""));
-  temp.push(singleBarCreator("Shipped COGS", pop.shipped_cogs, "$"));
-  temp.push(singleBarCreator("Ad Spend", pop.ad_spend, "$"));
-  temp.push(singleBarCreator("Ad Sales", pop.ad_sales, "$"));
-  temp.push(singleBarCreator("ACoS", pop.acos, "%"));
+  temp.push(singleBarCreator("Sales", periods.sales, pop.sales, "$"));
+  temp.push(
+    singleBarCreator("Units Sold", periods.units_sold, pop.units_sold, "")
+  );
+  temp.push(
+    singleBarCreator(
+      "Shipped COGS",
+      periods.shipped_cogs,
+      pop.shipped_cogs,
+      "$"
+    )
+  );
+  temp.push(singleBarCreator("Ad Spend", periods.ad_spend, pop.ad_spend, "$"));
+  temp.push(singleBarCreator("Ad Sales", periods.ad_sales, pop.ad_sales, "$"));
+  temp.push(singleBarCreator("ACoS", periods.acos, pop.acos, "%"));
   return temp;
 };
 
@@ -30,7 +39,7 @@ const DataDisplayCardGrid = (props) => {
   if (!comparisons || !comparisons.pop || !comparisons.pop.length)
     return <p>No Data Found</p>;
 
-  const data = formatData(comparisons.pop[0].summary);
+  const data = formatData(periods[0].summary, comparisons.pop[0].summary);
 
   return (
     <div className={s.gridContainer}>
@@ -44,7 +53,7 @@ const DataDisplayCardGrid = (props) => {
           <Grid item className={s.gridItem} xs={2} key={i}>
             <div className={s.gridInner}>
               <p className={s.title}>{d.title}</p>
-              <p className={s.data + " " + isNegative(d.number)}>
+              <p className={s.data}>
                 {d.number ? (
                   <>
                     {d.symbol !== "%" && d.symbol}
