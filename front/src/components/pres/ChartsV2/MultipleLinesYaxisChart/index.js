@@ -55,7 +55,7 @@ const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
   }
 
   chartDataProp.datasets.forEach(x => {
-    const summariesData = summaries.map(s => s[x.key].toFixed(2));
+    const summariesData = summaries.map(s =>  s[x.key] ? s[x.key].toFixed(2):0);
 
     chartData.datasets.push(getChartDataset(summariesData, x));
     chartDataOptions.scales.yAxes.push(getYAxesScale(summariesData, x));

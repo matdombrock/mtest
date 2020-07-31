@@ -48,7 +48,7 @@ const DataDisplayCardGrid = (props) => {
                 {d.number ? (
                   <>
                     {d.symbol !== "%" && d.symbol}
-                    {numberWithCommas(d.number)}
+                    {numberWithCommas(Math.abs(d.number))}
                   </>
                 ) : (
                   "N/A"
