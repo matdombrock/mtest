@@ -23,21 +23,21 @@ const TableCell = ({
       {isComparisons && isActive ? (
         <>
           <td align="right">
-            {current !== 0
+            {current
               ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(current)}${
                   symbolIsRight ? symbol : ""
                 }`
               : "N/A"}
           </td>
           <td align="right">
-            {previous !== 0
+            {previous
               ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(previous)}${
                   symbolIsRight ? symbol : ""
                 }`
               : "N/A"}
           </td>
           <td align="right" className={isNegative(change)}>
-            {change !== 0
+            {change
               ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(change)}`
               : "N/A"}
           </td>
@@ -47,7 +47,7 @@ const TableCell = ({
           {isYoY && (
             <>
               <td align="right" className={isNegative(yoy)}>
-                {yoy !== 0
+                {yoy
                   ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(yoy)}`
                   : "N/A"}
               </td>
@@ -59,7 +59,7 @@ const TableCell = ({
         </>
       ) : (
         <td align="right">
-          {current !== 0
+          {current
             ? `${!symbolIsRight ? symbol : ""}${numberWithCommas(current)}${
                 symbolIsRight ? symbol : ""
               }`

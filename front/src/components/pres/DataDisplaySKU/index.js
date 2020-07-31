@@ -57,6 +57,7 @@ const DataDisplaySKUTable = (props) => {
     sortByInner,
     sortAscendingBy
   );
+  console.log("DataDisplaySKUTable -> filterSKUData", filterSKUData)
 
   const headerClick = (index) => {
     isComparisons && setActive(active === index ? false : index);

@@ -1,5 +1,7 @@
 import numberWithCommas from "../../services/numberWithCommas";
 
+const toFixed=(value,number=2)=>Number(Number(value).toFixed(number))
+
 const convertToFrontendReadyFormat = (
   current,
   previous,
@@ -11,6 +13,23 @@ const convertToFrontendReadyFormat = (
 
   return allSKU
     .map((sku) => {
+      let tempPrevious = {
+        sales: 0,
+        shipped_cogs: 0,
+        orders: 0,
+        units_sold: 0,
+        asp: 0,
+        ad_impressions: 0,
+        ad_clicks: 0,
+        ad_spend: 0,
+        ad_orders: 0,
+        ad_sales: 0,
+        percent_total_sales: 0,
+        conversion_rate: 0,
+        acos: 0,
+        average_cpc: 0,
+        units_per_order: 0,
+      };
       let temp = {
         sales: { number: 0, percentage: 0 },
         shipped_cogs: { number: 0, percentage: 0 },
@@ -32,87 +51,78 @@ const convertToFrontendReadyFormat = (
       let currentSKU = current[sku];
       if (!currentSKU) return false;
 
-      let previousSKU = previous[sku] || JSON.parse(JSON.stringify(temp));
+      let previousSKU = previous[sku] || JSON.parse(JSON.stringify(tempPrevious));
 
       let currentYoy = yoy[sku] || JSON.parse(JSON.stringify(temp));
       let currentPop = pop[sku] || JSON.parse(JSON.stringify(temp));
-      console.log("convertToFrontendReadyFormat -> currentPop", currentPop);
       let change = {
-        asp: currentPop?.asp?.number?.toFixed(2),
-        units_per_order: currentPop?.units_per_order?.number?.toFixed(2),
-        orders: currentPop?.orders?.number?.toFixed(2),
-        ad_spend: currentPop?.ad_spend?.number?.toFixed(2),
-        ad_orders: currentPop?.ad_orders?.number?.toFixed(2),
-        conversion_rate: currentPop?.conversion_rate?.number?.toFixed(2),
-        acos: currentPop?.acos?.number?.toFixed(2),
-        ad_sales: currentPop?.ad_sales?.number?.toFixed(2),
-        sales: currentPop?.sales?.number?.toFixed(2),
-        units_sold: currentPop?.units_sold?.number?.toFixed(2),
-        shipped_cogs: currentPop?.shipped_cogs?.number?.toFixed(2),
-        ad_clicks: currentPop?.ad_clicks?.number?.toFixed(2),
-        ad_impressions: currentPop?.ad_impressions?.number?.toFixed(2),
-        average_cpc: currentPop?.average_cpc?.number?.toFixed(2),
-        percent_total_sales: currentPop?.percent_total_sales?.number?.toFixed(
-          2
-        ),
+        asp: toFixed(currentPop?.asp?.number),
+        units_per_order: toFixed(currentPop?.units_per_order?.number),
+        orders: toFixed(currentPop?.orders?.number),
+        ad_spend: toFixed(currentPop?.ad_spend?.number),
+        ad_orders: toFixed(currentPop?.ad_orders?.number),
+        conversion_rate: toFixed(currentPop?.conversion_rate?.number),
+        acos: toFixed(currentPop?.acos?.number),
+        ad_sales: toFixed(currentPop?.ad_sales?.number),
+        sales: toFixed(currentPop?.sales?.number),
+        units_sold: toFixed(currentPop?.units_sold?.number),
+        shipped_cogs: toFixed(currentPop?.shipped_cogs?.number),
+        ad_clicks: toFixed(currentPop?.ad_clicks?.number),
+        ad_impressions: toFixed(currentPop?.ad_impressions?.number),
+        average_cpc: toFixed(currentPop?.average_cpc?.number),
+        percent_total_sales: toFixed(currentPop?.percent_total_sales?.number)
       };
       let charge = {
-        orders: currentPop?.orders?.percentage?.toFixed(2),
-        units_per_order: currentPop?.units_per_order?.percentage?.toFixed(2),
-        asp: currentPop?.asp?.percentage?.toFixed(2),
-        ad_spend: currentPop?.ad_spend?.percentage?.toFixed(2),
-        ad_orders: currentPop?.ad_orders?.percentage?.toFixed(2),
-        conversion_rate: currentPop?.conversion_rate?.percentage?.toFixed(2),
-        acos: currentPop?.acos?.percentage?.toFixed(2),
-        ad_sales: currentPop?.ad_sales?.percentage?.toFixed(2),
-        sales: currentPop?.sales?.percentage?.toFixed(2),
-        units_sold: currentPop?.units_sold?.percentage?.toFixed(2),
-        shipped_cogs: currentPop?.shipped_cogs?.percentage?.toFixed(2),
-        ad_clicks: currentPop?.ad_clicks?.percentage?.toFixed(2),
-        ad_impressions: currentPop?.ad_impressions?.percentage?.toFixed(2),
-        average_cpc: currentPop?.average_cpc?.percentage?.toFixed(2),
-        percent_total_sales: currentPop?.percent_total_sales?.percentage?.toFixed(
-          2
-        ),
+        orders: toFixed(currentPop?.orders?.percentage),
+        units_per_order: toFixed(currentPop?.units_per_order?.percentage),
+        asp: toFixed(currentPop?.asp?.percentage),
+        ad_spend: toFixed(currentPop?.ad_spend?.percentage),
+        ad_orders: toFixed(currentPop?.ad_orders?.percentage),
+        conversion_rate: toFixed(currentPop?.conversion_rate?.percentage),
+        acos: toFixed(currentPop?.acos?.percentage),
+        ad_sales: toFixed(currentPop?.ad_sales?.percentage),
+        sales: toFixed(currentPop?.sales?.percentage),
+        units_sold: toFixed(currentPop?.units_sold?.percentage),
+        shipped_cogs: toFixed(currentPop?.shipped_cogs?.percentage),
+        ad_clicks: toFixed(currentPop?.ad_clicks?.percentage),
+        ad_impressions: toFixed(currentPop?.ad_impressions?.percentage),
+        average_cpc: toFixed(currentPop?.average_cpc?.percentage),
+        percent_total_sales: toFixed(currentPop?.percent_total_sales?.percentage)
       };
 
       let yoyChange = {
-        orders: currentYoy?.orders?.number?.toFixed(2),
-        units_per_order: currentYoy?.units_per_order?.number?.toFixed(2),
-        asp: currentYoy?.asp?.number?.toFixed(2),
-        ad_spend: currentYoy?.ad_spend?.number?.toFixed(2),
-        ad_orders: currentYoy?.ad_orders?.number?.toFixed(2),
-        conversion_rate: currentYoy?.conversion_rate?.number?.toFixed(2),
-        acos: currentYoy?.acos?.number?.toFixed(2),
-        ad_sales: currentYoy?.ad_sales?.number?.toFixed(2),
-        sales: currentYoy?.sales?.number?.toFixed(2),
-        units_sold: currentYoy?.units_sold?.number?.toFixed(2),
-        shipped_cogs: currentYoy?.shipped_cogs?.number?.toFixed(2),
-        ad_clicks: currentYoy?.ad_clicks?.number?.toFixed(2),
-        ad_impressions: currentYoy?.ad_impressions?.number?.toFixed(2),
-        average_cpc: currentYoy?.average_cpc?.number?.toFixed(2),
-        percent_total_sales: currentYoy?.percent_total_sales?.number?.toFixed(
-          2
-        ),
+        orders: toFixed(currentYoy?.orders?.number),
+        units_per_order: toFixed(currentYoy?.units_per_order?.number),
+        asp: toFixed(currentYoy?.asp?.number),
+        ad_spend: toFixed(currentYoy?.ad_spend?.number),
+        ad_orders: toFixed(currentYoy?.ad_orders?.number),
+        conversion_rate: toFixed(currentYoy?.conversion_rate?.number),
+        acos: toFixed(currentYoy?.acos?.number),
+        ad_sales: toFixed(currentYoy?.ad_sales?.number),
+        sales: toFixed(currentYoy?.sales?.number),
+        units_sold: toFixed(currentYoy?.units_sold?.number),
+        shipped_cogs: toFixed(currentYoy?.shipped_cogs?.number),
+        ad_clicks: toFixed(currentYoy?.ad_clicks?.number),
+        ad_impressions: toFixed(currentYoy?.ad_impressions?.number),
+        average_cpc: toFixed(currentYoy?.average_cpc?.number),
+        percent_total_sales: toFixed(currentYoy?.percent_total_sales?.number)
       };
       let yoyCharge = {
-        orders: currentYoy?.orders?.percentage?.toFixed(2),
-        units_per_order: currentYoy?.units_per_order?.percentage?.toFixed(2),
-        asp: currentYoy?.asp?.percentage?.toFixed(2),
-        ad_spend: currentYoy?.ad_spend?.percentage?.toFixed(2),
-        ad_orders: currentYoy?.ad_orders?.percentage?.toFixed(2),
-        conversion_rate: currentYoy?.conversion_rate?.percentage?.toFixed(2),
-        acos: currentYoy?.acos?.percentage?.toFixed(2),
-        ad_sales: currentYoy?.ad_sales?.percentage?.toFixed(2),
-        sales: currentYoy?.sales?.percentage?.toFixed(2),
-        units_sold: currentYoy?.units_sold?.percentage?.toFixed(2),
-        shipped_cogs: currentYoy?.shipped_cogs?.percentage?.toFixed(2),
-        ad_clicks: currentYoy?.ad_clicks?.percentage?.toFixed(2),
-        ad_impressions: currentYoy?.ad_impressions?.percentage?.toFixed(2),
-        average_cpc: currentYoy?.average_cpc?.percentage?.toFixed(2),
-        percent_total_sales: currentYoy?.percent_total_sales?.percentage?.toFixed(
-          2
-        ),
+        orders: toFixed(currentYoy?.orders?.percentage),
+        units_per_order: toFixed(currentYoy?.units_per_order?.percentage),
+        asp: toFixed(currentYoy?.asp?.percentage),
+        ad_spend: toFixed(currentYoy?.ad_spend?.percentage),
+        ad_orders: toFixed(currentYoy?.ad_orders?.percentage),
+        conversion_rate: toFixed(currentYoy?.conversion_rate?.percentage),
+        acos: toFixed(currentYoy?.acos?.percentage),
+        ad_sales: toFixed(currentYoy?.ad_sales?.percentage),
+        sales: toFixed(currentYoy?.sales?.percentage),
+        units_sold: toFixed(currentYoy?.units_sold?.percentage),
+        shipped_cogs: toFixed(currentYoy?.shipped_cogs?.percentage),
+        ad_clicks: toFixed(currentYoy?.ad_clicks?.percentage),
+        ad_impressions: toFixed(currentYoy?.ad_impressions?.percentage),
+        average_cpc: toFixed(currentYoy?.average_cpc?.percentage),
+        percent_total_sales: toFixed(currentYoy?.percent_total_sales?.percentage)
       };
       return {
         current: currentSKU,
