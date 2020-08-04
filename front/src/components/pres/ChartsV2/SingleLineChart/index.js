@@ -1,5 +1,6 @@
 import React from "react";
 import { Line } from 'react-chartjs-2';
+import numberWithCommas from "../../../../services/numberWithCommas";
 
 const SingleLineChart = ({ name, chartLabels, chartDataValues, sign }) => {
   const colorOrangeDark = getComputedStyle(document.body).getPropertyValue('--orange-dark');
@@ -37,7 +38,7 @@ const SingleLineChart = ({ name, chartLabels, chartDataValues, sign }) => {
         {
           ticks: {
             callback: function (value, index, values) {
-              return sign === '$' ? '$' + value.toFixed(2) : value + '%'
+              return sign === '$' ? '$' + numberWithCommas(value) : value + '%'
             }
           }
         }

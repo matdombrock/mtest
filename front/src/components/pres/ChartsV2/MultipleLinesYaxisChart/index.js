@@ -1,5 +1,6 @@
 import React from "react";
 import { Line } from 'react-chartjs-2';
+import numberWithCommas from "../../../../services/numberWithCommas";
 
 const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
 
@@ -48,7 +49,7 @@ const MultipleLinesYaxisChart = ({ summaries, chartDataProp }) => {
         max: chartDatasetProp.ticksMax ?? Math.max(...summariesData),
         min: 0,
         callback: function (value, index, values) {
-          return chartDatasetProp.position === 'right' ? '$' + value.toFixed(2) : value + '%'
+          return chartDatasetProp.position === 'right' ? '$' + numberWithCommas(value) : value + '%'
         }
       }
     };

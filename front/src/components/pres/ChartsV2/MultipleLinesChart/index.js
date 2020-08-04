@@ -1,5 +1,6 @@
 import React from "react";
 import { Line } from 'react-chartjs-2';
+import numberWithCommas from "../../../../services/numberWithCommas";
 
 const MultipleLinesChart = ({ summaries, chartDataProp }) => {
 
@@ -38,7 +39,7 @@ const MultipleLinesChart = ({ summaries, chartDataProp }) => {
         {
           ticks: {
             callback: function (value, index, values) {
-              return '$' + value.toFixed(2)
+              return '$' + numberWithCommas(value)
             }
           }
         }
