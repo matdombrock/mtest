@@ -859,7 +859,7 @@ const DataDisplaySKUTable = (props) => {
                         change={change.average_cpc}
                         charge={charge.average_cpc}
                         isYoY={isYoY}
-                        symbol="%"
+                        symbol="$"
                         yoy={yoy.average_cpc}
                         yoyCharge={yoyCharge.average_cpc}
                       />
@@ -1014,7 +1014,7 @@ const DataDisplaySKUTable = (props) => {
                   cellData={totalOfData.average_cpc}
                   isComparisons={isComparisons}
                   isActive={active === 11}
-                  symbol="%"
+                  symbol="$"
                   isYoY={isYoY}
                 ></TableTotalRowCell>
                 <TableTotalRowCell
