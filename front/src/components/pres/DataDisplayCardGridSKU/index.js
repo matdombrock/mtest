@@ -13,6 +13,7 @@ const DataDisplayCardGridSKU = props => {
     acos: 0,
     spent: 0
   };
+
   let currentPeriodData = {
     sales: 0,
     units_sold: 0,
@@ -33,14 +34,11 @@ const DataDisplayCardGridSKU = props => {
 
   const determineRelativePercentage = (number, previousNumber) => {
     return Math.sign(
-      (((previousNumber - number) / previousNumber) * 100).toFixed(2)
-    ) === -1
-      ? "+" +
-      Math.abs(
-        (((previousNumber - number) / previousNumber) * 100).toFixed(2)
-      )
+      (((previousNumber - number) / previousNumber) * 100).toFixed(2)) === -1 ? "+" +
+      Math.abs((((previousNumber - number) / previousNumber) * 100).toFixed(2))
       : "-" + (((previousNumber - number) / previousNumber) * 100).toFixed(2);
   };
+
   if (props.data.itemized) {
     props.data.itemized.map(d => {
       currentPeriodData.sales += Number(d.sales);
@@ -63,40 +61,29 @@ const DataDisplayCardGridSKU = props => {
       previousPeriodData.acos += Number(d.acos);
       return false;
     });
-    prtsentagePeriodData.sales = determineRelativePercentage(
-      currentPeriodData.sales,
-      previousPeriodData.sales
-    );
-    prtsentagePeriodData.units_sold = determineRelativePercentage(
-      currentPeriodData.units_sold,
-      previousPeriodData.units_sold
-    );
-    prtsentagePeriodData.wholesale_cost = determineRelativePercentage(
-      currentPeriodData.wholesale_cost,
-      previousPeriodData.wholesale_cost
-    );
-    prtsentagePeriodData.adSales = determineRelativePercentage(
-      currentPeriodData.adSales,
-      previousPeriodData.adSales
-    );
-    prtsentagePeriodData.spent = determineRelativePercentage(
-      currentPeriodData.spent,
-      previousPeriodData.spent
-    );
-    prtsentagePeriodData.acos = determineRelativePercentage(
-      currentPeriodData.acos,
-      previousPeriodData.acos
-    );
+
+    prtsentagePeriodData.sales = determineRelativePercentage(currentPeriodData.sales, previousPeriodData.sales);
+    prtsentagePeriodData.units_sold = determineRelativePercentage(currentPeriodData.units_sold, previousPeriodData.units_sold);
+    prtsentagePeriodData.wholesale_cost = determineRelativePercentage(currentPeriodData.wholesale_cost, previousPeriodData.wholesale_cost);
+    prtsentagePeriodData.adSales = determineRelativePercentage(currentPeriodData.adSales, previousPeriodData.adSales);
+    prtsentagePeriodData.spent = determineRelativePercentage(currentPeriodData.spent, previousPeriodData.spent);
+    prtsentagePeriodData.acos = determineRelativePercentage(currentPeriodData.acos, previousPeriodData.acos);
+
   }
+
   if (!currentPeriodData) return <p>No Data Found</p>;
+
   const { startDate, endDate, comparisonStartDate, comparisonEndDate } = props;
+
   return (
     <div className={s.gridContainer}>
       <h3>
         Current Period Summary: {moment(startDate).format("MM/DD/YYYY")} -{" "}
-        {moment(endDate).format("MM/DD/YYYY") !==
+        {
+          moment(endDate).format("MM/DD/YYYY") !==
           moment(startDate).format("MM/DD/YYYY") &&
-          moment(endDate).format("MM/DD/YYYY")}
+          moment(endDate).format("MM/DD/YYYY")
+        }
       </h3>
       {comparisonStartDate && comparisonEndDate && (
         <h3>
@@ -110,140 +97,120 @@ const DataDisplayCardGridSKU = props => {
           <div className={s.gridInner}>
             <p className={s.title}>Sales</p>
             <p className={s.data}>
-              {currentPeriodData.sales
-                ? "$" + numberWithCommas(currentPeriodData.sales)
-                : "$0.00"}
+              {
+                currentPeriodData.sales
+                  ? "$" + numberWithCommas(currentPeriodData.sales)
+                  : "$0.00"
+              }
             </p>
-            {!!prtsentagePeriodData.sales && (
-              <p
-                className={
-                  s.data +
-                  " " +
-                  (Math.sign(prtsentagePeriodData.sales) === 1
-                    ? s.positive
-                    : s.negative)
-                }
-              >
-                {numberWithCommas(prtsentagePeriodData.sales) + "%" || "0%"}
-              </p>
-            )}
+            {
+              !!prtsentagePeriodData.sales && (
+                <p className={s.data + " " + (Math.sign(prtsentagePeriodData.sales) === 1 ? s.positive : s.negative)}>
+                  {numberWithCommas(prtsentagePeriodData.sales) + "%" || "0%"}
+                </p>
+              )}
           </div>
         </Grid>
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Units Sold</p>
             <p className={s.data}>
-              {currentPeriodData.units_sold
-                ? numberWithCommas(currentPeriodData.units_sold)
-                : "0"}
+              {
+                currentPeriodData.units_sold
+                  ? numberWithCommas(currentPeriodData.units_sold)
+                  : "0"
+              }
             </p>
-            {!!prtsentagePeriodData.units_sold && (
-              <p
-                className={
-                  s.data +
-                  " " +
-                  (Math.sign(prtsentagePeriodData.units_sold) === 1
-                    ? s.positive
-                    : s.negative)
-                }
-              >
-                {numberWithCommas(prtsentagePeriodData.units_sold) + "%" ||
-                  "0%"}
-              </p>
-            )}
+            {
+              !!prtsentagePeriodData.units_sold && (
+                <p className={s.data + " " + (Math.sign(prtsentagePeriodData.units_sold) === 1 ? s.positive : s.negative)}>
+                  {
+                    numberWithCommas(prtsentagePeriodData.units_sold) + "%" ||
+                    "0%"
+                  }
+                </p>
+              )}
           </div>
         </Grid>
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Shipped COGS</p>
             <p className={s.data}>
-              {currentPeriodData.wholesale_cost
-                ? "$" + numberWithCommas(currentPeriodData.wholesale_cost)
-                : "$0.00"}
+              {
+                currentPeriodData.wholesale_cost
+                  ? "$" + numberWithCommas(currentPeriodData.wholesale_cost)
+                  : "$0.00"
+              }
             </p>
-            {!!prtsentagePeriodData.wholesale_cost && (
-              <p
-                className={
-                  s.data +
-                  " " +
-                  (Math.sign(prtsentagePeriodData.wholesale_cost) === 1
-                    ? s.positive
-                    : s.negative)
-                }
-              >
-                {numberWithCommas(prtsentagePeriodData.wholesale_cost) + "%" ||
-                  "0%"}
-              </p>
-            )}{" "}
+            {
+              !!prtsentagePeriodData.wholesale_cost && (
+                <p className={s.data + " " + (Math.sign(prtsentagePeriodData.wholesale_cost) === 1 ? s.positive : s.negative)}>
+                  {numberWithCommas(prtsentagePeriodData.wholesale_cost) + "%" || "0%"}
+                </p>
+              )
+            }{" "}
           </div>
         </Grid>
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Ad Spend</p>
             <p className={s.data}>
-              {currentPeriodData.spent
-                ? "$" + numberWithCommas(currentPeriodData.spent)
-                : "$0.00"}
+              {
+                currentPeriodData.spent
+                  ? "$" + numberWithCommas(currentPeriodData.spent)
+                  : "$0.00"
+              }
             </p>
-            {!!prtsentagePeriodData.spent && (
-              <p
-                className={
-                  s.data +
-                  " " +
-                  (Math.sign(prtsentagePeriodData.spent) === 1
-                    ? s.positive
-                    : s.negative)
-                }
-              >
-                {numberWithCommas(prtsentagePeriodData.spent) + "%" || "0%"}
-              </p>
-            )}
+            {
+              !!prtsentagePeriodData.spent && (
+                <p
+                  className={s.data + " " +
+                    (Math.sign(prtsentagePeriodData.spent) === 1
+                      ? s.positive
+                      : s.negative)
+                  }
+                >
+                  {numberWithCommas(prtsentagePeriodData.spent) + "%" || "0%"}
+                </p>
+              )}
           </div>
         </Grid>
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>Ad Sales</p>
             <p className={s.data}>
-              {currentPeriodData.adSales
-                ? "$" + numberWithCommas(currentPeriodData.adSales)
-                : "$0.00"}
+              {
+                currentPeriodData.adSales
+                  ? "$" + numberWithCommas(currentPeriodData.adSales)
+                  : "$0.00"
+              }
             </p>
-            {!!prtsentagePeriodData.adSales && (
-              <p
-                className={
-                  s.data +
-                  " " +
-                  (Math.sign(prtsentagePeriodData.adSales) === 1
-                    ? s.positive
-                    : s.negative)
-                }
-              >
-                {numberWithCommas(prtsentagePeriodData.adSales) + "%" || "0%"}
-              </p>
-            )}{" "}
+            {
+              !!prtsentagePeriodData.adSales && (
+                <p className={s.data + " " + (Math.sign(prtsentagePeriodData.adSales) === 1 ? s.positive : s.negative)}>
+                  {numberWithCommas(prtsentagePeriodData.adSales) + "%" || "0%"}
+                </p>
+              )
+            }{" "}
           </div>
         </Grid>
         <Grid item className={s.gridItem} xs={2}>
           <div className={s.gridInner}>
             <p className={s.title}>ACoS</p>
             <p className={s.data}>
-              {currentPeriodData.acos
-                ? numberWithCommas(currentPeriodData.acos) + "%"
-                : "0%"}
+              {
+                currentPeriodData.acos
+                  ? numberWithCommas(currentPeriodData.acos) + "%"
+                  : "0%"
+              }
             </p>
-            {!!prtsentagePeriodData.acos && (
-              <p
-                className={
-                  s.data +
-                  " " +
-                  (Math.sign(prtsentagePeriodData.acos) === 1
-                    ? s.positive
-                    : s.negative)
-                }
-              >
-                {numberWithCommas(prtsentagePeriodData.acos) + "%" || "0%"}
-              </p>
-            )}{" "}
+            {
+              !!prtsentagePeriodData.acos && (
+                <p className={s.data + " " + (Math.sign(prtsentagePeriodData.acos) === 1 ? s.positive : s.negative)}>
+                  {numberWithCommas(prtsentagePeriodData.acos) + "%" || "0%"}
+                </p>
+              )
+            }{" "}
           </div>
         </Grid>
       </Grid>

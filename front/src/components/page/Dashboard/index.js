@@ -45,7 +45,7 @@ class Dashboard extends Component {
     const {
       sales: { active, comparisons, skuActive, isLoading },
     } = this.props;
-    console.log("Dashboard -> render -> skuActive", skuActive);
+
     const { activeTab, isError, startDate, endDate } = this.state;
     return (
       <>
@@ -92,16 +92,12 @@ class Dashboard extends Component {
                         <p>No Record Found</p>
                       : <>
                         {
-                          skuActive.periods &&
-                            skuActive.periods.length &&
-                            skuActive.periods[0] &&
-                            skuActive.periods[1] &&
-                            ((skuActive.periods[0].itemized &&
-                              skuActive.periods[0].itemized.length) ||
-                              (skuActive.periods[1].itemized &&
-                                skuActive.periods[1].itemized.length)) ?
-                            <>
-                              {/* <DataDisplayCardGridSKU
+                          !skuActive.data ?
+                            <p>No Record Found in SKU</p> :
+                            skuActive.data.periods &&
+                              skuActive.data.periods.length ?
+                              <>
+                                {/* <DataDisplayCardGridSKU
                                   data={skuActive}
                                   comparisons={skuComparisons}
                                   startDate={startDate}
@@ -110,13 +106,13 @@ class Dashboard extends Component {
                                   comparisonEndDate={comparisonEndDate}
                                 />
                                 <SKUCharts data={skuActive} /> */}
-                              <DataDisplaySKUTable
-                                data={skuActive}
-                              // comparisons={skuComparisons}
-                              />
-                            </>
-                            :
-                            <p>No Record Found in SKU</p>
+                                <DataDisplaySKUTable
+                                  data={skuActive}
+                                // comparisons={skuComparisons}
+                                />
+                              </>
+                              :
+                              <p>No Record Found in SKU</p>
                         }
                       </>
                   }

@@ -11,1468 +11,46 @@ import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import SortIcon from "@material-ui/icons/Sort";
-import Button from '@material-ui/core/Button'
+import Button from "@material-ui/core/Button";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { CSVLink } from "react-csv";
-import DownloadCSVButton from './../../common/downloadCSVButton'
-
-const currentDataFormate = ({ periods, yoy }) => {
-  let payload = [];
-  periods.map((d, i, arr) => {
-    if (i === arr.length - 1) return false;
-    const current = d.summary;
-    const yoySummry = yoy[i]
-      ? yoy[i].summary
-      : {
-        asp: 0,
-        units_per_order: 0,
-        orders: 0,
-        acos: 0,
-        average_cpc: 0,
-        ad_clicks: 0,
-        ad_impressions: 0,
-        ad_orders: 0,
-        ad_sales: 0,
-        ad_spend: 0,
-        conversion_rate: 0,
-        sales: 0,
-        shipped_cogs: 0,
-        units_sold: 0,
-        asin: "N/A",
-        sku: "N/A",
-        percent_total_sales: 0,
-        item_number: "N/A",
-      };
-    const previous =
-      i < arr.length - 1
-        ? arr[i + 1].summary
-        : {
-          asp: 0,
-          units_per_order: 0,
-          orders: 0,
-          acos: 0,
-          average_cpc: 0,
-          ad_clicks: 0,
-          ad_impressions: 0,
-          ad_orders: 0,
-          ad_sales: 0,
-          ad_spend: 0,
-          conversion_rate: 0,
-          sales: 0,
-          shipped_cogs: 0,
-          units_sold: 0,
-          asin: "N/A",
-          sku: "N/A",
-          percent_total_sales: 0,
-          item_number: "N/A",
-        };
-    const change = {
-      asp: getDifferenceInNumber(current.asp, previous.asp),
-      units_per_order: getDifferenceInNumber(current.units_per_order, previous.units_per_order),
-      orders: getDifferenceInNumber(current.orders, previous.orders),
-      acos: getDifferenceInNumber(current.acos, previous.acos),
-      ad_clicks: getDifferenceInNumber(current.ad_clicks, previous.ad_clicks),
-      ad_impressions: getDifferenceInNumber(
-        current.ad_impressions,
-        previous.ad_impressions
-      ),
-      ad_orders: getDifferenceInNumber(current.ad_orders, previous.ad_orders),
-      ad_sales: getDifferenceInNumber(current.ad_sales, previous.ad_sales),
-      ad_spend: getDifferenceInNumber(current.ad_spend, previous.ad_spend),
-      asin: "N/A",
-      average_cpc: getDifferenceInNumber(
-        current.average_cpc,
-        previous.average_cpc
-      ),
-      conversion_rate: getDifferenceInNumber(
-        current.conversion_rate,
-        previous.conversion_rate
-      ),
-      item_number: "N/A",
-      percent_total_sales: getDifferenceInNumber(
-        current.percent_total_sales,
-        previous.percent_total_sales
-      ),
-      sales: getDifferenceInNumber(current.sales, previous.sales),
-      shipped_cogs: getDifferenceInNumber(
-        current.shipped_cogs,
-        previous.shipped_cogs
-      ),
-      sku: "N/A",
-      units_sold: getDifferenceInNumber(
-        current.units_sold,
-        previous.units_sold
-      ),
-    };
-    const charge = {
-      asp: getDifferenceInPercentage(current.asp, previous.asp),
-      units_per_order: getDifferenceInPercentage(current.units_per_order, previous.units_per_order),
-      orders: getDifferenceInPercentage(current.orders, previous.orders),
-      acos: getDifferenceInPercentage(current.acos, previous.acos),
-      ad_clicks: getDifferenceInPercentage(
-        current.ad_clicks,
-        previous.ad_clicks
-      ),
-      ad_impressions: getDifferenceInPercentage(
-        current.ad_impressions,
-        previous.ad_impressions
-      ),
-      ad_orders: getDifferenceInPercentage(
-        current.ad_orders,
-        previous.ad_orders
-      ),
-      ad_sales: getDifferenceInPercentage(current.ad_sales, previous.ad_sales),
-      ad_spend: getDifferenceInPercentage(current.ad_spend, previous.ad_spend),
-      asin: "N/A",
-      average_cpc: getDifferenceInPercentage(
-        current.average_cpc,
-        previous.average_cpc
-      ),
-      conversion_rate: getDifferenceInPercentage(
-        current.conversion_rate,
-        previous.conversion_rate
-      ),
-      item_number: "N/A",
-      percent_total_sales: getDifferenceInPercentage(
-        current.percent_total_sales,
-        previous.percent_total_sales
-      ),
-      sales: getDifferenceInPercentage(current.sales, previous.sales),
-      shipped_cogs: getDifferenceInPercentage(
-        current.shipped_cogs,
-        previous.shipped_cogs
-      ),
-      sku: "N/A",
-      units_sold: getDifferenceInPercentage(
-        current.units_sold,
-        previous.units_sold
-      ),
-    };
-    const tempYoy = {
-      asp: getDifferenceInNumber(current.asp, yoySummry.asp),
-      units_per_order: getDifferenceInNumber(current.units_per_order, yoySummry.units_per_order),
-      orders: getDifferenceInNumber(current.orders, yoySummry.orders),
-      acos: getDifferenceInNumber(current.acos, yoySummry.acos),
-      ad_clicks: getDifferenceInNumber(current.ad_clicks, yoySummry.ad_clicks),
-      ad_impressions: getDifferenceInNumber(
-        current.ad_impressions,
-        yoySummry.ad_impressions
-      ),
-      ad_orders: getDifferenceInNumber(current.ad_orders, yoySummry.ad_orders),
-      ad_sales: getDifferenceInNumber(current.ad_sales, yoySummry.ad_sales),
-      ad_spend: getDifferenceInNumber(current.ad_spend, yoySummry.ad_spend),
-      asin: "N/A",
-      average_cpc: getDifferenceInNumber(
-        current.average_cpc,
-        yoySummry.average_cpc
-      ),
-      conversion_rate: getDifferenceInNumber(
-        current.conversion_rate,
-        yoySummry.conversion_rate
-      ),
-      item_number: "N/A",
-      percent_total_sales: getDifferenceInNumber(
-        current.percent_total_sales,
-        yoySummry.percent_total_sales
-      ),
-      sales: getDifferenceInNumber(current.sales, yoySummry.sales),
-      shipped_cogs: getDifferenceInNumber(
-        current.shipped_cogs,
-        yoySummry.shipped_cogs
-      ),
-      sku: "N/A",
-      units_sold: getDifferenceInNumber(
-        current.units_sold,
-        yoySummry.units_sold
-      ),
-    };
-
-    const yoyCharge = {
-      asp: getDifferenceInPercentage(current.asp, yoySummry.asp),
-      units_per_order: getDifferenceInPercentage(current.units_per_order, yoySummry.units_per_order),
-      orders: getDifferenceInPercentage(current.orders, yoySummry.orders),
-      acos: getDifferenceInPercentage(current.acos, yoySummry.acos),
-      ad_clicks: getDifferenceInPercentage(
-        current.ad_clicks,
-        yoySummry.ad_clicks
-      ),
-      ad_impressions: getDifferenceInPercentage(
-        current.ad_impressions,
-        yoySummry.ad_impressions
-      ),
-      ad_orders: getDifferenceInPercentage(
-        current.ad_orders,
-        yoySummry.ad_orders
-      ),
-      ad_sales: getDifferenceInPercentage(current.ad_sales, yoySummry.ad_sales),
-      ad_spend: getDifferenceInPercentage(current.ad_spend, yoySummry.ad_spend),
-      asin: "N/A",
-      average_cpc: getDifferenceInPercentage(
-        current.average_cpc,
-        yoySummry.average_cpc
-      ),
-      conversion_rate: getDifferenceInPercentage(
-        current.conversion_rate,
-        yoySummry.conversion_rate
-      ),
-      item_number: "N/A",
-      percent_total_sales: getDifferenceInPercentage(
-        current.percent_total_sales,
-        yoySummry.percent_total_sales
-      ),
-      sales: getDifferenceInPercentage(current.sales, yoySummry.sales),
-      shipped_cogs: getDifferenceInPercentage(
-        current.shipped_cogs,
-        yoySummry.shipped_cogs
-      ),
-      sku: "N/A",
-      units_sold: getDifferenceInPercentage(
-        current.units_sold,
-        yoySummry.units_sold
-      ),
-    };
-    payload.push({
-      current,
-      previous,
-      change,
-      charge,
-      period: d.period,
-      yoy: tempYoy,
-      yoyCharge,
-    });
-    return false;
-  });
-  return payload;
-};
-
-const getDifferenceInNumber = (current, previous) => {
-  let payload = Number(current - previous).toFixed(2);
-  return isNaN(payload) ? 0 : Number(payload);
-};
-
-const getDifferenceInPercentage = (current, previous) => {
-  const totalDifference = getDifferenceInNumber(current, previous);
-  if (previous === 0 && current === 0) return 0;
-  if (previous === 0) return 100;
-  const payload =
-    totalDifference === 0
-      ? 0
-      : Number((totalDifference / Number(previous)) * 100).toFixed(2);
-  return isNaN(payload) ? 0 : Number(payload);
-};
-
-const isNegative = (value) =>
-  Number(value) !== 0 && (Number(value) <= 0 ? s.red : s.green);
-
-const getCSVVersion = (data, isYoY, totalOfData) => {
-  const finalData = [];
-  const getHeaderColumn = (isFourColumn = true, title = false) => {
-    const tempColumns = [
-      !title ? "Current" : title,
-      !title ? "Previous" : "",
-      !title ? "Change #" : "",
-      !title ? "Change %" : "",
-      !title ? "Change # YOY" : "",
-      !title ? "Change % YOY" : "",
-    ];
-    return isFourColumn || !isYoY ? tempColumns.slice(0, 4) : tempColumns;
-  };
-  const header = [];
-  header.push("Date Range");
-  header.push(...getHeaderColumn(false, "Sales"));
-  header.push(...getHeaderColumn(false, "Shipped COGS"));
-  header.push(...getHeaderColumn(false, 'Orders'));
-  header.push(...getHeaderColumn(false, "Units Sold"));
-  header.push(...getHeaderColumn(false, 'Units Per Order'));
-  header.push(...getHeaderColumn(false, 'ASP'));
-  header.push(...getHeaderColumn(true, "Ad Impressions"));
-  header.push(...getHeaderColumn(true, "Ad Clicks"));
-  header.push(...getHeaderColumn(true, "Avg CPC"));
-  header.push(...getHeaderColumn(false, "Ad Spend"));
-  header.push(...getHeaderColumn(true, "Ad Orders"));
-  header.push(...getHeaderColumn(true, "Ad Sales"));
-  header.push(...getHeaderColumn(true, "% of Total Sales"));
-  header.push(...getHeaderColumn(true, "Conv Rate"));
-  header.push(...getHeaderColumn(true, "ACoS"));
-  const headerOfComparison = [];
-
-  headerOfComparison.push("");
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn(false));
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  headerOfComparison.push(...getHeaderColumn());
-  finalData.push(header);
-  finalData.push(headerOfComparison);
-  data.map(({ current, period, previous, change, yoy, charge, yoyCharge }) => {
-    const temp = [];
-    temp.push(
-      `${moment(period.start).utc().format("MM/DD/YYYY")} - ${moment(period.end)
-        .utc()
-        .format("MM/DD/YYYY")}`
-    );
-
-    temp.push(
-      current.sales !== 0 ? "$" + numberWithCommas(current.sales) : "N/A"
-    );
-    temp.push(
-      previous.sales !== 0 ? "$" + numberWithCommas(previous.sales) : "N/A"
-    );
-    temp.push(change.sales !== 0 ? "$" + change.sales : "N/A");
-    temp.push(charge.sales !== 0 ? charge.sales + "%" : "N/A");
-    if (isYoY) {
-      temp.push(yoy.sales !== 0 ? numberWithCommas(yoy.sales) : "N/A");
-      temp.push(yoyCharge.sales !== 0 ? yoyCharge.sales + "%" : "N/A");
-    }
-
-    temp.push(
-      current.shipped_cogs !== 0
-        ? "$" + numberWithCommas(current.shipped_cogs)
-        : "N/A"
-    );
-    temp.push(
-      previous.shipped_cogs !== 0
-        ? "$" + numberWithCommas(previous.shipped_cogs)
-        : "N/A"
-    );
-    temp.push(
-      current.shipped_cogs !== 0
-        ? "$" + numberWithCommas(change.shipped_cogs)
-        : "N/A"
-    );
-    temp.push(charge.shipped_cogs !== 0 ? charge.shipped_cogs + "%" : "N/A");
-    if (isYoY) {
-      temp.push(
-        yoy.shipped_cogs !== 0 ? numberWithCommas(yoy.shipped_cogs) : "N/A"
-      );
-      temp.push(
-        yoyCharge.shipped_cogs !== 0 ? yoyCharge.shipped_cogs + "%" : "N/A"
-      );
-    }
-
-    temp.push(
-      current.orders !== 0 ? numberWithCommas(current.orders) : "N/A"
-    );
-    temp.push(
-      previous.orders !== 0 ? numberWithCommas(previous.orders) : "N/A"
-    );
-    temp.push(change.orders !== 0 ? change.orders : "N/A");
-    temp.push(charge.orders !== 0 ? charge.orders + "%" : "N/A");
-    if (isYoY) {
-      temp.push(yoy.orders !== 0 ? numberWithCommas(yoy.orders) : "N/A");
-      temp.push(yoyCharge.orders !== 0 ? yoyCharge.orders + "%" : "N/A");
-    }
-
-    temp.push(
-      current.units_sold !== 0 ? numberWithCommas(current.units_sold) : "N/A"
-    );
-    temp.push(
-      previous.units_sold !== 0 ? numberWithCommas(previous.units_sold) : "N/A"
-    );
-    temp.push(
-      change.units_sold !== 0 ? numberWithCommas(change.units_sold) : "N/A"
-    );
-    temp.push(charge.units_sold !== 0 ? charge.units_sold + "%" : "N/A");
-    if (isYoY) {
-      temp.push(
-        yoy.units_sold !== 0 ? numberWithCommas(yoy.units_sold) : "N/A"
-      );
-      temp.push(
-        yoyCharge.units_sold !== 0 ? yoyCharge.units_sold + "%" : "N/A"
-      );
-    }
-
-    temp.push(
-      current.units_per_order !== 0 ? numberWithCommas(current.units_per_order) : "N/A"
-    );
-    temp.push(
-      previous.units_per_order !== 0 ? numberWithCommas(previous.units_per_order) : "N/A"
-    );
-    temp.push(change.units_per_order !== 0 ? change.units_per_order : "N/A");
-    temp.push(charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A");
-    if (isYoY) {
-      temp.push(yoy.units_per_order !== 0 ? numberWithCommas(yoy.units_per_order) : "N/A");
-      temp.push(yoyCharge.units_per_order !== 0 ? yoyCharge.units_per_order + "%" : "N/A");
-    }
-
-    temp.push(
-      current.asp !== 0 ? "$" + numberWithCommas(current.asp) : "N/A"
-    );
-    temp.push(
-      previous.asp !== 0 ? "$" + numberWithCommas(previous.asp) : "N/A"
-    );
-    temp.push(change.asp !== 0 ? "$" + change.asp : "N/A");
-    temp.push(charge.asp !== 0 ? charge.asp + "%" : "N/A");
-    if (isYoY) {
-      temp.push(yoy.asp !== 0 ? numberWithCommas(yoy.asp) : "N/A");
-      temp.push(yoyCharge.asp !== 0 ? yoyCharge.asp + "%" : "N/A");
-    }
-
-    temp.push(
-      current.ad_impressions !== 0
-        ? numberWithCommas(current.ad_impressions)
-        : "N/A"
-    );
-    temp.push(
-      previous.ad_impressions !== 0
-        ? numberWithCommas(previous.ad_impressions)
-        : "N/A"
-    );
-    temp.push(
-      change.ad_impressions !== 0
-        ? numberWithCommas(change.ad_impressions)
-        : "N/A"
-    );
-    temp.push(
-      charge.ad_impressions !== 0 ? charge.ad_impressions + "%" : "N/A"
-    );
-
-    temp.push(
-      current.ad_clicks !== 0 ? numberWithCommas(current.ad_clicks) : "N/A"
-    );
-    temp.push(
-      previous.ad_clicks !== 0 ? numberWithCommas(previous.ad_clicks) : "N/A"
-    );
-    temp.push(
-      change.ad_clicks !== 0 ? numberWithCommas(change.ad_clicks) : "N/A"
-    );
-    temp.push(charge.ad_clicks !== 0 ? charge.ad_clicks + "%" : "N/A");
-
-    temp.push(
-      current.average_cpc ? "$" + numberWithCommas(current.average_cpc) : "N/A"
-    );
-    temp.push(
-      previous.average_cpc
-        ? "$" + numberWithCommas(previous.average_cpc)
-        : "N/A"
-    );
-    temp.push(
-      change.average_cpc !== 0
-        ? "$" + numberWithCommas(change.average_cpc)
-        : "N/A"
-    );
-    temp.push(charge.average_cpc !== 0 ? charge.average_cpc + "%" : "N/A");
-
-    temp.push(
-      current.ad_spend ? "$" + numberWithCommas(current.ad_spend) : "N/A"
-    );
-    temp.push(
-      previous.ad_spend ? "$" + numberWithCommas(previous.ad_spend) : "N/A"
-    );
-    temp.push(
-      change.ad_spend !== 0 ? "$" + numberWithCommas(change.ad_spend) : "N/A"
-    );
-    temp.push(current.ad_spend !== 0 ? charge.ad_spend + "%" : "N/A");
-    if (isYoY) {
-      temp.push(
-        yoy.ad_spend !== 0 ? "$" + numberWithCommas(yoy.ad_spend) : "N/A"
-      );
-      temp.push(yoyCharge.ad_spend !== 0 ? yoyCharge.ad_spend + "%" : "N/A");
-    }
-
-    temp.push(current.ad_orders ? numberWithCommas(current.ad_orders) : "N/A");
-    temp.push(
-      previous.ad_orders ? numberWithCommas(previous.ad_orders) : "N/A"
-    );
-    temp.push(
-      change.ad_orders !== 0 ? numberWithCommas(change.ad_orders) : "N/A"
-    );
-    temp.push(charge.ad_orders !== 0 ? charge.ad_orders + "%" : "N/A");
-
-    temp.push(
-      current.ad_sales ? "$" + numberWithCommas(current.ad_sales) : "N/A"
-    );
-    temp.push(
-      previous.ad_sales ? "$" + numberWithCommas(previous.ad_sales) : "N/A"
-    );
-    temp.push(
-      change.ad_sales !== 0 ? "$" + numberWithCommas(change.ad_sales) : "N/A"
-    );
-    temp.push(
-      charge.ad_sales !== 0 ? numberWithCommas(charge.ad_sales) + "%" : "N/A"
-    );
-
-    temp.push(
-      current.percent_total_sales !== 0
-        ? Number(current.percent_total_sales).toFixed(2) + "%"
-        : "N/A"
-    );
-    temp.push(
-      previous.percent_total_sales !== 0
-        ? Number(previous.percent_total_sales).toFixed(2) + "%"
-        : "N/A"
-    );
-    temp.push(
-      change.percent_total_sales !== 0
-        ? change.percent_total_sales + "%"
-        : "N/A"
-    );
-    temp.push(
-      charge.percent_total_sales !== 0
-        ? Number(charge.percent_total_sales).toFixed(2) + "%"
-        : "N/A"
-    );
-
-    temp.push(
-      current.conversion_rate !== 0
-        ? Number(current.conversion_rate).toFixed(2) + "%"
-        : "N/A"
-    );
-    temp.push(
-      previous.conversion_rate !== 0
-        ? Number(previous.conversion_rate).toFixed(2) + "%"
-        : "N/A"
-    );
-    temp.push(
-      change.conversion_rate !== 0
-        ? Number(change.conversion_rate).toFixed(2) + "%"
-        : "N/A"
-    );
-    temp.push(
-      charge.conversion_rate !== 0
-        ? Number(charge.conversion_rate).toFixed(2) + "%"
-        : "N/A"
-    );
-
-    temp.push(
-      current.acos !== 0 ? Number(current.acos).toFixed(2) + "%" : "N/A"
-    );
-    temp.push(
-      previous.acos !== 0 ? Number(previous.acos).toFixed(2) + "%" : "N/A"
-    );
-    temp.push(change.acos !== 0 ? Number(change.acos).toFixed(2) + "%" : "N/A");
-    temp.push(charge.acos !== 0 ? Number(charge.acos).toFixed(2) + "%" : "N/A");
-    finalData.push(temp);
-    return false;
-  });
-  let total = [];
-
-  total.push("Total");
-
-  // total.push("");
-
-  total.push(
-    totalOfData.sales.current
-      ? "$" + numberWithCommas(totalOfData.sales.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.sales.previous
-      ? "$" + numberWithCommas(totalOfData.sales.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.sales.change !== 0
-      ? "$" + numberWithCommas(totalOfData.sales.change)
-      : totalOfData.sales.current > 0 && totalOfData.sales.previous > 0
-        ? "$0.00"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.sales.charge !== 0
-      ? Number(totalOfData.sales.charge).toFixed(2) + "%"
-      : totalOfData.sales.current > 0 && totalOfData.sales.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.sales.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.sales.yoy)
-        : totalOfData.sales.current > 0 && totalOfData.sales.yoySKU > 0
-          ? "$0.00"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.sales.yoyCharge !== 0
-        ? Number(totalOfData.sales.yoyCharge).toFixed(2) + "%"
-        : totalOfData.sales.current > 0 && totalOfData.sales.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.shipped_cogs.current
-      ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.shipped_cogs.previous
-      ? "$" + numberWithCommas(totalOfData.shipped_cogs.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.shipped_cogs.change !== 0
-      ? "$" + numberWithCommas(totalOfData.shipped_cogs.change)
-      : totalOfData.shipped_cogs.current > 0 &&
-        totalOfData.shipped_cogs.previous
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.shipped_cogs.charge
-      ? Number(totalOfData.shipped_cogs.charge).toFixed(2) + "%"
-      : totalOfData.shipped_cogs.current > 0 &&
-        totalOfData.shipped_cogs.previous
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.shipped_cogs.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.shipped_cogs.yoy)
-        : totalOfData.shipped_cogs.current > 0 &&
-          totalOfData.shipped_cogs.previous
-          ? "0"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.shipped_cogs.yoyCharge
-        ? Number(totalOfData.shipped_cogs.yoyCharge).toFixed(2) + "%"
-        : totalOfData.shipped_cogs.current > 0 &&
-          totalOfData.shipped_cogs.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.orders.current
-      ? numberWithCommas(totalOfData.orders.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.orders.previous
-      ? numberWithCommas(totalOfData.orders.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.orders.change !== 0
-      ? numberWithCommas(totalOfData.orders.change)
-      : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
-        ? "$0.00"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.orders.charge !== 0
-      ? Number(totalOfData.orders.charge).toFixed(2) + "%"
-      : totalOfData.orders.current > 0 && totalOfData.orders.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.orders.yoy !== 0
-        ? numberWithCommas(totalOfData.orders.yoy)
-        : totalOfData.orders.current > 0 && totalOfData.orders.yoySKU > 0
-          ? "$0.00"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.orders.yoyCharge !== 0
-        ? Number(totalOfData.orders.yoyCharge).toFixed(2) + "%"
-        : totalOfData.orders.current > 0 && totalOfData.orders.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.units_sold.current
-      ? numberWithCommas(totalOfData.units_sold.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_sold.previous
-      ? numberWithCommas(totalOfData.units_sold.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_sold.change !== 0
-      ? numberWithCommas(totalOfData.units_sold.change)
-      : totalOfData.units_sold.current > 0 &&
-        totalOfData.units_sold.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.units_sold.charge !== 0
-      ? Number(totalOfData.units_sold.charge).toFixed(2) + "%"
-      : totalOfData.units_sold.current > 0 &&
-        totalOfData.units_sold.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.units_sold.yoy !== 0
-        ? numberWithCommas(totalOfData.units_sold.yoy)
-        : totalOfData.units_sold.current > 0 &&
-          totalOfData.units_sold.yoySKU > 0
-          ? "0"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.units_sold.yoyCharge !== 0
-        ? Number(totalOfData.units_sold.yoyCharge).toFixed(2) + "%"
-        : totalOfData.units_sold.current > 0 &&
-          totalOfData.units_sold.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.units_per_order.current
-      ? numberWithCommas(totalOfData.units_per_order.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_per_order.previous
-      ? numberWithCommas(totalOfData.units_per_order.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.units_per_order.change !== 0
-      ? numberWithCommas(totalOfData.units_per_order.change)
-      : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.previous > 0
-        ? "$0.00"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.units_per_order.charge !== 0
-      ? Number(totalOfData.units_per_order.charge).toFixed(2) + "%"
-      : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.units_per_order.yoy !== 0
-        ? numberWithCommas(totalOfData.units_per_order.yoy)
-        : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.yoySKU > 0
-          ? "$0.00"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.units_per_order.yoyCharge !== 0
-        ? Number(totalOfData.units_per_order.yoyCharge).toFixed(2) + "%"
-        : totalOfData.units_per_order.current > 0 && totalOfData.units_per_order.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.asp.current
-      ? "$" + numberWithCommas(totalOfData.asp.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.asp.previous
-      ? "$" + numberWithCommas(totalOfData.asp.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.asp.change !== 0
-      ? "$" + numberWithCommas(totalOfData.asp.change)
-      : totalOfData.asp.current > 0 && totalOfData.asp.previous > 0
-        ? "$0.00"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.asp.charge !== 0
-      ? Number(totalOfData.asp.charge).toFixed(2) + "%"
-      : totalOfData.asp.current > 0 && totalOfData.asp.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.asp.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.asp.yoy)
-        : totalOfData.asp.current > 0 && totalOfData.asp.yoySKU > 0
-          ? "$0.00"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.asp.yoyCharge !== 0
-        ? Number(totalOfData.asp.yoyCharge).toFixed(2) + "%"
-        : totalOfData.asp.current > 0 && totalOfData.asp.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    totalOfData.ad_impressions.current
-      ? numberWithCommas(totalOfData.ad_impressions.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_impressions.previous
-      ? numberWithCommas(totalOfData.ad_impressions.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_impressions.change !== 0
-      ? numberWithCommas(totalOfData.ad_impressions.change)
-      : totalOfData.ad_impressions.current > 0 &&
-        totalOfData.ad_impressions.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.ad_impressions.charge
-      ? Number(totalOfData.ad_impressions.charge).toFixed(2) + "%"
-      : totalOfData.ad_impressions.current > 0 &&
-        totalOfData.ad_impressions.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    totalOfData.ad_clicks.current
-      ? numberWithCommas(totalOfData.ad_clicks.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_clicks.previous
-      ? numberWithCommas(totalOfData.ad_clicks.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_clicks.change !== 0
-      ? numberWithCommas(totalOfData.ad_clicks.change)
-      : totalOfData.ad_clicks.current > 0 && totalOfData.ad_clicks.previous > 0
-        ? "0.00"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.ad_clicks.current !== 0
-      ? Number(totalOfData.ad_clicks.charge).toFixed(2) + "%"
-      : totalOfData.ad_clicks.current > 0 && totalOfData.ad_clicks.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    totalOfData.average_cpc.current
-      ? "$" + numberWithCommas(totalOfData.average_cpc.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.average_cpc.previous
-      ? "$" + numberWithCommas(totalOfData.average_cpc.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.average_cpc.change !== 0
-      ? "$" + numberWithCommas(totalOfData.average_cpc.change)
-      : totalOfData.average_cpc.current > 0 &&
-        totalOfData.average_cpc.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.average_cpc.charge !== 0
-      ? Number(totalOfData.average_cpc.charge).toFixed(2) + "%"
-      : totalOfData.average_cpc.current > 0 &&
-        totalOfData.average_cpc.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    totalOfData.ad_spend.current
-      ? "$" + numberWithCommas(totalOfData.ad_spend.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_spend.previous
-      ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_spend.change !== 0
-      ? "$" + numberWithCommas(totalOfData.ad_spend.change)
-      : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.ad_spend.charge !== 0
-      ? Number(totalOfData.ad_spend.charge).toFixed(2) + "%"
-      : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  if (isYoY) {
-    total.push(
-      totalOfData.ad_spend.yoy !== 0
-        ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
-        : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.yoySKU > 0
-          ? "0"
-          : "N/A"
-    );
-    total.push(
-      totalOfData.ad_spend.yoyCharge !== 0
-        ? Number(totalOfData.ad_spend.yoyCharge).toFixed(2) + "%"
-        : totalOfData.ad_spend.current > 0 && totalOfData.ad_spend.yoySKU > 0
-          ? "0%"
-          : "N/A"
-    );
-  }
-
-  total.push(
-    !!totalOfData.ad_orders.current
-      ? numberWithCommas(totalOfData.ad_orders.current)
-      : "N/A"
-  );
-  total.push(
-    !!totalOfData.ad_orders.previous
-      ? numberWithCommas(totalOfData.ad_orders.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_orders.change !== 0
-      ? numberWithCommas(totalOfData.ad_orders.change)
-      : totalOfData.ad_orders.current > 0 && totalOfData.ad_orders.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.ad_orders.charge !== 0
-      ? Number(totalOfData.ad_orders.charge).toFixed(2) + "%"
-      : totalOfData.ad_orders.current > 0 && totalOfData.ad_orders.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    totalOfData.ad_sales.current
-      ? "$" + numberWithCommas(totalOfData.ad_sales.current)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_sales.previous
-      ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
-      : "N/A"
-  );
-  total.push(
-    totalOfData.ad_sales.change !== 0
-      ? "$" + numberWithCommas(totalOfData.ad_sales.change)
-      : totalOfData.ad_sales.current > 0 && totalOfData.ad_sales.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.ad_sales.charge !== 0
-      ? Number(totalOfData.ad_sales.charge).toFixed(2) + "%"
-      : totalOfData.ad_sales.current > 0 && totalOfData.ad_sales.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    !!totalOfData.percent_total_sales.current
-      ? Number(totalOfData.percent_total_sales.current).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    !!totalOfData.percent_total_sales.previous
-      ? Number(totalOfData.percent_total_sales.previous).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.percent_total_sales.change !== 0
-      ? Number(totalOfData.percent_total_sales.change).toFixed(2) + "%"
-      : totalOfData.percent_total_sales.current > 0 &&
-        totalOfData.percent_total_sales.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    !!totalOfData.percent_total_sales.charge
-      ? Number(totalOfData.percent_total_sales.charge).toFixed(2) + "%"
-      : totalOfData.percent_total_sales.current > 0 &&
-        totalOfData.percent_total_sales.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    totalOfData.conversion_rate.current !== 0
-      ? Number(totalOfData.conversion_rate.current).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.conversion_rate.previous !== 0
-      ? Number(totalOfData.conversion_rate.previous).toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.conversion_rate.change !== 0
-      ? Number(totalOfData.conversion_rate.change).toFixed(2) + "%"
-      : totalOfData.conversion_rate.current > 0 &&
-        totalOfData.conversion_rate.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.conversion_rate.charge !== 0
-      ? Number(totalOfData.conversion_rate.charge).toFixed(2) + "%"
-      : totalOfData.conversion_rate.current > 0 &&
-        totalOfData.conversion_rate.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-
-  total.push(
-    totalOfData.acos.current ? totalOfData.acos.current.toFixed(2) + "%" : "N/A"
-  );
-  total.push(
-    totalOfData.acos.previous
-      ? totalOfData.acos.previous.toFixed(2) + "%"
-      : "N/A"
-  );
-  total.push(
-    totalOfData.acos.change !== 0
-      ? Number(totalOfData.acos.change).toFixed(2) + "%"
-      : totalOfData.acos.current > 0 && totalOfData.acos.previous > 0
-        ? "0"
-        : "N/A"
-  );
-  total.push(
-    totalOfData.acos.charge !== 0
-      ? Number(totalOfData.acos.charge).toFixed(2) + "%"
-      : totalOfData.acos.current > 0 && totalOfData.acos.previous > 0
-        ? "0%"
-        : "N/A"
-  );
-  finalData.push(total);
-  return finalData;
-};
-
-const getSummaryInTotal = (props) => {
-  const temp = {
-    asp: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    units_per_order: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    orders: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    sales: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    units_sold: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-
-    shipped_cogs: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-
-    average_cpc: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    ad_impressions: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    ad_clicks: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    ad_spend: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    ad_orders: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    ad_sales: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    percent_total_sales: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    conversion_rate: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-    acos: {
-      current: 0,
-      previous: 0,
-      change: 0,
-      charge: 0,
-      yoy: 0,
-      yoyCharge: 0,
-    },
-  };
-
-  props.map(({ current, previous, change, charge, yoy, yoyCharge, yoySKU }) => {
-    temp.asp = {
-      current: temp.asp.current + (current?.asp || 0),
-      previous: temp.asp.previous + (previous?.asp || 0),
-      change: temp.asp.change + (change?.asp || 0),
-      charge: Number(temp.asp.charge) + Number(charge?.asp || 0),
-      yoy: temp.asp.yoy + (yoy?.asp || 0),
-      yoyCharge: temp.asp.yoyCharge + (yoyCharge?.asp || 0),
-    };
-    temp.units_per_order = {
-      current: temp.units_per_order.current + (current?.units_per_order || 0),
-      previous: temp.units_per_order.previous + (previous?.units_per_order || 0),
-      change: temp.units_per_order.change + (change?.units_per_order || 0),
-      charge: Number(temp.units_per_order.charge) + Number(charge?.units_per_order || 0),
-      yoy: temp.units_per_order.yoy + (yoy?.units_per_order || 0),
-      yoyCharge: temp.units_per_order.yoyCharge + (yoyCharge?.units_per_order || 0),
-    };
-    temp.orders = {
-      current: temp.orders.current + (current?.orders || 0),
-      previous: temp.orders.previous + (previous?.orders || 0),
-      change: temp.orders.change + (change?.orders || 0),
-      charge: Number(temp.orders.charge) + Number(charge?.orders || 0),
-      yoy: temp.orders.yoy + (yoy?.orders || 0),
-      yoyCharge: temp.orders.yoyCharge + (yoyCharge?.orders || 0),
-    };
-    temp.ad_spend = {
-      current: temp.ad_spend.current + (current?.ad_spend || 0),
-      previous: temp.ad_spend.previous + (previous?.ad_spend || 0),
-      change: temp.ad_spend.change + (change?.ad_spend || 0),
-      charge: Number(temp.ad_spend.charge) + Number(charge?.ad_spend || 0),
-      yoy: temp.ad_spend.yoy + (yoy?.ad_spend || 0),
-      yoyCharge: temp.ad_spend.yoyCharge + (yoyCharge?.ad_spend || 0),
-    };
-    temp.ad_orders = {
-      current: temp.ad_orders.current + (current?.ad_orders || 0),
-      previous: temp.ad_orders.previous + (previous?.ad_orders || 0),
-      change: temp.ad_orders.change + (change?.ad_orders || 0),
-      charge: Number(temp.ad_orders.charge) + Number(charge?.ad_orders || 0),
-      yoy: temp.ad_orders.yoy + (yoy?.ad_orders || 0),
-      yoyCharge: temp.ad_orders.yoyCharge + (yoyCharge?.ad_orders || 0),
-    };
-    temp.conversion_rate = {
-      current: temp.conversion_rate.current + (current?.conversion_rate || 0),
-      previous:
-        temp.conversion_rate.previous + (previous?.conversion_rate || 0),
-      change: temp.conversion_rate.change + (change?.conversion_rate || 0),
-      charge:
-        Number(temp.conversion_rate.charge) +
-        Number(charge?.conversion_rate || 0),
-      yoy: temp.conversion_rate.yoy + (yoy?.conversion_rate || 0),
-      yoyCharge:
-        temp.conversion_rate.yoyCharge + (yoyCharge?.conversion_rate || 0),
-    };
-    temp.acos = {
-      current: temp.acos.current + (current?.acos || 0),
-      previous: temp.acos.previous + (previous?.acos || 0),
-      change: temp.acos.change + (change?.acos || 0),
-      charge: Number(temp.acos.charge) + Number(charge?.acos || 0),
-      yoy: temp.acos.yoy + (yoy?.acos || 0),
-      yoyCharge: temp.acos.yoyCharge + (yoyCharge?.acos || 0),
-    };
-    temp.ad_sales = {
-      current: temp.ad_sales.current + (current?.ad_sales || 0),
-      previous: temp.ad_sales.previous + (previous?.ad_sales || 0),
-      change: temp.ad_sales.change + (change?.ad_sales || 0),
-      charge: Number(temp.ad_sales.charge) + Number(charge?.ad_sales || 0),
-      yoy: temp.ad_sales.yoy + (yoy?.ad_sales || 0),
-      yoyCharge: temp.ad_sales.yoyCharge + (yoyCharge?.ad_sales || 0),
-    };
-    temp.sales = {
-      current: temp.sales.current + (current?.sales || 0),
-      previous: temp.sales.previous + (previous?.sales || 0),
-      change: temp.sales.change + (change?.sales || 0),
-      charge: Number(temp.sales.charge) + Number(charge?.sales || 0),
-      yoy: temp.sales.yoy + (yoy?.sales || 0),
-      yoyCharge: temp.sales.yoyCharge + (yoyCharge?.sales || 0),
-    };
-    temp.units_sold = {
-      current: temp.units_sold.current + (current?.units_sold || 0),
-      previous: temp.units_sold.previous + (previous?.units_sold || 0),
-      change: temp.units_sold.change + (change?.units_sold || 0),
-      charge: Number(temp.units_sold.charge) + Number(charge?.units_sold || 0),
-      yoy: temp.units_sold.yoy + (yoy?.units_sold || 0),
-      yoyCharge: temp.units_sold.yoyCharge + (yoyCharge?.units_sold || 0),
-    };
-    temp.shipped_cogs = {
-      current: temp.shipped_cogs.current + (current?.shipped_cogs || 0),
-      previous: temp.shipped_cogs.previous + (previous?.shipped_cogs || 0),
-      change: temp.shipped_cogs.change + (change?.shipped_cogs || 0),
-      charge:
-        Number(temp.shipped_cogs.charge) + Number(charge?.shipped_cogs || 0),
-      yoy: temp.shipped_cogs.yoy + (yoy?.shipped_cogs || 0),
-      yoyCharge: temp.shipped_cogs.yoyCharge + (yoyCharge?.shipped_cogs || 0),
-    };
-    temp.ad_clicks = {
-      current: temp.ad_clicks.current + (current?.ad_clicks || 0),
-      previous: temp.ad_clicks.previous + (previous?.ad_clicks || 0),
-      change: temp.ad_clicks.change + (change?.ad_clicks || 0),
-      charge: Number(temp.ad_clicks.charge) + Number(charge?.ad_clicks || 0),
-      yoy: temp.ad_clicks.yoy + (yoy?.ad_clicks || 0),
-      yoyCharge: temp.ad_clicks.yoyCharge + (yoyCharge?.ad_clicks || 0),
-    };
-    temp.ad_impressions = {
-      current: temp.ad_impressions.current + (current?.ad_impressions || 0),
-      previous: temp.ad_impressions.previous + (previous?.ad_impressions || 0),
-      change: temp.ad_impressions.change + (change?.ad_impressions || 0),
-      charge:
-        Number(temp.ad_impressions.charge) +
-        Number(charge?.ad_impressions || 0),
-      yoy: temp.ad_impressions.yoy + (yoy?.ad_impressions || 0),
-      yoyCharge:
-        temp.ad_impressions.yoyCharge + (yoyCharge?.ad_impressions || 0),
-    };
-    temp.average_cpc = {
-      current: temp.average_cpc.current + (current?.average_cpc || 0),
-      previous: temp.average_cpc.previous + (previous?.average_cpc || 0),
-      change: temp.average_cpc.change + (change?.average_cpc || 0),
-      charge:
-        Number(temp.average_cpc.charge) + Number(charge?.average_cpc || 0),
-      yoy: temp.average_cpc.yoy + (yoy?.average_cpc || 0),
-      yoyCharge: temp.average_cpc.yoyCharge + (yoyCharge?.average_cpc || 0),
-    };
-    temp.percent_total_sales = {
-      current:
-        temp.percent_total_sales.current + (current?.percent_total_sales || 0),
-      previous:
-        temp.percent_total_sales.previous +
-        (previous?.percent_total_sales || 0),
-      change:
-        temp.percent_total_sales.change + (change?.percent_total_sales || 0),
-      charge:
-        Number(temp.percent_total_sales.charge) +
-        Number(charge?.percent_total_sales || 0),
-      yoy: temp.percent_total_sales.yoy + (yoy?.percent_total_sales || 0),
-      yoyCharge:
-        temp.percent_total_sales.yoyCharge +
-        (yoyCharge?.percent_total_sales || 0),
-    };
-    return false;
-  });
-
-  temp.asp.charge = getDifferenceInPercentage(temp.asp.current, temp.asp.previous);
-  temp.asp.yoyCharge = temp.asp.yoyCharge / props.length;
-
-  temp.units_per_order.charge = getDifferenceInPercentage(temp.units_per_order.current, temp.units_per_order.previous);
-  temp.units_per_order.yoyCharge = temp.units_per_order.yoyCharge / props.length;
-
-  temp.orders.charge = getDifferenceInPercentage(temp.orders.current, temp.orders.previous);
-  temp.orders.yoyCharge = temp.orders.yoyCharge / props.length;
-
-  temp.ad_spend.charge = getDifferenceInPercentage(temp.ad_spend.current, temp.ad_spend.previous);
-  temp.ad_spend.yoyCharge = temp.ad_spend.yoyCharge / props.length;
-
-  temp.ad_orders.charge = getDifferenceInPercentage(temp.ad_orders.current, temp.ad_orders.previous);
-  temp.ad_orders.yoyCharge = temp.ad_orders.yoyCharge / props.length;
-
-  temp.conversion_rate.current = temp.conversion_rate.current / props.length;
-  temp.conversion_rate.previous = temp.conversion_rate.previous / props.length;
-  temp.conversion_rate.change = temp.conversion_rate.change / props.length;
-  temp.conversion_rate.yoy = temp.conversion_rate.yoy / props.length;
-  temp.conversion_rate.charge = getDifferenceInPercentage(temp.conversion_rate.current, temp.conversion_rate.previous);
-  temp.conversion_rate.yoyCharge =
-    temp.conversion_rate.yoyCharge / props.length;
-
-  temp.acos.current = temp.acos.current / props.length;
-  temp.acos.previous = temp.acos.previous / props.length;
-  temp.acos.change = temp.acos.change / props.length;
-  temp.acos.yoy = temp.acos.yoy / props.length;
-  temp.acos.charge = getDifferenceInPercentage(temp.acos.current, temp.acos.previous);
-  temp.acos.yoyCharge = temp.acos.yoyCharge / props.length;
-
-  temp.ad_sales.charge = getDifferenceInPercentage(temp.ad_sales.current, temp.ad_sales.previous);
-  temp.ad_sales.yoyCharge = temp.ad_sales.yoyCharge / props.length;
-
-  temp.sales.charge = getDifferenceInPercentage(temp.sales.current, temp.sales.previous);
-  temp.sales.yoyCharge = temp.sales.yoyCharge / props.length;
-
-  temp.units_sold.charge = getDifferenceInPercentage(temp.units_sold.current, temp.units_sold.previous);
-  temp.units_sold.yoyCharge = temp.units_sold.yoyCharge / props.length;
-
-  temp.shipped_cogs.charge = getDifferenceInPercentage(temp.shipped_cogs.current, temp.shipped_cogs.previous);
-  temp.shipped_cogs.yoyCharge = temp.shipped_cogs.yoyCharge / props.length;
-
-  temp.ad_clicks.charge = getDifferenceInPercentage(temp.ad_clicks.current, temp.ad_clicks.previous);
-  temp.ad_clicks.yoyCharge = temp.ad_clicks.yoyCharge / props.length;
-
-  temp.ad_impressions.charge = getDifferenceInPercentage(temp.ad_impressions.current, temp.ad_impressions.previous);
-  temp.ad_impressions.yoyCharge = temp.ad_impressions.yoyCharge / props.length;
-
-  temp.average_cpc.current = temp.average_cpc.current / props.length;
-  temp.average_cpc.previous = temp.average_cpc.previous / props.length;
-  temp.average_cpc.change = temp.average_cpc.change / props.length;
-  temp.average_cpc.yoy = temp.average_cpc.yoy / props.length;
-  temp.average_cpc.charge = getDifferenceInPercentage(temp.average_cpc.current, temp.average_cpc.previous);
-  temp.average_cpc.yoyCharge = temp.average_cpc.yoyCharge / props.length;
-
-  temp.percent_total_sales.current =
-    temp.percent_total_sales.current / props.length;
-  temp.percent_total_sales.previous =
-    temp.percent_total_sales.previous / props.length;
-  temp.percent_total_sales.change =
-    temp.percent_total_sales.change / props.length;
-  temp.percent_total_sales.yoy = temp.percent_total_sales.yoy / props.length;
-  temp.percent_total_sales.charge = getDifferenceInPercentage(temp.percent_total_sales.current, temp.percent_total_sales.previous);
-  temp.percent_total_sales.yoyCharge =
-    temp.percent_total_sales.yoyCharge / props.length;
-
-  return temp;
-};
+import DownloadCSVButton from "./../../common/downloadCSVButton";
+import TableTotalRowCell from "./../Table/table-totalrow-cell";
+import TableCell from "./../Table/table-cell";
+import {
+  filterDataAndFormat,
+  getFrontendFormattedTotal,
+  getCSVVersion,
+} from "../../common/helperBrandDashboard";
 
 const DataDisplayItemizedTable = (props) => {
   const isComparisons = true;
+
   const [active, setActive] = useState(false);
   const [sortBy, setSortBy] = useState(false);
+
   const [sortByInner, setSortByInner] = useState(false);
   const [sortAscendingBy, setSortAscendingBy] = useState(false);
-  let currentData = props.data;
-  let isYoY = !!currentData.yoy.length;
-  const data = currentDataFormate(currentData);
+
+  let currentData = props.data.data;
+  let isYoY = !!currentData.comparisons.yoy.length;
+
+  const {
+    comparisons: { yoy, pop },
+  } = currentData;
+
   if (!currentData) return null;
 
-  const filterData = data.sort((a, b) => {
-    let tempSortBy = "asin";
-    if (sortBy === 0) {
-      tempSortBy = "date";
-    } else if (sortBy === 1) {
-      tempSortBy = "sales";
-    } else if (sortBy === 2) {
-      tempSortBy = "shipped_cogs";
-    } else if (sortBy === 3) {
-      tempSortBy = "orders";
-    } else if (sortBy === 4) {
-      tempSortBy = "units_sold";
-    } else if (sortBy === 5) {
-      tempSortBy = "units_per_order";
-    } else if (sortBy === 6) {
-      tempSortBy = "asp";
-    } else if (sortBy === 7) {
-      tempSortBy = "ad_impressions";
-    } else if (sortBy === 8) {
-      tempSortBy = "ad_clicks";
-    } else if (sortBy === 9) {
-      tempSortBy = "average_cpc";
-    } else if (sortBy === 10) {
-      tempSortBy = "ad_spend";
-    } else if (sortBy === 11) {
-      tempSortBy = "ad_orders";
-    } else if (sortBy === 12) {
-      tempSortBy = "ad_sales";
-    } else if (sortBy === 13) {
-      tempSortBy = "percent_total_sales";
-    } else if (sortBy === 14) {
-      tempSortBy = "conversion_rate";
-    } else if (sortBy === 15) {
-      tempSortBy = "acos";
-    }
+  const filterData = filterDataAndFormat(
+    currentData,
+    yoy,
+    pop,
+    sortBy,
+    sortByInner,
+    sortAscendingBy
+  );
 
-    let tempFirst =
-      sortByInner === 0
-        ? "current"
-        : sortByInner === 1
-          ? "previous"
-          : sortByInner === 2
-            ? "change"
-            : sortByInner === 3
-              ? "charge"
-              : sortByInner === 4
-                ? "yoy"
-                : sortByInner === 5
-                  ? "yoyCharge"
-                  : "current";
-    if (tempSortBy === "date")
-      return !sortAscendingBy
-        ? new Date(a.period.start).getTime() -
-        new Date(b.period.start).getTime()
-        : new Date(b.period.start).getTime() -
-        new Date(a.period.start).getTime();
-    return !sortAscendingBy
-      ? a[tempFirst][tempSortBy] - b[tempFirst][tempSortBy]
-      : b[tempFirst][tempSortBy] - a[tempFirst][tempSortBy];
-  });
   const headerClick = (index) => {
     isComparisons && setActive(active === index ? false : index);
     setSortByInner(false);
@@ -1495,12 +73,19 @@ const DataDisplayItemizedTable = (props) => {
     setSortBy(sortBy || active);
     setSortByInner(columnId);
   };
-  const totalOfData = getSummaryInTotal(filterData);
-  console.log("DataDisplayItemizedTable -> totalOfData", totalOfData);
+
+  const yoyTotal = currentData.comparisons.totals;
+  const currentTotal = currentData.totals.periods;
+  const totalOfData = getFrontendFormattedTotal(
+    filterData,
+    yoyTotal,
+    currentTotal
+  );
+
   return (
     <>
       <CSVLink
-        className='link-download'
+        className="link-download"
         data={getCSVVersion(filterData, isYoY, totalOfData)}
         filename={"brand.csv"}
       >
@@ -1512,7 +97,7 @@ const DataDisplayItemizedTable = (props) => {
             <tr>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 0 && "4"}
+                colSpan={isComparisons && active === 0 && (isYoY ? "6" : "4")}
               >
                 <div>
                   <span>
@@ -1524,11 +109,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                 </div>
@@ -1550,11 +135,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1578,11 +163,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1606,11 +191,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1634,11 +219,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1662,16 +247,15 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
                 </div>
-
               </th>
               <th
                 className={s.tableHead}
@@ -1690,11 +274,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1702,7 +286,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 7 && "4"}
+                colSpan={isComparisons && active === 7 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1718,11 +302,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1730,7 +314,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 8 && "4"}
+                colSpan={isComparisons && active === 8 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1746,11 +330,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1758,7 +342,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 9 && "4"}
+                colSpan={isComparisons && active === 9 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1774,11 +358,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1803,11 +387,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -1815,7 +399,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 11 && "4"}
+                colSpan={isComparisons && active === 11 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1831,11 +415,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -1843,7 +427,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 12 && "4"}
+                colSpan={isComparisons && active === 12 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1859,11 +443,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -1871,7 +455,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 13 && "4"}
+                colSpan={isComparisons && active === 13 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1887,11 +471,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>
                   <span />
@@ -1899,7 +483,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 14 && "4"}
+                colSpan={isComparisons && active === 14 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1915,11 +499,11 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
@@ -1927,7 +511,7 @@ const DataDisplayItemizedTable = (props) => {
               </th>
               <th
                 className={s.tableHead}
-                colSpan={isComparisons && active === 15 && "4"}
+                colSpan={isComparisons && active === 15 && (isYoY ? "6" : "4")}
                 align="right"
               >
                 <div>
@@ -1943,34 +527,16 @@ const DataDisplayItemizedTable = (props) => {
                           sortAscendingBy ? (
                             <ArrowDropUpIcon />
                           ) : (
-                              <ArrowDropDownIcon />
-                            )
+                            <ArrowDropDownIcon />
+                          )
                         ) : (
-                            <SortIcon />
-                          ))}
+                          <SortIcon />
+                        ))}
                     </span>
                   </span>{" "}
                   <span />
                 </div>
               </th>
-              {/* <th
-              className={s.tableHead}
-              colSpan={isComparisons && active === 13 && "4"}
-              onClick={() => headerClick(13)}
-              align="right"
-            >
-              <div>
-                <span>
-                  {isComparisons &&
-                    (active === 13 ? <RemoveIcon /> : <AddIcon />)}
-                </span>
-
-                <span>
-                  {props.data.period === "weekly" ? "WoW" : "MoM"} (sales){" "}
-                </span>
-                <span />
-              </div>
-            </th> */}
             </tr>
           </thead>
           <tbody>
@@ -1987,7 +553,6 @@ const DataDisplayItemizedTable = (props) => {
 
                   {active !== false && (
                     <>
-                      {" "}
                       <th className={s.tableHead} align="right">
                         <div>
                           <span>Current</span>
@@ -1997,11 +562,11 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -2014,11 +579,11 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -2031,11 +596,11 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
                       </th>
@@ -2048,60 +613,52 @@ const DataDisplayItemizedTable = (props) => {
                               sortAscendingBy ? (
                                 <ArrowDropUpIcon />
                               ) : (
-                                  <ArrowDropDownIcon />
-                                )
+                                <ArrowDropDownIcon />
+                              )
                             ) : (
-                                <SortIcon />
-                              )}
+                              <SortIcon />
+                            )}
                           </span>
                         </div>
-                      </th>{" "}
-                      {(active === 1 ||
-                        active === 2 ||
-                        active === 3 ||
-                        active === 7) &&
-                        isYoY && (
-                          <th className={s.tableHead} align="right">
-                            <div>
-                              <span>Change # YOY</span>
-                              <span onClick={() => handleSortInner(4)}>
-                                {" "}
-                                {sortByInner === 4 ? (
-                                  sortAscendingBy ? (
-                                    <ArrowDropUpIcon />
-                                  ) : (
-                                      <ArrowDropDownIcon />
-                                    )
+                      </th>
+                      {isYoY && (
+                        <th className={s.tableHead} align="right">
+                          <div>
+                            <span>Change # YOY</span>
+                            <span onClick={() => handleSortInner(4)}>
+                              {" "}
+                              {sortByInner === 4 ? (
+                                sortAscendingBy ? (
+                                  <ArrowDropUpIcon />
                                 ) : (
-                                    <SortIcon />
-                                  )}
-                              </span>
-                            </div>
-                          </th>
-                        )}
-                      {(active === 1 ||
-                        active === 2 ||
-                        active === 3 ||
-                        active === 7) &&
-                        isYoY && (
-                          <th className={s.tableHead} align="right">
-                            <div>
-                              <span>Change % YOY</span>
-                              <span onClick={() => handleSortInner(5)}>
-                                {" "}
-                                {sortByInner === 5 ? (
-                                  sortAscendingBy ? (
-                                    <ArrowDropUpIcon />
-                                  ) : (
-                                      <ArrowDropDownIcon />
-                                    )
+                                  <ArrowDropDownIcon />
+                                )
+                              ) : (
+                                <SortIcon />
+                              )}
+                            </span>
+                          </div>
+                        </th>
+                      )}
+                      {isYoY && (
+                        <th className={s.tableHead} align="right">
+                          <div>
+                            <span>Change % YOY</span>
+                            <span onClick={() => handleSortInner(5)}>
+                              {" "}
+                              {sortByInner === 5 ? (
+                                sortAscendingBy ? (
+                                  <ArrowDropUpIcon />
                                 ) : (
-                                    <SortIcon />
-                                  )}
-                              </span>
-                            </div>
-                          </th>
-                        )}
+                                  <ArrowDropDownIcon />
+                                )
+                              ) : (
+                                <SortIcon />
+                              )}
+                            </span>
+                          </div>
+                        </th>
+                      )}
                     </>
                   )}
                 </tr>
@@ -2109,33 +666,23 @@ const DataDisplayItemizedTable = (props) => {
             )}
             {filterData
               ? filterData.map((row, i, array) => {
-                const {
-                  current,
-                  previous,
-                  change,
-                  charge,
-                  yoy,
-                  yoyCharge,
-                } = row;
-                return (
-                  <tr key={i}>
-                    {active === 0 ? (
-                      <>
-                        <td component="th" className="w-date">
-                          <b>{i + 1}</b>
-                        </td>
-                        {/* <td component="th">
-                            <b>{i}</b>
+                  const {
+                    current,
+                    previous,
+                    change,
+                    charge,
+                    yoy,
+                    yoyCharge,
+                  } = row;
+                  return (
+                    <tr key={i}>
+                      {active === 0 ? (
+                        <>
+                          <td component="th" className="w-date">
+                            <b>{i + 1}</b>
                           </td>
-                          <td component="th">
-                            <b>{i}</b>
-                          </td>
-                          <td component="th">
-                            <b>{i}</b>
-                          </td>
-                        */}
-                      </>
-                    ) : (
+                        </>
+                      ) : (
                         <td component="th" className="w-date">
                           <b>
                             {moment(row.period.start)
@@ -2147,1452 +694,305 @@ const DataDisplayItemizedTable = (props) => {
                         </td>
                       )}
 
-                    {isComparisons && active === 1 ? (
-                      <>
-                        <td align="right">
-                          {current.sales !== 0
-                            ? "$" + numberWithCommas(current.sales)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.sales !== 0
-                            ? "$" + numberWithCommas(previous.sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.sales)}
-                        >
-                          {change.sales !== 0 ? "$" + change.sales : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.sales)}
-                        >
-                          {charge.sales !== 0 ? charge.sales + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.sales)}
-                            >
-                              {yoy.sales !== 0
-                                ? numberWithCommas(yoy.sales)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.sales)}
-                            >
-                              {yoyCharge.sales !== 0
-                                ? yoyCharge.sales + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.sales !== 0
-                            ? "$" + numberWithCommas(current.sales)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 2 ? (
-                      <>
-                        <td align="right">
-                          {current.shipped_cogs !== 0
-                            ? "$" + numberWithCommas(current.shipped_cogs)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.shipped_cogs !== 0
-                            ? "$" + numberWithCommas(previous.shipped_cogs)
-                            : "N/A"}
-                        </td>
-
-                        <td
-                          align="right"
-                          className={isNegative(change.shipped_cogs)}
-                        >
-                          {current.shipped_cogs !== 0
-                            ? "$" + numberWithCommas(change.shipped_cogs)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.shipped_cogs)}
-                        >
-                          {charge.shipped_cogs !== 0
-                            ? charge.shipped_cogs + "%"
-                            : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.shipped_cogs)}
-                            >
-                              {yoy.shipped_cogs !== 0
-                                ? numberWithCommas(yoy.shipped_cogs)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.shipped_cogs)}
-                            >
-                              {yoyCharge.shipped_cogs !== 0
-                                ? yoyCharge.shipped_cogs + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.shipped_cogs !== 0
-                            ? "$" + numberWithCommas(current.shipped_cogs)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 3 ? (
-                      <>
-                        <td align="right">
-                          {current.orders !== 0
-                            ? numberWithCommas(current.orders)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.orders !== 0
-                            ? numberWithCommas(previous.orders)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.orders)}
-                        >
-                          {change.orders !== 0 ? change.orders : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.orders)}
-                        >
-                          {charge.orders !== 0 ? charge.orders + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.orders)}
-                            >
-                              {yoy.orders !== 0
-                                ? numberWithCommas(yoy.orders)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.orders)}
-                            >
-                              {yoyCharge.orders !== 0
-                                ? yoyCharge.orders + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.orders !== 0
-                            ? numberWithCommas(current.orders)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 4 ? (
-                      <>
-                        <td align="right">
-                          {current.units_sold !== 0
-                            ? numberWithCommas(current.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.units_sold !== 0
-                            ? numberWithCommas(previous.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.units_sold)}
-                        >
-                          {change.units_sold !== 0
-                            ? numberWithCommas(change.units_sold)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.units_sold)}
-                        >
-                          {charge.units_sold !== 0
-                            ? charge.units_sold + "%"
-                            : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.units_sold)}
-                            >
-                              {yoy.units_sold !== 0
-                                ? numberWithCommas(yoy.units_sold)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.units_sold)}
-                            >
-                              {yoyCharge.units_sold !== 0
-                                ? yoyCharge.units_sold + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.units_sold !== 0
-                            ? numberWithCommas(current.units_sold)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 5 ? (
-                      <>
-                        <td align="right">
-                          {current.units_per_order !== 0
-                            ? numberWithCommas(current.units_per_order)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.units_per_order !== 0
-                            ? numberWithCommas(previous.units_per_order)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.units_per_order)}
-                        >
-                          {change.units_per_order !== 0 ? change.units_per_order : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.units_per_order)}
-                        >
-                          {charge.units_per_order !== 0 ? charge.units_per_order + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.units_per_order)}
-                            >
-                              {yoy.units_per_order !== 0
-                                ? numberWithCommas(yoy.units_per_order)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.units_per_order)}
-                            >
-                              {yoyCharge.units_per_order !== 0
-                                ? yoyCharge.units_per_order + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.units_per_order !== 0
-                            ? numberWithCommas(current.units_per_order)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 6 ? (
-                      <>
-                        <td align="right">
-                          {current.asp !== 0
-                            ? "$" + numberWithCommas(current.asp)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.asp !== 0
-                            ? "$" + numberWithCommas(previous.asp)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.asp)}
-                        >
-                          {change.asp !== 0 ? "$" + change.asp : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.asp)}
-                        >
-                          {charge.asp !== 0 ? charge.asp + "%" : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.asp)}
-                            >
-                              {yoy.asp !== 0
-                                ? numberWithCommas(yoy.asp)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.asp)}
-                            >
-                              {yoyCharge.asp !== 0
-                                ? yoyCharge.asp + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.asp !== 0
-                            ? "$" + numberWithCommas(current.asp)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 7 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_impressions !== 0
-                            ? numberWithCommas(current.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.ad_impressions !== 0
-                            ? numberWithCommas(previous.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_impressions)}
-                        >
-                          {change.ad_impressions !== 0
-                            ? numberWithCommas(change.ad_impressions)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_impressions)}
-                        >
-                          {charge.ad_impressions !== 0
-                            ? charge.ad_impressions + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.ad_impressions
-                            ? numberWithCommas(current.ad_impressions)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 8 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_clicks !== 0
-                            ? numberWithCommas(current.ad_clicks)
-                            : "N/A"}
-                        </td>
-
-                        <td align="right">
-                          {previous.ad_clicks !== 0
-                            ? numberWithCommas(previous.ad_clicks)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_clicks)}
-                        >
-                          {change.ad_clicks !== 0
-                            ? numberWithCommas(change.ad_clicks)
-                            : "N/A"}
-                        </td>
-
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_clicks)}
-                        >
-                          {charge.ad_clicks !== 0
-                            ? charge.ad_clicks + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.ad_clicks !== 0
-                            ? numberWithCommas(current.ad_clicks)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 9 ? (
-                      <>
-                        <td align="right">
-                          {current.average_cpc
-                            ? "$" + numberWithCommas(current.average_cpc)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.average_cpc
-                            ? "$" + numberWithCommas(previous.average_cpc)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.average_cpc)}
-                        >
-                          {change.average_cpc !== 0
-                            ? "$" + numberWithCommas(change.average_cpc)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.average_cpc)}
-                        >
-                          {charge.average_cpc !== 0
-                            ? charge.average_cpc + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.average_cpc
-                            ? "$" + numberWithCommas(current.average_cpc)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 10 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_spend
-                            ? "$" + numberWithCommas(current.ad_spend)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.ad_spend
-                            ? "$" + numberWithCommas(previous.ad_spend)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_spend)}
-                        >
-                          {change.ad_spend !== 0
-                            ? "$" + numberWithCommas(change.ad_spend)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_spend)}
-                        >
-                          {current.ad_spend !== 0
-                            ? charge.ad_spend + "%"
-                            : "N/A"}
-                        </td>
-                        {isYoY && (
-                          <>
-                            <td
-                              align="right"
-                              className={isNegative(yoy.ad_spend)}
-                            >
-                              {yoy.ad_spend !== 0
-                                ? "$" + numberWithCommas(yoy.ad_spend)
-                                : "N/A"}
-                            </td>
-                            <td
-                              align="right"
-                              className={isNegative(yoyCharge.ad_spend)}
-                            >
-                              {yoyCharge.ad_spend !== 0
-                                ? yoyCharge.ad_spend + "%"
-                                : "N/A"}
-                            </td>
-                          </>
-                        )}
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.ad_spend
-                            ? "$" + numberWithCommas(current.ad_spend)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 11 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_orders
-                            ? numberWithCommas(current.ad_orders)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.ad_orders
-                            ? numberWithCommas(previous.ad_orders)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_orders)}
-                        >
-                          {change.ad_orders !== 0
-                            ? numberWithCommas(change.ad_orders)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_orders)}
-                        >
-                          {charge.ad_orders !== 0
-                            ? charge.ad_orders + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.ad_orders
-                            ? numberWithCommas(current.ad_orders)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 12 ? (
-                      <>
-                        <td align="right">
-                          {current.ad_sales
-                            ? "$" + numberWithCommas(current.ad_sales)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.ad_sales
-                            ? "$" + numberWithCommas(previous.ad_sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.ad_sales)}
-                        >
-                          {change.ad_sales !== 0
-                            ? "$" + numberWithCommas(change.ad_sales)
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.ad_sales)}
-                        >
-                          {charge.ad_sales !== 0
-                            ? numberWithCommas(charge.ad_sales) + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.ad_sales !== 0
-                            ? "$" + numberWithCommas(current.ad_sales)
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 13 ? (
-                      <>
-                        <td align="right">
-                          {current.percent_total_sales !== 0
-                            ? Number(current.percent_total_sales).toFixed(2) +
-                            "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.percent_total_sales !== 0
-                            ? Number(previous.percent_total_sales).toFixed(
-                              2
-                            ) + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.percent_total_sales)}
-                        >
-                          {change.percent_total_sales !== 0
-                            ? Number(change.percent_total_sales).toFixed(
-                              2
-                            ) + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.percent_total_sales)}
-                        >
-                          {charge.percent_total_sales !== 0
-                            ? Number(charge.percent_total_sales).toFixed(2) +
-                            "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.percent_total_sales !== 0
-                            ? Number(current.percent_total_sales).toFixed(2) +
-                            "%"
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 14 ? (
-                      <>
-                        <td align="right">
-                          {current.conversion_rate !== 0
-                            ? Number(current.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.conversion_rate !== 0
-                            ? Number(previous.conversion_rate).toFixed(2) +
-                            "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(change.conversion_rate)}
-                        >
-                          {change.conversion_rate !== 0
-                            ? Number(change.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td
-                          align="right"
-                          className={isNegative(charge.conversion_rate)}
-                        >
-                          {charge.conversion_rate !== 0
-                            ? Number(charge.conversion_rate).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {Number(current.conversion_rate).toFixed(2) + "%"}
-                        </td>
-                      )}
-
-                    {isComparisons && active === 15 ? (
-                      <>
-                        <td align="right">
-                          {current.acos !== 0
-                            ? Number(current.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {previous.acos !== 0
-                            ? Number(previous.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(change.acos)}>
-                          {change.acos !== 0
-                            ? Number(change.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                        <td align="right" className={isNegative(charge.acos)}>
-                          {charge.acos !== 0
-                            ? Number(charge.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                      </>
-                    ) : (
-                        <td align="right">
-                          {current.acos !== 0
-                            ? Number(current.acos).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                      )}
-
-                    {/* {isComparisons && active === 13 ? (
-                        <>
-                          <td
-                            align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
-                          >
-                            {i < props.comparisons.itemized.length - 1
-                              ? (
-                                  ((parseInt(previous.revenue) -
-                                    parseInt(
-                                      props.comparisons.itemized[i + 1].revenue
-                                    )) /
-                                    parseInt(
-                                      props.comparisons.itemized[i + 1].revenue
-                                    )) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
-                          >
-                            {i < array.length - 1
-                              ? (
-                                  ((parseInt(current.revenue) -
-                                    parseInt(array[i + 1].revenue)) /
-                                    parseInt(array[i + 1].revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
-                          >
-                            {i < array.length - 1
-                              ? (
-                                  ((parseInt(current.revenue) -
-                                    parseInt(array[i + 1].revenue)) /
-                                    parseInt(array[i + 1].revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                          <td
-                            align="right"
-                            className={
-                              i < array.length - 1
-                                ? Math.sign(
-                                    (
-                                      ((parseInt(current.revenue) -
-                                        parseInt(array[i + 1].revenue)) /
-                                        parseInt(array[i + 1].revenue)) *
-                                      100
-                                    ).toFixed(2)
-                                  ) === -1
-                                  ? s.red
-                                  : s.green
-                                : ""
-                            }
-                          >
-                            {i < array.length - 1
-                              ? (
-                                  ((parseInt(current.revenue) -
-                                    parseInt(array[i + 1].revenue)) /
-                                    parseInt(array[i + 1].revenue)) *
-                                  100
-                                ).toFixed(2) + "%"
-                              : "N/A"}
-                          </td>
-                        </>
-                      ) : (
-                        <td
-                          align="right"
-                          className={
-                            i < array.length - 1
-                              ? Math.sign(
-                                  (
-                                    ((parseInt(current.revenue) -
-                                      parseInt(array[i + 1].revenue)) /
-                                      parseInt(array[i + 1].revenue)) *
-                                    100
-                                  ).toFixed(2)
-                                ) === -1
-                                ? s.red
-                                : s.green
-                              : ""
-                          }
-                        >
-                          {i < array.length - 1
-                            ? (
-                                ((parseInt(current.revenue) -
-                                  parseInt(array[i + 1].revenue)) /
-                                  parseInt(array[i + 1].revenue)) *
-                                100
-                              ).toFixed(2) + "%"
-                            : "N/A"}
-                        </td>
-                      )} */}
-                  </tr>
-                );
-              })
+                      <TableCell
+                        current={current.sales}
+                        previous={previous.sales}
+                        change={change.sales}
+                        charge={charge.sales}
+                        yoy={yoy.sales}
+                        yoyCharge={yoyCharge.sales}
+                        isComparisons={isComparisons}
+                        isActive={active === 1}
+                        isYoY={isYoY}
+                        symbol="$"
+                      ></TableCell>
+                      <TableCell
+                        current={current.shipped_cogs}
+                        previous={previous.shipped_cogs}
+                        change={change.shipped_cogs}
+                        charge={charge.shipped_cogs}
+                        yoy={yoy.shipped_cogs}
+                        yoyCharge={yoyCharge.shipped_cogs}
+                        isComparisons={isComparisons}
+                        isActive={active === 2}
+                        isYoY={isYoY}
+                        symbol="$"
+                      ></TableCell>
+                      <TableCell
+                        current={current.orders}
+                        previous={previous.orders}
+                        change={change.orders}
+                        charge={charge.orders}
+                        yoy={yoy.orders}
+                        yoyCharge={yoyCharge.orders}
+                        isComparisons={isComparisons}
+                        isActive={active === 3}
+                        isYoY={isYoY}
+                        symbol=""
+                      ></TableCell>
+                      <TableCell
+                        current={current.units_sold}
+                        previous={previous.units_sold}
+                        change={change.units_sold}
+                        charge={charge.units_sold}
+                        yoy={yoy.units_sold}
+                        yoyCharge={yoyCharge.units_sold}
+                        isComparisons={isComparisons}
+                        isActive={active === 4}
+                        symbol=""
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.units_per_order}
+                        previous={previous.units_per_order}
+                        change={change.units_per_order}
+                        charge={charge.units_per_order}
+                        yoy={yoy.units_per_order}
+                        yoyCharge={yoyCharge.units_per_order}
+                        isComparisons={isComparisons}
+                        isActive={active === 5}
+                        isYoY={isYoY}
+                        symbol=""
+                      ></TableCell>
+                      <TableCell
+                        current={current.asp}
+                        previous={previous.asp}
+                        change={change.asp}
+                        charge={charge.asp}
+                        yoy={yoy.asp}
+                        yoyCharge={yoyCharge.asp}
+                        isComparisons={isComparisons}
+                        isActive={active === 6}
+                        isYoY={isYoY}
+                        symbol="$"
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_impressions}
+                        previous={previous.ad_impressions}
+                        change={change.ad_impressions}
+                        charge={charge.ad_impressions}
+                        yoy={yoy.ad_impressions}
+                        yoyCharge={yoyCharge.ad_impressions}
+                        isComparisons={isComparisons}
+                        isActive={active === 7}
+                        symbol=""
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_clicks}
+                        previous={previous.ad_clicks}
+                        change={change.ad_clicks}
+                        charge={charge.ad_clicks}
+                        yoy={yoy.ad_clicks}
+                        yoyCharge={yoyCharge.ad_clicks}
+                        isComparisons={isComparisons}
+                        isActive={active === 8}
+                        isYoY={isYoY}
+                        symbol=""
+                      ></TableCell>
+                      <TableCell
+                        current={current.average_cpc}
+                        previous={previous.average_cpc}
+                        change={change.average_cpc}
+                        charge={charge.average_cpc}
+                        yoy={yoy.average_cpc}
+                        yoyCharge={yoyCharge.average_cpc}
+                        isComparisons={isComparisons}
+                        isActive={active === 9}
+                        symbol="$"
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_spend}
+                        previous={previous.ad_spend}
+                        change={change.ad_spend}
+                        charge={charge.ad_spend}
+                        yoy={yoy.ad_spend}
+                        yoyCharge={yoyCharge.ad_spend}
+                        isComparisons={isComparisons}
+                        symbol="$"
+                        isActive={active === 10}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_orders}
+                        previous={previous.ad_orders}
+                        change={change.ad_orders}
+                        charge={charge.ad_orders}
+                        yoy={yoy.ad_orders}
+                        yoyCharge={yoyCharge.ad_orders}
+                        isComparisons={isComparisons}
+                        symbol=""
+                        isActive={active === 11}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.ad_sales}
+                        previous={previous.ad_sales}
+                        change={change.ad_sales}
+                        charge={charge.ad_sales}
+                        yoy={yoy.ad_sales}
+                        yoyCharge={yoyCharge.ad_sales}
+                        isComparisons={isComparisons}
+                        isActive={active === 12}
+                        symbol="$"
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.percent_total_sales}
+                        previous={previous.percent_total_sales}
+                        change={change.percent_total_sales}
+                        charge={charge.percent_total_sales}
+                        yoy={yoy.percent_total_sales}
+                        yoyCharge={yoyCharge.percent_total_sales}
+                        symbol="%"
+                        isComparisons={isComparisons}
+                        isActive={active === 13}
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.conversion_rate}
+                        previous={previous.conversion_rate}
+                        change={change.conversion_rate}
+                        charge={charge.conversion_rate}
+                        yoy={yoy.conversion_rate}
+                        yoyCharge={yoyCharge.conversion_rate}
+                        isComparisons={isComparisons}
+                        isActive={active === 14}
+                        symbol="%"
+                        isYoY={isYoY}
+                      ></TableCell>
+                      <TableCell
+                        current={current.acos}
+                        previous={previous.acos}
+                        change={change.acos}
+                        charge={charge.acos}
+                        yoy={yoy.acos}
+                        yoyCharge={yoyCharge.acos}
+                        isComparisons={isComparisons}
+                        symbol="%"
+                        isActive={active === 15}
+                        isYoY={isYoY}
+                      ></TableCell>
+                    </tr>
+                  );
+                })
               : ""}
           </tbody>
 
-          {filterData.length > 1 && (
-            <tfoot>
-              <tr>
-                <td component="th">
-                  <b>Total</b>
-                </td>
+          <tfoot>
+            <tr>
+              <td component="th">
+                <b>Total</b>
+              </td>
 
-                {isComparisons && active === 1 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.sales.current
-                        ? "$" + numberWithCommas(totalOfData.sales.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.sales.previous
-                        ? "$" + numberWithCommas(totalOfData.sales.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.sales.change
-                        ? "$" + numberWithCommas(totalOfData.sales.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.sales.charge
-                        ? numberWithCommas(totalOfData.sales.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.sales.yoy
-                            ? "$" + numberWithCommas(totalOfData.sales.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.sales.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.sales.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.sales.current
-                        ? "$" + numberWithCommas(totalOfData.sales.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 2 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.shipped_cogs.current
-                        ? "$" +
-                        numberWithCommas(totalOfData.shipped_cogs.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.shipped_cogs.previous
-                        ? "$" +
-                        numberWithCommas(totalOfData.shipped_cogs.previous)
-                        : "N/A"}
-                    </td>
-
-                    <td align="right">
-                      {" "}
-                      {totalOfData.shipped_cogs.change
-                        ? "$" +
-                        numberWithCommas(totalOfData.shipped_cogs.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {" "}
-                      {totalOfData.shipped_cogs.charge
-                        ? numberWithCommas(totalOfData.shipped_cogs.charge) +
-                        "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {" "}
-                          {totalOfData.shipped_cogs.yoy
-                            ? "$" +
-                            numberWithCommas(totalOfData.shipped_cogs.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {" "}
-                          {totalOfData.shipped_cogs.yoyCharge
-                            ? "$" +
-                            numberWithCommas(
-                              totalOfData.shipped_cogs.yoyCharge
-                            )
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.shipped_cogs.current
-                        ? "$" + numberWithCommas(totalOfData.shipped_cogs.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 3 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.orders.current
-                        ? numberWithCommas(totalOfData.orders.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.orders.previous
-                        ? numberWithCommas(totalOfData.orders.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.orders.change
-                        ? numberWithCommas(totalOfData.orders.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.orders.charge
-                        ? numberWithCommas(totalOfData.orders.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.orders.yoy
-                            ? numberWithCommas(totalOfData.orders.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.orders.yoyCharge
-                            ? numberWithCommas(totalOfData.orders.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.orders.current
-                        ? numberWithCommas(totalOfData.orders.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 4 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.units_sold.current
-                        ? numberWithCommas(totalOfData.units_sold.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_sold.previous
-                        ? numberWithCommas(totalOfData.units_sold.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_sold.change
-                        ? numberWithCommas(totalOfData.units_sold.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_sold.charge
-                        ? numberWithCommas(totalOfData.units_sold.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.units_sold.yoy
-                            ? numberWithCommas(totalOfData.units_sold.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.units_sold.yoyCharge
-                            ? numberWithCommas(totalOfData.units_sold.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.units_sold.current
-                        ? numberWithCommas(totalOfData.units_sold.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 5 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.units_per_order.current
-                        ? numberWithCommas(totalOfData.units_per_order.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_per_order.previous
-                        ? numberWithCommas(totalOfData.units_per_order.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_per_order.change
-                        ? numberWithCommas(totalOfData.units_per_order.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.units_per_order.charge
-                        ? numberWithCommas(totalOfData.units_per_order.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.units_per_order.yoy
-                            ? numberWithCommas(totalOfData.units_per_order.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.units_per_order.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.units_per_order.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.units_per_order.current
-                        ? numberWithCommas(totalOfData.units_per_order.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 6 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.asp.current
-                        ? "$" + numberWithCommas(totalOfData.asp.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.asp.previous
-                        ? "$" + numberWithCommas(totalOfData.asp.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.asp.change
-                        ? "$" + numberWithCommas(totalOfData.asp.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.asp.charge
-                        ? numberWithCommas(totalOfData.asp.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        {" "}
-                        <td align="right">
-                          {totalOfData.asp.yoy
-                            ? "$" + numberWithCommas(totalOfData.asp.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.asp.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.asp.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.asp.current
-                        ? "$" + numberWithCommas(totalOfData.asp.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 7 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.ad_impressions.current
-                        ? numberWithCommas(totalOfData.ad_impressions.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_impressions.previous
-                        ? numberWithCommas(totalOfData.ad_impressions.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_impressions.change
-                        ? numberWithCommas(totalOfData.ad_impressions.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_impressions.charge
-                        ? numberWithCommas(totalOfData.ad_impressions.charge) +
-                        "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.ad_impressions.current
-                        ? numberWithCommas(totalOfData.ad_impressions.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 8 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.ad_clicks.current
-                        ? numberWithCommas(totalOfData.ad_clicks.current)
-                        : "N/A"}
-                    </td>
-
-                    <td align="right">
-                      {totalOfData.ad_clicks.previous
-                        ? numberWithCommas(totalOfData.ad_clicks.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_clicks.change
-                        ? numberWithCommas(totalOfData.ad_clicks.change)
-                        : "N/A"}
-                    </td>
-
-                    <td align="right">
-                      {totalOfData.ad_clicks.charge
-                        ? numberWithCommas(totalOfData.ad_clicks.charge) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.ad_clicks.current
-                        ? numberWithCommas(totalOfData.ad_clicks.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 9 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.average_cpc.current
-                        ? "$" +
-                        numberWithCommas(totalOfData.average_cpc.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.average_cpc.previous
-                        ? "$" +
-                        numberWithCommas(totalOfData.average_cpc.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.average_cpc.change
-                        ? "$" + numberWithCommas(totalOfData.average_cpc.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.average_cpc.charge
-                        ? numberWithCommas(totalOfData.average_cpc.charge) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.average_cpc.current !== 0
-                        ? "$" + numberWithCommas(totalOfData.average_cpc.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 10 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.ad_spend.current
-                        ? "$" + numberWithCommas(totalOfData.ad_spend.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_spend.previous
-                        ? "$" + numberWithCommas(totalOfData.ad_spend.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_spend.change
-                        ? "$" + numberWithCommas(totalOfData.ad_spend.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_spend.charge
-                        ? numberWithCommas(totalOfData.ad_spend.charge) + "%"
-                        : "N/A"}
-                    </td>
-                    {isYoY && (
-                      <>
-                        <td align="right">
-                          {totalOfData.ad_spend.yoy
-                            ? "$" + numberWithCommas(totalOfData.ad_spend.yoy)
-                            : "N/A"}
-                        </td>
-                        <td align="right">
-                          {totalOfData.ad_spend.yoyCharge
-                            ? "$" +
-                            numberWithCommas(totalOfData.ad_spend.yoyCharge)
-                            : "N/A"}
-                        </td>
-                      </>
-                    )}
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.ad_spend.current !== 0
-                        ? "$" + numberWithCommas(totalOfData.ad_spend.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 11 ? (
-                  <>
-                    <td align="right">
-                      {!!totalOfData.ad_orders.current
-                        ? numberWithCommas(totalOfData.ad_orders.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {!!totalOfData.ad_orders.previous
-                        ? numberWithCommas(totalOfData.ad_orders.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {!!totalOfData.ad_orders.change
-                        ? numberWithCommas(totalOfData.ad_orders.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {!!totalOfData.ad_orders.charge
-                        ? numberWithCommas(totalOfData.ad_orders.charge) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.ad_orders.current !== 0
-                        ? numberWithCommas(totalOfData.ad_orders.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 12 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.ad_sales.current
-                        ? "$" + numberWithCommas(totalOfData.ad_sales.current)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_sales.previous
-                        ? "$" + numberWithCommas(totalOfData.ad_sales.previous)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_sales.change
-                        ? "$" + numberWithCommas(totalOfData.ad_sales.change)
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.ad_sales.charge
-                        ? numberWithCommas(totalOfData.ad_sales.charge) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.ad_sales.current !== 0
-                        ? "$" + numberWithCommas(totalOfData.ad_sales.current)
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 13 ? (
-                  <>
-                    <td align="right">
-                      {!!totalOfData.percent_total_sales.current
-                        ? Number(
-                          totalOfData.percent_total_sales.current
-                        ).toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {!!totalOfData.percent_total_sales.previous
-                        ? Number(
-                          totalOfData.percent_total_sales.previous
-                        ).toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {!!totalOfData.percent_total_sales.change
-                        ? Number(
-                          totalOfData.percent_total_sales.change
-                        ).toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {!!totalOfData.percent_total_sales.charge
-                        ? Number(
-                          totalOfData.percent_total_sales.charge
-                        ).toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {!!totalOfData.percent_total_sales.current
-                        ? Number(totalOfData.percent_total_sales.current).toFixed(
-                          2
-                        ) + "%"
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 14 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.conversion_rate.current !== 0
-                        ? Number(totalOfData.conversion_rate.current).toFixed(
-                          2
-                        ) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.conversion_rate.previous !== 0
-                        ? Number(totalOfData.conversion_rate.previous).toFixed(
-                          2
-                        ) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.conversion_rate.change !== 0
-                        ? Number(totalOfData.conversion_rate.change).toFixed(
-                          2
-                        ) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.conversion_rate.charge !== 0
-                        ? Number(totalOfData.conversion_rate.charge).toFixed(
-                          2
-                        ) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.conversion_rate.current !== 0
-                        ? Number(totalOfData.conversion_rate.current).toFixed(2) +
-                        "%"
-                        : "N/A"}
-                    </td>
-                  )}
-
-                {isComparisons && active === 15 ? (
-                  <>
-                    <td align="right">
-                      {totalOfData.acos.current
-                        ? totalOfData.acos.current.toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.acos.previous
-                        ? totalOfData.acos.previous.toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.acos.change
-                        ? totalOfData.acos.change.toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                    <td align="right">
-                      {totalOfData.acos.charge
-                        ? totalOfData.acos.charge.toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                  </>
-                ) : (
-                    <td align="right">
-                      {totalOfData.acos.current !== 0
-                        ? totalOfData.acos.current.toFixed(2) + "%"
-                        : "N/A"}
-                    </td>
-                  )}
-              </tr>
-            </tfoot>
-          )}
+              <TableTotalRowCell
+                cellData={totalOfData.sales}
+                isComparisons={isComparisons}
+                isActive={active === 1}
+                isYoY={isYoY}
+                symbol="$"
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.shipped_cogs}
+                isComparisons={isComparisons}
+                isActive={active === 2}
+                symbol="$"
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.orders}
+                isComparisons={isComparisons}
+                symbol=""
+                isActive={active === 3}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.units_sold}
+                isComparisons={isComparisons}
+                isActive={active === 4}
+                symbol=""
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.units_per_order}
+                isComparisons={isComparisons}
+                isActive={active === 5}
+                symbol=""
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.asp}
+                isComparisons={isComparisons}
+                isActive={active === 6}
+                symbol="$"
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_impressions}
+                isComparisons={isComparisons}
+                isActive={active === 7}
+                symbol=""
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_clicks}
+                isComparisons={isComparisons}
+                isActive={active === 8}
+                symbol=""
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.average_cpc}
+                isComparisons={isComparisons}
+                isActive={active === 9}
+                symbol="$"
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_spend}
+                isComparisons={isComparisons}
+                isActive={active === 10}
+                symbol="$"
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_orders}
+                isComparisons={isComparisons}
+                isActive={active === 11}
+                symbol=""
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.ad_sales}
+                isComparisons={isComparisons}
+                symbol="$"
+                isActive={active === 12}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.percent_total_sales}
+                isComparisons={isComparisons}
+                symbol="%"
+                isActive={active === 13}
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.conversion_rate}
+                isComparisons={isComparisons}
+                isActive={active === 14}
+                symbol="%"
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+              <TableTotalRowCell
+                cellData={totalOfData.acos}
+                isComparisons={isComparisons}
+                isActive={active === 15}
+                symbol="%"
+                isYoY={isYoY}
+              ></TableTotalRowCell>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </>
