@@ -53,7 +53,10 @@ class ImportProducts extends React.Component {
   };
   handleGetAsins = async () => {
     try {
+      
+      console.log("ImportProducts -> handleGetAsins -> cl", )
       const response = await getAsins();
+      console.log("ImportProducts -> handleGetAsins -> response", response)
       if (response.csv)
         this.setState({
           csv: response.csv,

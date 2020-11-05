@@ -40,7 +40,7 @@ const DataDisplaySKUTable = (props) => {
   if (!currentData) return null;
 
   const { comparisons } = props.data.data
-  console.log("DataDisplaySKUTable -> comparisons", comparisons)
+  // console.log("DataDisplaySKUTable -> comparisons", comparisons)
 
   // const { pop } = comparisons
   let isYoY = !!comparisons.yoy.length;
@@ -57,7 +57,7 @@ const DataDisplaySKUTable = (props) => {
     sortByInner,
     sortAscendingBy
   );
-  console.log("DataDisplaySKUTable -> filterSKUData", filterSKUData)
+  // console.log("DataDisplaySKUTable -> filterSKUData", filterSKUData)
 
   const headerClick = (index) => {
     isComparisons && setActive(active === index ? false : index);
@@ -1028,7 +1028,7 @@ const DataDisplaySKUTable = (props) => {
                   cellData={totalOfData.ad_orders}
                   isComparisons={isComparisons}
                   isActive={active === 13}
-                  symbol="$"
+                  symbol=""
                   isYoY={isYoY}
                 ></TableTotalRowCell>
                 <TableTotalRowCell
