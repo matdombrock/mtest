@@ -29,3 +29,19 @@ log/
 log/**
 back/mws/log/last-state.json
 
+front/build/asset-manifest.json
+front/build/favicon.ico
+front/build/index.html
+front/build/precache-manifest.79e78e68afb228eecc4fad9bd39d4634.js
+front/build/robots.txt
+front/build/service-worker.js
+front/build/img/logo.png
+front/build/static/css/main.98567b51.chunk.css
+front/build/static/css/main.98567b51.chunk.css.map
+front/build/static/js/2.8d0c46c0.chunk.js
+front/build/static/js/2.8d0c46c0.chunk.js.map
+front/build/static/js/main.bd3b6168.chunk.js
+front/build/static/js/main.bd3b6168.chunk.js.map
+front/build/static/js/runtime~main.1a454697.js
+front/build/static/js/runtime~main.1a454697.js.map
+.well-known/acme-challenge/gNUwYq0Nh8N6kaCQRJSspi34BF9qgyUCMReTQmhAb8o
